@@ -43,7 +43,7 @@ export interface ArticleThumbnail {
 
 export interface ArticleSummary {
     content: string;
-    direction: 'ltr' | 'rtl';
+    direction?: 'ltr' | 'rtl';
 }
 
 export interface ArticleLink {

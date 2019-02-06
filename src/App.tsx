@@ -2,7 +2,7 @@ import { IconButton, Toolbar, Typography } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import MenuIcon from '@material-ui/icons/Menu';
 import React, { Component } from 'react';
-import ArticleCard from './ArticleCard';
+import ArticlesList from './ArticlesList';
 
 class App extends Component {
   render() {
@@ -17,8 +17,7 @@ class App extends Component {
         </Toolbar>
       </AppBar>
       
-        {items.map(i => <ArticleCard key={i} title={`Tile Number: ${i}`}>
-        </ArticleCard>)}
+      <ArticlesList/>
     </div>;
   }
 }
