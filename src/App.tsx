@@ -2,7 +2,7 @@ import { IconButton, Toolbar, Typography } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import MenuIcon from '@material-ui/icons/Menu';
 import React, { Component } from 'react';
-import ArticlesList from './ArticlesList';
+import EntryList from './EntryList';
 
 class App extends Component {
   render() {
@@ -17,7 +17,7 @@ class App extends Component {
         </Toolbar>
       </AppBar>
       
-      <ArticlesList/>
+      <EntryList/>
     </div>;
   }
 }

@@ -1,24 +1,24 @@
 import { Card, CardContent, CardMedia, Paper, Typography } from "@material-ui/core";
 import React from 'react';
-import { Article } from "./model/article";
+import { Entry } from "./model/entry";
 
-export default (props: { article: Article }) => {
+export default (props: { entry: Entry }) => {
     return (
         <Paper>
             <Card>
                 <CardMedia
-                    image={props.article.thumbnail && props.article.thumbnail[0].url}
+                    image={props.entry.thumbnail && props.entry.thumbnail[0].url}
                     title="Thumbnail"
                 />
                 <CardContent>
                     <Typography gutterBottom variant="headline" component="h2">
-                        {props.article.title}
+                        {props.entry.title}
                     </Typography>
                     <Typography>
-                        {props.article.engagement} {props.article.origin && props.article.origin.title} / {(props.article.published)}
+                        {props.entry.engagement} {props.entry.origin && props.entry.origin.title} / {(props.entry.published)}
                     </Typography>
                     <Typography component="small">
-                        {props.article.summary.content}
+                        <div dangerouslySetInnerHTML={{ __html: props.entry.summary && props.entry.summary.content }}></div>
                     </Typography>
                 </CardContent>
             </Card>
