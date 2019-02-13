@@ -1,29 +1,28 @@
-import { Card, CardContent, CardMedia, Paper, Typography } from "@material-ui/core";
+import { Card, CardContent, CardHeader, CardMedia, Paper, Typography } from "@material-ui/core";
 import React from 'react';
 import { Entry } from "./model/entry";
 
 export default (props: { entry: Entry }) => {
     const visualUrl = props.entry.visual && props.entry.visual.url;
-    console.log(visualUrl)
+    const subheader = `${props.entry.engagement} ${props.entry.origin && props.entry.origin.title} / ${(props.entry.published)}`;
+    const content = props.entry.summary && props.entry.summary.content;
     return (
         <Paper>
-            <Card>
+            <Card style={{ maxHeight: '500px'}}>
+                <CardHeader
+                    title={props.entry.title}
+                    subheader={subheader}/>
+
                 {visualUrl && <CardMedia
                     src={visualUrl}
                     component='img'
-                    title="Thumbnail"
+                    title="Visual"
                 />}
-                <CardContent>
-                    <Typography gutterBottom variant="headline" component="h2">
-                        {props.entry.title}
-                    </Typography>
-                    <Typography>
-                        {props.entry.engagement} {props.entry.origin && props.entry.origin.title} / {(props.entry.published)}
-                    </Typography>
+                {content && <CardContent>
                     <Typography component="small">
-                        <div dangerouslySetInnerHTML={{ __html: props.entry.summary && props.entry.summary.content }}></div>
+                        <div dangerouslySetInnerHTML={{ __html: content }}></div>
                     </Typography>
-                </CardContent>
+                </CardContent>}
             </Card>
         </Paper>
     );
