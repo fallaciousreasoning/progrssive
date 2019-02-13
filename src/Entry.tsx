@@ -3,13 +3,16 @@ import React from 'react';
 import { Entry } from "./model/entry";
 
 export default (props: { entry: Entry }) => {
+    const visualUrl = props.entry.visual && props.entry.visual.url;
+    console.log(visualUrl)
     return (
         <Paper>
             <Card>
-                <CardMedia
-                    image={props.entry.thumbnail && props.entry.thumbnail[0].url}
+                {visualUrl && <CardMedia
+                    src={visualUrl}
+                    component='img'
                     title="Thumbnail"
-                />
+                />}
                 <CardContent>
                     <Typography gutterBottom variant="headline" component="h2">
                         {props.entry.title}

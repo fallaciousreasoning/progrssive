@@ -1,3 +1,4 @@
+import { Grid } from '@material-ui/core';
 import React from 'react';
 import Entry from "./Entry";
 import { stream } from './faking/fakeStream';
@@ -5,9 +6,9 @@ import { stream } from './faking/fakeStream';
 export default (props) => {
     const entries = stream.items;
 
-    return <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-evenly' }}>
-        {entries.map((e, i) => <div style={{ flexBasis: '40%', margin: '5px' }}>
-            <Entry entry={e} key={e.id || i} />
-        </div>)}
-    </div>
+    return <Grid spacing={24} container justify='center' wrap='wrap'>
+        {entries.map(e => <Grid item key={e.id} lg={3} md={6} sm={12}>
+          <Entry entry={e}/>
+        </Grid>)}
+    </Grid>
 }
