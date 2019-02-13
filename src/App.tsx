@@ -2,6 +2,7 @@ import { IconButton, Toolbar, Typography } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import MenuIcon from '@material-ui/icons/Menu';
 import React, { Component } from 'react';
+import AppDrawer from './AppDrawer';
 import EntryList from './EntryList';
 
 const entryListStyle: React.CSSProperties = {
@@ -14,7 +15,7 @@ class App extends Component {
       <AppBar position="static" color="primary">
         <Toolbar>
           <IconButton>
-            <MenuIcon />
+            <AppDrawer trigger={<MenuIcon />}/>
           </IconButton>
           <Typography variant="title">Progrssive Reader</Typography>
         </Toolbar>
