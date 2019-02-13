@@ -4,9 +4,12 @@ import MenuIcon from '@material-ui/icons/Menu';
 import React, { Component } from 'react';
 import EntryList from './EntryList';
 
+const entryListStyle: React.CSSProperties = {
+  marginTop: '12px'
+};
+
 class App extends Component {
   render() {
-    const items = [1,2,3,4,5,6,7,8,9];
     return <div>
       <AppBar position="static" color="primary">
         <Toolbar>
@@ -17,6 +20,7 @@ class App extends Component {
         </Toolbar>
       </AppBar>
       
+      <div style={entryListStyle}> </div>
       <EntryList/>
     </div>;
   }
