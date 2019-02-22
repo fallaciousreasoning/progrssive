@@ -4,7 +4,7 @@ import queryString from 'query-string';
 const feedlyUrl = 'https://feedly.com/v3/auth/auth';
 
 interface AuthenticateOptions {
-    responseTypes?: 'code';
+    responseType?: 'code';
 
     /**
      * Indicates the client that is making the request. The value passed in this parameter must exactly match the value set during the partnership program. 
