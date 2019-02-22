@@ -13,7 +13,7 @@ export default (props: { entry: Entry }) => {
                     component='img'
                     title="Thumbnail"
                 />}
-                <CardContent>
+                <CardContent style={{ maxHeight: '500px' }}>
                     <Typography gutterBottom variant="headline" component="h2">
                         {props.entry.title}
                     </Typography>
