@@ -1,6 +1,5 @@
-import feedlyConfig from '../../feedly.json'
-import { feedlyQueryString } from './common.js';
 import { Stream } from '../model/stream.js';
+import { makeRequest } from './common.js';
 const endpoint = '/streams'
 
 interface StreamRequestOptions {
@@ -12,6 +11,5 @@ interface StreamRequestOptions {
 }
 
 export const getStream = async (streamId: string, type: 'content' | 'id' = 'content', options?: StreamRequestOptions): Promise<Stream> => {
-    return fetch(`${feedlyConfig.feedlyUrl}${endpoint}/${type}?streamId=${streamId}&${feedlyQueryString(options || {})}`)
-        .then(r => r.json()) as Promise<Stream>;
+    return makeRequest<Stream>(`${endpoint}/${type}?streamId=${streamId}`, options);
 }

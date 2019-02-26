@@ -1,6 +1,7 @@
 import config from '../../feedly.json';
+import { makeRequest } from './common.js';
 const profileUrl = '/profile';
 
-export const getProfile = async () => {
-    return fetch(config.feedlyUrl + profileUrl);
+export const getProfile = () => {
+    return makeRequest<any>(profileUrl);
 }
