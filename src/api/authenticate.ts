@@ -1,5 +1,6 @@
 import snakeCase from 'snake-case';
 import queryString from 'query-string';
+import { feedlyQueryString } from './common';
 
 const feedlyUrl = 'https://feedly.com/v3/auth/auth';
 
@@ -33,13 +34,8 @@ interface AuthenticateOptions {
  */
 export const authenticate = async (options: AuthenticateOptions) => {
     // Make sure we have some kind of value for code.
-    options.responseTypes = options.responseTypes || 'code';
+    options.responseType = options.responseType || 'code';
 
-    const params = {};
-    for (const key in options) {
-      params[snakeCase(key)] = options[key];
-    }
-
-    const query = queryString.stringify(params);
-    window.open(`${feedlyUrl}?${query}`)
+    
+    window.open(`${feedlyUrl}?${feedlyQueryString(options)}`)
 }
