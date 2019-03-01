@@ -1,6 +1,6 @@
 import snakeCase  from "snake-case"
 import queryString from "querystring"
-import feedlyConfig from '../../feedly.json'
+import feedlyConfig from '../feedly.json'
 
 export const feedlyQueryString = (params: Object): string => {
     const fixedCase = {};
@@ -19,6 +19,10 @@ export const makeRequest = async <T>(url: string, params?: Object): Promise<T> =
             ? '&'
             : '?';
     
-    const response = await fetch(`${feedlyConfig.feedlyUrl}${url}${joiner}${queryString}`);
+    const response = await fetch(`${feedlyConfig.feedlyUrl}${url}${joiner}${queryString}`, {
+        headers: {
+            'Authorization': `OAuth ${feedlyConfig.accessToken}`
+        }
+    });
     return response.json();
 }

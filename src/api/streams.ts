@@ -1,5 +1,5 @@
-import { Stream } from '../model/stream.js';
-import { makeRequest } from './common.js';
+import { Stream } from '../model/stream';
+import { makeRequest } from './common';
 const endpoint = '/streams'
 
 interface StreamRequestOptions {

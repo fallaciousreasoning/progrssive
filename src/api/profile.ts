@@ -1,5 +1,4 @@
-import config from '../../feedly.json';
-import { makeRequest } from './common.js';
+import { makeRequest } from './common';
 const profileUrl = '/profile';
 
 export const getProfile = () => {

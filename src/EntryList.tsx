@@ -12,7 +12,7 @@ const useStyles = makeStyles({
 
 export default (props) => {
   const classes = useStyles();
-  const entries = stream.items;
+  const entries = props.stream ? props.stream.items : stream.items;
 
   return <div className={classes.root}>
     <Grid spacing={24} container justify='center' wrap='wrap'>

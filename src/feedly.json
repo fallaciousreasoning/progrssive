@@ -1,5 +1,5 @@
 {
     "userId": "e8ca5f09-ffa1-43d8-9f28-867ed8ad876a",
     "accessToken": "A0a_AtNpeffSgX3Bvby94R7zGlLVOe-Fe9r7DsLrDWpU0zEQC29PkT4MNiQsOsvUzdQzIs49omg8URiBoQzoiVbwCfjmkpk6wAhG-U0hCx9FI468PMkkcdurs61BN6ia0wMyoHeMvLxzP8Qty7t9teN7X1F0shEjlxva9HIMLpaAsN90CpUdSrLViKVTJjqG5hjrMjBOr5Q9D08HLg6-6TTWMPt6x4IDmUsaK2pJB9R8_l4WbbG7aiu9FMnF-Q:feedlydev",
-    "feedlyUrl": "cloud.feedly.com/v3"
+    "feedlyUrl": "https://cloud.feedly.com/v3"
 }
