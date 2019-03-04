@@ -3,6 +3,7 @@ import AppBar from '@material-ui/core/AppBar';
 import MenuIcon from '@material-ui/icons/Menu';
 import { makeStyles, ThemeProvider } from '@material-ui/styles';
 import React, { useEffect, useState } from 'react';
+import AppDrawer from './AppDrawer';
 import Entry from './Entry';
 import { Stream } from './model/stream';
 import { theme } from './theme';
@@ -26,9 +27,10 @@ export const App = (props) => {
   return <ThemeProvider theme={theme}>
     <AppBar position="static" color="primary">
       <Toolbar>
-        <IconButton>
-          <MenuIcon />
-        </IconButton>
+        <AppDrawer trigger={
+          <IconButton>
+            <MenuIcon />
+          </IconButton>}/>
         <Typography variant="title">Progrssive Reader</Typography>
       </Toolbar>
     </AppBar>

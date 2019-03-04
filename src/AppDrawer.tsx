@@ -9,10 +9,8 @@ export default (props: { trigger: JSX.Element }) => {
         {React.cloneElement(props.trigger, { onClick: () => setOpen(true) })}
         <Drawer open={open} onClose={() => setOpen(false)}>
             <div style={{ width: '250px', margin: '10px' }}>
-                <Typography>
-                    <h2>
-                        Progrssive Reader
-                    </h2>
+                <Typography variant='h5'>
+                    Progrssive Reader
                 </Typography>
                 <List>
                     <ListItem button>
