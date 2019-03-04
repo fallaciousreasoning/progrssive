@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/styles";
 import * as React from 'react';
 import { useIsPhone } from "./hooks/responsive";
 import { Entry } from "./model/entry";
+import { getEntryByline, getEntryContent } from "./services/entry";
 
 const useStyles = makeStyles({
     root: {
@@ -26,16 +27,12 @@ export default (props: { entry: Entry }) => {
 
     const styles = useStyles();
     const isPhone = useIsPhone();
-
-    const subheader = `${props.entry.engagement} ${props.entry.origin && props.entry.origin.title} / ${(props.entry.published)}`;
-
-    const detail = props.entry.content || props.entry.summary;
-    const content = detail && detail.content;
+    const content = getEntryContent(props.entry);
 
     const article = <>
         <CardHeader
             title={props.entry.title}
-            subheader={subheader} />
+            subheader={getEntryByline(props.entry)} />
         {content && <CardContent>
             <Typography component="small">
                 <div dangerouslySetInnerHTML={{ __html: content }}></div>

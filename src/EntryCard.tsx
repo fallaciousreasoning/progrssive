@@ -1,11 +1,12 @@
 import { Card, CardContent, CardHeader, CardMedia, Paper, Typography } from "@material-ui/core";
 import React from 'react';
 import { Entry } from "./model/entry";
+import { getEntryByline, getEntryContent, getEntryVisualUrl } from "./services/entry";
 
 export default (props: { entry: Entry }) => {
-    const visualUrl = props.entry.visual && props.entry.visual.url;
-    const subheader = `${props.entry.engagement} ${props.entry.origin && props.entry.origin.title} / ${(props.entry.published)}`;
-    const content = props.entry.summary && props.entry.summary.content;
+    const visualUrl = getEntryVisualUrl(props.entry);
+    const subheader = getEntryByline(props.entry);
+    const content = getEntryContent(props.entry);
     return (
         <Paper>
             <Card style={{ maxHeight: '500px'}}>
