@@ -1,19 +1,20 @@
-import { IconButton, Toolbar, Typography, MuiThemeProvider } from '@material-ui/core';
+import { IconButton, MuiThemeProvider, Toolbar, Typography } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import MenuIcon from '@material-ui/icons/Menu';
-import React, { Component, useState, useEffect } from 'react';
-import AppDrawer from './AppDrawer';
+import React, { useEffect, useState } from 'react';
+import { getProfile } from './api/profile';
+import { getAllStream } from './api/streams';
 import EntryList from './EntryList';
-import { theme } from './theme';
-import { getStream } from './api/streams';
-import { stream } from './faking/fakeStream';
 import { Stream } from './model/stream';
+import { theme } from './theme';
 
 export const App = (props) => {
   const [stream, setStream] = useState<Stream>();
   
   useEffect(() => {
-    getStream('user/e8ca5f09-ffa1-43d8-9f28-867ed8ad876a/category/global.all', 'content').then(setStream);
+    if (stream) return;
+    
+    getProfile().then(profile => getAllStream(profile.id, false)).then(setStream);
   }); 
   return <MuiThemeProvider theme={theme}>
     <AppBar position="static" color="primary">
