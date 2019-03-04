@@ -1,19 +1,27 @@
 import { IconButton, MuiThemeProvider, Toolbar, Typography } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import MenuIcon from '@material-ui/icons/Menu';
+import { makeStyles } from '@material-ui/styles';
 import React, { useEffect, useState } from 'react';
-import EntryList from './EntryList';
+import Entry from './Entry';
 import { Stream } from './model/stream';
 import { theme } from './theme';
 
+const useStyles = makeStyles({
+  root: {
+    marginTop: '10px'
+  }
+});
+
 export const App = (props) => {
   const [stream, setStream] = useState<Stream>();
-  
+  const styles = useStyles();
+
   useEffect(() => {
     if (stream) return;
     setStream(require('./fakeStream.json'));
     //getProfile().then(profile => getAllStream(profile.id, false)).then(setStream);
-  }); 
+  });
   return <MuiThemeProvider theme={theme}>
     <AppBar position="static" color="primary">
       <Toolbar>
@@ -23,8 +31,10 @@ export const App = (props) => {
         <Typography variant="title">Progrssive Reader</Typography>
       </Toolbar>
     </AppBar>
-
-    <EntryList stream={stream} />
+    <div className={styles.root}>
+      <Entry entry={stream && stream.items[0]} />
+      {/* <EntryList stream={stream} /> */}
+    </div>
   </MuiThemeProvider>;
 }
 

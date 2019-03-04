@@ -6,7 +6,6 @@ import { Stream } from './model/stream';
 
 const useStyles = makeStyles({
   root: {
-    margin: '10px'
   }
 });
 
