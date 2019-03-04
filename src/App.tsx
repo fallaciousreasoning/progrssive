@@ -1,7 +1,7 @@
-import { IconButton, MuiThemeProvider, Toolbar, Typography } from '@material-ui/core';
+import { IconButton, Toolbar, Typography } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import MenuIcon from '@material-ui/icons/Menu';
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles, ThemeProvider } from '@material-ui/styles';
 import React, { useEffect, useState } from 'react';
 import Entry from './Entry';
 import { Stream } from './model/stream';
@@ -22,7 +22,8 @@ export const App = (props) => {
     setStream(require('./fakeStream.json'));
     //getProfile().then(profile => getAllStream(profile.id, false)).then(setStream);
   });
-  return <MuiThemeProvider theme={theme}>
+
+  return <ThemeProvider theme={theme}>
     <AppBar position="static" color="primary">
       <Toolbar>
         <IconButton>
@@ -35,7 +36,7 @@ export const App = (props) => {
       <Entry entry={stream && stream.items[0]} />
       {/* <EntryList stream={stream} /> */}
     </div>
-  </MuiThemeProvider>;
+  </ThemeProvider>;
 }
 
 export default App;
