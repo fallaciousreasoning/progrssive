@@ -11,7 +11,7 @@ import { theme } from './theme';
 
 const useStyles = makeStyles({
   root: {
-    marginTop: '10px'
+    margin: '10px',
   }
 });
 
