@@ -5,7 +5,7 @@ import { makeStyles, ThemeProvider } from '@material-ui/styles';
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import AppDrawer from './AppDrawer';
-import Entry from './Entry';
+import EntryViewer from './EntryViewer';
 import StreamViewer from './StreamViewer';
 import { theme } from './theme';
 
@@ -33,9 +33,8 @@ export const App = (props) => {
       <div className={styles.root}>
         <Switch>
           <Route path='/stream/:streamId*' component={StreamViewer} />
-          <Route path='/entry/:entryId' component={Entry} />
+          <Route path='/entries/:entryId*' component={EntryViewer} />
         </Switch>
-        {/* <StreamViewer streamId='user/e8ca5f09-ffa1-43d8-9f28-867ed8ad876a/category/global.all' /> */}
       </div>
     </ThemeProvider>
   </BrowserRouter>;

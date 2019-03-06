@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { getStream } from "../api/streams";
+import { Entry } from "../model/entry";
 import { Stream } from "../model/stream";
 import { updateStream } from "../services/store";
 import { useStore } from "./store";
@@ -20,4 +21,13 @@ export const useStream = (streamId: string): Stream => {
             items: stream.items.map(i => store.entries[i])
         }
         : undefined;
+}
+
+export const useEntry = (entryId: string): Entry => {
+    const store = useStore();
+    const entry = store.entries[entryId];
+
+    // TODO Load the stream from feedly if we don't have it.
+
+    return entry;
 }

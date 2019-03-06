@@ -1,8 +1,8 @@
-import { Card, CardContent, CardHeader, Typography } from "@material-ui/core";
+import { Card, CardContent, CardHeader, CircularProgress, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import * as React from 'react';
 import { useIsPhone } from "./hooks/responsive";
-import { Entry } from "./model/entry";
+import { useEntry } from "./hooks/stream";
 import { getEntryByline, getEntryContent } from "./services/entry";
 
 const useStyles = makeStyles({
@@ -21,25 +21,28 @@ const useStyles = makeStyles({
     }
 });
 
-export default (props: { entry: Entry }) => {
-    
-    if (!props.entry) return null;
-
+export default (props: { match: { params: { entryId: string } } }) => {
+    const entry = useEntry(props.match.params.entryId);
+    console.log(entry);
     const styles = useStyles();
     const isPhone = useIsPhone();
-    const content = getEntryContent(props.entry);
+
+    if (!entry) 
+        <CircularProgress/>;
+
+    const content = getEntryContent(entry);
 
     const article = <>
         <CardHeader
-            title={props.entry.title}
-            subheader={getEntryByline(props.entry)} />
+            title={entry.title}
+            subheader={getEntryByline(entry)} />
         {content && <CardContent>
             <Typography component="small">
                 <div dangerouslySetInnerHTML={{ __html: content }}></div>
             </Typography>
         </CardContent>}
     </>;
-    
+
     return <article className={styles.root}>
         {isPhone
             ? article
