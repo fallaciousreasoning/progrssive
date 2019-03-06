@@ -65,13 +65,11 @@ export const RestoreScroll = withRouter((props: RestoreScrollProps) => {
 
         const unregister = props.history.listen(event => {
             scrollData[lastFragment] = { x: window.scrollX, y: window.scrollY };
-            console.log(`Stored`, scrollData[lastFragment], `for ${lastFragment}`);
-
             lastFragment = event.pathname;
             tryRestore(lastFragment);
         });
 
-        return // TODO fix useOnMount () => unregister();
+        return () => unregister();
     });
 
     return <React.Fragment />;
