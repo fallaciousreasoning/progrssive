@@ -3,11 +3,14 @@ import AppBar from '@material-ui/core/AppBar';
 import MenuIcon from '@material-ui/icons/Menu';
 import { makeStyles, ThemeProvider } from '@material-ui/styles';
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
+import { AnimatedRoute } from 'react-router-transition';
 import AppDrawer from './AppDrawer';
 import EntryViewer from './EntryViewer';
 import StreamViewer from './StreamViewer';
 import { theme } from './theme';
+import { mapStyles } from './transitions';
+import { slideTransition } from './transitions/slideTransition';
 
 const useStyles = makeStyles({
   root: {
@@ -31,10 +34,8 @@ export const App = (props) => {
         </Toolbar>
       </AppBar>
       <div className={styles.root}>
-        <Switch>
-          <Route path='/stream/:streamId*' component={StreamViewer} />
-          <Route path='/entries/:entryId*' component={EntryViewer} />
-        </Switch>
+          <AnimatedRoute path='/stream/:streamId*' component={StreamViewer}  atEnter={slideTransition.atEnter} atLeave={slideTransition.atLeave} atActive={slideTransition.atActive} mapStyles={mapStyles} />
+          <AnimatedRoute path='/entries/:entryId*' component={EntryViewer}  atEnter={slideTransition.atEnter} atLeave={slideTransition.atLeave} atActive={slideTransition.atActive} mapStyles={mapStyles}/>
       </div>
     </ThemeProvider>
   </BrowserRouter>;

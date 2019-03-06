@@ -17,6 +17,7 @@
     "react-dom": "^16.8.3",
     "react-recollect": "^3.1.2",
     "react-router-dom": "^4.3.1",
+    "react-router-transition": "^1.2.1",
     "react-scripts": "2.1.3",
     "snake-case": "^2.1.0",
     "typescript": "3.3.1"
