@@ -2,11 +2,10 @@ import { IconButton, Toolbar, Typography } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import MenuIcon from '@material-ui/icons/Menu';
 import { makeStyles, ThemeProvider } from '@material-ui/styles';
-import React, { useEffect } from 'react';
+import React from 'react';
 import AppDrawer from './AppDrawer';
 import Entry from './Entry';
-import { useStore } from './hooks/store';
-import { getStream, updateStream } from './services/store';
+import { useStream } from './hooks/stream';
 import { theme } from './theme';
 
 const useStyles = makeStyles({
@@ -18,15 +17,7 @@ const useStyles = makeStyles({
 export const App = (props) => {
   const styles = useStyles();
 
-  const store = useStore();
-  const stream = getStream('user/e8ca5f09-ffa1-43d8-9f28-867ed8ad876a/category/global.all');
-  console.log(stream);
-
-  useEffect(() => {
-    if (stream) return;
-    const newStream = require('./fakeStream.json');
-    updateStream(newStream);
-  });
+  const stream = useStream('user/e8ca5f09-ffa1-43d8-9f28-867ed8ad876a/category/global.all');
 
   return <ThemeProvider theme={theme}>
     <AppBar position="static" color="primary">
@@ -40,7 +31,6 @@ export const App = (props) => {
     </AppBar>
     <div className={styles.root}>
       <Entry entry={stream && stream.items[0]} />
-      {/* <EntryList stream={stream} /> */}
     </div>
   </ThemeProvider>;
 }

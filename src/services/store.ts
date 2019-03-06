@@ -6,6 +6,9 @@ const store = s as StoreDef;
 export const initStore = () => {
     store.categories = {};
     store.entries = {};
+
+    // Include our fake stream by default.
+    updateStream(require('../fakeStream.json'));
 }
 
 export const updateStream = (stream: Stream) => {
@@ -22,16 +25,5 @@ export const updateStream = (stream: Stream) => {
     store.entries = {
         ...store.entries,
         ...entryUpdate
-    };
-}
-
-export const getStream = (streamId: string): Stream => {
-    const stream = store.categories[streamId];
-    if (!stream)
-      return undefined;
-      
-    return {
-        ...stream,
-        items: stream.items.map(i => store.entries[i])
     };
 }
