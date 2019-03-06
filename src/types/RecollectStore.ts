@@ -9,7 +9,7 @@ type StoreStream = Omit<Stream, 'items'>
 
 export interface StoreDef {
   profile: {},
-  categories: {
+  streams: {
     [id: string]: StoreStream;
   },
   entries: {

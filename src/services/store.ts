@@ -4,7 +4,7 @@ import { StoreDef } from '../types/RecollectStore';
 const store = s as StoreDef;
  
 export const initStore = () => {
-    store.categories = {};
+    store.streams = {};
     store.entries = {};
 
     // Include our fake stream by default.
@@ -12,7 +12,7 @@ export const initStore = () => {
 }
 
 export const updateStream = (stream: Stream) => {
-    store.categories[stream.id] = {
+    store.streams[stream.id] = {
         ...stream,
         items: stream.items.map(i => i.id)
     };

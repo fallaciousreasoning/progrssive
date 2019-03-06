@@ -6,7 +6,7 @@ import { useStore } from "./store";
 
 export const useStream = (streamId: string): Stream => {
     const store = useStore();
-    const stream = store.categories[streamId];
+    const stream = store.streams[streamId];
 
     // If we haven't cached the stream, get it from the internet.
     useEffect(() => {
