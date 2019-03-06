@@ -10,9 +10,12 @@ declare module 'react-recollect' {
     };
 
   interface Store {
-    categories: StoreStream[];
+    profile: {},
+    categories: {
+      [id: string]: StoreStream;
+    },
     entries: {
       [id: string]: Entry
-    };
+    }
   }
 }
