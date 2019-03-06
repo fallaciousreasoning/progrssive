@@ -1,15 +1,26 @@
 import { Card, CardContent, CardHeader, CardMedia, Paper, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
 import React from 'react';
 import { Entry } from "./model/entry";
 import { getEntryByline, getEntryContent, getEntryVisualUrl } from "./services/entry";
 
+const useStyles = makeStyles({
+    paper: {
+        cursor: 'pointer',
+    },
+    card: {
+        maxHeight: '500px'
+    }
+});
+
 export default (props: { entry: Entry }) => {
+    const styles = useStyles();
+
     const visualUrl = getEntryVisualUrl(props.entry);
     const subheader = getEntryByline(props.entry);
     const content = getEntryContent(props.entry);
-    return (
-        <Paper>
-            <Card style={{ maxHeight: '500px'}}>
+    return <Paper className={styles.paper}>
+            <Card className={styles.card}>
                 <CardHeader
                     title={props.entry.title}
                     subheader={subheader}/>
@@ -25,6 +36,5 @@ export default (props: { entry: Entry }) => {
                     </Typography>
                 </CardContent>}
             </Card>
-        </Paper>
-    );
+        </Paper>;
 }
