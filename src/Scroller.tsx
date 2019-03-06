@@ -4,10 +4,23 @@ import { useOnMount } from "./hooks/lifeCycle";
 
 type ScrollPos = { x: number, y: number };
 type ScrollData = { [key: string]: { x: number, y: number } };
-const scrollData = (sessionStorage.getItem('ScrollManager') || {}) as ScrollData;
+const scrollData = (JSON.parse(sessionStorage.getItem('ScrollManager')) || {}) as ScrollData;
+const retryRate = 100;
 
-const tryScroll = (to: Partial<ScrollPos>) => {
-    window.scrollTo(to.x || 0, to.y || 0)
+window.addEventListener('beforeunload', () => sessionStorage.setItem('ScrollManager', JSON.stringify(scrollData)));
+
+const tryScroll = (to: Partial<ScrollPos>, delay?: number, allowedDelay = 1000) => {
+    to.x = to.x || 0;
+    to.y = to.y || 0;
+
+    setTimeout(() => {
+        window.scrollTo(to.x, to.y);
+
+        if (allowedDelay <= 0) return;
+        if (window.scrollX === to.x && window.scrollY === to.y) return;
+
+        tryScroll(to, retryRate, allowedDelay - retryRate);
+    }, delay);
 }
 
 const tryRestore = (fragment: string) => {
@@ -58,7 +71,7 @@ export const RestoreScroll = withRouter((props: RestoreScrollProps) => {
             tryRestore(lastFragment);
         });
 
-        return //() => unregister();
+        return // TODO fix useOnMount () => unregister();
     });
 
     return <React.Fragment />;
