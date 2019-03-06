@@ -21,7 +21,7 @@ export default (props: Props) => {
 
   return <div className={classes.root}>
     <Grid spacing={24} container justify='center' wrap='wrap'>
-      {stream.items.map(e => <Grid item key={e.id} lg={3} md={6} sm={12} onClick={() => props.history.push(`/entries/${e.id}`)}>
+      {stream.items.map(e => <Grid item key={e.id} lg={3} md={6} sm={6} xs={12} onClick={() => props.history.push(`/entries/${e.id}`)}>
         <EntryCard entry={e}/>
       </Grid>)}
     </Grid>
