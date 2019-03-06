@@ -4,8 +4,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { makeStyles, ThemeProvider } from '@material-ui/styles';
 import React from 'react';
 import AppDrawer from './AppDrawer';
-import Entry from './Entry';
-import { useStream } from './hooks/stream';
+import StreamViewer from './StreamViewer';
 import { theme } from './theme';
 
 const useStyles = makeStyles({
@@ -16,8 +15,6 @@ const useStyles = makeStyles({
 
 export const App = (props) => {
   const styles = useStyles();
-
-  const stream = useStream('user/e8ca5f09-ffa1-43d8-9f28-867ed8ad876a/category/global.all');
 
   return <ThemeProvider theme={theme}>
     <AppBar position="static" color="primary">
@@ -30,7 +27,8 @@ export const App = (props) => {
       </Toolbar>
     </AppBar>
     <div className={styles.root}>
-      <Entry entry={stream && stream.items[0]} />
+      {/* <Entry entry={stream && stream.items[0]} /> */}
+      <StreamViewer streamId='user/e8ca5f09-ffa1-43d8-9f28-867ed8ad876a/category/global.all'/>
     </div>
   </ThemeProvider>;
 }
