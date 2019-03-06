@@ -4,10 +4,6 @@ import App from './App';
 import { initStore } from './services/store';
 import * as serviceWorker from './serviceWorker';
 
-if ('scrollRestoration' in history) {
-    history.scrollRestoration = 'manual';
-}
-
 // Make sure our store is initialized.
 initStore();
 
