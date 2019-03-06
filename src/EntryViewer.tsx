@@ -3,7 +3,6 @@ import { makeStyles } from "@material-ui/styles";
 import * as React from 'react';
 import { useIsPhone } from "./hooks/responsive";
 import { useEntry } from "./hooks/stream";
-import { ScrollToTopOnMount } from "./Scroller";
 import { getEntryByline, getEntryContent } from "./services/entry";
 
 const useStyles = makeStyles({
@@ -44,7 +43,6 @@ export default (props: { match: { params: { entryId: string } } }) => {
     </>;
 
     return <article className={styles.root}>
-        <ScrollToTopOnMount/>
         {isPhone
             ? article
             : <Card>{article}</Card>}

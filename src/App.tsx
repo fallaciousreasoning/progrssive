@@ -7,6 +7,7 @@ import { BrowserRouter, Redirect, Route } from 'react-router-dom';
 import { AnimatedSwitch } from 'react-router-transition';
 import AppDrawer from './AppDrawer';
 import EntryViewer from './EntryViewer';
+import { RestoreScroll } from './Scroller';
 import StreamViewer from './StreamViewer';
 import { theme } from './theme';
 import { mapStyles } from './transitions';
@@ -34,6 +35,7 @@ export const App = (props) => {
         </Toolbar>
       </AppBar>
       <div className={styles.root}>
+        <RestoreScroll/>
         <AnimatedSwitch atEnter={slideTransition.atEnter} atLeave={slideTransition.atLeave} atActive={slideTransition.atActive} mapStyles={mapStyles}>
           <Route path='/stream/:streamId*' component={StreamViewer} />
           <Route path='/entries/:entryId*' component={EntryViewer} />
