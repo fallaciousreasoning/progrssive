@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardMedia, Paper, Typography } from "@ma
 import { makeStyles } from "@material-ui/styles";
 import React from 'react';
 import { Entry } from "./model/entry";
-import { getEntryByline, getEntryContent, getEntryVisualUrl } from "./services/entry";
+import { getEntryByline, getEntrySummary, getEntryVisualUrl } from "./services/entry";
 
 const useStyles = makeStyles({
     paper: {
@@ -18,7 +18,7 @@ export default (props: { entry: Entry }) => {
 
     const visualUrl = getEntryVisualUrl(props.entry);
     const subheader = getEntryByline(props.entry);
-    const content = getEntryContent(props.entry);
+    const summary = getEntrySummary(props.entry);
     return <Paper className={styles.paper}>
             <Card className={styles.card}>
                 <CardHeader
@@ -30,9 +30,9 @@ export default (props: { entry: Entry }) => {
                     component='img'
                     title="Visual"
                 />}
-                {content && <CardContent>
+                {summary && <CardContent>
                     <Typography component="small">
-                        <div dangerouslySetInnerHTML={{ __html: content }}></div>
+                        <div dangerouslySetInnerHTML={{ __html: summary }}></div>
                     </Typography>
                 </CardContent>}
             </Card>
