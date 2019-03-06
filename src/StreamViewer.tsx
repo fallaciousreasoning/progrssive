@@ -9,9 +9,9 @@ const useStyles = makeStyles({
   }
 });
 
-export default (props: { streamId: string }) => {
+export default (props: { match: { params: { streamId: string }}}) => {
   const classes = useStyles();
-  const stream = useStream(props.streamId);
+  const stream = useStream(props.match.params.streamId);
 
   if (!stream || !stream.items)
     return <CircularProgress/>;
