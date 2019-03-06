@@ -2,10 +2,11 @@ import { IconButton, Toolbar, Typography } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import MenuIcon from '@material-ui/icons/Menu';
 import { makeStyles, ThemeProvider } from '@material-ui/styles';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import AppDrawer from './AppDrawer';
 import Entry from './Entry';
-import { Stream } from './model/stream';
+import { useStore } from './hooks/store';
+import { getStream, updateStream } from './services/store';
 import { theme } from './theme';
 
 const useStyles = makeStyles({
@@ -15,13 +16,16 @@ const useStyles = makeStyles({
 });
 
 export const App = (props) => {
-  const [stream, setStream] = useState<Stream>();
   const styles = useStyles();
+
+  const store = useStore();
+  const stream = getStream('user/e8ca5f09-ffa1-43d8-9f28-867ed8ad876a/category/global.all');
+  console.log(stream);
 
   useEffect(() => {
     if (stream) return;
-    setStream(require('./fakeStream.json'));
-    //getProfile().then(profile => getAllStream(profile.id, false)).then(setStream);
+    const newStream = require('./fakeStream.json');
+    updateStream(newStream);
   });
 
   return <ThemeProvider theme={theme}>

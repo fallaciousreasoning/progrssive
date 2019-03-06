@@ -15,6 +15,9 @@ const removeUpdater = (updater: Updater) => {
 }
 
 afterChange(event => {
+    if (event.store === event.prevStore)
+      return;
+      
     updaters.forEach(u => u(event.store));
 });
 

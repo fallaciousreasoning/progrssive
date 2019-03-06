@@ -1,8 +1,9 @@
-import { store } from 'react-recollect';
+import { store as s } from 'react-recollect';
 import { Stream } from '../model/stream';
-
+import { StoreDef } from '../types/RecollectStore';
+const store = s as StoreDef;
+ 
 export const initStore = () => {
-    store.profile = undefined;
     store.categories = {};
     store.entries = {};
 }
@@ -26,6 +27,9 @@ export const updateStream = (stream: Stream) => {
 
 export const getStream = (streamId: string): Stream => {
     const stream = store.categories[streamId];
+    if (!stream)
+      return undefined;
+      
     return {
         ...stream,
         items: stream.items.map(i => store.entries[i])
