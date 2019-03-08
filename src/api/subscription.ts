@@ -3,6 +3,6 @@ import { makeRequest } from "./common";
 
 const endpoint = '/subscriptions';
 
-export const getStream = async (): Promise<Subscription[]> => {
+export const getSubscriptions = async (): Promise<Subscription[]> => {
     return makeRequest<Subscription[]>(`${endpoint}/`);
 }
