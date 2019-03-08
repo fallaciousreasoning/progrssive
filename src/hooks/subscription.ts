@@ -21,7 +21,7 @@ export const useSubscriptions = (): Subscription[] => {
         : [];
 }
 
-type CategorizedSubscriptions = Category & { subscriptions: Subscription[] };
+export type CategorizedSubscriptions = Category & { subscriptions: Subscription[] };
 
 export const useCategories = (): CategorizedSubscriptions[] => {
     console.log("Categoies")

@@ -4,9 +4,7 @@ import { useCategories } from './hooks/subscription';
 
 export default (props) => {
     const categories = useCategories();
-    console.log("Bar")
-    
     return <>
-        {categories.map(c => <CategoryView category={c}/>)}
+        {categories.map(c => <CategoryView category={c} key={c.id}/>)}
     </>;
 }
