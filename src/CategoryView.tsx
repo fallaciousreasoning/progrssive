@@ -4,23 +4,26 @@ import * as React from 'react';
 import CollapsableListItem from './CollapsableListItem';
 import { CategorizedSubscriptions } from './hooks/subscription';
 import { Subscription } from './model/subscription';
+import { withRouter, RouteComponentProps } from 'react-router';
 
-interface Props {
+interface Props extends RouteComponentProps<{}> {
     category: CategorizedSubscriptions;
 }
 
-const SubscriptionView = (props: { subscription: Subscription }) => {
-    return <ListItem button component="a">
+
+const SubscriptionView = withRouter((props: { subscription: Subscription } & RouteComponentProps<any>) => {
+    
+    return <ListItem button onClick={() => props.history.push(`/stream/${props.subscription.id}`)}>
         <ListItemText>
             {props.subscription.title}
         </ListItemText>
     </ListItem>
-}
+})
 
-export default (props: Props) => {
+export default withRouter((props: Props) => {
     return <CollapsableListItem
         defaultOpen={true}
-        header={<ListItem button>
+        header={<ListItem button onClick={() => props.history.push(`/stream/${props.category.id}`)}>
             <ListItemIcon>
                 <RssFeed/>
             </ListItemIcon>
@@ -28,4 +31,4 @@ export default (props: Props) => {
         </ListItem>}>
         {props.category.subscriptions.map(s => <SubscriptionView key={s.id} subscription={s} />)}
     </CollapsableListItem>
-}
+})

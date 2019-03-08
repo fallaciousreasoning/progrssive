@@ -19,6 +19,7 @@ interface Props {
 export default (props: Props) => {
     const styles = useStyles();
     const [open, setOpen] = useState(props.defaultOpen);
+    console.log(props.children)
 
     return <>
         {React.cloneElement(props.header, { onClick: () => setOpen(!open) })}
