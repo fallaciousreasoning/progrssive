@@ -4,17 +4,15 @@ import { Category } from "../model/category";
 import { Subscription } from "../model/subscription";
 import { updateSubscriptions } from "../services/store";
 import { useStore } from "./store";
+import { executeOnce } from "./promise";
 
 export const useSubscriptions = (): Subscription[] => {
     const store = useStore();
-    const [requested, setRequested] = useState(false);
 
     // If we haven't cached the subscriptions, get them from the internet.
-    useEffect(() => {
-        if (store.subscriptions || requested) return;
-        setRequested(true);
-        getSubscriptions().then(updateSubscriptions);
-    });
+    if (!store.subscriptions) {
+        executeOnce(() => getSubscriptions().then(updateSubscriptions));
+    }
 
     return store.subscriptions
         ? Object.values(store.subscriptions)

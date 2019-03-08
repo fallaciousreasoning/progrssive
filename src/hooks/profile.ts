@@ -8,7 +8,7 @@ export const useProfile = (): Profile => {
 
     // If we haven't cached the profile, get it from the internet.
     if (!store.profile) {
-        executeOnce(getProfile);
+        executeOnce(() => getProfile().then(profile => store.profile = profile));
     }
 
     return store.profile;

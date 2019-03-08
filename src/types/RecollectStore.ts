@@ -10,10 +10,6 @@ type StoreStream = Omit<Stream, 'items'>
     items: string[];
   };
 
-type StoreCategory = Category & {
-  subscriptions: Set<string>;
-}
-
 export interface StoreDef {
   streams: {
     [id: string]: StoreStream;
