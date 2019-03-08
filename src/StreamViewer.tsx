@@ -4,6 +4,7 @@ import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import EntryCard from "./EntryCard";
 import { useStream } from './hooks/stream';
+import { useStore } from './hooks/store';
 
 const useStyles = makeStyles({
   root: {
@@ -16,6 +17,8 @@ export default (props: Props) => {
   const classes = useStyles();
   const stream = useStream(props.match.params.streamId);
 
+  window['store'] = useStore();
+  
   if (!stream || !stream.items)
     return <CircularProgress/>;
 

@@ -14,11 +14,6 @@ export const initStore = () => {
 }
 
 export const updateStream = (stream: Stream) => {
-    store.streams[stream.id] = {
-        ...stream,
-        items: stream.items.map(i => i.id)
-    };
-
     const entryUpdate = stream.items.reduce((prev, next) => ({
         ...prev,
         [next.id]: next
@@ -27,5 +22,10 @@ export const updateStream = (stream: Stream) => {
     store.entries = {
         ...store.entries,
         ...entryUpdate
+    };
+
+    store.streams[stream.id] = {
+        ...stream,
+        items: stream.items.map(i => i.id)
     };
 }

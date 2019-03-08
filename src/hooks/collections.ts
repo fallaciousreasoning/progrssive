@@ -11,9 +11,7 @@ export const useCollections = (): Collection[] => {
     const store = useStore();
 
     // If we haven't cached the collections, get them from the internet.
-    if (!store.collections) {
-        executeOnce(() => getCollections().then(collections => store.collections = collections));
-    }
+    executeOnce(() => !store.collections && getCollections().then(collections => store.collections = collections));
 
     return store.collections
         ? Object.values(store.collections)
