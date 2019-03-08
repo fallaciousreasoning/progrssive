@@ -18,6 +18,6 @@ export const getStream = async (streamId: string, type: 'contents' | 'id' = 'con
     return makeRequest<Stream>(`${endpoint}/${type}?streamId=${streamId}`, { ...defaultOptions, ...options });
 }
 
-export const getAllStream = async (userId: string, unreadOnly: boolean = true): Promise<Stream> => {
+export const getAllStreams = async (userId: string, unreadOnly: boolean = true): Promise<Stream> => {
     return getStream(`user/${userId}/category/global.all`, 'contents', { unreadOnly });
 }

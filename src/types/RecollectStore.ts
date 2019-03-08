@@ -1,11 +1,17 @@
 import { Omit } from "@material-ui/core";
+import { Category } from "../model/category";
 import { Entry } from "../model/entry";
 import { Stream } from "../model/stream";
+import { Subscription } from "../model/subscription";
 
 type StoreStream = Omit<Stream, 'items'>
   & {
     items: string[];
   };
+
+type StoreCategory = Category & {
+  subscriptions: Set<string>;
+}
 
 export interface StoreDef {
   profile: {},
@@ -14,6 +20,12 @@ export interface StoreDef {
   },
   entries: {
     [id: string]: Entry
+  },
+  categories: {
+    [id: string]: StoreCategory;
+  },
+  subscriptions: {
+    [id: string]: Subscription;
   }
 }
 
