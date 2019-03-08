@@ -4,6 +4,7 @@ import { Entry } from "../model/entry";
 import { Stream } from "../model/stream";
 import { Subscription } from "../model/subscription";
 import { Profile } from "../model/profile";
+import { Collection } from "../model/collection";
 
 type StoreStream = Omit<Stream, 'items'>
   & {
@@ -17,9 +18,7 @@ export interface StoreDef {
   entries: {
     [id: string]: Entry
   },
-  subscriptions: {
-    [id: string]: Subscription;
-  },
+  collections: Collection[],
   profile: Profile
 }
 

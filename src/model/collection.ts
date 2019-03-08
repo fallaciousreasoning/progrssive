@@ -1,5 +1,6 @@
 export interface Feed {
     id: string;
+    feedId: string;
     title: string;
     added: number;
     updated: number;
@@ -21,7 +22,6 @@ export interface Feed {
 
 export interface Collection {
     id: string;
-    feedId: string;
     label: string;
     description: string;
     cover: string;

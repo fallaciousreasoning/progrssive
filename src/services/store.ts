@@ -10,7 +10,7 @@ export const initStore = () => {
 
     // Include our fake stream by default.
     updateStream(require('../fakeStream.json'));
-    updateSubscriptions(require('../fakeSubscriptions.json'));
+    store.collections = require('../fakeCollections.json');
 }
 
 export const updateStream = (stream: Stream) => {
@@ -27,13 +27,5 @@ export const updateStream = (stream: Stream) => {
     store.entries = {
         ...store.entries,
         ...entryUpdate
-    };
-}
-
-export const updateSubscriptions = (subscriptions: Subscription[]) => {
-    const subscriptionMap = subscriptions.reduce((prev, next) => ({...prev, [next.id]: next }), {});
-    store.subscriptions = {
-        ...store.subscriptions,
-        ...subscriptionMap
     };
 }

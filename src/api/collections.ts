@@ -3,6 +3,6 @@ import { makeRequest } from "./common";
 
 const endpoint = '/collections';
 
-export const getSubscriptions = async (): Promise<Collection[]> => {
+export const getCollections = async (): Promise<Collection[]> => {
     return makeRequest<Collection[]>(`${endpoint}/`);
 }
