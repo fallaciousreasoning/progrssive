@@ -3,6 +3,7 @@ import { Category } from "../model/category";
 import { Entry } from "../model/entry";
 import { Stream } from "../model/stream";
 import { Subscription } from "../model/subscription";
+import { Profile } from "../model/profile";
 
 type StoreStream = Omit<Stream, 'items'>
   & {
@@ -14,7 +15,6 @@ type StoreCategory = Category & {
 }
 
 export interface StoreDef {
-  profile: {},
   streams: {
     [id: string]: StoreStream;
   },
@@ -23,7 +23,8 @@ export interface StoreDef {
   },
   subscriptions: {
     [id: string]: Subscription;
-  }
+  },
+  profile: Profile
 }
 
 declare module 'react-recollect' {
