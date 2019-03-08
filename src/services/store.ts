@@ -7,8 +7,6 @@ const store = s as StoreDef;
 export const initStore = () => {
     store.streams = {};
     store.entries = {};
-    store.categories = {};
-    store.subscriptions = {};
 
     // Include our fake stream by default.
     updateStream(require('../fakeStream.json'));

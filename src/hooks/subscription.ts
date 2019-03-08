@@ -22,6 +22,7 @@ export const useSubscriptions = (): Subscription[] => {
 type CategorizedSubscriptions = Category & { subscriptions: Subscription[] };
 
 export const useCategories = (): CategorizedSubscriptions[] => {
+    console.log("Categoies")
     const subscriptions = useSubscriptions();
 
     if (!subscriptions) return [];

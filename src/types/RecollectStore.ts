@@ -21,9 +21,6 @@ export interface StoreDef {
   entries: {
     [id: string]: Entry
   },
-  categories: {
-    [id: string]: StoreCategory;
-  },
   subscriptions: {
     [id: string]: Subscription;
   }
