@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getSubscriptions } from "../api/subscription";
 import { Category } from "../model/category";
 import { Subscription } from "../model/subscription";
@@ -7,10 +7,12 @@ import { useStore } from "./store";
 
 export const useSubscriptions = (): Subscription[] => {
     const store = useStore();
+    const [requested, setRequested] = useState(false);
 
     // If we haven't cached the subscriptions, get them from the internet.
     useEffect(() => {
-        if (store.subscriptions) return;
+        if (store.subscriptions || requested) return;
+        setRequested(true);
         getSubscriptions().then(updateSubscriptions);
     });
 

@@ -10,6 +10,7 @@ export const initStore = () => {
 
     // Include our fake stream by default.
     updateStream(require('../fakeStream.json'));
+    updateSubscriptions(require('../fakeSubscriptions.json'));
 }
 
 export const updateStream = (stream: Stream) => {
