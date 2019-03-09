@@ -29,11 +29,10 @@ export const useStream = (streamId: string): Stream => {
 
     // If it's a feed
     if (streamId.startsWith('feed/')) {
-        console.log(streamId)
         return {
             id: streamId,
             items: Object.values(store.entries).filter(e => e.origin.streamId === streamId),
-            title: 'Foo'
+            title: 'Feed'
         };
     }
     const stream = streams[streamId];
