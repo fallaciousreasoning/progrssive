@@ -11,7 +11,7 @@ export const useStream = (streamId: string): Stream => {
     const stream = store.streams[streamId];
 
     // If we haven't cached the stream, get it from the internet.
-    executeOnce(() => !stream && getStream(streamId).then(updateStream));
+    executeOnce(() => !stream && getStream(streamId).then(updateStream), streamId);
 
     return stream
         ? {
