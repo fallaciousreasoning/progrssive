@@ -3,7 +3,7 @@ import { Link } from "./link";
 
 export interface Stream {
     id: string;
-    title?: string;
+    title: string;
     direction?: 'ltr' | 'rtl';
     continuation?: string;
     self?: Link[];

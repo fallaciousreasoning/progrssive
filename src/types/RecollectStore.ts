@@ -6,7 +6,7 @@ import { Subscription } from "../model/subscription";
 import { Profile } from "../model/profile";
 import { Collection } from "../model/collection";
 
-type StoreStream = Omit<Stream, 'items'>
+export type StoreStream = Omit<Stream, 'items'>
   & {
     items: string[];
   };

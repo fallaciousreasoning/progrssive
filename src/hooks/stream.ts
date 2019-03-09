@@ -1,17 +1,23 @@
 import { useEffect } from "react";
-import { getStream } from "../api/streams";
+import { getStream, getAllStreams } from "../api/streams";
 import { Entry } from "../model/entry";
 import { Stream } from "../model/stream";
-import { updateStream } from "../services/store";
+import { updateStream, updateAllStreams } from "../services/store";
 import { useStore } from "./store";
 import { executeOnce } from "./promise";
+import { useProfile } from "./profile";
 
 export const useStream = (streamId: string): Stream => {
     const store = useStore();
+    const profile = useProfile();
     const stream = store.streams[streamId];
 
     // If we haven't cached the stream, get it from the internet.
-    executeOnce(() => !stream && getStream(streamId).then(updateStream), streamId);
+    executeOnce((profileId) => {
+        if (!profileId) return;
+
+        return getAllStreams(profileId).then(streams => updateAllStreams(profileId, streams));
+    }, profile && profile.id);
 
     return stream
         ? {

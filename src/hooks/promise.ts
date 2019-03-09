@@ -12,8 +12,8 @@ export const useResult = <T>(promise: Promise<T>) => {
     return result;
 }
 
-export const executeOnce = <T>(execute: () => Promise<T>, ...keys) => {
+export const executeOnce = <T>(execute: (...args) => Promise<T>, ...keys) => {
     useEffect(() => {
-        execute();
-    }, keys);
+        execute(...keys);
+    }, [...keys]);
 }
