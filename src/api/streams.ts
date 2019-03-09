@@ -19,8 +19,10 @@ export const getStream = async (streamId: string, type: 'contents' | 'id' = 'con
 }
 
 export const getAllStreams = async (userId: string, unreadOnly: boolean = true): Promise<Stream> => {
-    return getStream(`user/${userId}/category/global.all`, 'contents', { unreadOnly });
+    return getStream(getAllId(userId), 'contents', { unreadOnly });
 }
+
+export const getAllId = (userId: string) => `user/${userId}/category/global.all`;
 
 export const getUncategorizedId = (userId: string) => {
     return `user/${userId}/category/global.uncategorized`;

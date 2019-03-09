@@ -34,7 +34,6 @@ export const updateStream = (stream: Stream) => {
 }
 
 export const updateAllStreams = (profileId: string, allStream: Stream) => {
-    console.log("Updating streams")
     const uncategorizedId = getUncategorizedId(profileId);
     const entryUpdate: { [id: string]: Entry } = {};
     const streamUpdate = {
@@ -78,6 +77,5 @@ export const updateAllStreams = (profileId: string, allStream: Stream) => {
         ...entryUpdate
     };
 
-    console.log(streamUpdate[uncategorizedId])
     store.streams = streamUpdate;
 }
