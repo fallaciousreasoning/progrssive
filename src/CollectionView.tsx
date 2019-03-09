@@ -1,5 +1,5 @@
 import { ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, ListItem, ListItemText, ListItemIcon } from '@material-ui/core';
-import { ExpandMore, RssFeed } from '@material-ui/icons';
+import { ExpandMore, RssFeed, ExpandLess } from '@material-ui/icons';
 import * as React from 'react';
 import CollapsableListItem from './CollapsableListItem';
 import { Subscription } from './model/subscription';
@@ -12,7 +12,7 @@ interface Props extends RouteComponentProps<{}> {
 
 
 const SubscriptionView = withRouter((props: { feed: Feed } & RouteComponentProps<any>) => {
-    
+
     return <ListItem button onClick={() => props.history.push(`/stream/${props.feed.feedId}`)}>
         <ListItemText>
             {props.feed.title}
@@ -23,11 +23,14 @@ const SubscriptionView = withRouter((props: { feed: Feed } & RouteComponentProps
 export default withRouter((props: Props) => {
     return <CollapsableListItem
         defaultOpen={true}
-        header={<ListItem button onClick={() => props.history.push(`/stream/${props.collection.id}`)}>
+        header={p => <ListItem button onClick={() => props.history.push(`/stream/${props.collection.id}`)}>
             <ListItemIcon>
-                <RssFeed/>
+                <RssFeed />
             </ListItemIcon>
             <ListItemText>{props.collection.label}</ListItemText>
+            <div onClick={p.toggle}>
+                {p.open ? <ExpandLess /> : <ExpandMore />}
+            </div>
         </ListItem>}>
         {props.collection.feeds.map(s => <SubscriptionView key={s.id} feed={s} />)}
     </CollapsableListItem>

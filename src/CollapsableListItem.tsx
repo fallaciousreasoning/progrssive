@@ -4,28 +4,28 @@ import { useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles(({
-    nested: {
-        paddingLeft: '30px !important',
-        
+    "@global": {
+        ".nested-list *": {
+            paddingLeft: '40px'
+        }
     }
 }));
 
 interface Props {
     defaultOpen?: boolean;
-    children?: any;// ListItem[] | ListItem;
-    header: any;//ListItem;
+    children?: React.ReactNode[] | React.ReactNode;
+    header: (props: { open: boolean, toggle: () => void }) => JSX.Element;
 }
 
 export default (props: Props) => {
-    const styles = useStyles();
-    const [open, setOpen] = useState(props.defaultOpen);
-    console.log(props.children)
+    useStyles();
 
+    const [open, setOpen] = useState(props.defaultOpen);
     return <>
-        {React.cloneElement(props.header, { onClick: () => setOpen(!open) })}
+        {props.header({ open, toggle: () => setOpen(!open) })}
         <Collapse in={open} timeout="auto" unmountOnExit>
-            <List disablePadding className={styles.nested}>
-                {props.children.map((c, i) => React.cloneElement(c, { key: i, className: styles.nested }))}
+            <List disablePadding className="nested-list">
+                {props.children}
             </List>
         </Collapse>
     </>;
