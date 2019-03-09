@@ -1,7 +1,7 @@
 import { CircularProgress, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import React from 'react';
-import { RouteComponentProps } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router';
 import EntryCard from "./EntryCard";
 import { useStream } from './hooks/stream';
 import { useStore } from './hooks/store';
@@ -11,11 +11,15 @@ const useStyles = makeStyles({
   }
 });
 
-type Props = RouteComponentProps<{ streamId: string}>;
+type Props = RouteComponentProps<any>;
 
-export default (props: Props) => {
+export default withRouter((props: Props) => {
+  // We have to manually parse the path, because redux router breaks.
+  const prefix = 'stream/';
+  const streamId = props.location.pathname.substr(prefix.length + 1);
+
   const classes = useStyles();
-  const stream = useStream(props.match.params.streamId);
+  const stream = useStream(streamId);
 
   window['store'] = useStore();
   
@@ -29,4 +33,4 @@ export default (props: Props) => {
       </Grid>)}
     </Grid>
   </div>
-}
+});
