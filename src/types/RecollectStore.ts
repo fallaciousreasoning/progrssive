@@ -8,6 +8,7 @@ import { Collection } from "../model/collection";
 
 export type StoreStream = Omit<Stream, 'items'>
   & {
+    lastFetched: number;
     items: string[];
   };
 

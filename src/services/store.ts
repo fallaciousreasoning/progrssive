@@ -29,7 +29,8 @@ export const updateStream = (stream: Stream) => {
 
     store.streams[stream.id] = {
         ...stream,
-        items: stream.items.map(i => i.id)
+        items: stream.items.map(i => i.id),
+        lastFetched: Date.now()
     };
 }
 
@@ -39,12 +40,14 @@ export const updateAllStreams = (profileId: string, allStream: Stream) => {
     const streamUpdate = {
         [allStream.id]: {
             ...allStream,
-            items: allStream.items.map(i => i.id)
+            items: allStream.items.map(i => i.id),
+            lastFetched: Date.now()
         },
         [uncategorizedId]: {
             id: uncategorizedId,
             title: "Uncategorized",
-            items: []
+            items: [],
+            lastFetched: 0
         }
     };
 
@@ -61,10 +64,13 @@ export const updateAllStreams = (profileId: string, allStream: Stream) => {
         for (const category of entry.categories) {
             // If we haven't made a stream for this category, create one.
             if (!streamUpdate[category.id]) {
+                const oldStream = store.streams[category.id];
+
                 streamUpdate[category.id] = {
                     id: category.id,
                     title: category.label,
-                    items: []
+                    items: [],
+                    lastFetched: oldStream ? oldStream.lastFetched : 0
                 }
             }
 
