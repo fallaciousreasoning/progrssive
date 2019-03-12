@@ -17,7 +17,7 @@ export const useStreams = () => {
     executeOnce((profileId) => {
         if (!profileId) return;
 
-        return getAllStreams(profileId).then(streams => updateAllStreams(profileId, streams));
+        return !streams && getAllStreams(profileId).then(streams => updateAllStreams(profileId, streams));
     }, profile && profile.id);
 
     return streams;
