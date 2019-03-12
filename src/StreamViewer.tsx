@@ -1,10 +1,12 @@
-import { CircularProgress, Grid } from '@material-ui/core';
+import { CircularProgress, Grid, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import EntryCard from "./EntryCard";
 import { useStream } from './hooks/stream';
 import { useStore } from './hooks/store';
+import AppBarButton from './components/AppBarButton';
+import { Refresh } from '@material-ui/icons';
 
 const useStyles = makeStyles({
   root: {
@@ -32,5 +34,10 @@ export default withRouter((props: Props) => {
         <EntryCard entry={e}/>
       </Grid>)}
     </Grid>
+    <AppBarButton>
+      <IconButton>
+        <Refresh/>
+      </IconButton>
+    </AppBarButton>
   </div>
 });
