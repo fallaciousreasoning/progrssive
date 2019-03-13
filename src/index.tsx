@@ -1,7 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+import { initStore } from './services/store';
 import * as serviceWorker from './serviceWorker';
+
+// Make sure our store is initialized.
+initStore();
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
