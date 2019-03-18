@@ -1,11 +1,11 @@
 import { Profile } from "../model/profile";
-import { useStore } from "./store";
+import { useStore, makeStoreCache } from "./store";
 import { executeOnce } from "./promise";
 import { getProfile } from "../api/profile";
 
 let fetching = false;
 
-export const useProfile = (): Profile => {
+export const useProfileOld = (): Profile => {
     const store = useStore();
 
     // If we haven't cached the profile, get it from the internet.
@@ -19,4 +19,9 @@ export const useProfile = (): Profile => {
     });
 
     return store.profile;
+}
+
+const useProfileCache = makeStoreCache(() => getProfile(), (store, profile) => store.profile = profile);
+export const useProfile = (): Profile => {
+    return useProfileCache();
 }

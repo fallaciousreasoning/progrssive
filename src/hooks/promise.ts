@@ -45,11 +45,12 @@ export const makeUpdatableSharedCache = <T>(fetcher: (...args) => Promise<T>, in
         cache.updating = false;
     };
 
-    return (...args) => {
+    return (...args): T => {
         // If we don't have any data, or our args have changed
         if (!cache.state
-            || !elementsChanged(args, cache.lastArgs)) {
+            || elementsChanged(args, cache.lastArgs)) {
             update(...args)
+            debugger;
         }
 
         // Manage registering for update

@@ -37,9 +37,11 @@ export const useStore = () => {
     return store;
 }
 
-export const makeStoreCache = <T>(fetcher: () => Promise<T>, set: (value: T) => void) => {
+export const makeStoreCache = <T>(fetcher: (store: Store) => T | Promise<T>, onFetched: (store: Store, value: T) => void) => {
     const storeFetcher = async () => {
-        set(await fetcher());
+        const result = await fetcher(currentStore);
+        onFetched(currentStore, result);
+        return result;
     };
 
     const useCache = makeUpdatableSharedCache(storeFetcher);
