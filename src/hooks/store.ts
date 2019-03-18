@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { afterChange, store as defaultStore, Store } from 'react-recollect';
+import { makeUpdatableSharedCache } from './promise';
 
 type Updater = (store: Store) => void;
 
@@ -14,10 +15,12 @@ const removeUpdater = (updater: Updater) => {
     updaters.splice(index, 1);
 }
 
+let currentStore = defaultStore;
 afterChange(event => {
     if (event.store === event.prevStore)
       return;
-      
+
+    currentStore = event.store;
     updaters.forEach(u => u(event.store));
 });
 
@@ -32,4 +35,16 @@ export const useStore = () => {
     });
 
     return store;
+}
+
+export const makeStoreCache = <T>(fetcher: () => Promise<T>, set: (value: T) => void) => {
+    const storeFetcher = async () => {
+        set(await fetcher());
+    };
+
+    const useCache = makeUpdatableSharedCache(storeFetcher);
+    return (lastUpdate?: number) => {
+        const cached = useCache(lastUpdate);
+        return cached;
+    }
 }
