@@ -16,6 +16,8 @@ const removeUpdater = (updater: Updater) => {
 }
 
 let currentStore = defaultStore;
+export const getStore = () => currentStore;
+
 afterChange(event => {
     if (event.store === event.prevStore)
       return;

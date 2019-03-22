@@ -12,11 +12,11 @@ export const initStore = () => {
     store.profile = require('../fakeProfile.json');
 
     // Include our fake stream by default.
-    updateAllStreams(store.profile.id, require('../fakeStream.json'));
+    setAllStreams(store.profile.id, require('../fakeStream.json'));
     store.collections = require('../fakeCollections.json');
 }
 
-export const updateStream = (stream: Stream) => {
+export const setStream = (stream: Stream) => {
     const entryUpdate = stream.items.reduce((prev, next) => ({
         ...prev,
         [next.id]: next
@@ -34,7 +34,7 @@ export const updateStream = (stream: Stream) => {
     };
 }
 
-export const updateAllStreams = (profileId: string, allStream: Stream) => {
+export const setAllStreams = (profileId: string, allStream: Stream) => {
     const uncategorizedId = getUncategorizedId(profileId);
     const entryUpdate: { [id: string]: Entry } = {};
     const streamUpdate = {

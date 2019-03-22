@@ -50,7 +50,6 @@ export const makeUpdatableSharedCache = <T>(fetcher: (...args) => Promise<T>, in
         if (!cache.state
             || elementsChanged(args, cache.lastArgs)) {
             update(...args)
-            debugger;
         }
 
         // Manage registering for update

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { getStream, getAllStreams } from "../api/streams";
 import { Entry } from "../model/entry";
 import { Stream } from "../model/stream";
-import { updateStream, updateAllStreams } from "../services/store";
+import { setAllStreams } from "../services/store";
 import { useStore } from "./store";
 import { executeOnce } from "./promise";
 import { useProfile } from "./profile";
@@ -17,7 +17,7 @@ export const useStreams = () => {
     executeOnce((profileId) => {
         if (!profileId) return;
 
-        return !streams && getAllStreams(profileId).then(streams => updateAllStreams(profileId, streams));
+        return !streams && getAllStreams(profileId).then(streams => setAllStreams(profileId, streams));
     }, profile && profile.id);
 
     return streams;
