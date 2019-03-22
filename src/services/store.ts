@@ -53,7 +53,10 @@ export const getStream = (streamId: string): Stream => {
     if (!stream) return;
     return {
         ...stream,
-        items: stream.items.map(i => store.entries[i]).filter(e => e.unread || !store.settings.unreadOnly)
+        items: stream.items
+            .map(i => store.entries[i])
+            .filter(e => e)
+            .filter(e => e.unread || !store.settings.unreadOnly)
     };
 }
 
