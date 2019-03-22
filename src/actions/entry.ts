@@ -2,11 +2,11 @@ import { getStore } from "../hooks/store";
 import { updateProfile } from "./profile";
 import { getEntry } from "../api/entry";
 
-const fetching = {};
+export const updatingEntry = (entryId: string) => getStore().updating.entries[entryId];
 
 export const updateEntry = async (entryId: string) => {
-    if (fetching[entryId]) return;
-    fetching[entryId] = true;
+    if (updatingEntry(entryId)) return;
+    getStore().updating.entries[entryId] = false;
 
     if (!getStore().profile)
         await updateProfile();
@@ -18,5 +18,5 @@ export const updateEntry = async (entryId: string) => {
         [entryId]: entry
     };
 
-    delete fetching[entryId];
+    delete store.updating.entries[entryId];
 }

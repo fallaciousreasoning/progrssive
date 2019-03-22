@@ -12,7 +12,16 @@ export type StoreStream = Omit<Stream, 'items'>
     items: string[];
   };
 
+export interface UpdatingInformation {
+  profile: boolean;
+  entries: { [id: string]: boolean };
+  streams: { [id: string]: boolean };
+  categories: boolean;
+}
+
 export interface StoreDef {
+  updating: UpdatingInformation;
+
   streams: {
     [id: string]: StoreStream;
   },

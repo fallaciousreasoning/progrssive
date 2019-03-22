@@ -2,11 +2,10 @@ import { Store } from "react-recollect";
 import { getProfile } from "../api/profile";
 import { getStore } from "../hooks/store";
 
-let updating = false;
 export const updateProfile = async () => {
-    if (updating) return;
+    if (getStore().updating.profile) return;
 
-    updating = true;
+    getStore().updating.profile = true;
     getStore().profile = await getProfile();
-    updating = false;
+    getStore().updating.profile = false;
 }

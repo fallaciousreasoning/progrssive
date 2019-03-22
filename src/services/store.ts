@@ -11,6 +11,12 @@ export const initStore = () => {
     store.streams = {};
     store.entries = {};
     store.profile = require('../fakeProfile.json');
+    store.updating = {
+        categories: false,
+        entries: {},
+        streams: {},
+        profile: false,
+    }
 
     // Include our fake stream by default.
     setAllStreams(store.profile.id, require('../fakeStream.json'));
