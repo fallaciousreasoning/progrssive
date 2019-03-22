@@ -9,9 +9,16 @@ import AppBarButton from './components/AppBarButton';
 import { Refresh } from '@material-ui/icons';
 import { updateStreams, updatingStream } from './actions/stream';
 import { getStream } from './services/store';
+import Centre from './Centre';
 
 const useStyles = makeStyles({
   root: {
+  },
+  loadingButton: {
+    color: 'white !important'
+  },
+  loader: {
+    marginBottom: "10px",
   }
 });
 
@@ -22,7 +29,7 @@ export default withRouter((props: Props) => {
   const prefix = 'stream/';
   const streamId = props.location.pathname.substr(prefix.length + 1);
 
-  const classes = useStyles();
+  const styles = useStyles();
   const store = useStore();
   const stream = getStream(streamId);
 
@@ -34,17 +41,23 @@ export default withRouter((props: Props) => {
   const hasContent = stream && stream.items;
   const loading = !hasContent || updatingStream(streamId);
 
-  return <div className={classes.root}>
-    {loading && <CircularProgress/>}
+  return <div className={styles.root}>
+    {loading && <Centre>
+        <CircularProgress className={styles.loader}/>
+      </Centre>}
     <Grid spacing={24} container justify='center' wrap='wrap'>
       {hasContent && stream.items.map(e => <Grid item key={e.id} lg={3} md={6} sm={6} xs={12} onClick={() => props.history.push(`/entries/${e.id}`)}>
-      <EntryCard entry={e} />
-    </Grid>)}
+        <EntryCard entry={e} />
+      </Grid>)}
     </Grid>
     <AppBarButton>
-      <IconButton onClick={() => updateStreams(streamId)}>
-        <Refresh />
-      </IconButton>
+      <div>
+        {loading
+        ? <CircularProgress className={styles.loadingButton} size={24} />
+          :<IconButton onClick={() => updateStreams(streamId)}>
+            <Refresh />
+          </IconButton>}
+      </div>
     </AppBarButton>
   </div>
 });
