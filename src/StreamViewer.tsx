@@ -41,7 +41,7 @@ export default withRouter((props: Props) => {
       </Grid>)}
     </Grid>
     <AppBarButton>
-      <IconButton>
+      <IconButton onClick={() => updateStreams(streamId)}>
         <Refresh/>
       </IconButton>
     </AppBarButton>
