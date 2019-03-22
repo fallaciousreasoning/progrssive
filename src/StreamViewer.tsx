@@ -1,4 +1,4 @@
-import { CircularProgress, Grid, IconButton } from '@material-ui/core';
+import { CircularProgress, Grid, IconButton, Switch, FormControlLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import React, { useEffect } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
@@ -58,6 +58,11 @@ export default withRouter((props: Props) => {
             <Refresh />
           </IconButton>}
       </div>
+    </AppBarButton>
+    <AppBarButton>
+      <FormControlLabel
+        control={<Switch/>}
+        label="Unread Only"/>
     </AppBarButton>
   </div>
 });
