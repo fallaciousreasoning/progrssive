@@ -1,9 +1,12 @@
 import { Card, CardContent, CardHeader, CircularProgress, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import * as React from 'react';
+import {useEffect} from 'react';
 import { useIsPhone } from "./hooks/responsive";
 import { useEntry } from "./hooks/stream";
 import { getEntryByline, getEntryContent } from "./services/entry";
+import { getStore } from "./hooks/store";
+import { updateEntry } from "./actions/entry";
 
 const useStyles = makeStyles({
     root: {
@@ -22,12 +25,19 @@ const useStyles = makeStyles({
 });
 
 export default (props: { match: { params: { entryId: string } } }) => {
-    const entry = useEntry(props.match.params.entryId);
+    const store = getStore();
+    const entry = store.entries[props.match.params.entryId];
+
+    useEffect(() => {
+        if (entry) return;
+        updateEntry(props.match.params.entryId);
+    }, [props.match.params.entryId]);
+
     const styles = useStyles();
     const isPhone = useIsPhone();
 
     if (!entry) 
-        <CircularProgress/>;
+        return <CircularProgress/>;
 
     const content = getEntryContent(entry);
 

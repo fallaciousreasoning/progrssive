@@ -17,6 +17,7 @@ const removeUpdater = (updater: Updater) => {
 
 let currentStore = defaultStore;
 export const getStore = () => currentStore;
+(window as any).getStore = getStore;
 
 afterChange(event => {
     if (event.store === event.prevStore)
