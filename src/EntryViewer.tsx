@@ -5,7 +5,7 @@ import {useEffect} from 'react';
 import { useIsPhone } from "./hooks/responsive";
 import { useEntry } from "./hooks/stream";
 import { getEntryByline, getEntryContent } from "./services/entry";
-import { getStore } from "./hooks/store";
+import { getStore, useStore } from "./hooks/store";
 import { updateEntry } from "./actions/entry";
 
 const useStyles = makeStyles({
@@ -25,7 +25,7 @@ const useStyles = makeStyles({
 });
 
 export default (props: { match: { params: { entryId: string } } }) => {
-    const store = getStore();
+    const store = useStore();
     const entry = store.entries[props.match.params.entryId];
 
     useEffect(() => {
