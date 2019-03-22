@@ -89,6 +89,11 @@ export const setAllStreams = (profileId: string, allStream: Stream) => {
         }
     }
 
+    // Deduplicate items.
+    for (const category of Object.values(streamUpdate)) {
+        category.items = Array.from(new Set(category.items));
+    }
+
     store.entries = {
         ...store.entries,
         ...entryUpdate
