@@ -1,12 +1,14 @@
 import { CircularProgress, Grid, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import EntryCard from "./EntryCard";
 import { useStream } from './hooks/stream';
 import { useStore } from './hooks/store';
 import AppBarButton from './components/AppBarButton';
 import { Refresh } from '@material-ui/icons';
+import { updateStreams } from './actions/stream';
+import { getStream } from './services/store';
 
 const useStyles = makeStyles({
   root: {
@@ -21,9 +23,13 @@ export default withRouter((props: Props) => {
   const streamId = props.location.pathname.substr(prefix.length + 1);
 
   const classes = useStyles();
-  const stream = useStream(streamId);
+  const store = useStore();
+  const stream = getStream(streamId);
 
-  window['store'] = useStore();
+  useEffect(() => {
+    if (stream) return;
+    updateStreams(streamId);
+  }, [streamId]);
   
   if (!stream || !stream.items)
     return <CircularProgress/>;

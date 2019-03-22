@@ -4,6 +4,7 @@ import { Subscription } from '../model/subscription';
 import { StoreDef, StoreStream } from '../types/RecollectStore';
 import { Entry } from '../model/entry';
 import { getUncategorizedId } from '../api/streams';
+import { getStore } from '../hooks/store';
 const store = s as StoreDef;
  
 export const initStore = () => {
@@ -31,6 +32,15 @@ export const setStream = (stream: Stream) => {
         ...stream,
         items: stream.items.map(i => i.id),
         lastFetched: Date.now()
+    };
+}
+
+export const getStream = (streamId: string): Stream => {
+    const store = getStore();
+    const stream = store.streams[streamId];
+    return {
+        ...stream,
+        items: stream.items.map(i => store.entries[i])
     };
 }
 
