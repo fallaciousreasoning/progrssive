@@ -11,6 +11,7 @@
     "@types/react": "16.8.6",
     "@types/react-dom": "16.8.2",
     "@types/react-router-dom": "^4.3.1",
+    "localforage": "^1.7.3",
     "lorem-ipsum": "^1.0.6",
     "query-string": "^6.2.0",
     "react": "^16.8.3",

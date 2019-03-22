@@ -5,6 +5,7 @@ import { StoreDef, StoreStream } from '../types/RecollectStore';
 import { Entry } from '../model/entry';
 import { getUncategorizedId } from '../api/streams';
 import { getStore } from '../hooks/store';
+import { saveChildren } from './persister';
 const store = s as StoreDef;
  
 export const initStore = () => {
@@ -112,4 +113,9 @@ export const setAllStreams = (profileId: string, allStream: Stream) => {
         ...store.streams,
         ...streamUpdate
     }
+
+    Promise.all([
+        ...saveChildren('streams', streamUpdate),
+        ...saveChildren('entries', entryUpdate)
+    ]);
 }
