@@ -5,7 +5,7 @@ import { StoreDef, StoreStream } from '../types/RecollectStore';
 import { Entry } from '../model/entry';
 import { getUncategorizedId } from '../api/streams';
 import { getStore } from '../hooks/store';
-import { saveChildren } from './persister';
+import { saveChildren, loadStore } from './persister';
 const store = s as StoreDef;
  
 export const initStore = () => {
@@ -22,9 +22,11 @@ export const initStore = () => {
         unreadOnly: true
     }
 
+    loadStore();
+
     // Include our fake stream by default.
-    setAllStreams(store.profile.id, require('../fakeStream.json'));
-    store.collections = require('../fakeCollections.json');
+    // setAllStreams(store.profile.id, require('../fakeStream.json'));
+    // store.collections = require('../fakeCollections.json');
 }
 
 export const setStream = (stream: Stream) => {
@@ -115,7 +117,7 @@ export const setAllStreams = (profileId: string, allStream: Stream) => {
     }
 
     Promise.all([
-        ...saveChildren('streams', streamUpdate),
-        ...saveChildren('entries', entryUpdate)
+        saveChildren('streams', streamUpdate),
+        saveChildren('entries', entryUpdate)
     ]);
 }
