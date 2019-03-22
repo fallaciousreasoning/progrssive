@@ -38,6 +38,7 @@ export const setStream = (stream: Stream) => {
 export const getStream = (streamId: string): Stream => {
     const store = getStore();
     const stream = store.streams[streamId];
+    if (!stream) return;
     return {
         ...stream,
         items: stream.items.map(i => store.entries[i])
@@ -93,5 +94,8 @@ export const setAllStreams = (profileId: string, allStream: Stream) => {
         ...entryUpdate
     };
 
-    store.streams = streamUpdate;
+    store.streams = {
+        ...store.streams,
+        ...streamUpdate
+    }
 }

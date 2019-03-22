@@ -2,7 +2,12 @@ import { getStore } from "../hooks/store";
 import { updateProfile } from "./profile";
 import { getEntry } from "../api/entry";
 
+const fetching = {};
+
 export const updateEntry = async (entryId: string) => {
+    if (fetching[entryId]) return;
+    fetching[entryId] = true;
+
     if (!getStore().profile)
         await updateProfile();
 
@@ -12,4 +17,6 @@ export const updateEntry = async (entryId: string) => {
         ...store.entries,
         [entryId]: entry
     };
+
+    delete fetching[entryId];
 }
