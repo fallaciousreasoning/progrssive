@@ -16,6 +16,9 @@ export const initStore = () => {
         entries: {},
         streams: {},
         profile: false,
+    };
+    store.settings = {
+        unreadOnly: true
     }
 
     // Include our fake stream by default.
@@ -47,7 +50,7 @@ export const getStream = (streamId: string): Stream => {
     if (!stream) return;
     return {
         ...stream,
-        items: stream.items.map(i => store.entries[i])
+        items: stream.items.map(i => store.entries[i]).filter(e => e.unread || !store.settings.unreadOnly)
     };
 }
 

@@ -19,8 +19,13 @@ export interface UpdatingInformation {
   categories: boolean;
 }
 
+export interface Settings {
+  unreadOnly: boolean;
+}
+
 export interface StoreDef {
   updating: UpdatingInformation;
+  settings: Settings;
 
   streams: {
     [id: string]: StoreStream;
@@ -29,7 +34,7 @@ export interface StoreDef {
     [id: string]: Entry
   },
   collections: Collection[],
-  profile: Profile
+  profile: Profile;
 }
 
 declare module 'react-recollect' {

@@ -61,7 +61,7 @@ export default withRouter((props: Props) => {
     </AppBarButton>
     <AppBarButton>
       <FormControlLabel
-        control={<Switch/>}
+        control={<Switch checked={store.settings.unreadOnly} onClick={() => store.settings.unreadOnly = !store.settings.unreadOnly}/>}
         label="Unread Only"/>
     </AppBarButton>
   </div>
