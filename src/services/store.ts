@@ -4,19 +4,32 @@ import { Subscription } from '../model/subscription';
 import { StoreDef, StoreStream } from '../types/RecollectStore';
 import { Entry } from '../model/entry';
 import { getUncategorizedId } from '../api/streams';
+import { getStore } from '../hooks/store';
+import { saveChildren, loadStore } from './persister';
 const store = s as StoreDef;
  
 export const initStore = () => {
     store.streams = {};
     store.entries = {};
     store.profile = require('../fakeProfile.json');
+    store.updating = {
+        categories: false,
+        entries: {},
+        streams: {},
+        profile: false,
+    };
+    store.settings = {
+        unreadOnly: true
+    }
+
+    loadStore();
 
     // Include our fake stream by default.
-    updateAllStreams(store.profile.id, require('../fakeStream.json'));
-    store.collections = require('../fakeCollections.json');
+    // setAllStreams(store.profile.id, require('../fakeStream.json'));
+    // store.collections = require('../fakeCollections.json');
 }
 
-export const updateStream = (stream: Stream) => {
+export const setStream = (stream: Stream) => {
     const entryUpdate = stream.items.reduce((prev, next) => ({
         ...prev,
         [next.id]: next
@@ -34,7 +47,20 @@ export const updateStream = (stream: Stream) => {
     };
 }
 
-export const updateAllStreams = (profileId: string, allStream: Stream) => {
+export const getStream = (streamId: string): Stream => {
+    const store = getStore();
+    const stream = store.streams[streamId];
+    if (!stream) return;
+    return {
+        ...stream,
+        items: stream.items
+            .map(i => store.entries[i])
+            .filter(e => e)
+            .filter(e => e.unread || !store.settings.unreadOnly)
+    };
+}
+
+export const setAllStreams = (profileId: string, allStream: Stream) => {
     const uncategorizedId = getUncategorizedId(profileId);
     const entryUpdate: { [id: string]: Entry } = {};
     const streamUpdate = {
@@ -78,10 +104,23 @@ export const updateAllStreams = (profileId: string, allStream: Stream) => {
         }
     }
 
+    // Deduplicate items.
+    for (const category of Object.values(streamUpdate)) {
+        category.items = Array.from(new Set(category.items));
+    }
+
     store.entries = {
         ...store.entries,
         ...entryUpdate
     };
 
-    store.streams = streamUpdate;
+    store.streams = {
+        ...store.streams,
+        ...streamUpdate
+    }
+
+    Promise.all([
+        saveChildren('streams', streamUpdate),
+        saveChildren('entries', entryUpdate)
+    ]);
 }

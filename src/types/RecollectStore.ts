@@ -12,7 +12,21 @@ export type StoreStream = Omit<Stream, 'items'>
     items: string[];
   };
 
+export interface UpdatingInformation {
+  profile: boolean;
+  entries: { [id: string]: boolean };
+  streams: { [id: string]: boolean };
+  categories: boolean;
+}
+
+export interface Settings {
+  unreadOnly: boolean;
+}
+
 export interface StoreDef {
+  updating: UpdatingInformation;
+  settings: Settings;
+
   streams: {
     [id: string]: StoreStream;
   },
@@ -20,7 +34,7 @@ export interface StoreDef {
     [id: string]: Entry
   },
   collections: Collection[],
-  profile: Profile
+  profile: Profile;
 }
 
 declare module 'react-recollect' {
