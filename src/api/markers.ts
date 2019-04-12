@@ -2,7 +2,7 @@ import { Marker } from "../model/markers";
 import { makePostRequest } from "./common";
 import { Entry } from "../model/entry";
 
-const endpoint = 'v3/markers';
+const endpoint = '/markers';
 
 export const updateMarkers = async (marker: Marker) => {
     await makePostRequest(endpoint, marker);

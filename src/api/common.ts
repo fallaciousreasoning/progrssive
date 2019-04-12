@@ -33,7 +33,7 @@ export const makeRequest = async <T>(url: string, params?: Object): Promise<T> =
 }
 
 export const makePostRequest = (endpoint: string, params: Object) => {
-    return fetch(`${feedlyConfig.feedlyUrl}${endpoint}`, {
+    return fetch(`${bypassCorsUrl}${feedlyConfig.feedlyUrl}${endpoint}`, {
         method: 'POST',
         headers: {
             'Authorization': `OAuth ${feedlyConfig.accessToken}`,
