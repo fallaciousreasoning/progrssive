@@ -27,3 +27,5 @@ export const getAllId = (userId: string) => `user/${userId}/category/global.all`
 export const getUncategorizedId = (userId: string) => {
     return `user/${userId}/category/global.uncategorized`;
 }
+
+export const getSavedId = (userId: string) => `user/${userId}/tag/global.saved`;

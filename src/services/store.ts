@@ -3,7 +3,7 @@ import { Stream } from '../model/stream';
 import { Subscription } from '../model/subscription';
 import { StoreDef, StoreStream } from '../types/RecollectStore';
 import { Entry } from '../model/entry';
-import { getUncategorizedId } from '../api/streams';
+import { getUncategorizedId, getSavedId } from '../api/streams';
 import { getStore } from '../hooks/store';
 import { saveChildren, loadStore } from './persister';
 const store = s as StoreDef;
@@ -62,6 +62,8 @@ export const getStream = (streamId: string): Stream => {
 
 export const setAllStreams = (profileId: string, allStream: Stream) => {
     const uncategorizedId = getUncategorizedId(profileId);
+    const savedId = getSavedId(profileId);
+
     const entryUpdate: { [id: string]: Entry } = {};
     const streamUpdate = {
         [allStream.id]: {
@@ -72,6 +74,12 @@ export const setAllStreams = (profileId: string, allStream: Stream) => {
         [uncategorizedId]: {
             id: uncategorizedId,
             title: "Uncategorized",
+            items: [],
+            lastFetched: 0
+        },
+        [savedId]: {
+            id: savedId,
+            title: "Saved for later",
             items: [],
             lastFetched: 0
         }
