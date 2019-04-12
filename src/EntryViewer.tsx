@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CircularProgress, Typography } from "@material-ui/core";
+import { Card, CardContent, CardHeader, CircularProgress, Typography, Fab } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import * as React from 'react';
 import {useEffect} from 'react';
@@ -9,6 +9,7 @@ import { getStore, useStore } from "./hooks/store";
 import { updateEntry } from "./actions/entry";
 import AppBarButton from "./components/AppBarButton";
 import { EntryReadButton, EntrySavedButton } from "./MarkerButton";
+import { Add } from "@material-ui/icons";
 
 const useStyles = makeStyles({
     root: {
@@ -26,17 +27,18 @@ const useStyles = makeStyles({
     }
 });
 
-export default (props: { match: { params: { entryId: string } } }) => {
+export default (props: { entryId: string }) => {
     const store = useStore();
-    const entry = store.entries[props.match.params.entryId];
-
-    useEffect(() => {
-        if (entry) return;
-        updateEntry(props.match.params.entryId);
-    }, [props.match.params.entryId]);
 
     const styles = useStyles();
     const isPhone = useIsPhone();
+
+    const entry = store.entries[props.entryId];
+
+    useEffect(() => {
+        if (entry || !props.entryId) return;
+        updateEntry(props.entryId);
+    }, [props.entryId]);
 
     if (!entry) 
         return <CircularProgress/>;

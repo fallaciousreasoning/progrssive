@@ -18,7 +18,10 @@ export const initStore = () => {
     };
     store.settings = {
         unreadOnly: true
-    }
+    };
+    store.current = {
+        streamId: undefined
+    };
 
     loadStore();
 

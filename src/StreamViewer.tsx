@@ -24,20 +24,19 @@ const useStyles = makeStyles({
   }
 });
 
-type Props = RouteComponentProps<any>;
+type Props = RouteComponentProps<any> & {
+  streamId: string;
+};
 
 export default withRouter((props: Props) => {
-  // We have to manually parse the path, because redux router breaks.
-  const prefix = 'stream/';
-  const streamId = props.location.pathname.substr(prefix.length + 1);
-
+  const streamId = props.streamId;
   const stream = useStream(streamId);
-
+  
   useEffect(() => {
     if (stream) return;
     updateStreams(streamId);
   }, [streamId]);
-
+  
   return <EntriesViewer
     entries={stream && stream.items}
     id={streamId}
@@ -50,7 +49,7 @@ const EntriesViewer = (props: { entries: Entry[], id: string, history: History }
 
   const loading = !props.entries || isUpdating(props.id);
   const suitableEntries = props.entries
-    ? props.entries.filter(e => e.unread || !store.settings.unreadOnly)
+    ? props.entries.filter(e => e && e.unread || !store.settings.unreadOnly)
     : [];
   return <div className={styles.root}>
     {loading && <Centre>

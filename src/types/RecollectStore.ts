@@ -25,6 +25,10 @@ export interface Settings {
 export interface StoreDef {
   updating: UpdatingInformation;
   settings: Settings;
+  current: {
+    streamId: string,
+    entryId?: string
+  },
 
   streams: {
     [id: string]: StoreStream;
