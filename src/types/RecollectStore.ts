@@ -14,9 +14,8 @@ export type StoreStream = Omit<Stream, 'items'>
 
 export interface UpdatingInformation {
   profile: boolean;
-  entries: { [id: string]: boolean };
-  streams: { [id: string]: boolean };
   categories: boolean;
+  [id: string]: boolean;
 }
 
 export interface Settings {

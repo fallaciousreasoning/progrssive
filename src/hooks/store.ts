@@ -53,3 +53,5 @@ export const makeStoreCache = <T>(fetcher: (store: Store) => T | Promise<T>, onF
         return cached;
     }
 }
+
+export const isUpdating = (id: string) => useStore().updating[id];

@@ -14,8 +14,6 @@ export const initStore = () => {
     store.profile = require('../fakeProfile.json');
     store.updating = {
         categories: false,
-        entries: {},
-        streams: {},
         profile: false,
     };
     store.settings = {
@@ -58,6 +56,16 @@ export const getStream = (streamId: string): Stream => {
             .filter(e => e)
             .filter(e => e.unread || !store.settings.unreadOnly)
     };
+}
+
+export const getTaggedEntriesAsStream = (tag: string): Stream => {
+    const store = getStore();
+    return {
+        id: tag,
+        title: tag,
+        items: Object.values(store.entries)
+            .filter(e => e.unread || !store.settings.unreadOnly)
+    }
 }
 
 export const setAllStreams = (profileId: string, allStream: Stream) => {
