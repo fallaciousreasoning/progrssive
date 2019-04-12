@@ -44,8 +44,8 @@ export default withRouter((props: Props) => {
 });
 
 const EntriesViewer = (props: { entries: Entry[], id: string, history: History }) => {
-  const styles = useStyles();
   const store = useStore();
+  const styles = useStyles();
 
   const loading = !props.entries || isUpdating(props.id);
   const suitableEntries = props.entries

@@ -11,7 +11,6 @@ const store = s as StoreDef;
 export const initStore = () => {
     store.streams = {};
     store.entries = {};
-    store.profile = require('../fakeProfile.json');
     store.updating = {
         categories: false,
         profile: false,

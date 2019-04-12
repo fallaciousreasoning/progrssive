@@ -23,14 +23,14 @@ const useStyles = makeStyles({
 });
 
 export const App = (props) => {
-  const styles = useStyles();
+  // const styles = useStyles();
   console.log('here')
 
   return <BrowserRouter>
     <ThemeProvider theme={theme}>
       <AppBar />
 
-      <div className={styles.root}>
+      <div >
         <RestoreScroll />
         <Routes/>
       </div>

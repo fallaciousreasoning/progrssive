@@ -32,14 +32,20 @@ const batchedLoad = async (storeKey: keyof Store, batchSize = 20) => {
             .map(key => get(`${storeKey}.${key}`)));
         getStore()[storeKey] = {
             ...getStore()[storeKey],
-            ...results.reduce((prev, next) => ({ ...prev, [(next as any).id]: next}), {})
+            ...results.reduce((prev, next) => ({ ...prev, [(next as any).id]: next }), {})
         };
     }
+}
+
+const load = async (storeKey: keyof Store) => {
+    const value = await get(storeKey);
+    getStore[storeKey] = value;
 }
 
 export const loadStore = async () => {
     await Promise.all([
         batchedLoad('entries'),
-        batchedLoad('streams')
+        batchedLoad('streams'),
+        load('profile')
     ]);
 }
