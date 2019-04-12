@@ -25,7 +25,7 @@ export const useStreams = () => {
 
 export const useStream = (streamId: string): Stream => {
     const store = useStore();
-    const streams = useStreams();
+    const streams = store.streams;
 
     // If it's a feed
     if (streamId.startsWith('feed/')) {
@@ -33,6 +33,15 @@ export const useStream = (streamId: string): Stream => {
             id: streamId,
             items: Object.values(store.entries).filter(e => e.origin.streamId === streamId),
             title: 'Feed'
+        };
+    }
+
+    // If it's a tag
+    if (streamId.includes('/tag/')) {
+        return {
+            id: streamId,
+            items: Object.values(store.entries).filter(e => e.tags && e.tags.some(t => t.id === streamId)),
+            title: 'Tag'
         };
     }
     const stream = streams[streamId];

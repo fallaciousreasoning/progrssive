@@ -31,7 +31,7 @@ export default withRouter((props: Props) => {
   const prefix = 'stream/';
   const streamId = props.location.pathname.substr(prefix.length + 1);
 
-  const stream = getStream(streamId);
+  const stream = useStream(streamId);
 
   useEffect(() => {
     if (stream) return;
@@ -48,13 +48,17 @@ const EntriesViewer = (props: { entries: Entry[], id: string, history: History }
   const styles = useStyles();
   const store = useStore();
 
-  const loading = props.entries || isUpdating(props.id);
+  const loading = !props.entries || isUpdating(props.id);
+  const suitableEntries = props.entries
+    ? props.entries.filter(e => e.unread || !store.settings.unreadOnly)
+    : [];
   return <div className={styles.root}>
     {loading && <Centre>
       <CircularProgress className={styles.loader} />
     </Centre>}
     <Grid spacing={24} container justify='center' wrap='wrap'>
-      {props.entries && props.entries.map(e => <Grid item key={e.id} lg={3} md={6} sm={6} xs={12} onClick={() => props.history.push(`/entries/${e.id}`)}>
+      {suitableEntries
+        .map(e => <Grid item key={e.id} lg={3} md={6} sm={6} xs={12} onClick={() => props.history.push(`/entries/${e.id}`)}>
         <EntryCard entry={e} />
       </Grid>)}
     </Grid>
