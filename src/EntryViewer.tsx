@@ -8,7 +8,7 @@ import { getEntryByline, getEntryContent } from "./services/entry";
 import { getStore, useStore } from "./hooks/store";
 import { updateEntry } from "./actions/entry";
 import AppBarButton from "./components/AppBarButton";
-import { EntryReadButton } from "./MarkerButton";
+import { EntryReadButton, EntrySavedButton } from "./MarkerButton";
 
 const useStyles = makeStyles({
     root: {
@@ -60,6 +60,9 @@ export default (props: { match: { params: { entryId: string } } }) => {
             : <Card>{article}</Card>}
         <AppBarButton>
             <EntryReadButton entry={entry}/>
+        </AppBarButton>
+        <AppBarButton>
+            <EntrySavedButton entry={entry}/>
         </AppBarButton>
     </article>;
 }
