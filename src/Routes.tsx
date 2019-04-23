@@ -2,7 +2,7 @@ import * as React from 'react';
 import SwipeableViews from 'react-swipeable-views';
 import { useStore } from './hooks/store';
 import { useProfile } from './hooks/profile';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getAllId } from './api/streams';
 import StreamViewer from './StreamViewer';
 import EntryViewer from './EntryViewer';
@@ -12,6 +12,13 @@ export default withRouter((props) => {
     const store = useStore();
     const profile = useProfile();
     const [activeSlide, setActiveSlide] = useState(0);
+
+    useEffect(() => {
+        if (store.current.streamId || !profile) return;
+
+        store.current.streamId = getAllId(profile.id);
+    }, [store.current.streamId, profile]);
+
     return <>
         <SwipeableViews
             index={activeSlide}
@@ -23,7 +30,7 @@ export default withRouter((props) => {
             }}
             style={{ padding: '10px' }}
             slideStyle={{ overflow: 'hidden' }}>
-            <StreamViewer streamId={store.current.streamId || getAllId(profile && profile.id)} />
+            <StreamViewer streamId={store.current.streamId} />
             <EntryViewer entryId={store.current.entryId} />
         </SwipeableViews>
         <Route path='/stream/:streamId*' component={props => {

@@ -33,7 +33,7 @@ export default withRouter((props: Props) => {
   const stream = useStream(streamId);
   
   useEffect(() => {
-    if (stream) return;
+    if (!streamId || stream && stream.id !== streamId) return;
     updateStreams(streamId);
   }, [streamId]);
   

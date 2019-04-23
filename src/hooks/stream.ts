@@ -25,6 +25,8 @@ export const useStreams = () => {
 
 export const useStream = (streamId: string): Stream => {
     const store = useStore();
+    if (!streamId) return;
+    
     const streams = store.streams;
 
     // If it's a feed
