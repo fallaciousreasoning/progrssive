@@ -31,7 +31,7 @@ export const App = (props) => {
       <AppBar />
 
       <div >
-        <RestoreScroll />
+        {/* <RestoreScroll /> */}
         <Routes/>
       </div>
     </ThemeProvider>

@@ -19,16 +19,30 @@ export default withRouter((props) => {
         store.current.streamId = getAllId(profile.id);
     }, [store.current.streamId, profile]);
 
+    console.log("Active:", activeSlide)
+
     return <>
         <SwipeableViews
             index={activeSlide}
-            onChangeIndex={(o, n) => {
+            onChangeIndex={(n, o) => {
+                console.log("old", o, "new", n)
+                if (n === activeSlide) return;
+
                 const types = ['stream', 'entries'];
                 const prefix = types[n];
 
-                props.history.push(`${prefix}/${prefix === 'stream' ? store.current.streamId : store.current.entryId}`)
+                let path: string;
+                if (prefix === 'entries') {
+                    path = store.current.entryId;
+                } else {
+                    path = store.current.streamId;
+                }
+
+                setActiveSlide((n + 1) % 2);
+                props.history.push(`/${prefix}/${path}`);
             }}
             style={{ padding: '10px' }}
+            enableMouseEvents
             slideStyle={{ overflow: 'hidden' }}>
             <StreamViewer streamId={store.current.streamId} />
             <EntryViewer entryId={store.current.entryId} />
@@ -39,12 +53,14 @@ export default withRouter((props) => {
             const streamId = props.location.pathname.substr(prefix.length + 1);
             store.current.streamId = streamId;
             setActiveSlide(0);
+            console.log('set stream')
             return null;
         }} />
 
         <Route path='/entries/:entryId*' component={(props: RouteComponentProps<{ entryId: string }>) => {
             store.current.entryId = props.match.params.entryId;
             setActiveSlide(1);
+            console.log('set entry')
             return null;
         }} />
     </>
