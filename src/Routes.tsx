@@ -7,6 +7,7 @@ import { getAllId } from './api/streams';
 import StreamViewer from './StreamViewer';
 import EntryViewer from './EntryViewer';
 import { Route, RouteComponentProps, withRouter } from 'react-router';
+import { AppBar } from '@material-ui/core';
 
 export default withRouter((props) => {
     const store = useStore();
@@ -41,9 +42,10 @@ export default withRouter((props) => {
                 setActiveSlide((n + 1) % 2);
                 props.history.push(`/${prefix}/${path}`);
             }}
-            style={{ padding: '10px' }}
+            style={{ height: '100vh' }}
             enableMouseEvents
-            slideStyle={{ overflow: 'hidden' }}>
+            containerStyle={{height: '100vh', paddingRight: '20px'}}
+            slideStyle={{ overflowX: 'hidden', overflowY: 'auto', padding: '10px' }}>
             <StreamViewer streamId={store.current.streamId} />
             <EntryViewer entryId={store.current.entryId} />
         </SwipeableViews>

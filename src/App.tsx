@@ -28,11 +28,12 @@ export const App = (props) => {
 
   return <BrowserRouter>
     <ThemeProvider theme={theme}>
-      <AppBar />
+      <div style={{ width: '100vw', height: '100vh' }}>
+        <AppBar />
 
-      <div >
         {/* <RestoreScroll /> */}
-        <Routes/>
+        <Routes />
+
       </div>
     </ThemeProvider>
   </BrowserRouter>;
