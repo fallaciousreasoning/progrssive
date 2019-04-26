@@ -18,14 +18,17 @@ import Routes from './Routes';
 
 const useStyles = makeStyles({
   root: {
-    margin: '10px',
+    width: '100vw',
+    height: '100vw'
   }
 });
 
 export const App = (props) => {
+  const styles = useStyles();
+
   return <BrowserRouter>
     <ThemeProvider theme={theme}>
-      <div style={{ width: '100vw', height: '100vh' }}>
+      <div className={styles.root}>
         <AppBar />
         <Routes />
       </div>
