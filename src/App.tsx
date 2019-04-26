@@ -23,17 +23,11 @@ const useStyles = makeStyles({
 });
 
 export const App = (props) => {
-  // const styles = useStyles();
-  console.log('here')
-
   return <BrowserRouter>
     <ThemeProvider theme={theme}>
       <div style={{ width: '100vw', height: '100vh' }}>
         <AppBar />
-
-        {/* <RestoreScroll /> */}
         <Routes />
-
       </div>
     </ThemeProvider>
   </BrowserRouter>;

@@ -20,13 +20,10 @@ export default withRouter((props) => {
         store.current.streamId = getAllId(profile.id);
     }, [store.current.streamId, profile]);
 
-    console.log("Active:", activeSlide)
-
     return <>
         <SwipeableViews
             index={activeSlide}
             onChangeIndex={(n, o) => {
-                console.log("old", o, "new", n)
                 if (n === activeSlide) return;
 
                 const types = ['stream', 'entries'];
