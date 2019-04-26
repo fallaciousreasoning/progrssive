@@ -14,7 +14,7 @@ import SwipeableViews from 'react-swipeable-views';
 import { useStore } from './hooks/store';
 import { getAllId } from './api/streams';
 import { useProfile } from './hooks/profile';
-import Routes from './Routes';
+import RouteManager from './RouteManager';
 
 const useStyles = makeStyles({
   root: {
@@ -30,7 +30,7 @@ export const App = (props) => {
     <ThemeProvider theme={theme}>
       <div className={styles.root}>
         <AppBar />
-        <Routes />
+        <RouteManager />
       </div>
     </ThemeProvider>
   </BrowserRouter>;
