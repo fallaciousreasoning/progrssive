@@ -2,23 +2,49 @@ import * as React from 'react';
 import SwipeableViews from 'react-swipeable-views';
 import { useStore } from './hooks/store';
 import { useProfile } from './hooks/profile';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { getAllId } from './api/streams';
 import StreamViewer from './StreamViewer';
 import EntryViewer from './EntryViewer';
 import { Route, RouteComponentProps, withRouter } from 'react-router';
 import { AppBar } from '@material-ui/core';
 
-export default withRouter((props) => {
+export interface AppRoute {
+    prefix: string;
+    render: (id?: string) => React.ReactNode;
+}
+
+interface Props extends RouteComponentProps<any> {
+    routes: AppRoute[];
+}
+
+interface RouteSetterProps {
+    prefix: string;
+    setActive: (prefix: string, id: string) => void;
+}
+
+const RouteSetter = (props: RouteSetterProps) => {
+    return <Route path={`${props.prefix}:id*`}
+        component={(p: RouteComponentProps) => {
+            const location = p.location.pathname;
+            const id = location.substr(props.prefix.length);
+
+            props.setActive(props.prefix, id);
+            return null;
+        }}>
+    </Route>
+}
+
+export default withRouter((props: Props) => {
     const store = useStore();
-    const profile = useProfile();
     const [activeSlide, setActiveSlide] = useState(0);
 
-    useEffect(() => {
-        if (store.current.streamId || !profile) return;
+    const setActive = useCallback((prefix: string, id: string) => {
+        store.current[prefix] = id;
 
-        store.current.streamId = getAllId(profile.id);
-    }, [store.current.streamId, profile]);
+        const slideIndex = props.routes.findIndex(r => r.prefix === prefix);
+        setActiveSlide(slideIndex);
+    }, [props.routes, setActiveSlide]);
 
     return <>
         <SwipeableViews
@@ -26,41 +52,21 @@ export default withRouter((props) => {
             onChangeIndex={(n, o) => {
                 if (n === activeSlide) return;
 
-                const types = ['stream', 'entries'];
-                const prefix = types[n];
-
-                let path: string;
-                if (prefix === 'entries') {
-                    path = store.current.entryId;
-                } else {
-                    path = store.current.streamId;
-                }
+                const prefix = props.routes[n].prefix;
+                const path = store.current[prefix];
 
                 setActiveSlide((n + 1) % 2);
-                props.history.push(`/${prefix}/${path}`);
+                props.history.push(`${prefix}${path}`);
             }}
             style={{ height: '100vh' }}
             enableMouseEvents
             containerStyle={{height: '100vh', paddingRight: '20px'}}
             slideStyle={{ overflowX: 'hidden', overflowY: 'auto', padding: '10px' }}>
-            <StreamViewer streamId={store.current.streamId} />
-            <EntryViewer entryId={store.current.entryId} />
-        </SwipeableViews>
-        <Route path='/stream/:streamId*' component={props => {
-            // We have to manually parse the path, because redux router breaks.
-            const prefix = 'stream/';
-            const streamId = props.location.pathname.substr(prefix.length + 1);
-            store.current.streamId = streamId;
-            setActiveSlide(0);
-            console.log('set stream')
-            return null;
-        }} />
 
-        <Route path='/entries/:entryId*' component={(props: RouteComponentProps<{ entryId: string }>) => {
-            store.current.entryId = props.match.params.entryId;
-            setActiveSlide(1);
-            console.log('set entry')
-            return null;
-        }} />
+            {props.routes.map(r => <React.Fragment key={r.prefix}>
+                {r.render(store.current[r.prefix])}
+            </React.Fragment>)}
+        </SwipeableViews>
+        {props.routes.map(r => <RouteSetter key={r.prefix} prefix={r.prefix} setActive={setActive}/>)}
     </>
 });

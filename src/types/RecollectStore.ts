@@ -26,8 +26,7 @@ export interface StoreDef {
   updating: UpdatingInformation;
   settings: Settings;
   current: {
-    streamId: string,
-    entryId?: string
+    [path: string]: string;
   },
 
   streams: {

@@ -19,7 +19,6 @@ export const initStore = () => {
         unreadOnly: true
     };
     store.current = {
-        streamId: undefined
     };
 
     loadStore();
