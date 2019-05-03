@@ -37,7 +37,8 @@ const routes: AppRoute[] = [
 export const App = (props) => {
   const styles = useStyles();
   const store = getStore();
-  const profile = store.profile;
+  const profile = useProfile();
+
   useEffect(() => {
     if (store.current['/stream/'] || !profile) return;
 
