@@ -12,6 +12,8 @@ import { getStream } from './services/store';
 import Centre from './Centre';
 import { Entry } from './model/entry';
 import { History } from 'history';
+import { ScrollVisibility } from './ScrollVisibility';
+import { setUnread } from './MarkerButton';
 
 const useStyles = makeStyles({
   root: {
@@ -28,15 +30,25 @@ type Props = RouteComponentProps<any> & {
   streamId: string;
 };
 
+const MarkEntryAsRead = (props: { entry: Entry }) => {
+  useEffect(() => {
+    if (!props.entry || !props.entry.unread) return;
+
+    setUnread(props.entry, false);
+  }, [props.entry && props.entry.id])
+
+  return null;
+}
+
 export default withRouter((props: Props) => {
   const streamId = props.streamId;
   const stream = useStream(streamId);
-  
+
   useEffect(() => {
     if (!streamId || stream && stream.id !== streamId) return;
     updateStreams(streamId);
   }, [streamId]);
-  
+
   return <EntriesViewer
     entries={stream && stream.items}
     id={streamId}
@@ -57,9 +69,13 @@ const EntriesViewer = (props: { entries: Entry[], id: string, history: History }
     </Centre>}
     <Grid spacing={24} container justify='center' wrap='wrap'>
       {suitableEntries
-        .map(e => <Grid item key={e.id} lg={3} md={6} sm={6} xs={12} onClick={() => props.history.push(`/entries/${e.id}`)}>
-        <EntryCard entry={e} />
-      </Grid>)}
+        .map(e => <ScrollVisibility key={e.id}
+          getContainer={n => n.parentElement.parentElement.parentElement}>
+          {visible => <Grid item lg={3} md={6} sm={6} xs={12} onClick={() => props.history.push(`/entries/${e.id}`)}>
+            <EntryCard entry={e} />
+            {!visible && <MarkEntryAsRead entry={e} />}
+          </Grid>}
+        </ScrollVisibility>)}
     </Grid>
     <AppBarButton>
       <div>
