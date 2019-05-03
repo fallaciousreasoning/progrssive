@@ -8,8 +8,9 @@ import { getEntryByline, getEntryContent } from "./services/entry";
 import { getStore, useStore } from "./hooks/store";
 import { updateEntry } from "./actions/entry";
 import AppBarButton from "./components/AppBarButton";
-import { EntryReadButton, EntrySavedButton } from "./MarkerButton";
+import { EntryReadButton, EntrySavedButton, setUnread } from "./MarkerButton";
 import { Add } from "@material-ui/icons";
+import { Entry } from "./model/entry";
 
 const useStyles = makeStyles({
     root: {
@@ -27,6 +28,14 @@ const useStyles = makeStyles({
     }
 });
 
+const markRead = (entry: Entry) => {
+    useEffect(() => {
+        if (!entry) return;
+
+        setUnread(entry, false);
+    }, [entry && entry.id]);
+}
+
 export default (props: { entryId: string }) => {
     const store = useStore();
 
@@ -39,6 +48,8 @@ export default (props: { entryId: string }) => {
         if (entry || !props.entryId) return;
         updateEntry(props.entryId);
     }, [props.entryId]);
+
+    markRead(entry);
 
     if (!entry) 
         return <CircularProgress/>;

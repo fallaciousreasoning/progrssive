@@ -21,11 +21,15 @@ interface MarkerButtonProps {
     entry: Entry;
 }
 
+export const setUnread = (entry: Entry, unread: boolean) => {
+    entry.unread = unread;
+    updateRead(entry, entry.unread);
+}
+
 export const EntryReadButton = (props: MarkerButtonProps) => {
     const styles = useStyles();
     const toggleRead = useCallback(() => {
-        props.entry.unread = !props.entry.unread;
-        updateRead(props.entry, !props.entry.unread);
+        setUnread(props.entry, !props.entry.unread);
     }, [props.entry, props.entry.unread]);
 
     return <IconButton
