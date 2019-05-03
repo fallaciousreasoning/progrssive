@@ -2,6 +2,8 @@ import localForage from 'localforage';
 import { Store } from 'react-recollect';
 import { getStore } from '../hooks/store';
 
+(window as any)['localForage'] = localForage;
+
 export const save = (key: string, value: object) => {
     return localForage.setItem(key, JSON.stringify(value));
 }
