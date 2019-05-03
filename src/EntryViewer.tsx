@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CircularProgress, Typography, Fab } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import * as React from 'react';
-import {useEffect} from 'react';
+import {useEffect, useRef} from 'react';
 import { useIsPhone } from "./hooks/responsive";
 import { useEntry } from "./hooks/stream";
 import { getEntryByline, getEntryContent } from "./services/entry";
@@ -36,11 +36,20 @@ const markRead = (entry: Entry) => {
     }, [entry && entry.id]);
 }
 
+const scrollToTop = (entry: Entry, ref: React.MutableRefObject<any>) => {
+    useEffect(() => {
+        if (!entry || !ref || !ref.current) return;
+
+        ref.current.parentElement.scrollTo(0, 0);
+    }, [entry && entry.id]);
+}
+
 export default (props: { entryId: string }) => {
     const store = useStore();
 
     const styles = useStyles();
     const isPhone = useIsPhone();
+    const domElement = useRef(null);
 
     const entry = store.entries[props.entryId];
 
@@ -50,6 +59,7 @@ export default (props: { entryId: string }) => {
     }, [props.entryId]);
 
     markRead(entry);
+    scrollToTop(entry, domElement);
 
     if (!entry) 
         return <CircularProgress/>;
@@ -67,7 +77,7 @@ export default (props: { entryId: string }) => {
         </CardContent>}
     </>;
 
-    return <article className={styles.root}>
+    return <article className={styles.root} ref={domElement}>
         {isPhone
             ? article
             : <Card>{article}</Card>}
