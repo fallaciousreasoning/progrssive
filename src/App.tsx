@@ -35,7 +35,7 @@ const routes: AppRoute[] = [
 ];
 
 export const App = (props) => {
-  // const styles = useStyles();
+  const styles = useStyles();
   const store = getStore();
   const profile = store.profile;
   useEffect(() => {
@@ -46,7 +46,7 @@ export const App = (props) => {
 
   return <BrowserRouter>
     <ThemeProvider theme={theme}>
-      <div className={"styles.root"}>
+      <div className={styles.root}>
         <AppBar />
         <RouteManager routes={routes}/>
       </div>
