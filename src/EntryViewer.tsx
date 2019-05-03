@@ -30,7 +30,7 @@ const useStyles = makeStyles({
 
 const markRead = (entry: Entry) => {
     useEffect(() => {
-        if (!entry) return;
+        if (!entry || !entry.unread) return;
 
         setUnread(entry, false);
     }, [entry && entry.id]);
