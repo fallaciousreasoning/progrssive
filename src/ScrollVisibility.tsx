@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useRef, useState } from 'react';
 import { debounce } from './services/debounce';
+import { RootRef } from '@material-ui/core';
 
 interface Props {
     getContainer: (node: HTMLElement) => HTMLElement;
@@ -49,7 +50,7 @@ export const ScrollVisibility = (props: Props) => {
 
 
 
-    return <div ref={elementRef}>
+    return <RootRef rootRef={elementRef}>
         {props.children(!above)}
-    </div>
+    </RootRef>;
 }

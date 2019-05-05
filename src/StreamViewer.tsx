@@ -71,7 +71,7 @@ const EntriesViewer = (props: { entries: Entry[], id: string, history: History }
       {suitableEntries
         .map(e => <ScrollVisibility key={e.id}
           getContainer={n => n.parentElement.parentElement.parentElement}>
-          {visible => <Grid item lg={3} md={6} sm={6} xs={12} onClick={() => props.history.push(`/entries/${e.id}`)}>
+          {(visible) => <Grid item lg={3} md={6} sm={6} xs={12} onClick={() => props.history.push(`/entries/${e.id}`)}>
             <EntryCard entry={e} />
             {!visible && <MarkEntryAsRead entry={e} />}
           </Grid>}
