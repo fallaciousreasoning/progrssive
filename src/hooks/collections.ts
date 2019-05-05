@@ -6,12 +6,13 @@ import { useStore } from "./store";
 import { executeOnce } from "./promise";
 import { Collection } from "../model/collection";
 import { getCollections } from "../api/collections";
+import { updateCollections } from "../actions/collection";
 
 export const useCollections = (): Collection[] => {
     const store = useStore();
 
     // If we haven't cached the collections, get them from the internet.
-    executeOnce(() => !store.collections && getCollections().then(collections => store.collections = collections));
+    executeOnce(updateCollections);
 
     return store.collections
         ? Object.values(store.collections)
