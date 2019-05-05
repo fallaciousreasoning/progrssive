@@ -20,6 +20,8 @@ export interface UpdatingInformation {
 
 export interface Settings {
   unreadOnly: boolean;
+  autoMarkAsRead: boolean;
+  markScrolledAsRead: boolean;
 }
 
 export interface StoreDef {

@@ -28,12 +28,15 @@ const useStyles = makeStyles({
     }
 });
 
-const markRead = (entry: Entry) => {
+const maybeMarkAsRead = (entry: Entry) => {
+    const store = useStore();
+    const shouldMarkAsRead = store.settings.autoMarkAsRead;
+
     useEffect(() => {
-        if (!entry || !entry.unread) return;
+        if (!entry || !entry.unread || !shouldMarkAsRead) return;
 
         setUnread(entry, false);
-    }, [entry && entry.id]);
+    }, [entry && entry.id, shouldMarkAsRead]);
 }
 
 const scrollToTop = (entry: Entry, ref: React.MutableRefObject<any>) => {
@@ -58,7 +61,7 @@ export default (props: { entryId: string }) => {
         updateEntry(props.entryId);
     }, [props.entryId]);
 
-    markRead(entry);
+    maybeMarkAsRead(entry);
     scrollToTop(entry, domElement);
 
     if (!entry) 

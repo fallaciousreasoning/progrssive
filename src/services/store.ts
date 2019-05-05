@@ -16,7 +16,9 @@ export const initStore = () => {
         profile: false,
     };
     store.settings = {
-        unreadOnly: true
+        unreadOnly: true,
+        autoMarkAsRead: true,
+        markScrolledAsRead: true
     };
     store.current = {
     };
