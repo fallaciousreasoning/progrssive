@@ -58,6 +58,7 @@ export default withRouter((props: Props) => {
 const EntriesViewer = (props: { entries: Entry[], id: string, history: History }) => {
   const store = useStore();
   const styles = useStyles();
+  const markScrolledAsRead = store.settings.markScrolledAsRead;
 
   const loading = !props.entries || isUpdating(props.id);
   const suitableEntries = props.entries
@@ -73,7 +74,7 @@ const EntriesViewer = (props: { entries: Entry[], id: string, history: History }
           getContainer={n => n.parentElement.parentElement.parentElement}>
           {(visible) => <Grid item lg={3} md={6} sm={6} xs={12} onClick={() => props.history.push(`/entries/${e.id}`)}>
             <EntryCard entry={e} />
-            {!visible && <MarkEntryAsRead entry={e} />}
+            {!visible && markScrolledAsRead && <MarkEntryAsRead entry={e} />}
           </Grid>}
         </ScrollVisibility>)}
     </Grid>
