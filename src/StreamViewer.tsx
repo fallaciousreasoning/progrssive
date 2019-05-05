@@ -1,6 +1,6 @@
 import { CircularProgress, Grid, IconButton, Switch, FormControlLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import EntryCard from "./EntryCard";
 import { useStream } from './hooks/stream';
@@ -61,9 +61,14 @@ const EntriesViewer = (props: { entries: Entry[], id: string, history: History }
   const markScrolledAsRead = store.settings.markScrolledAsRead;
 
   const loading = !props.entries || isUpdating(props.id);
-  const suitableEntries = props.entries
+
+  // Only recalculate suitable entries if something important changes,
+  // not only if we mark articles as read.
+  const suitableEntries = useMemo(() => props.entries
     ? props.entries.filter(e => e && e.unread || !store.settings.unreadOnly)
-    : [];
+    : [],
+  [props.entries && props.entries.length, props.id, store.settings.unreadOnly]);
+
   return <div className={styles.root}>
     {loading && <Centre>
       <CircularProgress className={styles.loader} />
