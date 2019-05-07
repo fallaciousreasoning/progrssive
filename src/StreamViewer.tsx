@@ -1,4 +1,4 @@
-import { CircularProgress, Grid, IconButton, Switch, FormControlLabel } from '@material-ui/core';
+import { CircularProgress, Grid, IconButton, Switch, FormControlLabel, LinearProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import React, { useEffect, useMemo } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
@@ -23,6 +23,12 @@ const useStyles = makeStyles({
   },
   loader: {
     marginBottom: "10px",
+  },
+  streamProgress: {
+    position: 'sticky !important' as any,
+    top: '-10px',
+    zIndex: 1000,
+    margin: '-10px -10px 10px -10px'
   }
 });
 
@@ -69,7 +75,12 @@ const EntriesViewer = (props: { entries: Entry[], id: string, history: History }
     : [],
   [props.entries && props.entries.length, props.id, store.settings.unreadOnly]);
 
+  const unreadCount = useMemo(() => suitableEntries.filter(e => e.unread).length, [props.entries]);
+  const readProgress = (1 - unreadCount/suitableEntries.length) * 100;
   return <div className={styles.root}>
+    {store.settings.unreadOnly
+      && !!suitableEntries.length
+      && <LinearProgress variant='determinate' value={readProgress} color='secondary' className={styles.streamProgress}/>}
     {loading && <Centre>
       <CircularProgress className={styles.loader} />
     </Centre>}
