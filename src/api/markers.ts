@@ -8,12 +8,12 @@ export const updateMarkers = async (marker: Marker) => {
     await makePostRequest(endpoint, marker);
 }
 
-export const updateRead = async (items: (Entry | Entry[]), read: boolean = true) => {
+export const updateUnread = async (items: (Entry | Entry[]), unread: boolean = true) => {
     items = Array.isArray(items) ? items : [items];
 
     const marker: Marker = {
         type: 'entries',
-        action: read ? 'markAsRead' : 'keepUnread',
+        action: unread ? 'keepUnread' : 'markAsRead',
         entryIds: items.map(i => i.id)
     };
     await updateMarkers(marker);
