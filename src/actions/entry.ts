@@ -1,15 +1,16 @@
 import { getStore } from "../hooks/store";
-import { updateProfile } from "./profile";
 import { getEntry } from "../api/entry";
+import { loadEntry } from "../services/persister";
 
-export const updateEntry = async (entryId: string) => {
+export const updateEntry = async (entryId: string, force: boolean = false) => {
     if (getStore().updating[entryId]) return;
     getStore().updating[entryId] = false;
 
-    if (!getStore().profile)
-        await updateProfile();
-
-    const entry = await getEntry(entryId);
+    // If we aren't forcing network, try and load the entry from disk.
+    // Fallback to fetching from the network.
+    const entry = (!force && await loadEntry(entryId))
+        || await getEntry(entryId);
+        
     const store = getStore();
     store.entries = {
         ...store.entries,
