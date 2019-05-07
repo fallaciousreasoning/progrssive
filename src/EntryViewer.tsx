@@ -8,9 +8,10 @@ import { getEntryByline, getEntryContent } from "./services/entry";
 import { getStore, useStore } from "./hooks/store";
 import { updateEntry } from "./actions/entry";
 import AppBarButton from "./components/AppBarButton";
-import { EntryReadButton, EntrySavedButton, setUnread } from "./MarkerButton";
+import { EntryReadButton, EntrySavedButton } from "./MarkerButton";
 import { Add } from "@material-ui/icons";
 import { Entry } from "./model/entry";
+import { setUnread } from "./actions/marker";
 
 const useStyles = makeStyles({
     root: {

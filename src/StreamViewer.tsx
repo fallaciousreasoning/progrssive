@@ -13,7 +13,7 @@ import Centre from './Centre';
 import { Entry } from './model/entry';
 import { History } from 'history';
 import { ScrollVisibility } from './ScrollVisibility';
-import { setUnread } from './MarkerButton';
+import { setUnread } from './actions/marker';
 
 const useStyles = makeStyles({
   root: {

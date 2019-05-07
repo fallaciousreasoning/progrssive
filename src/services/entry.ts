@@ -13,15 +13,4 @@ export const getEntryByline = (entry: Entry) => `${entry.engagement ? entry.enga
 
 export const getEntryVisualUrl = (entry: Entry) => entry.visual && entry.visual.url;
 
-export const setSaved = (entry: Entry, saved: boolean, profileId: string) => {
-    const tagId = getSavedId(profileId);
-    if (!saved) {
-        entry.tags = entry.tags.filter(e => e.id !== tagId);
-    } else {
-        entry.tags = [...entry.tags, {
-            id: tagId,
-            label: 'Saved For Later'
-        }];
-    }
-}
 export const isSaved = (entry: Entry) => entry.tags && entry.tags.some(e => e.id.endsWith('global.saved'));
