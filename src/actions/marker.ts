@@ -1,10 +1,12 @@
 import { Entry } from "../model/entry";
 import { updateRead, updateSaved } from "../api/markers";
 import { getSavedId as getSavedTag } from "../api/streams";
+import { saveEntry } from "../services/persister";
 
 export const setUnread = async (entry: Entry, unread: boolean) => {
     entry.unread = unread;
     await updateRead(entry, entry.unread);
+    await saveEntry(entry);
 }
 
 export const setSaved = async (entry: Entry, saved: boolean, profileId: string) => {
@@ -19,4 +21,5 @@ export const setSaved = async (entry: Entry, saved: boolean, profileId: string) 
     }
 
     await updateSaved(entry, saved);
+    await saveEntry(entry);
 }

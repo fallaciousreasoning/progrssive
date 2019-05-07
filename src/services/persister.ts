@@ -1,11 +1,18 @@
 import localForage from 'localforage';
 import { Store } from 'react-recollect';
 import { getStore } from '../hooks/store';
+import { Entry } from '../model/entry';
 
 (window as any)['localForage'] = localForage;
 
+export const entriesPrefix: keyof Store = 'entries';
+
 export const save = (key: string, value: object) => {
     return localForage.setItem(key, JSON.stringify(value));
+}
+
+export const saveEntry = (entry: Entry) => {
+    return save(`${entriesPrefix}.${entry.id}`, entry);
 }
 
 export const saveChildren = (key: string, value: object) => {
@@ -44,6 +51,8 @@ export const load = async (storeKey: keyof Store) => {
     getStore[storeKey] = value;
     return value;
 }
+
+export const loadEntry = (id: string): Promise<Entry> => get(`${entriesPrefix}.${id}`) as Promise<Entry>;
 
 export const loadStore = async () => {
     await Promise.all([
