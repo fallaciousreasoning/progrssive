@@ -28,7 +28,10 @@ export default withRouter((props: Props) => {
                 <RssFeed />
             </ListItemIcon>
             <ListItemText>{props.collection.label}</ListItemText>
-            <div onClick={p.toggle}>
+            <div onClick={e => {
+                p.toggle();
+                e.stopPropagation();
+            }}>
                 {p.open ? <ExpandLess /> : <ExpandMore />}
             </div>
         </ListItem>}>
