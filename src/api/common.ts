@@ -29,6 +29,11 @@ export const makeRequest = async <T>(url: string, params?: Object): Promise<T> =
             'Authorization': `OAuth ${feedlyConfig.accessToken}`
         }
     });
+
+    // Make sure error handling is triggered if the response status is not ok.
+    if (!response.ok)
+        throw response;
+
     return response.json();
 }
 
