@@ -14,6 +14,7 @@ import { Entry } from './model/entry';
 import { History } from 'history';
 import { ScrollVisibility } from './ScrollVisibility';
 import { setUnread } from './actions/marker';
+import StickyHeader from './components/StickyHeader';
 
 const useStyles = makeStyles({
   root: {
@@ -24,8 +25,7 @@ const useStyles = makeStyles({
   loader: {
     marginBottom: "10px",
   },
-  streamProgress: {
-    position: 'sticky !important' as any,
+  header: {
     top: '-10px',
     zIndex: 1000,
     margin: '-10px -10px 10px -10px'
@@ -80,7 +80,9 @@ const EntriesViewer = (props: { entries: Entry[], id: string, history: History }
   return <div className={styles.root}>
     {store.settings.unreadOnly
       && !!suitableEntries.length
-      && <LinearProgress variant='determinate' value={readProgress} color='secondary' className={styles.streamProgress}/>}
+      && <StickyHeader className={styles.header}>
+          <LinearProgress variant='determinate' value={readProgress} color='secondary'/>
+        </StickyHeader>}
     {loading && <Centre>
       <CircularProgress className={styles.loader} />
     </Centre>}
