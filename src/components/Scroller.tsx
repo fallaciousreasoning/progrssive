@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { RouteComponentProps, withRouter } from "react-router";
-import { useOnMount } from "./hooks/lifeCycle";
+import { useOnMount } from "../hooks/lifeCycle";
 
 type ScrollPos = { x: number, y: number };
 type ScrollData = { [key: string]: { x: number, y: number } };

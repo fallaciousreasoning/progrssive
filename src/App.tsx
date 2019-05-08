@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Redirect, Route, RouteComponentProps, withRouter } from 'react-router-dom';
 import { AnimatedSwitch } from 'react-router-transition';
 import EntryViewer from './EntryViewer';
-import { RestoreScroll } from './Scroller';
+import { RestoreScroll } from './components/Scroller';
 import StreamViewer from './StreamViewer';
 import { theme } from './theme';
 import { mapStyles } from './transitions';

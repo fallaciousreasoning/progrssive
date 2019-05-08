@@ -9,10 +9,10 @@ import AppBarButton from './components/AppBarButton';
 import { Refresh } from '@material-ui/icons';
 import { updateStreams } from './actions/stream';
 import { getStream } from './services/store';
-import Centre from './Centre';
+import Centre from './components/Centre';
 import { Entry } from './model/entry';
 import { History } from 'history';
-import { ScrollVisibility } from './ScrollVisibility';
+import { ScrollVisibility } from './components/ScrollVisibility';
 import { setUnread } from './actions/marker';
 import StickyHeader from './components/StickyHeader';
 

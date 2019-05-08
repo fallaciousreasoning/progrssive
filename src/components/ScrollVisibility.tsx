@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useRef, useState } from 'react';
-import { debounce } from './services/debounce';
+import { debounce } from '../services/debounce';
 import { RootRef } from '@material-ui/core';
 
 interface Props {
