@@ -73,7 +73,10 @@ const EntriesViewer = (props: { entries: Entry[], id: string, history: History }
   const suitableEntries = useMemo(() => props.entries
     ? props.entries.filter(e => e && e.unread || !store.settings.unreadOnly)
     : [],
-  [props.entries && props.entries.length, props.id, store.settings.unreadOnly]);
+  [props.entries && props.entries.length,
+    props.id,
+    store.settings.unreadOnly,
+    store.updating[props.id]]);
 
   const unreadCount = useMemo(() => suitableEntries.filter(e => e.unread).length, [props.entries]);
   const readProgress = (1 - unreadCount/suitableEntries.length) * 100;
