@@ -16,6 +16,8 @@ import { getAllId } from './api/streams';
 import { useProfile } from './hooks/profile';
 import RouteManager, { AppRoute } from './RouteManager';
 import SettingsPage from './SettingsPage';
+import { SnackbarProvider } from 'notistack';
+import { SnackbarHelper } from './components/SnackbarHelper';
 
 const useStyles = makeStyles({
   root: {
@@ -27,15 +29,15 @@ const useStyles = makeStyles({
 const routes: AppRoute[] = [
   {
     prefix: '/settings/',
-    render: () => <SettingsPage/>
+    render: () => <SettingsPage />
   },
   {
     prefix: '/stream/',
-    render: (id, active) => <StreamViewer id={id} active={active}/>
+    render: (id, active) => <StreamViewer id={id} active={active} />
   },
   {
     prefix: '/entries/',
-    render: (id, active) => <EntryViewer id={id} active={active}/>
+    render: (id, active) => <EntryViewer id={id} active={active} />
   }
 ];
 
@@ -56,10 +58,13 @@ export const App = (props) => {
 
   return <BrowserRouter>
     <MuiThemeProvider theme={theme}>
-      <div className={styles.root}>
-        <AppBar />
-        <RouteManager routes={routes}/>
-      </div>
+      <SnackbarProvider>
+        <SnackbarHelper/>
+        <div className={styles.root}>
+          <AppBar />
+          <RouteManager routes={routes} />
+        </div>
+      </SnackbarProvider>
     </MuiThemeProvider>
   </BrowserRouter>;
 };
