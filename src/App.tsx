@@ -1,5 +1,5 @@
-import { IconButton, Toolbar, Typography, Switch } from '@material-ui/core';
-import { makeStyles, ThemeProvider } from '@material-ui/styles';
+import { IconButton, Toolbar, Typography, Switch, MuiThemeProvider } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Redirect, Route, RouteComponentProps, withRouter } from 'react-router-dom';
 import { AnimatedSwitch } from 'react-router-transition';
@@ -51,12 +51,12 @@ export const App = (props) => {
   }, [store.current, profile]);
 
   return <BrowserRouter>
-    <ThemeProvider theme={theme}>
+    <MuiThemeProvider theme={theme}>
       <div className={styles.root}>
         <AppBar />
         <RouteManager routes={routes}/>
       </div>
-    </ThemeProvider>
+    </MuiThemeProvider>
   </BrowserRouter>;
 };
 
