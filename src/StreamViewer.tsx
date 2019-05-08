@@ -33,7 +33,8 @@ const useStyles = makeStyles({
 });
 
 type Props = RouteComponentProps<any> & {
-  streamId: string;
+  id: string;
+  active: boolean;
 };
 
 const MarkEntryAsRead = (props: { entry: Entry }) => {
@@ -47,7 +48,7 @@ const MarkEntryAsRead = (props: { entry: Entry }) => {
 }
 
 export default withRouter((props: Props) => {
-  const streamId = props.streamId;
+  const streamId = props.id;
   const stream = useStream(streamId);
 
   useEffect(() => {
@@ -58,10 +59,11 @@ export default withRouter((props: Props) => {
   return <EntriesViewer
     entries={stream && stream.items}
     id={streamId}
-    history={props.history} />
+    history={props.history}
+    active={props.active} />
 });
 
-const EntriesViewer = (props: { entries: Entry[], id: string, history: History }) => {
+const EntriesViewer = (props: { entries: Entry[], id: string, active: boolean, history: History }) => {
   const store = useStore();
   const styles = useStyles();
   const markScrolledAsRead = store.settings.markScrolledAsRead;
@@ -99,15 +101,17 @@ const EntriesViewer = (props: { entries: Entry[], id: string, history: History }
           </Grid>}
         </ScrollVisibility>)}
     </Grid>
-    <AppBarButton>
-      <IconButton disabled={loading} onClick={() => updateStreams(props.id)}>
-        <Refresh />
-      </IconButton>
-    </AppBarButton>
-    <AppBarButton>
-      <FormControlLabel
-        control={<Switch checked={store.settings.unreadOnly} onClick={() => store.settings.unreadOnly = !store.settings.unreadOnly} />}
-        label="Unread Only" />
-    </AppBarButton>
+    {props.active && <>
+      <AppBarButton>
+        <IconButton disabled={loading} onClick={() => updateStreams(props.id)}>
+          <Refresh />
+        </IconButton>
+      </AppBarButton>
+      <AppBarButton>
+        <FormControlLabel
+          control={<Switch checked={store.settings.unreadOnly} onClick={() => store.settings.unreadOnly = !store.settings.unreadOnly} />}
+          label="Unread Only" />
+      </AppBarButton>
+    </>}
   </div>
 }

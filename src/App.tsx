@@ -26,11 +26,11 @@ const useStyles = makeStyles({
 const routes: AppRoute[] = [
   {
     prefix: '/stream/',
-    render: id => <StreamViewer streamId={id}/>
+    render: (id, active) => <StreamViewer id={id} active={active}/>
   },
   {
     prefix: '/entries/',
-    render: id => <EntryViewer entryId={id}/>
+    render: (id, active) => <EntryViewer id={id} active={active}/>
   }
 ];
 

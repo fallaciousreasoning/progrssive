@@ -11,7 +11,7 @@ import { AppBar } from '@material-ui/core';
 
 export interface AppRoute {
     prefix: string;
-    render: (id?: string) => React.ReactNode;
+    render: (id?: string, active?: boolean) => React.ReactNode;
 }
 
 interface Props extends RouteComponentProps<any> {
@@ -63,8 +63,8 @@ export default withRouter((props: Props) => {
             containerStyle={{height: '100vh', paddingRight: '20px'}}
             slideStyle={{ overflowX: 'hidden', overflowY: 'auto', padding: '10px' }}>
 
-            {props.routes.map(r => <React.Fragment key={r.prefix}>
-                {r.render(store.current[r.prefix])}
+            {props.routes.map((r, i) => <React.Fragment key={r.prefix}>
+                {r.render(store.current[r.prefix], activeSlide === i)}
             </React.Fragment>)}
         </SwipeableViews>
         {props.routes.map(r => <RouteSetter key={r.prefix} prefix={r.prefix} setActive={setActive}/>)}

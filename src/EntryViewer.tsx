@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CircularProgress, Typography, Fab } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import * as React from 'react';
-import {useEffect, useRef} from 'react';
+import { useEffect, useRef } from 'react';
 import { useIsPhone } from "./hooks/responsive";
 import { useEntry } from "./hooks/stream";
 import { getEntryByline, getEntryContent } from "./services/entry";
@@ -48,25 +48,25 @@ const scrollToTop = (entry: Entry, ref: React.MutableRefObject<any>) => {
     }, [entry && entry.id]);
 }
 
-export default (props: { entryId: string }) => {
+export default (props: { id: string, active: boolean }) => {
     const store = useStore();
 
     const styles = useStyles();
     const isPhone = useIsPhone();
     const domElement = useRef(null);
 
-    const entry = store.entries[props.entryId];
+    const entry = store.entries[props.id];
 
     useEffect(() => {
-        if (entry || !props.entryId) return;
-        updateEntry(props.entryId);
-    }, [props.entryId]);
+        if (entry || !props.id) return;
+        updateEntry(props.id);
+    }, [props.id]);
 
     maybeMarkAsRead(entry);
     scrollToTop(entry, domElement);
 
-    if (!entry) 
-        return <CircularProgress/>;
+    if (!entry)
+        return <CircularProgress />;
 
     const content = getEntryContent(entry);
 
@@ -85,11 +85,13 @@ export default (props: { entryId: string }) => {
         {isPhone
             ? article
             : <Card>{article}</Card>}
-        <AppBarButton>
-            <EntryReadButton entry={entry}/>
-        </AppBarButton>
-        <AppBarButton>
-            <EntrySavedButton entry={entry}/>
-        </AppBarButton>
+        {props.active && <>
+            <AppBarButton>
+                <EntryReadButton entry={entry} />
+            </AppBarButton>
+            <AppBarButton>
+                <EntrySavedButton entry={entry} />
+            </AppBarButton>
+        </>}
     </article>;
 }
