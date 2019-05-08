@@ -12,9 +12,13 @@ export const updateStreams = async (streamId?: string, unreadOnly: boolean = fal
     if (getStore().updating[streamId]) return;
     getStore().updating[streamId] = true;
 
-    const stream = await getStream(streamId, 'contents', { unreadOnly });
+    try {
+        const stream = await getStream(streamId, 'contents', { unreadOnly });
 
-    // TODO: We should have a better set all streams method.
-    setAllStreams(getStore().profile.id, stream);
+        // TODO: We should have a better set all streams method.
+        setAllStreams(getStore().profile.id, stream);
+    } catch (error) {
+        window.snackHelper.enqueueSnackbar("Unable to update stream. You appear to be offline.")
+    }
     getStore().updating[streamId] = false;
 }

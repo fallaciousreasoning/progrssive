@@ -18,10 +18,14 @@ export const updateCollections = async () => {
 
     // Update from network.
     if (shouldFetch) {
-        let newCollections = await getCollections();
-        getStore().collections = newCollections;
+        try {
+            let newCollections = await getCollections();
+            getStore().collections = newCollections;
 
-        await save('collections', newCollections)
+            await save('collections', newCollections)
+        } catch {
+            window.snackHelper.enqueueSnackbar('Unable to fetch collections. You appear to be offline.');
+        }
     }
 
     delete getStore().updating[updatingName];
