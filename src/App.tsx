@@ -1,12 +1,12 @@
 import { IconButton, Toolbar, Typography, Switch, MuiThemeProvider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { BrowserRouter, Redirect, Route, RouteComponentProps, withRouter } from 'react-router-dom';
 import { AnimatedSwitch } from 'react-router-transition';
 import EntryViewer from './EntryViewer';
 import { RestoreScroll } from './components/Scroller';
 import StreamViewer from './StreamViewer';
-import { theme } from './theme';
+import { buildTheme } from './theme';
 import { mapStyles } from './transitions';
 import { slideTransition } from './transitions/slideTransition';
 import AppBar from './AppBar';
@@ -41,8 +41,12 @@ const routes: AppRoute[] = [
 
 export const App = (props) => {
   const styles = useStyles();
-  const store = getStore();
+  const store = useStore();
   const profile = useProfile();
+
+  const theme = useMemo(() => {
+    return buildTheme(store.settings);
+  }, [store.settings.fontSize]);
 
   useEffect(() => {
     if (store.current['/stream/'] || !profile) return;

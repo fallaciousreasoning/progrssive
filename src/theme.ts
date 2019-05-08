@@ -1,12 +1,13 @@
 import { createMuiTheme } from "@material-ui/core";
+import { Settings } from "./types/RecollectStore";
 
-export const theme = createMuiTheme({
+export const buildTheme = (settings: Settings) => createMuiTheme({
     palette: {
         primary: {
             main: '#2BB24C'
         },
     },
     typography: {
-        fontSize: 14
+        fontSize: 8 + (settings.fontSize * 2)
     }
 });
