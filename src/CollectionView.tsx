@@ -1,7 +1,7 @@
 import { ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, ListItem, ListItemText, ListItemIcon } from '@material-ui/core';
 import { ExpandMore, RssFeed, ExpandLess } from '@material-ui/icons';
 import * as React from 'react';
-import CollapsableListItem from './CollapsableListItem';
+import CollapsableListItem from './components/CollapsableListItem';
 import { Subscription } from './model/subscription';
 import { withRouter, RouteComponentProps } from 'react-router';
 import { Collection, Feed } from './model/collection';
