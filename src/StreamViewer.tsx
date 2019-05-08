@@ -73,19 +73,19 @@ const EntriesViewer = (props: { entries: Entry[], id: string, history: History }
   const suitableEntries = useMemo(() => props.entries
     ? props.entries.filter(e => e && e.unread || !store.settings.unreadOnly)
     : [],
-  [props.entries && props.entries.length,
+    [props.entries && props.entries.length,
     props.id,
     store.settings.unreadOnly,
     store.updating[props.id]]);
 
   const unreadCount = useMemo(() => suitableEntries.filter(e => e.unread).length, [props.entries]);
-  const readProgress = (1 - unreadCount/suitableEntries.length) * 100;
+  const readProgress = (1 - unreadCount / suitableEntries.length) * 100;
   return <div className={styles.root}>
     {store.settings.unreadOnly
       && !!suitableEntries.length
       && <StickyHeader className={styles.header}>
-          <LinearProgress variant='determinate' value={readProgress} color='secondary'/>
-        </StickyHeader>}
+        <LinearProgress variant='determinate' value={readProgress} color='secondary' />
+      </StickyHeader>}
     {loading && <Centre>
       <CircularProgress className={styles.loader} />
     </Centre>}
@@ -100,13 +100,9 @@ const EntriesViewer = (props: { entries: Entry[], id: string, history: History }
         </ScrollVisibility>)}
     </Grid>
     <AppBarButton>
-      <div>
-        {loading
-          ? <CircularProgress className={styles.loadingButton} size={24} />
-          : <IconButton onClick={() => updateStreams(props.id)}>
-            <Refresh />
-          </IconButton>}
-      </div>
+      <IconButton disabled={loading} onClick={() => updateStreams(props.id)}>
+        <Refresh />
+      </IconButton>
     </AppBarButton>
     <AppBarButton>
       <FormControlLabel
