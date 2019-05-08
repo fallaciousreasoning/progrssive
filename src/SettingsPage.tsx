@@ -4,6 +4,7 @@ import { Slider } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/styles';
 import { getStore, useStore } from './hooks/store';
 import { updateSettings } from './actions/settings';
+import { useCallback } from 'react';
 
 const useStyles = makeStyles({
     slider: {
@@ -18,6 +19,10 @@ export default (props) => {
     const onSwitchChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>, value: boolean) => {
         const setting = e.target['name'];
         updateSettings(setting as any, value)
+    }, []);
+
+    const onFontSizeChange = useCallback((e: React.ChangeEvent<{}>, value: any) => {
+        updateSettings('fontSize', value);
     }, []);
 
     return <div>
@@ -64,8 +69,8 @@ export default (props) => {
                         min={1}
                         max={5}
                         step={1}
-                        onChange={console.log}
-                        value={3} />
+                        onChange={onFontSizeChange}
+                        value={store.settings.fontSize} />
                 </ListItemSecondaryAction>
             </ListItem>
         </List>
