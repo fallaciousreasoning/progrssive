@@ -12,6 +12,8 @@ import { EntryReadButton, EntrySavedButton } from "./MarkerButton";
 import { Add } from "@material-ui/icons";
 import { Entry } from "./model/entry";
 import { setUnread } from "./actions/marker";
+import { useDoubleTap } from "./hooks/callbacks";
+import { withRouter, RouteComponentProps } from "react-router";
 
 const useStyles = makeStyles({
     root: {
@@ -48,7 +50,12 @@ const scrollToTop = (entry: Entry, ref: React.MutableRefObject<any>) => {
     }, [entry && entry.id]);
 }
 
-export default (props: { id: string, active: boolean }) => {
+interface Props extends RouteComponentProps<{}> {
+    id: string,
+    active: boolean
+}
+
+export default withRouter((props: Props) => {
     const store = useStore();
 
     const styles = useStyles();
@@ -64,6 +71,16 @@ export default (props: { id: string, active: boolean }) => {
 
     maybeMarkAsRead(entry);
     scrollToTop(entry, domElement);
+
+    const doubleTap = useDoubleTap((event) => {
+        if (!store.settings.doubleTapToCloseArticles)
+            return;
+
+        props.history.goBack();
+        event.stopPropagation();
+        // Clear potential accidental selection.
+        document.getSelection().removeAllRanges();
+    }, []);
 
     if (!entry)
         return <CircularProgress />;
@@ -81,7 +98,7 @@ export default (props: { id: string, active: boolean }) => {
         </CardContent>}
     </>;
 
-    return <article className={styles.root} ref={domElement}>
+    return <article className={styles.root} ref={domElement} onClick={doubleTap}>
         {isPhone
             ? article
             : <Card>{article}</Card>}
@@ -94,4 +111,4 @@ export default (props: { id: string, active: boolean }) => {
             </AppBarButton>
         </>}
     </article>;
-}
+});
