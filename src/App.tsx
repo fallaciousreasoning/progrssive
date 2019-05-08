@@ -15,6 +15,7 @@ import { useStore, getStore } from './hooks/store';
 import { getAllId } from './api/streams';
 import { useProfile } from './hooks/profile';
 import RouteManager, { AppRoute } from './RouteManager';
+import SettingsPage from './SettingsPage';
 
 const useStyles = makeStyles({
   root: {
@@ -24,6 +25,10 @@ const useStyles = makeStyles({
 });
 
 const routes: AppRoute[] = [
+  {
+    prefix: '/settings/',
+    render: () => <SettingsPage/>
+  },
   {
     prefix: '/stream/',
     render: (id, active) => <StreamViewer id={id} active={active}/>

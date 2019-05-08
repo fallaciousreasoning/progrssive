@@ -56,7 +56,7 @@ export default withRouter((props: Props) => {
                 const path = store.current[prefix];
 
                 setActiveSlide((n + 1) % 2);
-                props.history.push(`${prefix}${path}`);
+                props.history.push(`${prefix}${path || ''}`);
             }}
             style={{ height: '100vh' }}
             enableMouseEvents
