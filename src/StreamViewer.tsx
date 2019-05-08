@@ -73,7 +73,7 @@ const EntriesViewer = (props: { entries: Entry[], id: string, active: boolean, h
   // Only recalculate suitable entries if something important changes,
   // not only if we mark articles as read.
   const suitableEntries = useMemo(() => props.entries
-    ? props.entries.filter(e => e && e.unread || !store.settings.unreadOnly)
+    ? props.entries.filter(e => e && (e.unread || !store.settings.unreadOnly))
     : [],
     [props.entries && props.entries.length,
     props.id,

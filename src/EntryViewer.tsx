@@ -75,7 +75,7 @@ export default (props: { id: string, active: boolean }) => {
             title={entry.title}
             subheader={getEntryByline(entry)} />
         {content && <CardContent>
-            <Typography component="small">
+            <Typography component='small'>
                 <div dangerouslySetInnerHTML={{ __html: content }}></div>
             </Typography>
         </CardContent>}
