@@ -6,6 +6,7 @@ import { Entry } from '../model/entry';
 import { getUncategorizedId, getSavedId } from '../api/streams';
 import { getStore } from '../hooks/store';
 import { saveChildren, loadStore } from './persister';
+import { loadSettings } from '../actions/settings';
 const store = s as StoreDef;
  
 export const initStore = () => {
@@ -15,11 +16,7 @@ export const initStore = () => {
         categories: false,
         profile: false,
     };
-    store.settings = {
-        unreadOnly: true,
-        autoMarkAsRead: true,
-        markScrolledAsRead: true
-    };
+    store.settings = loadSettings();
     store.current = {
     };
 
