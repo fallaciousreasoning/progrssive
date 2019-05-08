@@ -31,7 +31,7 @@ const useStyles = makeStyles({
 
 const maybeMarkAsRead = (entry: Entry) => {
     const store = useStore();
-    const shouldMarkAsRead = store.settings.autoMarkAsRead;
+    const shouldMarkAsRead = store.settings.markOpenedAsRead;
 
     useEffect(() => {
         if (!entry || !entry.unread || !shouldMarkAsRead) return;

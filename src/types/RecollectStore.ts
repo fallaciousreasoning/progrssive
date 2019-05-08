@@ -20,8 +20,10 @@ export interface UpdatingInformation {
 
 export interface Settings {
   unreadOnly: boolean;
-  autoMarkAsRead: boolean;
+  markOpenedAsRead: boolean;
   markScrolledAsRead: boolean;
+  doubleTapToCloseArticles: boolean;
+  fontSize: 1 | 2 | 3 | 4 | 5;
 }
 
 export interface StoreDef {
