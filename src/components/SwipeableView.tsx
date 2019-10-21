@@ -34,14 +34,18 @@ export const SwipeableView = (props: Props) => {
 
     const onScroll = useOnScrollEnd(element => {
         let selectedChild;
-        for (selectedChild = 0; selectedChild < element.children.length; ++selectedChild) {
-            const child: any = element.children[selectedChild];
-            if (child.offsetLeft - element.scrollLeft >= -10) {
-                break;
+        let closestDistance = Infinity;
+
+        for (let i = 0; i < element.children.length; ++i) {
+            const child: any = element.children[i];
+            const distance = Math.abs(element.scrollLeft - child.offsetLeft);
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                selectedChild = i;
             }
         }
 
-        if (selectedChild !== activeIndex) {
+        if (selectedChild !== undefined && selectedChild !== activeIndex) {
             setActiveIndex(selectedChild);
             props.onSwiped && props.onSwiped(selectedChild);
         }
