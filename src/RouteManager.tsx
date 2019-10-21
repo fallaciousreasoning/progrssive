@@ -1,14 +1,8 @@
 import * as React from 'react';
-import SwipeableViews from 'react-swipeable-views';
-import { useStore } from './hooks/store';
-import { useProfile } from './hooks/profile';
-import { useState, useEffect, useCallback } from 'react';
-import { getAllId } from './api/streams';
-import StreamViewer from './StreamViewer';
-import EntryViewer from './EntryViewer';
+import { useCallback, useState } from 'react';
 import { Route, RouteComponentProps, withRouter } from 'react-router';
-import { AppBar } from '@material-ui/core';
 import { SwipeableView } from './components/SwipeableView';
+import { useStore } from './hooks/store';
 
 export interface AppRoute {
     prefix: string;

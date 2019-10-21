@@ -1,24 +1,18 @@
-import { IconButton, Toolbar, Typography, Switch, MuiThemeProvider } from '@material-ui/core';
+import { MuiThemeProvider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import React, { useState, useEffect, useMemo } from 'react';
-import { BrowserRouter, Redirect, Route, RouteComponentProps, withRouter } from 'react-router-dom';
-import { AnimatedSwitch } from 'react-router-transition';
-import EntryViewer from './EntryViewer';
-import { RestoreScroll } from './components/Scroller';
-import StreamViewer from './StreamViewer';
-import { buildTheme } from './theme';
-import { mapStyles } from './transitions';
-import { slideTransition } from './transitions/slideTransition';
-import AppBar from './AppBar';
-import SwipeableViews from 'react-swipeable-views';
-import { useStore, getStore } from './hooks/store';
+import { SnackbarProvider } from 'notistack';
+import React, { useEffect, useMemo } from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import { getAllId } from './api/streams';
+import AppBar from './AppBar';
+import { SnackbarHelper } from './components/SnackbarHelper';
+import EntryViewer from './EntryViewer';
 import { useProfile } from './hooks/profile';
+import { useStore } from './hooks/store';
 import RouteManager, { AppRoute } from './RouteManager';
 import SettingsPage from './SettingsPage';
-import { SnackbarProvider } from 'notistack';
-import { SnackbarHelper } from './components/SnackbarHelper';
-import { SwipeableView } from './components/SwipeableView';
+import StreamViewer from './StreamViewer';
+import { buildTheme } from './theme';
 
 const useStyles = makeStyles({
   root: {
