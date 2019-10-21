@@ -110,7 +110,7 @@ const EntriesViewer = (props: { entries: Entry[], id: string, active: boolean, h
       <AppBarButton>
         <FormControlLabel
           control={<Switch checked={store.settings.unreadOnly} onClick={() => store.settings.unreadOnly = !store.settings.unreadOnly} />}
-          label="Unread Only" />
+          label="Unread" />
       </AppBarButton>
     </>}
   </div>
