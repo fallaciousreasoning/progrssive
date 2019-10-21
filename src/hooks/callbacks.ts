@@ -20,9 +20,9 @@ export const useNTap = <Type>(callback: (...args) => void, change: [], requiredT
 export const useDoubleTap = (callback: (...args) => void, change: [], delay = 200) => useNTap(callback, change, 2, delay);
 
 interface ScrollEvents {
-    onStart?: () => void;
-    onEnd?: () => void;
-    onScroll?: (any) => void;
+    onStart?: (t: HTMLElement) => void;
+    onEnd?: (t: HTMLElement) => void;
+    onScroll?: (t: HTMLElement) => void;
 }
 
 export const useOnScroll = (handlers: ScrollEvents) => {
@@ -30,26 +30,28 @@ export const useOnScroll = (handlers: ScrollEvents) => {
     const [scrollTimeout, setScrollTimeout] = useState(undefined);
 
     const memoized = useCallback((e) => {
+        const target = e.target;
+
         // Reset timeout.
         clearTimeout(scrollTimeout);
 
         if (!isScrolling) {
             setScrolling(true);
-            handlers.onStart && handlers.onStart();
+            handlers.onStart && handlers.onStart(target);
         }
 
-        handlers.onScroll && handlers.onScroll(e);
+        handlers.onScroll && handlers.onScroll(target);
 
         const newScrollTimeout = setTimeout(() => {
             setScrolling(false);
-            handlers.onEnd && handlers.onEnd();
-        }, 1000/60);
+            handlers.onEnd && handlers.onEnd(target);
+        }, 100);
         setScrollTimeout(newScrollTimeout);
     }, [handlers, isScrolling, scrollTimeout]);
 
     return memoized;
 };
 
-export const useOnScrollEnd = (handler: () => void) => {
+export const useOnScrollEnd = (handler: (target: HTMLElement) => void) => {
     return useOnScroll({ onEnd: handler });
 };
