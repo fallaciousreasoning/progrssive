@@ -32,7 +32,9 @@ export const SwipeableView = (props: Props) => {
         setActiveIndex(props.activeIndex);
     }, [props.activeIndex])
 
-    const onScroll = useOnScrollEnd(element => {
+    const onScroll = useOnScrollEnd(() => {
+        const element = swipeableView.current;
+
         let selectedChild;
         let closestDistance = Infinity;
 
