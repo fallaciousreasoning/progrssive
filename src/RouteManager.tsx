@@ -48,7 +48,9 @@ export default withRouter((props: Props) => {
     }, [props.routes, setActiveSlide]);
 
     return <>
-        <SwipeableView onSwiped={(n) => {
+        <SwipeableView
+            activeIndex={activeSlide}
+            onSwiped={(n) => {
             if (n === activeSlide) return;
 
             const prefix = props.routes[n].prefix;
@@ -63,26 +65,6 @@ export default withRouter((props: Props) => {
                 {r.render(store.current[r.prefix], activeSlide === i)}
             </div>)}
         </SwipeableView>
-        {/* <SwipeableViews
-            index={activeSlide}
-            onChangeIndex={(n, o) => {
-                if (n === activeSlide) return;
-
-                const prefix = props.routes[n].prefix;
-                const path = store.current[prefix];
-
-                setActiveSlide((n + 1) % 2);
-                props.history.push(`${prefix}${path || ''}`);
-            }}
-            style={{ height: '100vh' }}
-            enableMouseEvents
-            containerStyle={{height: '100vh', paddingRight: '20px'}}
-            slideStyle={{ overflowX: 'hidden', overflowY: 'auto', padding: '10px' }}>
-
-            {props.routes.map((r, i) => <React.Fragment key={r.prefix}>
-                {r.render(store.current[r.prefix], activeSlide === i)}
-            </React.Fragment>)}
-        </SwipeableViews> */}
         {props.routes.map(r => <RouteSetter key={r.prefix} prefix={r.prefix} setActive={setActive}/>)}
     </>
 });
