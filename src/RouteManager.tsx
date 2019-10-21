@@ -54,7 +54,7 @@ export default withRouter((props: Props) => {
             props.history.push(`${prefix}${path || ''}`)
         }}>
             {props.routes.map((r, i) => <div
-                style={{ width: '100vw', height: '90vh', overflow: 'hidden auto' }}
+                style={{ width: '100vw', height: '90vh', overflow: 'hidden auto', padding: '10px' }}
                 key={r.prefix}>
                 {r.render(store.current[r.prefix], activeSlide === i)}
             </div>)}
