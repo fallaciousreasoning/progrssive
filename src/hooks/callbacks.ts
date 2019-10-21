@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 
 export const useNTap = <Type>(callback: (...args) => void, change: [], requiredTaps = 2, delay = 200) => {
     // Should be fine here. If we rerender a double tap should be cancelled anyway.
@@ -18,3 +18,38 @@ export const useNTap = <Type>(callback: (...args) => void, change: [], requiredT
 }
 
 export const useDoubleTap = (callback: (...args) => void, change: [], delay = 200) => useNTap(callback, change, 2, delay);
+
+interface ScrollEvents {
+    onStart?: () => void;
+    onEnd?: () => void;
+    onScroll?: (any) => void;
+}
+
+export const useOnScroll = (handlers: ScrollEvents) => {
+    const [isScrolling, setScrolling ] = useState(false);
+    const [scrollTimeout, setScrollTimeout] = useState(undefined);
+
+    const memoized = useCallback((e) => {
+        // Reset timeout.
+        clearTimeout(scrollTimeout);
+
+        if (!isScrolling) {
+            setScrolling(true);
+            handlers.onStart && handlers.onStart();
+        }
+
+        handlers.onScroll && handlers.onScroll(e);
+
+        const newScrollTimeout = setTimeout(() => {
+            setScrolling(false);
+            handlers.onEnd && handlers.onEnd();
+        }, 1000/60);
+        setScrollTimeout(newScrollTimeout);
+    }, [handlers, isScrolling, scrollTimeout]);
+
+    return memoized;
+};
+
+export const useOnScrollEnd = (handler: () => void) => {
+    return useOnScroll({ onEnd: handler });
+};
