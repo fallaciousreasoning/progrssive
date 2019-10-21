@@ -48,8 +48,18 @@ export default withRouter((props: Props) => {
     }, [props.routes, setActiveSlide]);
 
     return <>
-        <SwipeableView>
-            {props.routes.map((r, i) => <div style={{ width: '100vw', height: '90vh', overflow: 'hidden auto' }} key={r.prefix}>
+        <SwipeableView onSwiped={(n) => {
+            if (n === activeSlide) return;
+
+            const prefix = props.routes[n].prefix;
+            const path = store.current[prefix];
+
+            setActiveSlide((n + 1) % 2);
+            props.history.push(`${prefix}${path || ''}`)
+        }}>
+            {props.routes.map((r, i) => <div
+                style={{ width: '100vw', height: '90vh', overflow: 'hidden auto' }}
+                key={r.prefix}>
                 {r.render(store.current[r.prefix], activeSlide === i)}
             </div>)}
         </SwipeableView>
