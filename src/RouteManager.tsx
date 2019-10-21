@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useCallback, useState } from 'react';
-import { Route, RouteComponentProps, withRouter } from 'react-router';
+import { Route, RouteComponentProps, withRouter, Switch } from 'react-router';
 import { SwipeableView } from './components/SwipeableView';
 import { useStore } from './hooks/store';
 
@@ -60,5 +60,9 @@ export default withRouter((props: Props) => {
             </div>)}
         </SwipeableView>
         {props.routes.map(r => <RouteSetter key={r.prefix} prefix={r.prefix} setActive={setActive}/>)}
+        <Route path='/' exact={true} component={() => {
+            setActiveSlide(1);
+            return null;
+        }}/>
     </>
 });
