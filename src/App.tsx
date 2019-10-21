@@ -18,6 +18,7 @@ import RouteManager, { AppRoute } from './RouteManager';
 import SettingsPage from './SettingsPage';
 import { SnackbarProvider } from 'notistack';
 import { SnackbarHelper } from './components/SnackbarHelper';
+import { SwipeableView } from './components/SwipeableView';
 
 const useStyles = makeStyles({
   root: {

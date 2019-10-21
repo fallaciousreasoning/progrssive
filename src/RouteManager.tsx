@@ -8,6 +8,7 @@ import StreamViewer from './StreamViewer';
 import EntryViewer from './EntryViewer';
 import { Route, RouteComponentProps, withRouter } from 'react-router';
 import { AppBar } from '@material-ui/core';
+import { SwipeableView } from './components/SwipeableView';
 
 export interface AppRoute {
     prefix: string;
@@ -47,7 +48,12 @@ export default withRouter((props: Props) => {
     }, [props.routes, setActiveSlide]);
 
     return <>
-        <SwipeableViews
+        <SwipeableView>
+            {props.routes.map((r, i) => <div style={{ width: '100vw', height: '90vh', overflow: 'hidden auto' }} key={r.prefix}>
+                {r.render(store.current[r.prefix], activeSlide === i)}
+            </div>)}
+        </SwipeableView>
+        {/* <SwipeableViews
             index={activeSlide}
             onChangeIndex={(n, o) => {
                 if (n === activeSlide) return;
@@ -66,7 +72,7 @@ export default withRouter((props: Props) => {
             {props.routes.map((r, i) => <React.Fragment key={r.prefix}>
                 {r.render(store.current[r.prefix], activeSlide === i)}
             </React.Fragment>)}
-        </SwipeableViews>
+        </SwipeableViews> */}
         {props.routes.map(r => <RouteSetter key={r.prefix} prefix={r.prefix} setActive={setActive}/>)}
     </>
 });
