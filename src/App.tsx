@@ -13,6 +13,7 @@ import RouteManager, { AppRoute } from './RouteManager';
 import SettingsPage from './SettingsPage';
 import StreamViewer from './StreamViewer';
 import { buildTheme } from './theme';
+import "./api/markers";
 
 const useStyles = makeStyles({
   root: {

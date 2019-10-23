@@ -27,7 +27,7 @@ export const saveChildren = (key: string, value: object) => {
         ]);
 };
 
-const get = async (key: string) => JSON.parse(await localForage.getItem(key));
+export const get = async (key: string) => JSON.parse(await localForage.getItem(key));
 
 const getChildKeys = async (parentKey: string) => {
     const keys = await get(parentKey);
