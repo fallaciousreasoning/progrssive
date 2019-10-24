@@ -3,10 +3,11 @@ import { Stream } from '../model/stream';
 import { Subscription } from '../model/subscription';
 import { StoreDef, StoreStream } from '../types/RecollectStore';
 import { Entry } from '../model/entry';
-import { getUncategorizedId, getSavedId } from '../api/streams';
+import { getUncategorizedId, getSavedId, getAllId } from '../api/streams';
 import { getStore } from '../hooks/store';
 import { saveChildren, loadStore } from './persister';
 import { loadSettings } from '../actions/settings';
+import { loadProfile } from '../actions/profile';
 const store = s as StoreDef;
  
 export const initStore = () => {
@@ -140,3 +141,67 @@ export const setAllStreams = (profileId: string, allStream: Stream) => {
         saveChildren('entries', entryUpdate)
     ]);
 }
+
+const ensureStream = (id: string, title: string, on: { [id: string]: StoreStream }) => {
+    if (on[id])
+      return;
+
+    on[id] = {
+        id: id,
+        title: title,
+        items: [],
+        lastFetched: 0
+    }
+};
+
+export const updateWithStream = async (stream: Stream) => {
+    const profile = await loadProfile();
+    const store = getStore();
+
+    const allId = getAllId(profile.id);
+    const savedId = getSavedId(profile.id);
+    const uncategorizedId = getUncategorizedId(profile.id);
+
+    const newStreams = { ...store.streams };
+    const newEntries = {};
+
+    ensureStream(allId, "All", newStreams);
+    ensureStream(savedId, "Saved for later", newStreams);
+    ensureStream(uncategorizedId, "Uncategorized", newStreams);
+
+    for (const entry of stream.items) {
+        newEntries[entry.id] = entry;
+
+        // Add to all.
+        newStreams[allId].items.push(entry.id);
+
+        // Maybe add to uncategorized.
+        if (!entry.categories || entry.categories.length === 0) {
+            newStreams[uncategorizedId].items.push(entry.id);
+            continue;
+        }
+
+        // Add the entry to each category it says it belongs to.
+        for (const category of entry.categories) {
+            ensureStream(category.id, category.label, newStreams);
+            newStreams[category.id].items.push(entry.id);
+        }
+    }
+
+    // Deduplicate.
+    for (const category of Object.values(newStreams))
+        category.items = Array.from(new Set(category.items));
+    
+    // Update the store.
+    getStore().streams = newStreams;
+    getStore().entries = {
+        ...getStore().entries,
+        ...newEntries
+    };
+
+    // Save to disk.
+    Promise.all([
+        saveChildren('streams', getStore().streams),
+        saveChildren('entries', getStore().entries)
+    ]);
+};

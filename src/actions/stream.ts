@@ -2,7 +2,7 @@ import { Store } from "react-recollect";
 import { getStore } from "../hooks/store";
 import { getAllId, getStream, StreamRequestOptions } from "../api/streams";
 import { updateProfile, loadProfile } from "./profile";
-import { setAllStreams } from "../services/store";
+import { setAllStreams, updateWithStream } from "../services/store";
 
 export const updateStreams = async (streamId?: string, unreadOnly: boolean = false, thenSync: boolean = false) => {
     if (!getStore().profile)
@@ -16,7 +16,7 @@ export const updateStreams = async (streamId?: string, unreadOnly: boolean = fal
         const stream = await getStream(streamId, 'contents', { unreadOnly });
 
         // TODO: We should have a better set all streams method.
-        setAllStreams(getStore().profile.id, stream);
+        updateWithStream(stream);
 
         // Maybe update all streams in the background.
         if (thenSync)
@@ -43,7 +43,7 @@ export const getAllUnread = async (continuation: string = undefined) => {
 
             // Next time, start from here.
             continuation = stream.continuation;
-            setAllStreams(profile.id, stream);
+            updateWithStream(stream);
         } while (continuation);
     } catch (error) {
         window.snackHelper.enqueueSnackbar('Background update failed.');
