@@ -1,7 +1,7 @@
 import { Store } from "react-recollect";
 import { getStore } from "../hooks/store";
 import { getAllId, getStream, StreamRequestOptions } from "../api/streams";
-import { updateProfile } from "./profile";
+import { updateProfile, loadProfile } from "./profile";
 import { setAllStreams } from "../services/store";
 
 export const updateStreams = async (streamId?: string, unreadOnly: boolean = false, thenSync: boolean = false) => {
@@ -28,10 +28,8 @@ export const updateStreams = async (streamId?: string, unreadOnly: boolean = fal
 }
 
 export const getAllUnread = async (continuation: string = undefined) => {
-    if (!getStore().profile)
-        await updateProfile();
-
-    const streamId = getAllId(getStore().profile.id);
+    const profile = await loadProfile();
+    const streamId = getAllId(profile.id);
 
     try {
         do {
@@ -45,7 +43,7 @@ export const getAllUnread = async (continuation: string = undefined) => {
 
             // Next time, start from here.
             continuation = stream.continuation;
-            setAllStreams(getStore().profile.id, stream);
+            setAllStreams(profile.id, stream);
         } while (continuation);
     } catch (error) {
         window.snackHelper.enqueueSnackbar('Background update failed.');

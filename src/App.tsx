@@ -14,6 +14,7 @@ import SettingsPage from './SettingsPage';
 import StreamViewer from './StreamViewer';
 import { buildTheme } from './theme';
 import "./api/markers";
+import { getAllUnread } from './actions/stream';
 
 const useStyles = makeStyles({
   root: {
@@ -36,6 +37,8 @@ const routes: AppRoute[] = [
     render: (id, active) => <EntryViewer id={id} active={active} />
   }
 ];
+
+getAllUnread();
 
 export const App = (props) => {
   const styles = useStyles();
