@@ -71,31 +71,28 @@ const EntriesViewer = (props: { entries: Entry[], id: string, active: boolean, h
   const loading = !props.entries || isUpdating(props.id);
   const [entryIdsToKeep, setEntryIdsToKeep] = useState<{ [id: string]: boolean }>({});
 
+  const getSuitableEntries = (keep = {}) => props.entries
+    ? props.entries.filter(e => e && (e.unread || !store.settings.unreadOnly || keep[e.id]))
+    : [];
+
   // When the current viewed stream changes, reset the entries to keep.
   useEffect(() => {
-    setEntryIdsToKeep({});
+    setEntryIdsToKeep(getSuitableEntries().reduce((prev, next) => {
+      prev[next.id] = true;
+      return prev;
+    }, {}));
   }, [props.id, store.settings.unreadOnly]);
 
   // Only recalculate suitable entries if something important changes,
   // not only if we mark articles as read.
   // In addition, make sure we don't hide any entries in the list if we receive
   // new ones.
-  const suitableEntries = useMemo(() => {
-      const entries = props.entries
-        ? props.entries.filter(e => e && (e.unread || !store.settings.unreadOnly || entryIdsToKeep[e.id]))
-        : [];
-
-      const newEntryIdsToKeep = {...entryIdsToKeep};
-      for (const entry of entries)
-        newEntryIdsToKeep[entry.id] = true;
-      setEntryIdsToKeep(newEntryIdsToKeep);
-
-      return entries;
-    },
+  const suitableEntries = useMemo(() => getSuitableEntries(entryIdsToKeep),
     [props.entries && props.entries.length,
     props.id,
     store.settings.unreadOnly,
-    store.updating[props.id]]);
+    store.updating[props.id],
+    entryIdsToKeep]);
 
   const unreadCount = useMemo(() => suitableEntries.filter(e => e.unread).length, [props.entries]);
   const readProgress = (1 - unreadCount / suitableEntries.length) * 100;
