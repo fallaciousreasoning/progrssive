@@ -2,9 +2,11 @@
   "name": "progrssive",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://fallaciousreasoning.github.io/progrssive/",
   "dependencies": {
-    "@material-ui/core": "^3.9.2",
+    "@material-ui/core": "^3.9.3",
     "@material-ui/icons": "^3.0.2",
+    "@material-ui/lab": "^3.0.0-alpha.30",
     "@material-ui/styles": "^3.0.0-alpha.10",
     "@types/jest": "24.0.0",
     "@types/node": "10.12.21",
@@ -13,6 +15,7 @@
     "@types/react-router-dom": "^4.3.1",
     "localforage": "^1.7.3",
     "lorem-ipsum": "^1.0.6",
+    "notistack": "^0.8.2",
     "query-string": "^6.2.0",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
@@ -26,7 +29,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && rm -rf docs/ && mv build/ docs/",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

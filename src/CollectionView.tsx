@@ -1,7 +1,7 @@
 import { ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, ListItem, ListItemText, ListItemIcon } from '@material-ui/core';
 import { ExpandMore, RssFeed, ExpandLess } from '@material-ui/icons';
 import * as React from 'react';
-import CollapsableListItem from './CollapsableListItem';
+import CollapsableListItem from './components/CollapsableListItem';
 import { Subscription } from './model/subscription';
 import { withRouter, RouteComponentProps } from 'react-router';
 import { Collection, Feed } from './model/collection';
@@ -28,7 +28,10 @@ export default withRouter((props: Props) => {
                 <RssFeed />
             </ListItemIcon>
             <ListItemText>{props.collection.label}</ListItemText>
-            <div onClick={p.toggle}>
+            <div onClick={e => {
+                p.toggle();
+                e.stopPropagation();
+            }}>
                 {p.open ? <ExpandLess /> : <ExpandMore />}
             </div>
         </ListItem>}>

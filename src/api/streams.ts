@@ -2,7 +2,7 @@ import { Stream } from '../model/stream';
 import { makeRequest } from './common';
 const endpoint = '/streams'
 
-interface StreamRequestOptions {
+export interface StreamRequestOptions {
     count?: number;
     ranked?: 'oldest' | 'newest';
     unreadOnly?: boolean;
@@ -27,3 +27,5 @@ export const getAllId = (userId: string) => `user/${userId}/category/global.all`
 export const getUncategorizedId = (userId: string) => {
     return `user/${userId}/category/global.uncategorized`;
 }
+
+export const getSavedId = (userId: string) => `user/${userId}/tag/global.saved`;

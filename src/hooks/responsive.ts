@@ -4,6 +4,7 @@ import { useTheme } from "@material-ui/styles";
 
 export const useIsPhone = () => {
     const theme = useTheme() as Theme;
+    if (!theme) return false;
     const query = unstable_useMediaQuery(theme.breakpoints.up('md'));
 
     return !query.valueOf();
