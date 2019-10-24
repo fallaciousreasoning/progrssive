@@ -162,7 +162,14 @@ export const updateWithStream = async (stream: Stream) => {
     const savedId = getSavedId(profile.id);
     const uncategorizedId = getUncategorizedId(profile.id);
 
-    const newStreams = { ...store.streams };
+    const newStreams: { [id: string]: StoreStream } = { };
+    for (const oldStream of Object.values(store.streams)) {
+        newStreams[oldStream.id] = {
+            ...oldStream,
+            items: [...oldStream.items]
+        };
+    }
+
     const newEntries = {};
 
     ensureStream(allId, "All", newStreams);
@@ -193,11 +200,11 @@ export const updateWithStream = async (stream: Stream) => {
         category.items = Array.from(new Set(category.items));
     
     // Update the store.
-    getStore().streams = newStreams;
     getStore().entries = {
         ...getStore().entries,
         ...newEntries
     };
+    getStore().streams = newStreams;
 
     // Save to disk.
     Promise.all([
