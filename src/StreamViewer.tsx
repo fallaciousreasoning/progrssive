@@ -1,6 +1,6 @@
 import { CircularProgress, Grid, IconButton, Switch, FormControlLabel, LinearProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import EntryCard from "./EntryCard";
 import { useStream } from './hooks/stream';
@@ -69,12 +69,29 @@ const EntriesViewer = (props: { entries: Entry[], id: string, active: boolean, h
   const markScrolledAsRead = store.settings.markScrolledAsRead;
 
   const loading = !props.entries || isUpdating(props.id);
+  const [entryIdsToKeep, setEntryIdsToKeep] = useState<{ [id: string]: boolean }>({});
+
+  // When the current viewed stream changes, reset the entries to keep.
+  useEffect(() => {
+    setEntryIdsToKeep({});
+  }, [props.id, store.settings.unreadOnly]);
 
   // Only recalculate suitable entries if something important changes,
   // not only if we mark articles as read.
-  const suitableEntries = useMemo(() => props.entries
-    ? props.entries.filter(e => e && (e.unread || !store.settings.unreadOnly))
-    : [],
+  // In addition, make sure we don't hide any entries in the list if we receive
+  // new ones.
+  const suitableEntries = useMemo(() => {
+      const entries = props.entries
+        ? props.entries.filter(e => e && (e.unread || !store.settings.unreadOnly || entryIdsToKeep[e.id]))
+        : [];
+
+      const newEntryIdsToKeep = {...entryIdsToKeep};
+      for (const entry of entries)
+        newEntryIdsToKeep[entry.id] = true;
+      setEntryIdsToKeep(newEntryIdsToKeep);
+
+      return entries;
+    },
     [props.entries && props.entries.length,
     props.id,
     store.settings.unreadOnly,
