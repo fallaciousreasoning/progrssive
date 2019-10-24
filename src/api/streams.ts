@@ -2,7 +2,7 @@ import { Stream } from '../model/stream';
 import { makeRequest } from './common';
 const endpoint = '/streams'
 
-interface StreamRequestOptions {
+export interface StreamRequestOptions {
     count?: number;
     ranked?: 'oldest' | 'newest';
     unreadOnly?: boolean;

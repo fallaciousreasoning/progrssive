@@ -117,7 +117,7 @@ const EntriesViewer = (props: { entries: Entry[], id: string, active: boolean, h
     </Grid>
     {props.active && <>
       <AppBarButton>
-        <IconButton disabled={loading} onClick={() => updateStreams(props.id)}>
+        <IconButton disabled={loading} onClick={() => updateStreams(props.id, false, true)}>
           <Refresh />
         </IconButton>
       </AppBarButton>

@@ -111,7 +111,7 @@ export const setAllStreams = (profileId: string, allStream: Stream) => {
                 streamUpdate[category.id] = {
                     id: category.id,
                     title: category.label,
-                    items: [...oldStream.items],
+                    items: [...(oldStream ? oldStream.items : [])],
                     lastFetched: oldStream ? oldStream.lastFetched : 0
                 }
             }
