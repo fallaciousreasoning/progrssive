@@ -7,12 +7,10 @@ const searchParams = new URLSearchParams(window.location.search);
 
 let onAccessTokenReceived: (token: Token) => void;
 let authCode = searchParams.get('code');
-if (authCode)
-  localStorage.setItem(authCodeKey, authCode);
 
 const info = {
-    authCode: authCode || localStorage.getItem(authCodeKey),
-    accessTokenPromise: new Promise<Token>((accept, reject) => {
+    authCode,
+    accessTokenPromise: new Promise<Token>((accept) => {
         onAccessTokenReceived = accept;
     })
 };
