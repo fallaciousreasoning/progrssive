@@ -71,9 +71,16 @@ const EntriesViewer = (props: { entries: Entry[], id: string, active: boolean, h
   const loading = !props.entries || isUpdating(props.id);
   const [entryIdsToKeep, setEntryIdsToKeep] = useState<{ [id: string]: boolean }>({});
 
-  const getSuitableEntries = (keep = {}) => props.entries
-    ? props.entries.filter(e => e && (e.unread || !store.settings.unreadOnly || keep[e.id]))
-    : [];
+  const getSuitableEntries = (keep = {}) => {
+    if (!props.entries)
+      return [];
+
+    const entries = props.entries
+      .filter(e => e && (e.unread || !store.settings.unreadOnly || keep[e.id]));
+
+    entries.sort((a, b) => b.published - a.published);
+    return entries;
+  }
 
   // When the current viewed stream changes, reset the entries to keep.
   useEffect(() => {
@@ -88,7 +95,7 @@ const EntriesViewer = (props: { entries: Entry[], id: string, active: boolean, h
   // In addition, make sure we don't hide any entries in the list if we receive
   // new ones.
   const suitableEntries = useMemo(() => getSuitableEntries(entryIdsToKeep),
-    [props.entries && props.entries.length,
+    [props.entries,
     props.id,
     store.settings.unreadOnly,
     store.updating[props.id],
