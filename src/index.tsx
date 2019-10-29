@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import { initStore } from './services/store';
 import * as serviceWorker from './serviceWorker';
+import './services/auth';
 
 // Make sure our store is initialized.
 initStore();
