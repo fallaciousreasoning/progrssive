@@ -1,4 +1,3 @@
-import { makeNoAuthPostRequest } from './common';
 import { feedlyUrl, clientId, clientSecret } from '../feedly.json';
 import { Token } from '../model/token';
 import { feedlyQueryString } from './utils';
@@ -48,18 +47,26 @@ export const getAuthUrl = (options: AuthenticateOptions) => {
     };
 
     if (options.state)
-      translatedOptions['state'] = options.state;
+        translatedOptions['state'] = options.state;
 
     const query = feedlyQueryString(translatedOptions)
     return `${feedlyAuthUrl}?${query}`;
 }
 
-const tokenEndpoint = "token";
-export const getToken = (options: { code: string }) => {
+const tokenEndpoint = "/auth/token";
+export const getToken = async (options: { code: string }) => {
     options['client_id'] = clientId;
     options['client_secret'] = clientSecret;
-    options['redirect_url'] = location.origin;
+    options['redirect_uri'] = location.origin;
     options['grant_type'] = 'authorization_code';
 
-    return makeNoAuthPostRequest<Token>(tokenEndpoint, options);
+    const response = await fetch(`https://cors-anywhere.herokuapp.com/${feedlyUrl}${tokenEndpoint}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(options)
+    });
+
+    return response.json() as Promise<Token>;
 }
