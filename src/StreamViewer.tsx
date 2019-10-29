@@ -95,7 +95,7 @@ const EntriesViewer = (props: { entries: Entry[], id: string, active: boolean, h
   // In addition, make sure we don't hide any entries in the list if we receive
   // new ones.
   const suitableEntries = useMemo(() => getSuitableEntries(entryIdsToKeep),
-    [props.entries,
+    [props.entries && props.entries.length,
     props.id,
     store.settings.unreadOnly,
     store.updating[props.id],
