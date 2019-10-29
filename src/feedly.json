@@ -1,5 +1,6 @@
 {
     "clientId": "sandbox",
     "accessToken": "ReVGXA6WekanCxbf",
-    "feedlyUrl": "https://sandbox7.feedly.com/v3"
+    "feedlyUrl": "https://sandbox7.feedly.com/v3",
+    "redirectUrl": "http://localhost:8080"
 }

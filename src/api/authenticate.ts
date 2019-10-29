@@ -1,8 +1,9 @@
 import snakeCase from 'snake-case';
 import queryString from 'query-string';
 import { feedlyQueryString } from './common';
+import { feedlyUrl } from '../feedly.json';
 
-const feedlyUrl = 'https://feedly.com/v3/auth/auth';
+const feedlyAuthUrl = `${feedlyUrl}/auth/auth`;
 
 interface AuthenticateOptions {
     responseType?: 'code';
@@ -20,7 +21,7 @@ interface AuthenticateOptions {
     /**
      * The permissions the app is requesting.
      */
-    scopes: string[];
+    scopes?: ["https://cloud.feedly.com/subscriptions"];
 
     /**
      * Indicates any state which may be useful to your application upon receipt of the response. The feedly Authorization Server roundtrips this parameter, so your application receives the same value it sent. Possible uses include redirecting the user to the correct resource in your site, nonces, and cross-site-request-forgery mitigations. Make sure this parameter is URL-encoded!
@@ -30,12 +31,22 @@ interface AuthenticateOptions {
 
 /**
  * Sends an authentication request to Feedly.
+ * Note: Requires a user gesture.
  * @param options The options to send to feedly.
  */
 export const authenticate = async (options: AuthenticateOptions) => {
     // Make sure we have some kind of value for code.
     options.responseType = options.responseType || 'code';
+    options.scopes = options.scopes || ['https://cloud.feedly.com/subscriptions'];
 
-    
-    window.open(`${feedlyUrl}?${feedlyQueryString(options)}`)
+    const translatedOptions = {
+        'response_type': options.responseType,
+        'client_id': options.clientId,
+        'redirect_uri': options.redirectUri,
+        'scopes': options.scopes.join(','),
+    };
+    if (options.state)
+      translatedOptions['state'] = options.state
+
+    window.open(`${feedlyAuthUrl}?${feedlyQueryString(translatedOptions)}`);
 }
