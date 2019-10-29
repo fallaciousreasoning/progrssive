@@ -1,8 +1,7 @@
-import snakeCase from 'snake-case';
-import queryString from 'query-string';
-import { feedlyQueryString, makeRequest, makeNoAuthPostRequest } from './common';
+import { makeNoAuthPostRequest } from './common';
 import { feedlyUrl, clientId, clientSecret } from '../feedly.json';
 import { Token } from '../model/token';
+import { feedlyQueryString } from './utils';
 
 const feedlyAuthUrl = `${feedlyUrl}/auth/auth`;
 
@@ -51,8 +50,8 @@ export const getAuthUrl = (options: AuthenticateOptions) => {
     if (options.state)
       translatedOptions['state'] = options.state;
 
-    console.log(translatedOptions);
-    return `${feedlyAuthUrl}?${feedlyQueryString(translatedOptions)}`;
+    const query = feedlyQueryString(translatedOptions)
+    return `${feedlyAuthUrl}?${query}`;
 }
 
 const tokenEndpoint = "token";
