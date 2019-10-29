@@ -1,8 +1,7 @@
 import feedlyConfig from '../feedly.json';
 import auth from '../services/auth';
-import { feedlyQueryString } from "./utils";
+import { feedlyQueryString, bypassCorsUrl } from "./utils";
 
-const bypassCorsUrl = 'https://cors-anywhere.herokuapp.com/';
 
 export const makeRequest = async <T>(url: string, params?: Object): Promise<T> => {
     const queryString = feedlyQueryString(params);

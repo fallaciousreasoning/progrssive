@@ -1,6 +1,6 @@
 import { feedlyUrl, clientId, clientSecret } from '../feedly.json';
 import { Token } from '../model/token';
-import { feedlyQueryString } from './utils';
+import { feedlyQueryString, bypassCorsUrl } from './utils';
 
 const feedlyAuthUrl = `${feedlyUrl}/auth/auth`;
 
@@ -60,7 +60,7 @@ export const getToken = async (options: { code: string }) => {
     options['redirect_uri'] = location.origin;
     options['grant_type'] = 'authorization_code';
 
-    const response = await fetch(`https://cors-anywhere.herokuapp.com/${feedlyUrl}${tokenEndpoint}`, {
+    const response = await fetch(`${bypassCorsUrl}${feedlyUrl}${tokenEndpoint}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
