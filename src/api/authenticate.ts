@@ -1,7 +1,8 @@
 import snakeCase from 'snake-case';
 import queryString from 'query-string';
-import { feedlyQueryString } from './common';
-import { feedlyUrl, clientId } from '../feedly.json';
+import { feedlyQueryString, makeRequest, makeNoAuthPostRequest } from './common';
+import { feedlyUrl, clientId, clientSecret } from '../feedly.json';
+import { Token } from '../model/token';
 
 const feedlyAuthUrl = `${feedlyUrl}/auth/auth`;
 
@@ -50,5 +51,16 @@ export const getAuthUrl = (options: AuthenticateOptions) => {
     if (options.state)
       translatedOptions['state'] = options.state;
 
+    console.log(translatedOptions);
     return `${feedlyAuthUrl}?${feedlyQueryString(translatedOptions)}`;
+}
+
+const tokenEndpoint = "token";
+export const getToken = (options: { code: string }) => {
+    options['client_id'] = clientId;
+    options['client_secret'] = clientSecret;
+    options['redirect_url'] = location.origin;
+    options['grant_type'] = 'authorization_code';
+
+    return makeNoAuthPostRequest<Token>(tokenEndpoint, options);
 }

@@ -1,5 +1,6 @@
 import queryString from "querystring";
 import feedlyConfig from '../feedly.json';
+import auth from '../services/auth';
 
 const bypassCorsUrl = 'https://cors-anywhere.herokuapp.com/';
 
@@ -26,7 +27,7 @@ export const makeRequest = async <T>(url: string, params?: Object): Promise<T> =
     const response = await fetch(`${bypassCorsUrl}${requestUrl}`, {
         method: 'GET',
         headers: {
-            'Authorization': `OAuth ${feedlyConfig.accessToken}`
+            'Authorization': `OAuth ${(await auth.accessTokenPromise).access_token}`
         }
     });
 
@@ -37,13 +38,25 @@ export const makeRequest = async <T>(url: string, params?: Object): Promise<T> =
     return response.json();
 }
 
-export const makePostRequest = (endpoint: string, params: Object) => {
+export const makePostRequest = async (endpoint: string, params: Object) => {
     return fetch(`${bypassCorsUrl}${feedlyConfig.feedlyUrl}${endpoint}`, {
         method: 'POST',
         headers: {
-            'Authorization': `OAuth ${feedlyConfig.accessToken}`,
+            'Authorization': `OAuth ${(await auth.accessTokenPromise).access_token}`,
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(params)
     });
+}
+
+export async function makeNoAuthPostRequest<T>(url: string, params: Object) {
+    const response = await fetch(`${bypassCorsUrl}${feedlyConfig.feedlyUrl}${url}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(params)
+    }); 
+
+    return response.json() as Promise<T>;
 }

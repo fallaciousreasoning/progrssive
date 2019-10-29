@@ -1,21 +1,29 @@
-import { getAuthUrl } from "../api/authenticate";
+import { getAuthUrl, getToken } from "../api/authenticate";
+import { Token } from "../model/token";
 
-const tokenKey = 'authentication_token';
+const authCodeKey = 'auth_code';
 
 const searchParams = new URLSearchParams(window.location.search);
-let authenticationToken = searchParams.get('code');
-if (authenticationToken)
-  localStorage.setItem(tokenKey, authenticationToken);
+
+let onAccessTokenReceived: (token: Token) => void;
+let authCode = searchParams.get('code');
+if (authCode)
+  localStorage.setItem(authCodeKey, authCode);
 
 const info = {
-    authenticationToken: authenticationToken || localStorage.getItem(tokenKey),
+    authCode: authCode || localStorage.getItem(authCodeKey),
+    accessTokenPromise: new Promise<Token>((accept, reject) => {
+        onAccessTokenReceived = accept;
+    })
 };
 
 // If we are not authenticated, make sure we do that.
-if (!info.authenticationToken) {
+if (!info.authCode) {
     window.location.href = getAuthUrl({ 
         redirectUri: window.location.href
     });
+} else {
+    getToken({ code: info.authCode }).then(onAccessTokenReceived);
 }
 
 export default info;
