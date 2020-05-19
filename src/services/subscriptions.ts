@@ -22,10 +22,12 @@ export const updateStoreWithStream = async (stream: Stream) => {
     const store = getStore();
 
     const entryUpdate: { [id: string]: Entry } = {};
+
+    const oldItems = (store.streams[stream.id] && store.streams[stream.id].items) || [];
     const streamUpdate = {
         [stream.id]: {
             ...stream,
-            items: stream.items.map(i => i.id),
+            items: Array.from(new Set([...stream.items.map(i => i.id), ...oldItems])),
             lastFetched: Date.now()
         }
     };
