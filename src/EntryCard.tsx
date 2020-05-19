@@ -55,8 +55,7 @@ export default (props: { entry: Entry, showingUnreadOnly?: boolean }) => {
         <Card className={styles.card}>
             <div className={styles.content}>
                 <div className={styles.detail}>
-                    <CardHeader 
-                        titleTypographyProps={{ variant: 'title'}}
+                    <CardHeader
                     title={props.entry.title} subheader={subheader}/>
                     {summary && <CardContent>
                         <Typography component="small">

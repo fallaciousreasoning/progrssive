@@ -24,7 +24,7 @@ export default (props) => {
                     <IconButton>
                         <Menu />
                     </IconButton>} />
-                <Typography variant="title">Progrssive</Typography>
+                <Typography>Progrssive</Typography>
                 <div className={styles.pageActions} id="app-bar-button-container">
 
                 </div>

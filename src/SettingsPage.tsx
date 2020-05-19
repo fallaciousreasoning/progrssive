@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { List, ListItem, ListItemText, ListItemSecondaryAction, Switch, Divider } from '@material-ui/core';
-import { Slider } from '@material-ui/lab';
+import Slider from '@material-ui/core/Slider';
 import { makeStyles } from '@material-ui/styles';
 import { getStore, useStore } from './hooks/store';
 import { updateSettings } from './actions/settings';

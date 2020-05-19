@@ -44,15 +44,15 @@ export const App = (props) => {
   return <BrowserRouter>
     <MuiThemeProvider theme={theme}>
       <SnackbarProvider>
-        <SnackbarHelper />
         <div className={styles.root}>
+          <SnackbarHelper />
           <AppBar />
           <Switch>
             <Route path="/subscriptions">
               <SubscriptionManager />
             </Route>
             <Route path="/settings">
-              <SettingsPage/>
+              <SettingsPage />
             </Route>
             <RouteManager routes={routes} />
           </Switch>
