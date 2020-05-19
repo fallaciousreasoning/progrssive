@@ -2,7 +2,7 @@ import { MuiThemeProvider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { SnackbarProvider } from 'notistack';
 import React, { useEffect, useMemo } from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import AppBar from './AppBar';
 import { SnackbarHelper } from './components/SnackbarHelper';
 import EntryViewer from './EntryViewer';
@@ -11,11 +11,14 @@ import RouteManager, { AppRoute } from './RouteManager';
 import SettingsPage from './SettingsPage';
 import StreamViewer from './StreamViewer';
 import { buildTheme } from './theme';
+import { SubscriptionManager } from './SubscriptionManager'
 
-const useStyles = makeStyles({
-  root: {
-    width: '100vw',
-    height: '100vw'
+const useStyles = makeStyles(theme => {
+  return {
+    root: {
+      width: '100vw',
+      height: '100vw',
+    }
   }
 });
 
@@ -45,10 +48,15 @@ export const App = (props) => {
   return <BrowserRouter>
     <MuiThemeProvider theme={theme}>
       <SnackbarProvider>
-        <SnackbarHelper/>
+        <SnackbarHelper />
         <div className={styles.root}>
           <AppBar />
-          <RouteManager routes={routes} />
+          <Switch>
+            <Route path="/subscriptions">
+              <SubscriptionManager />
+            </Route>
+            <RouteManager routes={routes} />
+          </Switch>
         </div>
       </SnackbarProvider>
     </MuiThemeProvider>
