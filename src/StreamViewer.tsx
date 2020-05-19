@@ -65,7 +65,7 @@ export default withRouter((props: Props) => {
 
 const EntriesViewer = (props: { entries: Entry[], id: string, active: boolean, history: History }) => {
   const store = useStore();
-  const styles = useStyles();
+  const styles = useStyles(undefined);
   const markScrolledAsRead = store.settings.markScrolledAsRead;
 
   const loading = !props.entries || isUpdating(props.id);
@@ -124,7 +124,7 @@ const EntriesViewer = (props: { entries: Entry[], id: string, active: boolean, h
     </Grid>
     {props.active && <>
       <AppBarButton>
-        <IconButton disabled={loading} onClick={() => updateStreams(props.id, false, true)}>
+        <IconButton disabled={loading} onClick={() => updateStreams(props.id, true)}>
           <Refresh />
         </IconButton>
       </AppBarButton>

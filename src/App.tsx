@@ -3,18 +3,14 @@ import { makeStyles } from '@material-ui/styles';
 import { SnackbarProvider } from 'notistack';
 import React, { useEffect, useMemo } from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { getAllId } from './api/streams';
 import AppBar from './AppBar';
 import { SnackbarHelper } from './components/SnackbarHelper';
 import EntryViewer from './EntryViewer';
-import { useProfile } from './hooks/profile';
 import { useStore } from './hooks/store';
 import RouteManager, { AppRoute } from './RouteManager';
 import SettingsPage from './SettingsPage';
 import StreamViewer from './StreamViewer';
 import { buildTheme } from './theme';
-import "./api/markers";
-import { getAllUnread } from './actions/stream';
 
 const useStyles = makeStyles({
   root: {
@@ -38,22 +34,19 @@ const routes: AppRoute[] = [
   }
 ];
 
-getAllUnread();
-
 export const App = (props) => {
-  const styles = useStyles();
+  const styles = useStyles({});
   const store = useStore();
-  const profile = useProfile();
 
   const theme = useMemo(() => {
     return buildTheme(store.settings);
   }, [store.settings.fontSize]);
 
   useEffect(() => {
-    if (store.current['/stream/'] || !profile) return;
+    if (store.current['/stream/']) return;
 
-    store.current['/stream/'] = getAllId(profile.id);
-  }, [store.current, profile]);
+    store.current['/stream/'] = 'all';
+  }, [store.current]);
 
   return <BrowserRouter>
     <MuiThemeProvider theme={theme}>

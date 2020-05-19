@@ -1,6 +1,6 @@
 import queryString from "querystring";
-import feedlyConfig from '../feedly.json';
 
+const feedlyUrl = "https://cloud.feedly.com/v3/"
 const bypassCorsUrl = 'https://cors-anywhere.herokuapp.com/';
 
 export const feedlyQueryString = (params: Object): string => {
@@ -20,7 +20,7 @@ export const makeRequest = async <T>(url: string, params?: Object): Promise<T> =
             ? '&'
             : '?';
 
-    const requestUrl = `${feedlyConfig.feedlyUrl}${url}${joiner}${queryString}`;
+    const requestUrl = `${feedlyUrl}${url}${joiner}${queryString}`;
 
     // TODO: Use a custom cors proxy, this should not be in production.
     const response = await fetch(`${bypassCorsUrl}${requestUrl}`, {
@@ -35,7 +35,7 @@ export const makeRequest = async <T>(url: string, params?: Object): Promise<T> =
 }
 
 export const makePostRequest = (endpoint: string, params: Object) => {
-    return fetch(`${bypassCorsUrl}${feedlyConfig.feedlyUrl}${endpoint}`, {
+    return fetch(`${bypassCorsUrl}${feedlyUrl}${endpoint}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

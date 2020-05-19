@@ -1,26 +1,13 @@
 import { useEffect } from "react";
-import { getStream, getAllStreams } from "../api/streams";
 import { Entry } from "../model/entry";
 import { Stream } from "../model/stream";
-import { setAllStreams } from "../services/store";
 import { useStore } from "./store";
 import { executeOnce } from "./promise";
-import { useProfile } from "./profile";
 
 export const useStreams = () => {
     const store = useStore();
-    const profile = useProfile();
 
-    const streams = store.streams;
-
-    // If we haven't the streams, get them from the internet.
-    executeOnce((profileId) => {
-        if (!profileId) return;
-
-        return !streams && getAllStreams(profileId).then(streams => setAllStreams(profileId, streams));
-    }, profile && profile.id);
-
-    return streams;
+    return store.streams || {};
 }
 
 export const useStream = (streamId: string): Stream => {
@@ -58,16 +45,12 @@ export const useStream = (streamId: string): Stream => {
 
 export const useEntries = (): Entry[] => {
     const store = useStore();
-    useStreams();
-
-    return Object.values(store.entries);
+    return Object.values(store.entries || {});
 }
 
 export const useEntry = (entryId: string): Entry => {
-    const store = useStore();
-    useStreams();
-
-    return store.entries[entryId];
+    const entries = useEntries();
+    return entries[entryId];
 }
 
 export const useFeeds = (feedId: string): Entry[] => {

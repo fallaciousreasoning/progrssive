@@ -5,7 +5,6 @@ import { RemoveRedEye, RemoveCircleOutline, StarSharp, StarOutlined, StarBorderO
 import { makeStyles } from '@material-ui/styles';
 import { useCallback } from 'react';
 import { isSaved } from './services/entry';
-import { useProfile } from './hooks/profile';
 import { setUnread, setSaved } from './actions/marker';
 
 const useStyles = makeStyles({
@@ -22,7 +21,7 @@ interface MarkerButtonProps {
 }
 
 export const EntryReadButton = (props: MarkerButtonProps) => {
-    const styles = useStyles();
+    const styles = useStyles(undefined);
     const toggleRead = useCallback(() => {
         setUnread(props.entry, !props.entry.unread);
     }, [props.entry, props.entry.unread]);
@@ -35,12 +34,11 @@ export const EntryReadButton = (props: MarkerButtonProps) => {
 }
 
 export const EntrySavedButton = (props: MarkerButtonProps) => {
-    const styles = useStyles();
-    const profile = useProfile();
+    const styles = useStyles(undefined);
     const saved = isSaved(props.entry);
     
     const toggleSaved = useCallback(() => {
-        setSaved(props.entry, !saved, profile.id);
+        setSaved(props.entry, !saved);
     }, [props.entry, saved]);
     return <IconButton className={styles.on}
         onClick={toggleSaved}>

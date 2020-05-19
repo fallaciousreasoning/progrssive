@@ -1,6 +1,5 @@
 import { Entry } from "../model/entry";
 import relativeDate from 'tiny-relative-date';
-import { getSavedId } from "../api/streams";
 
 export const getEntryContent = (entry: Entry) => {
     const detail = entry.content || entry.summary;

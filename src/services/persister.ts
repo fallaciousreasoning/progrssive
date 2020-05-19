@@ -46,8 +46,8 @@ const batchedLoad = async (storeKey: keyof Store, batchSize = 20) => {
     }
 }
 
-export const load = async (storeKey: keyof Store) => {
-    const value = await get(storeKey);
+export const load = async (storeKey: keyof Store, defaultValue = undefined) => {
+    const value = await get(storeKey) || defaultValue;
     getStore[storeKey] = value;
     return value;
 }
@@ -57,6 +57,7 @@ export const loadEntry = (id: string): Promise<Entry> => get(`${entriesPrefix}.$
 export const loadStore = async () => {
     await Promise.all([
         batchedLoad('entries'),
-        batchedLoad('streams')
+        batchedLoad('streams'),
+        load('subscriptions', [])
     ]);
 }

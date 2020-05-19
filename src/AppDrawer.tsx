@@ -1,7 +1,6 @@
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, Typography } from "@material-ui/core";
 import { Person } from '@material-ui/icons';
 import React, { useState } from 'react';
-import CategoriesView from "./CollectionsView";
 
 export default (props: { trigger: JSX.Element }) => {
     const [open, setOpen] = useState(false);
@@ -21,7 +20,6 @@ export default (props: { trigger: JSX.Element }) => {
                         <ListItemText primary="Login" />
                     </ListItem>
                 </List>
-                <CategoriesView/>
             </div>
         </Drawer>
     </div>;
