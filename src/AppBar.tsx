@@ -19,7 +19,7 @@ export default (props) => {
     const styles = useStyles();
 
     return <AppBar position="static" color="primary">
-            <Toolbar>
+            <Toolbar variant="dense">
                 <AppDrawer trigger={
                     <IconButton>
                         <Menu />
