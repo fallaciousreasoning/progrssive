@@ -24,10 +24,7 @@ export const makeRequest = async <T>(url: string, params?: Object): Promise<T> =
 
     // TODO: Use a custom cors proxy, this should not be in production.
     const response = await fetch(`${bypassCorsUrl}${requestUrl}`, {
-        method: 'GET',
-        headers: {
-            'Authorization': `OAuth ${feedlyConfig.accessToken}`
-        }
+        method: 'GET'
     });
 
     // Make sure error handling is triggered if the response status is not ok.
@@ -41,7 +38,6 @@ export const makePostRequest = (endpoint: string, params: Object) => {
     return fetch(`${bypassCorsUrl}${feedlyConfig.feedlyUrl}${endpoint}`, {
         method: 'POST',
         headers: {
-            'Authorization': `OAuth ${feedlyConfig.accessToken}`,
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(params)
