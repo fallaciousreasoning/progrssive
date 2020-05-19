@@ -5,7 +5,7 @@ import { RemoveRedEye, RemoveCircleOutline, StarSharp, StarOutlined, StarBorderO
 import { makeStyles } from '@material-ui/styles';
 import { useCallback } from 'react';
 import { isSaved } from './services/entry';
-import { setUnread, setSaved } from './actions/marker';
+import { setUnread } from './actions/marker';
 
 const useStyles = makeStyles({
     on: {
@@ -31,19 +31,4 @@ export const EntryReadButton = (props: MarkerButtonProps) => {
         onClick={toggleRead}>
         <RemoveRedEye/>
     </IconButton>;
-}
-
-export const EntrySavedButton = (props: MarkerButtonProps) => {
-    const styles = useStyles(undefined);
-    const saved = isSaved(props.entry);
-    
-    const toggleSaved = useCallback(() => {
-        setSaved(props.entry, !saved);
-    }, [props.entry, saved]);
-    return <IconButton className={styles.on}
-        onClick={toggleSaved}>
-        {saved
-            ? <Star/>
-            : <StarBorderOutlined/>}
-    </IconButton>
 }

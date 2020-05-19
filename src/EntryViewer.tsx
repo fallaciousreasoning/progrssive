@@ -8,8 +8,7 @@ import { getEntryByline, getEntryContent } from "./services/entry";
 import { getStore, useStore } from "./hooks/store";
 import { updateEntry } from "./actions/entry";
 import AppBarButton from "./components/AppBarButton";
-import { EntryReadButton, EntrySavedButton } from "./MarkerButton";
-import { Add } from "@material-ui/icons";
+import { EntryReadButton } from "./MarkerButton";
 import { Entry } from "./model/entry";
 import { setUnread } from "./actions/marker";
 import { useDoubleTap } from "./hooks/callbacks";
@@ -105,9 +104,6 @@ export default withRouter((props: Props) => {
         {props.active && <>
             <AppBarButton>
                 <EntryReadButton entry={entry} />
-            </AppBarButton>
-            <AppBarButton>
-                <EntrySavedButton entry={entry} />
             </AppBarButton>
         </>}
     </article>;
