@@ -10,6 +10,14 @@ export const getEntrySummary = (entry: Entry) => entry.summary && entry.summary.
 
 export const getEntryByline = (entry: Entry) => `${entry.engagement ? entry.engagement + ' ' : ''}${entry.origin && entry.origin.title} / ${relativeDate(new Date(entry.published))}`;
 
-export const getEntryVisualUrl = (entry: Entry) => entry.visual && entry.visual.url;
+export const getEntryVisualUrl = (entry: Entry) => {
+    let url = entry.visual && entry.visual.url;
+
+    // Attempt to stop the mixed content warnings!
+    // If the site doesn't have an https version of the image, we just won't display one.
+    if (url)
+        url = url.replace("$http:", "https:");
+    return url;
+}
 
 export const isSaved = (entry: Entry) => entry.tags && entry.tags.some(e => e.id.endsWith('global.saved'));
