@@ -18,6 +18,7 @@ import StickyHeader from './components/StickyHeader';
 import { updateSubscriptions } from './services/subscriptions';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { FixedSizeList } from 'react-window';
+import { useScreenSize } from './hooks/screenSize';
 
 const useStyles = makeStyles({
   root: {
@@ -114,6 +115,7 @@ const EntriesViewer = (props: { entries: Entry[], id: string, active: boolean, h
 
   const unreadCount = useMemo(() => suitableEntries.filter(e => e.unread).length, [props.entries]);
   const readProgress = (1 - unreadCount / suitableEntries.length) * 100;
+  const {width} = useScreenSize();
 
   const onItemsRendered = useCallback(({visibleStartIndex}) => {
     if (!markScrolledAsRead)
@@ -141,7 +143,7 @@ const EntriesViewer = (props: { entries: Entry[], id: string, active: boolean, h
       height={window.innerHeight}
       itemSize={208}
       itemCount={suitableEntries.length}
-      width={Math.min(800, window.innerWidth)}
+      width={Math.min(800, width)}
       onItemsRendered={onItemsRendered}
       itemKey={(index, data) => data[index].id}>
       {rowProps => {
