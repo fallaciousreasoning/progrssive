@@ -1,6 +1,6 @@
 import { CircularProgress, Grid, IconButton, Switch, FormControlLabel, LinearProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import EntryCard from "./EntryCard";
 import { useStream } from './hooks/stream';
@@ -32,6 +32,11 @@ const useStyles = makeStyles({
     top: '-10px',
     zIndex: 1000,
     margin: '-10px -10px 10px -10px'
+  },
+
+  entryList: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
   }
 });
 
@@ -67,12 +72,15 @@ export default withRouter((props: Props) => {
 });
 
 const EntriesViewer = (props: { entries: Entry[], id: string, active: boolean, history: History }) => {
+  const GUTTER_SIZE = 8;
+
   const store = useStore();
   const styles = useStyles(undefined);
   const markScrolledAsRead = store.settings.markScrolledAsRead;
 
   const loading = !props.entries || isUpdating('stream');
   const [entryIdsToKeep, setEntryIdsToKeep] = useState<{ [id: string]: boolean }>({});
+  const [lastVisibleStartIndex, setLastVisibleStartIndex] = useState(0);
 
   const getSuitableEntries = (keep = {}) => {
     if (!props.entries)
@@ -106,6 +114,18 @@ const EntriesViewer = (props: { entries: Entry[], id: string, active: boolean, h
 
   const unreadCount = useMemo(() => suitableEntries.filter(e => e.unread).length, [props.entries]);
   const readProgress = (1 - unreadCount / suitableEntries.length) * 100;
+
+  const onItemsRendered = useCallback(({visibleStartIndex}) => {
+    if (!markScrolledAsRead)
+      return;
+    
+    for (let i = lastVisibleStartIndex; i < visibleStartIndex; ++i) {
+      setUnread(suitableEntries[i], false);
+    }
+
+    setLastVisibleStartIndex(visibleStartIndex);
+  }, [suitableEntries, lastVisibleStartIndex]);
+
   return <div className={styles.root}>
     {store.settings.unreadOnly
       && !!suitableEntries.length
@@ -115,16 +135,31 @@ const EntriesViewer = (props: { entries: Entry[], id: string, active: boolean, h
     {loading && <Centre>
       <CircularProgress className={styles.loader} />
     </Centre>}
-    <Grid spacing={24} container justify='center' wrap='wrap'>
-      {suitableEntries
-        .map(e => <ScrollVisibility key={e.id}
-          getContainer={n => n.parentElement.parentElement.parentElement}>
-          {(visible) => <Grid item lg={3} md={6} sm={6} xs={12} onClick={() => props.history.push(`/entries/${e.id}`)}>
-            <EntryCard entry={e} showingUnreadOnly={store.settings.unreadOnly} />
-            {!visible && markScrolledAsRead && <MarkEntryAsRead entry={e} />}
-          </Grid>}
-        </ScrollVisibility>)}
-    </Grid>
+    <FixedSizeList
+      className={styles.entryList}
+      itemData={suitableEntries}
+      height={window.innerHeight}
+      itemSize={508}
+      itemCount={suitableEntries.length}
+      width={Math.min(800, window.innerWidth)}
+      onItemsRendered={onItemsRendered}
+      itemKey={(index, data) => data[index].id}>
+      {rowProps => {
+        const item = rowProps.data[rowProps.index];
+        const newStyle = {
+          ...rowProps.style,
+          top: rowProps.style.top + GUTTER_SIZE,
+          left: rowProps.style.left + GUTTER_SIZE,
+          right: GUTTER_SIZE,
+          width: `100% - ${GUTTER_SIZE*2}`
+        };
+        return <div
+          style={newStyle}
+          onClick={() => props.history.push(`/entries/${item.id}`)}>
+          <EntryCard entry={item} showingUnreadOnly={store.settings.unreadOnly}/>
+        </div>;
+      }}
+    </FixedSizeList>
     {props.active && <>
       <AppBarButton>
         <IconButton disabled={loading} onClick={() => updateStream(props.id)}>
