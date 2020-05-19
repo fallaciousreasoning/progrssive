@@ -10,7 +10,14 @@ const useStyles = makeStyles({
         position: 'relative'
     },
     card: {
-        maxHeight: '500px'
+        height: '200px',
+    },
+    content: {
+        display: 'flex',
+        flexBasis: 1
+    },
+    detail: {
+        flex: 1
     },
     read: {
         color: '#F0F0F0 !important'
@@ -26,6 +33,11 @@ const useStyles = makeStyles({
         bottom: '0',
         right: '0',
         position: 'absolute'
+    },
+    image: {
+        height: '200px',
+        maxWidth: '200px',
+        flex: 0
     }
 });
 
@@ -40,22 +52,26 @@ export default (props: { entry: Entry, showingUnreadOnly?: boolean }) => {
     const tintGray = !props.entry.unread && props.showingUnreadOnly;
 
     return <Paper className={styles.paper}>
-            <Card className={styles.card}>
-                <CardHeader
-                    title={props.entry.title}
-                    subheader={subheader}/>
-
+        <Card className={styles.card}>
+            <div className={styles.content}>
+                <div className={styles.detail}>
+                    <CardHeader 
+                        titleTypographyProps={{ variant: 'title'}}
+                    title={props.entry.title} subheader={subheader}/>
+                    {summary && <CardContent>
+                        <Typography component="small">
+                            <div dangerouslySetInnerHTML={{ __html: summary }}></div>
+                        </Typography>
+                    </CardContent>}
+                </div>
                 {visualUrl && <CardMedia
                     src={visualUrl}
                     component='img'
                     title="Visual"
-                    />}
-                {summary && <CardContent>
-                    <Typography component="small">
-                        <div dangerouslySetInnerHTML={{ __html: summary }}></div>
-                    </Typography>
-                </CardContent>}
-            </Card>
-            {tintGray && <div className={styles.tint}></div>}
-        </Paper>;
+                    className={styles.image}
+                />}
+            </div>
+        </Card>
+        {tintGray && <div className={styles.tint}></div>}
+    </Paper>;
 }
