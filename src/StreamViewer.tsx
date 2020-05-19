@@ -19,6 +19,7 @@ import { updateSubscriptions } from './services/subscriptions';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { FixedSizeList } from 'react-window';
 import { useScreenSize } from './hooks/screenSize';
+import StreamList from './StreamList';
 
 const useStyles = makeStyles({
   root: {
@@ -34,27 +35,12 @@ const useStyles = makeStyles({
     zIndex: 1000,
     margin: '-10px -10px 10px -10px'
   },
-
-  entryList: {
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  }
 });
 
 type Props = RouteComponentProps<any> & {
   id: string;
   active: boolean;
 };
-
-const MarkEntryAsRead = (props: { entry: Entry }) => {
-  useEffect(() => {
-    if (!props.entry || !props.entry.unread) return;
-
-    setUnread(props.entry, false);
-  }, [props.entry && props.entry.id])
-
-  return null;
-}
 
 export default withRouter((props: Props) => {
   const streamId = props.id;
@@ -73,15 +59,11 @@ export default withRouter((props: Props) => {
 });
 
 const EntriesViewer = (props: { entries: Entry[], id: string, active: boolean, history: History }) => {
-  const GUTTER_SIZE = 8;
-
   const store = useStore();
   const styles = useStyles(undefined);
-  const markScrolledAsRead = store.settings.markScrolledAsRead;
 
   const loading = !props.entries || isUpdating('stream');
   const [entryIdsToKeep, setEntryIdsToKeep] = useState<{ [id: string]: boolean }>({});
-  const [lastVisibleStartIndex, setLastVisibleStartIndex] = useState(0);
 
   const getSuitableEntries = (keep = {}) => {
     if (!props.entries)
@@ -115,18 +97,6 @@ const EntriesViewer = (props: { entries: Entry[], id: string, active: boolean, h
 
   const unreadCount = useMemo(() => suitableEntries.filter(e => e.unread).length, [props.entries]);
   const readProgress = (1 - unreadCount / suitableEntries.length) * 100;
-  const {width} = useScreenSize();
-
-  const onItemsRendered = useCallback(({visibleStartIndex}) => {
-    if (!markScrolledAsRead)
-      return;
-    
-    for (let i = lastVisibleStartIndex; i < visibleStartIndex; ++i) {
-      setUnread(suitableEntries[i], false);
-    }
-
-    setLastVisibleStartIndex(visibleStartIndex);
-  }, [suitableEntries, lastVisibleStartIndex]);
 
   return <div className={styles.root}>
     {store.settings.unreadOnly
@@ -137,31 +107,9 @@ const EntriesViewer = (props: { entries: Entry[], id: string, active: boolean, h
     {loading && <Centre>
       <CircularProgress className={styles.loader} />
     </Centre>}
-    <FixedSizeList
-      className={styles.entryList}
-      itemData={suitableEntries}
-      height={window.innerHeight}
-      itemSize={208}
-      itemCount={suitableEntries.length}
-      width={Math.min(800, width)}
-      onItemsRendered={onItemsRendered}
-      itemKey={(index, data) => data[index].id}>
-      {rowProps => {
-        const item = rowProps.data[rowProps.index];
-        const newStyle = {
-          ...rowProps.style,
-          top: rowProps.style.top + GUTTER_SIZE,
-          left: rowProps.style.left + GUTTER_SIZE,
-          right: GUTTER_SIZE,
-          width: `100% - ${GUTTER_SIZE*2}`
-        };
-        return <div
-          style={newStyle}
-          onClick={() => props.history.push(`/entries/${item.id}`)}>
-          <EntryCard entry={item} showingUnreadOnly={store.settings.unreadOnly}/>
-        </div>;
-      }}
-    </FixedSizeList>
+
+    <StreamList entries={suitableEntries} />
+
     {props.active && <>
       <AppBarButton>
         <IconButton disabled={loading} onClick={() => updateStream(props.id)}>
