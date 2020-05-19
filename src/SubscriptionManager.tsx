@@ -5,6 +5,7 @@ import { useStore, getStore } from './hooks/store';
 import { makeStyles } from '@material-ui/styles';
 import { Subscription } from './model/subscription';
 import { Add, Delete } from '@material-ui/icons';
+import { searchFeeds } from './api/search';
 
 const useStyles = makeStyles({
     content: {
@@ -33,11 +34,16 @@ export const SubscriptionManager = (props) => {
 
     // Update search results when typing.
     useEffect(() => {
+        if (!query) {
+            setSearchResults([]);
+            return;
+        }
+
         // This is a special query.
         if (query.startsWith("@"))
             return;
 
-
+        searchFeeds(query).then(setSearchResults);
     }, [query]);
 
     const subscriptions = query == "@subscribed"
@@ -64,7 +70,8 @@ export const SubscriptionManager = (props) => {
 const useCardStyles = makeStyles({
     root: {
         display: 'flex',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginBottom: '8px'
     },
     icon: {
         width: 150,
