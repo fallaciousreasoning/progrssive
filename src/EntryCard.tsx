@@ -36,7 +36,7 @@ const useStyles = makeStyles({
     },
     image: {
         height: '200px',
-        maxWidth: '200px',
+        maxWidth: '12em',
         flex: 0
     }
 });
