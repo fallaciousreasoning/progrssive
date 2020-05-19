@@ -2,7 +2,7 @@
   "name": "progrssive",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://fallaciousreasoning.github.io/progrssive/",
+  "homepage": "https://progrssive.now.sh/",
   "dependencies": {
     "@material-ui/core": "^3.9.3",
     "@material-ui/icons": "^3.0.2",
