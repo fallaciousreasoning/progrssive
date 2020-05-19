@@ -1,6 +1,8 @@
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, Typography } from "@material-ui/core";
-import { Person, RssFeed } from '@material-ui/icons';
+import { Person, RssFeed, Book } from '@material-ui/icons';
+import SettingsIcon from '@material-ui/icons/Settings';
 import React, { useState } from 'react';
+import ListLinkButton from './components/ListLinkButton';
 
 export default (props: { trigger: JSX.Element }) => {
     const [open, setOpen] = useState(false);
@@ -13,18 +15,9 @@ export default (props: { trigger: JSX.Element }) => {
                     Progrssive Reader
                 </Typography>
                 <List>
-                    <ListItem button>
-                        <ListItemIcon>
-                            <Person />
-                        </ListItemIcon>
-                        <ListItemText primary="Login" />
-                    </ListItem>
-                    <ListItem button>
-                        <ListItemIcon>
-                            <RssFeed/>
-                        </ListItemIcon>
-                        <ListItemText primary="Subscriptions" />
-                    </ListItem>
+                    <ListLinkButton icon={<Book/>} text="Articles" href="/" />
+                    <ListLinkButton icon={<RssFeed/>} text="Subscriptions" href="/subscriptions"/>
+                    <ListLinkButton icon={<SettingsIcon/>} text="Settings" href="/settings"/>
                 </List>
             </div>
         </Drawer>
