@@ -14,7 +14,7 @@ export const useStream = (streamId: string): Stream => {
     const store = useStore();
     if (!streamId) {
         return {
-            id: undefined,
+            id: "",
             items: Object.values(store.entries),
             title: "All"
         };
