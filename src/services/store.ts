@@ -19,6 +19,7 @@ export const initStore = () => {
     };
     store.subscriptions = [{
         id: "feed/http://www.theverge.com/rss/full.xml",
+        iconUrl: "https://storage.googleapis.com/site-assets/PSNTZO8gXFUe-cpCZyApw0vEKWPT4b14D6teBEocIAE_icon-15cd6b8692d",
         title: "The Verge",
         categories: []
     }];

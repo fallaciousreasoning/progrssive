@@ -8,4 +8,5 @@ export interface Subscription {
     updated?: number;
     website?: string;
     visualUrl?: string;
+    iconUrl?: string;
 }
