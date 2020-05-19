@@ -1,24 +1,37 @@
 import { Store } from "react-recollect";
 import { getStore } from "../hooks/store";
-import { updateStoreWithStream } from "../services/subscriptions";
+import { updateStoreWithStream, updateSubscription, getSubscription, updateSubscriptions } from "../services/subscriptions";
 import { StreamRequestOptions, getStream } from "../api/streams";
 
-export const updateStreams = async (streamId?: string) => {
-    streamId = streamId;
-    if (!streamId)
-        throw new Error("Empty stream id!");
-    if (getStore().updating[streamId]) return;
-    getStore().updating[streamId] = true;
-
-    try {
-        const stream = await getStream(streamId, 'contents');
-
-        // TODO: We should have a better set all streams method.
-        updateStoreWithStream(stream);
-    } catch (error) {
-        window.snackHelper.enqueueSnackbar("Unable to update stream. You appear to be offline.")
+export const updateStreams = async () => {
+    const subscriptions = getStore().subscriptions;
+    for (const subscription of subscriptions) {
+        await updateStream(subscription.id);
     }
-    getStore().updating[streamId] = false;
+
+    window.snackHelper.enqueueSnackbar("Updated subscriptions!");
+}
+
+export const updateStream = async (subscriptionId: string) => {
+    // If there isn't a stream id, we should update all streams.
+    if (!subscriptionId) {
+        updateStreams();
+        return;
+    }
+
+    if (getStore().updating.stream)
+        return;
+
+    getStore().updating.stream = true;
+
+        try {
+            await updateSubscription(subscriptionId);
+        } catch (err) {
+            console.error(subscriptionId, err);
+            window.snackHelper.enqueueSnackbar(`Unabled to update ${getSubscription(subscriptionId).title}. Are you offline?`);
+        }
+
+    getStore().updating.stream = false;
 }
 
 export const getAllUnread = async (streamId: string, continuation: string = undefined) => {

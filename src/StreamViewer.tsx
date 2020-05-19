@@ -7,7 +7,7 @@ import { useStream } from './hooks/stream';
 import { useStore, isUpdating } from './hooks/store';
 import AppBarButton from './components/AppBarButton';
 import { Refresh } from '@material-ui/icons';
-import { updateStreams } from './actions/stream';
+import { updateStreams, updateStream } from './actions/stream';
 import { getStream } from './services/store';
 import Centre from './components/Centre';
 import { Entry } from './model/entry';
@@ -69,7 +69,7 @@ const EntriesViewer = (props: { entries: Entry[], id: string, active: boolean, h
   const styles = useStyles(undefined);
   const markScrolledAsRead = store.settings.markScrolledAsRead;
 
-  const loading = !props.entries || isUpdating(props.id);
+  const loading = !props.entries || isUpdating('stream');
   const [entryIdsToKeep, setEntryIdsToKeep] = useState<{ [id: string]: boolean }>({});
 
   const getSuitableEntries = (keep = {}) => {
@@ -125,7 +125,7 @@ const EntriesViewer = (props: { entries: Entry[], id: string, active: boolean, h
     </Grid>
     {props.active && <>
       <AppBarButton>
-        <IconButton disabled={loading} onClick={() => updateStreams(props.id)}>
+        <IconButton disabled={loading} onClick={() => updateStream(props.id)}>
           <Refresh />
         </IconButton>
       </AppBarButton>

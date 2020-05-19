@@ -13,8 +13,13 @@ export const updateSubscriptions = async () => {
     }
 }
 
-export const updateSubscription = async (subscription: Subscription) => {
-    const stream = await getStream(subscription.id);
+export const getSubscription = (id: string) => {
+    const subscriptions = getStore().subscriptions;
+    return subscriptions.find(s => s.id === id);
+}
+
+export const updateSubscription = async (subscription: Subscription | string) => {
+    const stream = await getStream(typeof subscription === "string" ? subscription : subscription.id);
     await updateStoreWithStream(stream);
 }
 

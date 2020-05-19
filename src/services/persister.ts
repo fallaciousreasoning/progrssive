@@ -48,7 +48,7 @@ const batchedLoad = async (storeKey: keyof Store, batchSize = 20) => {
 
 export const load = async (storeKey: keyof Store, defaultValue = undefined) => {
     const value = await get(storeKey) || defaultValue;
-    getStore[storeKey] = value;
+    getStore()[storeKey] = value;
     return value;
 }
 
