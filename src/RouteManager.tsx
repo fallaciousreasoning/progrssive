@@ -61,7 +61,7 @@ export default withRouter((props: Props) => {
         </SwipeableView>
         {props.routes.map(r => <RouteSetter key={r.prefix} prefix={r.prefix} setActive={setActive}/>)}
         <Route path='/' exact={true} component={() => {
-            setActiveSlide(1);
+            setActiveSlide(0);
             return null;
         }}/>
     </>

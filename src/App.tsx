@@ -24,10 +24,6 @@ const useStyles = makeStyles(theme => {
 
 const routes: AppRoute[] = [
   {
-    prefix: '/settings/',
-    render: () => <SettingsPage />
-  },
-  {
     prefix: '/stream/',
     render: (id, active) => <StreamViewer id={id} active={active} />
   },
@@ -54,6 +50,9 @@ export const App = (props) => {
           <Switch>
             <Route path="/subscriptions">
               <SubscriptionManager />
+            </Route>
+            <Route path="/settings">
+              <SettingsPage/>
             </Route>
             <RouteManager routes={routes} />
           </Switch>
