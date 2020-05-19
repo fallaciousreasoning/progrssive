@@ -25,7 +25,8 @@
     "react-scripts": "2.1.3",
     "snake-case": "^2.1.0",
     "tiny-relative-date": "^1.3.0",
-    "typescript": "3.3.1"
+    "typescript": "3.3.1",
+    "use-debounce": "^3.4.2"
   },
   "scripts": {
     "start": "react-scripts start",

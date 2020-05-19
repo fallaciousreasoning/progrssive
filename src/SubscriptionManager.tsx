@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/styles';
 import { Subscription } from './model/subscription';
 import { Add, Delete } from '@material-ui/icons';
 import { searchFeeds } from './api/search';
+import { useDebounce } from 'use-debounce';
 
 const useStyles = makeStyles({
     content: {
@@ -30,11 +31,12 @@ export const SubscriptionManager = (props) => {
     const isSubscribed = s => subscribedTo.has(s.id)
 
     const [query, setQuery] = useState("@subscribed");
+    const [debouncedQuery] = useDebounce(query, 200);
     const [searchResults, setSearchResults] = useState([]);
 
     // Update search results when typing.
     useEffect(() => {
-        if (!query) {
+        if (!debouncedQuery) {
             setSearchResults([]);
             return;
         }
@@ -43,8 +45,8 @@ export const SubscriptionManager = (props) => {
         if (query.startsWith("@"))
             return;
 
-        searchFeeds(query).then(setSearchResults);
-    }, [query]);
+        searchFeeds(debouncedQuery).then(setSearchResults);
+    }, [debouncedQuery]);
 
     const subscriptions = query == "@subscribed"
         ? store.subscriptions
