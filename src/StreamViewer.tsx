@@ -1,5 +1,4 @@
-import { CircularProgress, Grid, IconButton, Switch, FormControlLabel, LinearProgress } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles, CircularProgress, Grid, IconButton, Switch, FormControlLabel, LinearProgress } from '@material-ui/core';
 import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import EntryCard from "./EntryCard";

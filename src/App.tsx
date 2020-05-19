@@ -1,5 +1,4 @@
-import { MuiThemeProvider } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { MuiThemeProvider, makeStyles } from '@material-ui/core';
 import { SnackbarProvider } from 'notistack';
 import React, { useEffect, useMemo } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
@@ -13,14 +12,12 @@ import StreamViewer from './StreamViewer';
 import { buildTheme } from './theme';
 import { SubscriptionManager } from './SubscriptionManager'
 
-const useStyles = makeStyles(theme => {
-  return {
-    root: {
-      width: '100vw',
-      height: '100vw',
-    }
+const useStyles = makeStyles(theme => ({
+  root: {
+    width: '100vw',
+    height: '100vw',
   }
-});
+}));
 
 const routes: AppRoute[] = [
   {

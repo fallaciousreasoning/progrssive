@@ -1,5 +1,4 @@
-import { Card, CardContent, CardHeader, CircularProgress, Typography, Fab } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles, Card, CardContent, CardHeader, CircularProgress, Typography, Fab } from "@material-ui/core";
 import * as React from 'react';
 import { useEffect, useRef } from 'react';
 import { useIsPhone } from "./hooks/responsive";

@@ -1,7 +1,6 @@
-import { Collapse, List, ListItem } from '@material-ui/core';
+import { Collapse, List, makeStyles } from '@material-ui/core';
 import * as React from 'react';
 import { useState } from 'react';
-import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles(({
     "@global": {

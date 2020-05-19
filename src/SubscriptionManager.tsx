@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { TextField, Card, CardMedia, IconButton } from "@material-ui/core"
+import { makeStyles, TextField, Card, CardMedia, IconButton } from "@material-ui/core"
 import { useState, useEffect, useCallback } from 'react';
 import { useStore, getStore } from './hooks/store';
-import { makeStyles } from '@material-ui/styles';
 import { Subscription } from './model/subscription';
 import { Add, Delete } from '@material-ui/icons';
 import { searchFeeds } from './api/search';

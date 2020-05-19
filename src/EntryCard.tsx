@@ -1,5 +1,4 @@
-import { Card, CardContent, CardHeader, CardMedia, Paper, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles, Card, CardContent, CardHeader, CardMedia, Paper, Typography } from "@material-ui/core";
 import React from 'react';
 import { Entry } from "./model/entry";
 import { getEntryByline, getEntrySummary, getEntryVisualUrl } from "./services/entry";
