@@ -1,5 +1,5 @@
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, Typography } from "@material-ui/core";
-import { Person } from '@material-ui/icons';
+import { Person, RssFeed } from '@material-ui/icons';
 import React, { useState } from 'react';
 
 export default (props: { trigger: JSX.Element }) => {
@@ -18,6 +18,12 @@ export default (props: { trigger: JSX.Element }) => {
                             <Person />
                         </ListItemIcon>
                         <ListItemText primary="Login" />
+                    </ListItem>
+                    <ListItem button>
+                        <ListItemIcon>
+                            <RssFeed/>
+                        </ListItemIcon>
+                        <ListItemText primary="Subscriptions" />
                     </ListItem>
                 </List>
             </div>
