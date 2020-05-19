@@ -16,6 +16,8 @@ import { ScrollVisibility } from './components/ScrollVisibility';
 import { setUnread } from './actions/marker';
 import StickyHeader from './components/StickyHeader';
 import { updateSubscriptions } from './services/subscriptions';
+import AutoSizer from 'react-virtualized-auto-sizer';
+import { FixedSizeList } from 'react-window';
 
 const useStyles = makeStyles({
   root: {
@@ -100,7 +102,7 @@ const EntriesViewer = (props: { entries: Entry[], id: string, active: boolean, h
     props.id,
     store.settings.unreadOnly,
     store.updating[props.id],
-    entryIdsToKeep]);
+      entryIdsToKeep]);
 
   const unreadCount = useMemo(() => suitableEntries.filter(e => e.unread).length, [props.entries]);
   const readProgress = (1 - unreadCount / suitableEntries.length) * 100;
