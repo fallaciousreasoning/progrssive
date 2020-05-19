@@ -17,7 +17,11 @@ export const initStore = () => {
     store.settings = loadSettings();
     store.current = {
     };
-    store.subscriptions = [];
+    store.subscriptions = [{
+        id: "feed/http://www.theverge.com/rss/full.xml",
+        title: "The Verge",
+        categories: []
+    }];
 
     loadStore();
 

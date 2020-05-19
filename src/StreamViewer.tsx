@@ -15,6 +15,7 @@ import { History } from 'history';
 import { ScrollVisibility } from './components/ScrollVisibility';
 import { setUnread } from './actions/marker';
 import StickyHeader from './components/StickyHeader';
+import { updateSubscriptions } from './services/subscriptions';
 
 const useStyles = makeStyles({
   root: {
@@ -53,7 +54,7 @@ export default withRouter((props: Props) => {
 
   useEffect(() => {
     if (!streamId || stream && stream.id !== streamId) return;
-    updateStreams(streamId);
+    updateSubscriptions();
   }, [streamId]);
 
   return <EntriesViewer
@@ -124,7 +125,7 @@ const EntriesViewer = (props: { entries: Entry[], id: string, active: boolean, h
     </Grid>
     {props.active && <>
       <AppBarButton>
-        <IconButton disabled={loading} onClick={() => updateStreams(props.id, true)}>
+        <IconButton disabled={loading} onClick={() => updateStreams(props.id)}>
           <Refresh />
         </IconButton>
       </AppBarButton>

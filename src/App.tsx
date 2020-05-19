@@ -42,12 +42,6 @@ export const App = (props) => {
     return buildTheme(store.settings);
   }, [store.settings.fontSize]);
 
-  useEffect(() => {
-    if (store.current['/stream/']) return;
-
-    store.current['/stream/'] = 'all';
-  }, [store.current]);
-
   return <BrowserRouter>
     <MuiThemeProvider theme={theme}>
       <SnackbarProvider>

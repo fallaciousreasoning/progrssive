@@ -4,9 +4,8 @@ export interface Subscription {
     id: string;
     title: string;
     categories: Category[];
-    sortId: string;
-    added: number;
-    updated: number;
-    website: string;
+    added?: number;
+    updated?: number;
+    website?: string;
     visualUrl?: string;
 }

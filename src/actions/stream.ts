@@ -1,9 +1,9 @@
 import { Store } from "react-recollect";
 import { getStore } from "../hooks/store";
-import { updateSubscriptions, updateSubscription, updateStoreWithStream } from "../services/subscriptions";
+import { updateStoreWithStream } from "../services/subscriptions";
 import { StreamRequestOptions, getStream } from "../api/streams";
 
-export const updateStreams = async (streamId?: string, thenSync: boolean = false) => {
+export const updateStreams = async (streamId?: string) => {
     streamId = streamId;
     if (!streamId)
         throw new Error("Empty stream id!");
@@ -15,10 +15,6 @@ export const updateStreams = async (streamId?: string, thenSync: boolean = false
 
         // TODO: We should have a better set all streams method.
         updateStoreWithStream(stream);
-
-        // Maybe update all streams in the background.
-        if (thenSync)
-            getAllUnread(streamId);
     } catch (error) {
         window.snackHelper.enqueueSnackbar("Unable to update stream. You appear to be offline.")
     }

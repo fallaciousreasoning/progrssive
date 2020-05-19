@@ -12,7 +12,13 @@ export const useStreams = () => {
 
 export const useStream = (streamId: string): Stream => {
     const store = useStore();
-    if (!streamId) return;
+    if (!streamId) {
+        return {
+            id: undefined,
+            items: Object.values(store.entries),
+            title: "All"
+        };
+    }
     
     const streams = store.streams;
 
