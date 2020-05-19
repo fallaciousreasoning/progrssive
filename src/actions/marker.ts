@@ -3,8 +3,7 @@ import { saveEntry } from "../services/persister";
 
 export const setUnread = async (entry: Entry, unread: boolean) => {
     entry.unread = unread;
-    // await updateUnread(entry, entry.unread);
-    // await saveEntry(entry);
+    await saveEntry(entry);
 }
 
 export const setSaved = async (entry: Entry, saved: boolean) => {
