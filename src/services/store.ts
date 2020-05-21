@@ -7,8 +7,12 @@ import { getStore } from '../hooks/store';
 import { saveChildren, loadStore } from './persister';
 import { loadSettings } from '../actions/settings';
 const store = s as StoreDef;
- 
+
+let initStorePromise: Promise<void>;
 export const initStore = () => {
+    if (initStorePromise)
+        return initStorePromise;
+
     store.streams = {};
     store.entries = {};
     store.updating = {
@@ -20,7 +24,8 @@ export const initStore = () => {
     };
     store.subscriptions = [];
 
-    loadStore();
+    initStorePromise = loadStore();
+    return initStorePromise;
 
     // Include our fake stream by default.
     // setAllStreams(store.profile.id, require('../fakeStream.json'));

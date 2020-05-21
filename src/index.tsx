@@ -3,13 +3,12 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import { initStore } from './services/store';
 import * as serviceWorker from './serviceWorker';
-import { updateSubscriptions } from './services/subscriptions';
+import { updateStreams } from './actions/stream';
 
 // Make sure our store is initialized.
-initStore();
-
-// Fetch subscriptions.
-updateSubscriptions();
+initStore()
+    // Then fetch new articles.
+    .then(updateStreams);
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
