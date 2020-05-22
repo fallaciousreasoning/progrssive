@@ -55,9 +55,10 @@ export default (props: { entry: Entry, showingUnreadOnly?: boolean }) => {
             <div className={styles.content}>
                 <div className={styles.detail}>
                     <CardHeader
-                    title={props.entry.title} subheader={subheader}/>
+                        titleTypographyProps={{ variant: "body1" }}
+                        title={props.entry.title} subheader={subheader} />
                     {summary && <CardContent>
-                        <Typography component="small">
+                        <Typography component="small" variant="body2">
                             <div dangerouslySetInnerHTML={{ __html: summary }}></div>
                         </Typography>
                     </CardContent>}
