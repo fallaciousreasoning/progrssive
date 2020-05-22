@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useCallback, useState } from 'react';
-import { Route, RouteComponentProps, withRouter, Switch } from 'react-router';
+import { Route, RouteComponentProps, useHistory } from 'react-router';
 import { SwipeableView } from './components/SwipeableView';
 import { useStore } from './hooks/store';
 
@@ -9,7 +9,7 @@ export interface AppRoute {
     render: (id?: string, active?: boolean) => React.ReactNode;
 }
 
-interface Props extends RouteComponentProps<any> {
+interface Props {
     routes: AppRoute[];
 }
 
@@ -30,8 +30,9 @@ const RouteSetter = (props: RouteSetterProps) => {
     </Route>
 }
 
-export default withRouter((props: Props) => {
+export default (props: Props) => {
     const store = useStore();
+    const history = useHistory();
     const [activeSlide, setActiveSlide] = useState(0);
 
     const setActive = useCallback((prefix: string, id: string) => {
@@ -51,7 +52,7 @@ export default withRouter((props: Props) => {
             const path = store.current[prefix];
 
             setActiveSlide((n + 1) % 2);
-            props.history.push(`${prefix}${path || ''}`)
+            history.push(`${prefix}${path || ''}`)
         }}>
             {props.routes.map((r, i) => <div
                 style={{ width: '100vw', height: '90vh', overflow: 'hidden auto', paddingTop: '10px' }}
@@ -65,4 +66,4 @@ export default withRouter((props: Props) => {
             return null;
         }}/>
     </>
-});
+};
