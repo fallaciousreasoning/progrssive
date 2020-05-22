@@ -13,7 +13,7 @@ export type StoreStream = Omit<Stream, 'items'>
 
 export interface UpdatingInformation {
   categories: boolean;
-  stream: boolean;
+  stream: number;
 }
 
 export interface Settings {

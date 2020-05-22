@@ -17,7 +17,7 @@ export const initStore = () => {
     store.entries = {};
     store.updating = {
         categories: false,
-        stream: false,
+        stream: 0,
     };
     store.settings = loadSettings();
     store.current = {

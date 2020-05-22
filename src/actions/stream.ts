@@ -3,35 +3,31 @@ import { getStore } from "../hooks/store";
 import { updateStoreWithStream, updateSubscription, getSubscription, updateSubscriptions } from "../services/subscriptions";
 import { StreamRequestOptions, getStream } from "../api/streams";
 
-export const updateStreams = async () => {
-    const subscriptions = getStore().subscriptions;
-    for (const subscription of subscriptions) {
-        await updateStream(subscription.id);
-    }
+export const updateStreams = async (...streamIds: string[]) => {
+    // Only use defined stream ids.
+    streamIds = streamIds.filter(s => s);
 
-    window.snackHelper.enqueueSnackbar("Updated subscriptions!");
-}
+    // If there aren't any, update everything.
+    if (streamIds.length === 0)
+        streamIds = getStore().subscriptions.map(s => s.id);
+    
+    getStore().updating.stream = streamIds.length;
 
-export const updateStream = async (subscriptionId: string) => {
-    // If there isn't a stream id, we should update all streams.
-    if (!subscriptionId) {
-        updateStreams();
-        return;
-    }
-
-    if (getStore().updating.stream)
-        return;
-
-    getStore().updating.stream = true;
-
+    let failed = false;
+    for (const streamId of streamIds) {
         try {
-            await updateSubscription(subscriptionId);
+            await updateSubscription(streamId);
         } catch (err) {
-            console.error(subscriptionId, err);
-            window.snackHelper.enqueueSnackbar(`Unabled to update ${getSubscription(subscriptionId).title}. Are you offline?`);
+            console.log(err);
+            failed = true;
         }
+        getStore().updating.stream--;
+    }
 
-    getStore().updating.stream = false;
+    if (failed)
+        window.snackHelper.enqueueSnackbar("Failed to update subscriptions!");
+    else
+        window.snackHelper.enqueueSnackbar("Updated subscriptions!");
 }
 
 export const getAllUnread = async (streamId: string, continuation: string = undefined) => {

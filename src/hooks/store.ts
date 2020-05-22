@@ -54,4 +54,4 @@ export const makeStoreCache = <T>(fetcher: (store: Store) => T | Promise<T>, onF
     }
 }
 
-export const isUpdating = (id: string) => currentStore.updating[id || undefined];
+export const isUpdating = (id: string) => !!currentStore.updating[id || undefined];

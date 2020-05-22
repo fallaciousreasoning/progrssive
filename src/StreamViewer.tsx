@@ -6,7 +6,7 @@ import { useStream } from './hooks/stream';
 import { useStore, isUpdating } from './hooks/store';
 import AppBarButton from './components/AppBarButton';
 import { Refresh } from '@material-ui/icons';
-import { updateStreams, updateStream } from './actions/stream';
+import { updateStreams } from './actions/stream';
 import { getStream } from './services/store';
 import Centre from './components/Centre';
 import { Entry } from './model/entry';
@@ -111,7 +111,7 @@ const EntriesViewer = (props: { entries: Entry[], id: string, active: boolean, h
 
     {props.active && <>
       <AppBarButton>
-        <IconButton disabled={loading} onClick={() => updateStream(props.id)}>
+        <IconButton disabled={loading} onClick={() => updateStreams(props.id)}>
           <Refresh />
         </IconButton>
       </AppBarButton>
