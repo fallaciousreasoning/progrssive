@@ -11,7 +11,7 @@ import { EntryReadButton } from "./MarkerButton";
 import { Entry } from "./model/entry";
 import { setUnread } from "./actions/marker";
 import { useDoubleTap } from "./hooks/callbacks";
-import { withRouter, RouteComponentProps } from "react-router";
+import { useHistory } from "react-router";
 
 const useStyles = makeStyles({
     root: {
@@ -48,13 +48,14 @@ const scrollToTop = (entry: Entry, ref: React.MutableRefObject<any>) => {
     }, [entry && entry.id]);
 }
 
-interface Props extends RouteComponentProps<{}> {
+interface Props {
     id: string,
     active: boolean
 }
 
-export default withRouter((props: Props) => {
+export default (props: Props) => {
     const store = useStore();
+    const history = useHistory();
 
     const styles = useStyles();
     const isPhone = useIsPhone();
@@ -74,7 +75,7 @@ export default withRouter((props: Props) => {
         if (!store.settings.doubleTapToCloseArticles)
             return;
 
-        props.history.goBack();
+        history.goBack();
         event.stopPropagation();
         // Clear potential accidental selection.
         document.getSelection().removeAllRanges();
@@ -106,4 +107,4 @@ export default withRouter((props: Props) => {
             </AppBarButton>
         </>}
     </article>;
-});
+};
