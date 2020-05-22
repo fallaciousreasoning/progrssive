@@ -3,10 +3,10 @@ import React from 'react';
 import { Entry } from "./model/entry";
 import { getEntryByline, getEntrySummary, getEntryVisualUrl } from "./services/entry";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
     paper: {
         cursor: 'pointer',
-        position: 'relative'
+        position: 'relative' as any
     },
     card: {
         height: '200px',
@@ -31,14 +31,14 @@ const useStyles = makeStyles({
         left: '0',
         bottom: '0',
         right: '0',
-        position: 'absolute'
+        position: 'absolute' as any
     },
     image: {
         height: '200px',
-        maxWidth: '12em',
+        maxWidth: theme.breakpoints.up('md').valueOf() ? '200px' : '100px',
         flex: 0
     }
-});
+}));
 
 export default (props: { entry: Entry, showingUnreadOnly?: boolean }) => {
     const styles = useStyles();
