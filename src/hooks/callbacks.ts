@@ -17,7 +17,7 @@ export const useNTap = <Type>(callback: (...args) => void, change: [], requiredT
     return memoized;
 }
 
-export const useDoubleTap = (callback: (...args) => void, change: [], delay = 200) => useNTap(callback, change, 2, delay);
+export const useDoubleTap = (callback: (...args) => void, change: [], delay = 500) => useNTap(callback, change, 2, delay);
 
 interface ScrollEvents {
     onStart?: () => void;
