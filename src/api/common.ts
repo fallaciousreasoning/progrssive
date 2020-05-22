@@ -1,7 +1,7 @@
 import queryString from "querystring";
 
 const feedlyUrl = "https://cloud.feedly.com/v3/"
-const bypassCorsUrl = 'https://cors-anywhere.herokuapp.com/';
+const bypassCorsUrl = 'https://progrssive-cors.herokuapp.com/';
 
 export const feedlyQueryString = (params: Object): string => {
     const fixedCase = {};
