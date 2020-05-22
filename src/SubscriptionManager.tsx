@@ -7,6 +7,7 @@ import { Add, Delete } from '@material-ui/icons';
 import { searchFeeds } from './api/search';
 import { useDebounce } from 'use-debounce';
 import { save } from './services/persister';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles({
     content: {
@@ -89,7 +90,8 @@ const useCardStyles = makeStyles({
     root: {
         display: 'flex',
         alignItems: 'center',
-        marginBottom: '8px'
+        marginBottom: '8px',
+        cursor: 'pointer'
     },
     icon: {
         width: 150,
@@ -111,14 +113,24 @@ const SubscriptionView = (props: {
 }) => {
     const styles = useCardStyles();
 
-    return <Card className={styles.root}>
+    const toggleSubscription = useCallback((e) => {
+        e.stopPropagation();
+        props.toggleSubscription(props.subscription);
+    }, [props.toggleSubscription, props.subscription]);
+
+    const history = useHistory();
+    const viewStream = useCallback(() => {
+        history.push(`/stream/${props.subscription.id}`);
+    }, [props.subscription.id, history])
+
+    return <Card className={styles.root} onClick={viewStream}>
         <CardMedia className={styles.icon}
             image={props.subscription.visualUrl || props.subscription.iconUrl}/>
         <div className={styles.content}>
             {props.subscription.title}
         </div>
         <div className={styles.controls}>
-            <IconButton onClick={() => props.toggleSubscription(props.subscription)}>
+            <IconButton onClick={toggleSubscription}>
                 {props.isSubscribed
                     ? <Delete/>
                     : <Add/>
