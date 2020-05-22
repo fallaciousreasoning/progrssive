@@ -10,23 +10,29 @@ export const useStreams = () => {
     return store.streams || {};
 }
 
+const entrySorter = (e1: Entry, e2: Entry) => {
+    return e1.published - e2.published;
+}
+
 export const useStream = (streamId: string): Stream => {
     const store = useStore();
     if (!streamId) {
         return {
             id: "",
-            items: Object.values(store.entries),
+            items: Object.values(store.entries).sort(entrySorter),
             title: "All"
         };
     }
-    
+
     const streams = store.streams;
 
     // If it's a feed
     if (streamId.startsWith('feed/')) {
         return {
             id: streamId,
-            items: Object.values(store.entries).filter(e => e.origin.streamId === streamId),
+            items: Object.values(store.entries)
+                .filter(e => e.origin.streamId === streamId)
+                .sort(entrySorter),
             title: 'Feed'
         };
     }
@@ -35,7 +41,9 @@ export const useStream = (streamId: string): Stream => {
     if (streamId.includes('/tag/')) {
         return {
             id: streamId,
-            items: Object.values(store.entries).filter(e => e.tags && e.tags.some(t => t.id === streamId)),
+            items: Object.values(store.entries)
+                .filter(e => e.tags && e.tags.some(t => t.id === streamId))
+                .sort(entrySorter),
             title: 'Tag'
         };
     }
@@ -45,6 +53,7 @@ export const useStream = (streamId: string): Stream => {
         ? {
             ...stream,
             items: stream.items.map(i => store.entries[i])
+                .sort(entrySorter)
         }
         : undefined;
 }
