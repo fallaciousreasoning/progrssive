@@ -9,4 +9,5 @@ export interface Subscription {
     website?: string;
     visualUrl?: string;
     iconUrl?: string;
+    preferredView?: 'feedly' | 'browser';
 }

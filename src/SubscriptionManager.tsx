@@ -125,7 +125,12 @@ const SubscriptionView = (props: {
     const history = useHistory();
     const viewStream = useCallback(() => {
         // history.push(`/stream/${props.subscription.id}`);
-    }, [props.subscription.id, history])
+    }, [props.subscription.id, history]);
+
+    const preferredViewChanged = useCallback(async (e) => {
+        props.subscription.preferredView = e.target.value;
+        await save('subscriptions', getStore().subscriptions)
+    }, [props.subscription]);
 
     return <Card className={styles.root} onClick={viewStream}>
         <CardMedia className={styles.icon}
@@ -137,7 +142,9 @@ const SubscriptionView = (props: {
             {props.isSubscribed && <div>
                 <FormControl fullWidth className={styles.viewPicker}>
                     <InputLabel>Preferred View</InputLabel>
-                    <Select>
+                    <Select
+                        onChange={preferredViewChanged}
+                        value={props.subscription.preferredView || "feedly"}>
                         <MenuItem value="feedly">Feedly Mobilizer</MenuItem>
                         <MenuItem value="browser">Browser</MenuItem>
                     </Select>
