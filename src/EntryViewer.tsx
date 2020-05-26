@@ -26,6 +26,9 @@ const useStyles = makeStyles({
         'article figure': {
             margin: 0
         }
+    },
+    titleLink: {
+        textDecoration: 'none'
     }
 });
 
@@ -85,10 +88,16 @@ export default (props: Props) => {
         return <CircularProgress />;
 
     const content = getEntryContent(entry);
-
+    const title = entry.canonical && entry.canonical.length !== 0
+        ? <a
+            href={entry.canonical[0].href}
+            className={styles.titleLink}>
+                {entry.title}
+        </a>
+        : entry.title;
     const article = <>
         <CardHeader
-            title={entry.title}
+            title={title}
             subheader={getEntryByline(entry)} />
         {content && <CardContent>
             <Typography component='small'>
