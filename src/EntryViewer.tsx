@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useEffect, useRef } from 'react';
 import { useIsPhone } from "./hooks/responsive";
 import { useEntry } from "./hooks/stream";
-import { getEntryByline, getEntryContent } from "./services/entry";
+import { getEntryByline, getEntryContent, getEntryUrl } from "./services/entry";
 import { getStore, useStore } from "./hooks/store";
 import { updateEntry } from "./actions/entry";
 import AppBarButton from "./components/AppBarButton";
@@ -88,15 +88,14 @@ export default (props: Props) => {
         return <CircularProgress />;
 
     const content = getEntryContent(entry);
-    const url = entry.canonicalUrl ||
-        entry.canonical && entry.canonical.length && entry.canonical[0].href;
+    const url = getEntryUrl(entry);
 
     const title = url
         ? <a
             target="_blank"
             href={url}
             className={styles.titleLink}>
-                {entry.title}
+            {entry.title}
         </a>
         : entry.title;
 

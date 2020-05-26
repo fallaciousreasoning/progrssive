@@ -19,6 +19,10 @@ export const getEntryContent = (entry: Entry) => {
     return sanitizeContent(detail && detail.content);
 }
 
+export const getEntryUrl = (entry: Entry) =>
+    entry.canonicalUrl ||
+    entry.canonical && entry.canonical.length && entry.canonical[0].href;
+
 export const getEntrySummary = (entry: Entry) => sanitizeContent(entry.summary && entry.summary.content);
 
 export const getEntryByline = (entry: Entry) => `${entry.engagement ? entry.engagement + ' ' : ''}${entry.origin && entry.origin.title} / ${relativeDate(new Date(entry.published))}`;
