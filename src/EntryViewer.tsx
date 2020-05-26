@@ -88,13 +88,18 @@ export default (props: Props) => {
         return <CircularProgress />;
 
     const content = getEntryContent(entry);
-    const title = entry.canonical && entry.canonical.length !== 0
+    const url = entry.canonicalUrl ||
+        entry.canonical && entry.canonical.length && entry.canonical[0].href;
+
+    const title = url
         ? <a
-            href={entry.canonical[0].href}
+            target="_blank"
+            href={url}
             className={styles.titleLink}>
                 {entry.title}
         </a>
         : entry.title;
+
     const article = <>
         <CardHeader
             title={title}

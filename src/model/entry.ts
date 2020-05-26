@@ -30,6 +30,7 @@ export interface Entry {
     updateCount?: number;
 
     alternate?: Link[];
+    canonicalUrl?: string;
     canonical?: Link[];
 
     enclosure?: Link[];
