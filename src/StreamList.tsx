@@ -8,6 +8,7 @@ import { setUnread } from './actions/marker';
 import { useStore } from './hooks/store';
 import EntryCard from './EntryCard';
 import { useHistory } from "react-router-dom";
+import { getEntrySubscription, getEntryUrl } from './services/entry';
 
 interface Props {
     entries: Entry[];
@@ -49,7 +50,7 @@ export default (props: Props) => {
         onItemsRendered={onItemsRendered}
         itemKey={(index, data) => data[index].id}>
         {rowProps => {
-            const item = rowProps.data[rowProps.index];
+            const item: Entry = rowProps.data[rowProps.index];
             const newStyle = {
                 ...rowProps.style,
                 top: rowProps.style.top + GUTTER_SIZE,
@@ -59,8 +60,15 @@ export default (props: Props) => {
             };
             return <div
                 style={newStyle}
-                onClick={() => history.push(`/entries/${item.id}`)}
-                >
+                onClick={() => {
+                    const subscription = getEntrySubscription(item);
+                    if (subscription && subscription.preferredView === "browser") {
+                        window.open(getEntryUrl(item), "_blank");
+                    } else {
+                        history.push(`/entries/${item.id}`);
+                    }
+                }}
+            >
                 <EntryCard entry={item} showingUnreadOnly={store.settings.unreadOnly} />
             </div>;
         }}

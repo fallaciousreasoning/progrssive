@@ -1,5 +1,6 @@
 import { Entry } from "../model/entry";
 import relativeDate from 'tiny-relative-date';
+import { getStore } from "../hooks/store";
 
 export const sanitizeContent = (contentString: string) => {
     if (!contentString)
@@ -38,3 +39,9 @@ export const getEntryVisualUrl = (entry: Entry) => {
 }
 
 export const isSaved = (entry: Entry) => entry.tags && entry.tags.some(e => e.id.endsWith('global.saved'));
+
+export const getEntrySubscription = (entry: Entry) => {
+    const streamId = entry.origin && entry.origin.streamId;
+    const subscriptions = getStore().subscriptions;
+    return subscriptions.find(s => s.id === streamId);
+}
