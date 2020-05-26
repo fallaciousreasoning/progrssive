@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { makeStyles, TextField, Card, CardMedia, IconButton } from "@material-ui/core"
+import { makeStyles, TextField, Card, CardMedia, IconButton, FormControl, InputLabel, Select, MenuItem } from "@material-ui/core"
 import { useState, useEffect, useCallback } from 'react';
 import { useStore, getStore } from './hooks/store';
 import { Subscription } from './model/subscription';
@@ -81,16 +81,16 @@ export const SubscriptionManager = (props) => {
                 key={s.id}
                 subscription={s}
                 isSubscribed={isSubscribed(s)}
-                toggleSubscription={toggleSubscription}/>)}
+                toggleSubscription={toggleSubscription} />)}
         </div>
     </div>
 }
 
-const useCardStyles = makeStyles({
+const useCardStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
         alignItems: 'center',
-        marginBottom: '8px',
+        marginBottom: theme.spacing(1),
         cursor: 'pointer'
     },
     icon: {
@@ -98,13 +98,17 @@ const useCardStyles = makeStyles({
         alignSelf: 'stretch'
     },
     content: {
-        marginLeft: '8px',
-        flexGrow: 1
+        marginLeft: theme.spacing(1),
+        flexGrow: 1,
+        padding: theme.spacing(1)
+    },
+    viewPicker: {
+        marginTop: theme.spacing(1)
     },
     controls: {
-        marginLeft: '8px'
+        marginLeft: theme.spacing(1)
     }
-});
+}));
 
 const SubscriptionView = (props: {
     subscription: Subscription,
@@ -120,20 +124,31 @@ const SubscriptionView = (props: {
 
     const history = useHistory();
     const viewStream = useCallback(() => {
-        history.push(`/stream/${props.subscription.id}`);
+        // history.push(`/stream/${props.subscription.id}`);
     }, [props.subscription.id, history])
 
     return <Card className={styles.root} onClick={viewStream}>
         <CardMedia className={styles.icon}
-            image={props.subscription.visualUrl || props.subscription.iconUrl}/>
+            image={props.subscription.visualUrl || props.subscription.iconUrl} />
         <div className={styles.content}>
-            {props.subscription.title}
+            <div>
+                <b>{props.subscription.title}</b>
+            </div>
+            {props.isSubscribed && <div>
+                <FormControl fullWidth className={styles.viewPicker}>
+                    <InputLabel>Preferred View</InputLabel>
+                    <Select>
+                        <MenuItem value="feedly">Feedly Mobilizer</MenuItem>
+                        <MenuItem value="browser">Browser</MenuItem>
+                    </Select>
+                </FormControl>
+            </div>}
         </div>
         <div className={styles.controls}>
             <IconButton onClick={toggleSubscription}>
                 {props.isSubscribed
-                    ? <Delete/>
-                    : <Add/>
+                    ? <Delete />
+                    : <Add />
                 }
             </IconButton>
         </div>
