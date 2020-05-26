@@ -91,6 +91,8 @@ const useCardStyles = makeStyles(theme => ({
         display: 'flex',
         alignItems: 'center',
         marginBottom: theme.spacing(1),
+    },
+    title: {
         cursor: 'pointer'
     },
     icon: {
@@ -124,7 +126,7 @@ const SubscriptionView = (props: {
 
     const history = useHistory();
     const viewStream = useCallback(() => {
-        // history.push(`/stream/${props.subscription.id}`);
+        history.push(`/stream/${props.subscription.id}`);
     }, [props.subscription.id, history]);
 
     const preferredViewChanged = useCallback(async (e) => {
@@ -132,11 +134,11 @@ const SubscriptionView = (props: {
         await save('subscriptions', getStore().subscriptions)
     }, [props.subscription]);
 
-    return <Card className={styles.root} onClick={viewStream}>
+    return <Card className={styles.root}>
         <CardMedia className={styles.icon}
             image={props.subscription.visualUrl || props.subscription.iconUrl} />
         <div className={styles.content}>
-            <div>
+            <div onClick={viewStream} className={styles.title}>
                 <b>{props.subscription.title}</b>
             </div>
             {props.isSubscribed && <div>
