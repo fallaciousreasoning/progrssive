@@ -4,8 +4,16 @@ import { useForeUpdate } from "./effects";
 export const useResult = <T>(promise: Promise<T>, dependencies?: any[]) => {
     const [result, setResult] = useState(undefined);
 
-    useEffect(() => {        
-        promise.then(setResult);
+    useEffect(() => {
+        let unmounted = false;    
+        promise.then(result => {
+            if (unmounted)
+                return;
+
+            setResult(result);
+        });
+
+        return () => unmounted = true;
     }, dependencies);
 
     return result;
