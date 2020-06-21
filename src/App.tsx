@@ -1,7 +1,7 @@
-import { MuiThemeProvider, makeStyles } from '@material-ui/core';
+import { makeStyles, MuiThemeProvider } from '@material-ui/core';
 import { SnackbarProvider } from 'notistack';
-import React, { useEffect, useMemo } from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import React, { useMemo } from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import AppBar from './AppBar';
 import { SnackbarHelper } from './components/SnackbarHelper';
 import EntryViewer from './EntryViewer';
@@ -9,8 +9,8 @@ import { useStore } from './hooks/store';
 import RouteManager, { AppRoute } from './RouteManager';
 import SettingsPage from './SettingsPage';
 import StreamViewer from './StreamViewer';
+import { SubscriptionManager } from './SubscriptionManager';
 import { buildTheme } from './theme';
-import { SubscriptionManager } from './SubscriptionManager'
 
 const useStyles = makeStyles(theme => ({
   root: {

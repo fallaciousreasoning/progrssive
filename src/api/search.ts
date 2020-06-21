@@ -1,6 +1,5 @@
-import { Stream } from '../model/stream';
-import { makeRequest } from './common';
 import { Subscription } from '../model/subscription';
+import { makeRequest } from './common';
 const endpoint = '/search/feeds'
 
 export interface SearchRequestOptions {

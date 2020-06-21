@@ -35,7 +35,7 @@ export const useStore = () => {
         return () => {
             removeUpdater(updater);
         };
-    });
+    }, []);
 
     return store;
 }

@@ -1,6 +1,5 @@
-import { Stream } from "../model/stream";
-import { getStore } from "../hooks/store";
 import { getStream } from "../api/streams";
+import { getStore } from "../hooks/store";
 import { Subscription } from "../model/subscription";
 import { addStream } from "./db";
 

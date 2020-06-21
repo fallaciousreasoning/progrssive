@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useForeUpdate } from "./effects";
 
-export const useResult = <T>(promise: Promise<T>, dependencies?: any[], defaultValue: T = undefined) => {
+export const useResult = <T>(promise: Promise<T>, dependencies: any[] = [], defaultValue: T = undefined) => {
     const [result, setResult] = useState(defaultValue);
 
     useEffect(() => {
@@ -14,7 +14,9 @@ export const useResult = <T>(promise: Promise<T>, dependencies?: any[], defaultV
         });
 
         return () => unmounted = true;
-    }, dependencies);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [...dependencies]);
 
     return result;
 }

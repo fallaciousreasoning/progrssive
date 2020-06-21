@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { useCallback, useState } from 'react';
 
 export const useNTap = <Type>(callback: (...args) => void, change: [], requiredTaps = 2, delay = 200) => {
@@ -12,7 +11,9 @@ export const useNTap = <Type>(callback: (...args) => void, change: [], requiredT
 
         // If we've tapped enough times, fire the callback.
         if (taps >= requiredTaps) callback(...args);
-    }, [...change, requiredTaps, delay]);
+    },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [...change, requiredTaps, delay, callback, taps]);
 
     return memoized;
 }
@@ -26,7 +27,7 @@ interface ScrollEvents {
 }
 
 export const useOnScroll = (handlers: ScrollEvents) => {
-    const [isScrolling, setScrolling ] = useState(false);
+    const [isScrolling, setScrolling] = useState(false);
     const [scrollTimeout, setScrollTimeout] = useState(undefined);
 
     const memoized = useCallback((e) => {

@@ -1,5 +1,5 @@
-import { Drawer, List, ListItem, ListItemIcon, ListItemText, Typography } from "@material-ui/core";
-import { Person, RssFeed, Book } from '@material-ui/icons';
+import { Drawer, List, Typography } from "@material-ui/core";
+import { Book, RssFeed } from '@material-ui/icons';
 import SettingsIcon from '@material-ui/icons/Settings';
 import React, { useState } from 'react';
 import ListLinkButton from './components/ListLinkButton';

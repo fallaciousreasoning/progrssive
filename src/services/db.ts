@@ -1,6 +1,5 @@
-import Dexie, { DexieError } from 'dexie';
+import Dexie from 'dexie';
 import { Entry } from '../model/entry';
-import { StoreStream } from '../types/RecollectStore';
 import { Stream } from '../model/stream';
 
 type DBStream = Omit<Stream, 'items'>;

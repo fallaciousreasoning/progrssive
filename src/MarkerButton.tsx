@@ -1,10 +1,9 @@
+import { IconButton, makeStyles } from '@material-ui/core';
+import { RemoveRedEye } from '@material-ui/icons';
 import * as React from 'react';
-import { makeStyles, Button, IconButton } from '@material-ui/core';
-import { Entry } from './model/entry';
-import { RemoveRedEye, RemoveCircleOutline, StarSharp, StarOutlined, StarBorderOutlined, Star } from '@material-ui/icons';
 import { useCallback } from 'react';
-import { isSaved } from './services/entry';
 import { setUnread } from './actions/marker';
+import { Entry } from './model/entry';
 
 const useStyles = makeStyles({
     on: {
@@ -23,7 +22,7 @@ export const EntryReadButton = (props: MarkerButtonProps) => {
     const styles = useStyles(undefined);
     const toggleRead = useCallback(() => {
         setUnread(props.entry, !props.entry.unread);
-    }, [props.entry, props.entry.unread]);
+    }, [props.entry]);
 
     return <IconButton
         className={props.entry.unread ? styles.on : styles.off}

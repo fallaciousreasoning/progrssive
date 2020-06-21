@@ -1,5 +1,5 @@
-import * as React from 'react'
-import { useEffect, useCallback, useRef, useState } from 'react';
+import * as React from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useOnScrollEnd } from '../hooks/callbacks';
 
 interface Props {
@@ -23,14 +23,14 @@ export const SwipeableView = (props: Props) => {
         if (!swipeableView.current)
           return;
 
-        if (props.activeIndex < 0 || swipeableView.current && props.activeIndex > swipeableView.current.children.length)
+        if (props.activeIndex < 0 || (swipeableView.current && props.activeIndex > swipeableView.current.children.length))
           throw new Error(`Index ${props.activeIndex} out of range!`);
 
         const child = swipeableView.current.children[props.activeIndex];
         swipeableView.current.scrollTo(child.offsetLeft, 0);
 
         setActiveIndex(props.activeIndex);
-    }, [props.activeIndex])
+    }, [props.activeIndex, activeIndex])
 
     const onScroll = useOnScrollEnd(() => {
         const element = swipeableView.current;

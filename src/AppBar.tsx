@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Toolbar, AppBar, IconButton, Typography, makeStyles } from '@material-ui/core';
+import { AppBar, IconButton, makeStyles, Toolbar, Typography } from '@material-ui/core';
 import { Menu } from '@material-ui/icons';
+import React from 'react';
 import AppDrawer from './AppDrawer';
 
 export const AppBarContext: React.Context<React.Ref<any>> = React.createContext(undefined);

@@ -1,11 +1,7 @@
 import { store as s } from 'react-recollect';
-import { Stream } from '../model/stream';
-import { Subscription } from '../model/subscription';
-import { StoreDef, StoreStream } from '../types/RecollectStore';
-import { Entry } from '../model/entry';
-import { getStore } from '../hooks/store';
-import { saveChildren, loadStore } from './persister';
 import { loadSettings } from '../actions/settings';
+import { StoreDef } from '../types/RecollectStore';
+import { loadStore } from './persister';
 const store = s as StoreDef;
 
 let initStorePromise: Promise<void>;
@@ -24,8 +20,4 @@ export const initStore = () => {
 
     initStorePromise = loadStore();
     return initStorePromise;
-
-    // Include our fake stream by default.
-    // setAllStreams(store.profile.id, require('../fakeStream.json'));
-    // store.collections = require('../fakeCollections.json');
 }

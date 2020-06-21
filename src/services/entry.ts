@@ -22,7 +22,7 @@ export const getEntryContent = (entry: Entry) => {
 
 export const getEntryUrl = (entry: Entry) =>
     entry.canonicalUrl ||
-    entry.canonical && entry.canonical.length && entry.canonical[0].href;
+    (entry.canonical && entry.canonical.length && entry.canonical[0].href);
 
 export const getEntrySummary = (entry: Entry) => sanitizeContent(entry.summary && entry.summary.content);
 
