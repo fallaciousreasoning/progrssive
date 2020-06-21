@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, CircularProgress } from '@material-ui/core';
 import { Entry } from './model/entry';
 import { useScreenSize } from './hooks/screenSize';
 import { FixedSizeList } from 'react-window';
@@ -44,13 +44,15 @@ class EntryList {
             return undefined;
 
         // Keep loading more entries till we know the right one.
-        while (this.loadedEntries.length <= index) {
+        while (this.loadedEntries.length < index) {
             const next = await this.iterator.next();
-            if (next.done)
-                throw new Error("This shouldn't be possible...");
+            if (!next.value)
+                break;
 
             this.loadedEntries.push(next.value);
         }
+
+        return this.loadedEntries[index];
     }
 }
 
@@ -70,7 +72,7 @@ export default (props: Props) => {
         [props.unreadOnly, props.streamId]);
     const entryCount = useResult(entryList.length, [entryList], 0);
 
-    const [lastVisibleStartIndex, setLastVisibleStartIndex] = useState(0);
+    const [lastVisibleStartIndex, setLastVisibleStartIndex] = useState(0)
     const onItemsRendered = useCallback(async ({ visibleStartIndex }) => {
         if (!markScrolledAsRead)
             return;
@@ -88,13 +90,11 @@ export default (props: Props) => {
         className={styles.root}
         height={height - 62 - GUTTER_SIZE * 2}
         itemSize={208}
-        items={[1,2,3,4,5,6,7]}
         itemCount={entryCount}
         width={Math.min(800, width)}
         onItemsRendered={onItemsRendered}>
         {rowProps => {
-            console.log("Hello", rowProps)
-            const item: Entry = rowProps.data[rowProps.index];
+            const item: Entry = useResult(entryList.get(rowProps.index), [entryList]);
             const newStyle = {
                 ...rowProps.style,
                 top: rowProps.style.top + GUTTER_SIZE,
@@ -102,7 +102,7 @@ export default (props: Props) => {
                 right: GUTTER_SIZE,
                 width: `100% - ${GUTTER_SIZE * 2}`
             };
-            return <div
+            return item ? <div
                 style={newStyle}
                 onClick={() => {
                     const subscription = getEntrySubscription(item);
@@ -113,8 +113,9 @@ export default (props: Props) => {
                     }
                 }}
             >
-                {/* <EntryCard entry={item} showingUnreadOnly={store.settings.unreadOnly} /> */}
-            </div>;
+                <EntryCard entry={item} showingUnreadOnly={store.settings.unreadOnly} />
+            </div>
+            : <CircularProgress/>;
         }}
     </FixedSizeList>
 }
