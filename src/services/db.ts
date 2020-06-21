@@ -16,8 +16,8 @@ export class DB extends Dexie {
         super('articles');
         this.version(1)
             .stores({
-                streams: 'id,title',
-                entries: 'id,title,author,published,unread,*streamIds',
+                streams: '&id,title',
+                entries: '&id,title,published,unread,*streamIds',
             });
 
         this.entries = this.table('entries');
