@@ -92,6 +92,7 @@ export default (props: Props) => {
         itemSize={208}
         itemCount={entryCount}
         width={Math.min(800, width)}
+        itemKey={(index) => index < entryList.loadedEntries.length ? entryList.loadedEntries[index].id : index}
         onItemsRendered={onItemsRendered}>
         {rowProps => {
             const item: Entry = useResult(entryList.get(rowProps.index), [entryList]);
