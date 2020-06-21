@@ -5,7 +5,7 @@ import { Stream } from '../model/stream';
 
 type DBStream = Omit<Stream, 'items'>;
 
-class DB extends Dexie {
+export class DB extends Dexie {
     entries: Dexie.Table<Entry & { streamIds: string[] }, string>;
     streams: Dexie.Table<DBStream, string>;
 
@@ -20,12 +20,13 @@ class DB extends Dexie {
     }
 }
 
-const db = new DB();
+export const db = new DB();
 
 export const addStream = (stream: Stream) => {
     return db.transaction('rw',
         db.entries,
-        db.streams, async (transaction) => {
+        db.streams,
+        async (transaction) => {
             const dbStream = { ...stream };
             delete dbStream.items;
 
@@ -47,19 +48,5 @@ export const addStream = (stream: Stream) => {
                 // Add the entry to the database.
                 db.entries.put(dbEntry, entry.id);
             }
-    })
-}
-
-export const iterateEntries = (streamId?: string) => {
-    return db.transaction('r', db.entries, t => {
-        if (streamId) {
-            db.entries
-                .where('categories')
-                .equals(streamId)
-                // Sadly, this happens in memory..
-                .sortBy('published');
-        }
-
-        return  db.entries.orderBy('published');
-    })
+        })
 }
