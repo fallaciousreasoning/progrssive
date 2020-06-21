@@ -68,7 +68,7 @@ export default (props: Props) => {
     // Get a list of entries matching the current filters.
     const entryList = useMemo(() => new EntryList(props.unreadOnly, props.streamId),
         [props.unreadOnly, props.streamId]);
-    const entryCount = useResult(entryList.length, [entryList]);
+    const entryCount = useResult(entryList.length, [entryList], 0);
 
     const [lastVisibleStartIndex, setLastVisibleStartIndex] = useState(0);
     const onItemsRendered = useCallback(async ({ visibleStartIndex }) => {
@@ -83,15 +83,17 @@ export default (props: Props) => {
         setLastVisibleStartIndex(visibleStartIndex);
     }, [props.unreadOnly, props.streamId, lastVisibleStartIndex]);
 
+    console.log(entryCount)
     return <FixedSizeList
         className={styles.root}
         height={height - 62 - GUTTER_SIZE * 2}
         itemSize={208}
+        items={[1,2,3,4,5,6,7]}
         itemCount={entryCount}
         width={Math.min(800, width)}
-        onItemsRendered={onItemsRendered}
-        itemKey={(index, data) => data[index].id}>
+        onItemsRendered={onItemsRendered}>
         {rowProps => {
+            console.log("Hello", rowProps)
             const item: Entry = rowProps.data[rowProps.index];
             const newStyle = {
                 ...rowProps.style,
@@ -111,7 +113,7 @@ export default (props: Props) => {
                     }
                 }}
             >
-                <EntryCard entry={item} showingUnreadOnly={store.settings.unreadOnly} />
+                {/* <EntryCard entry={item} showingUnreadOnly={store.settings.unreadOnly} /> */}
             </div>;
         }}
     </FixedSizeList>

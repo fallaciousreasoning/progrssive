@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useForeUpdate } from "./effects";
 
-export const useResult = <T>(promise: Promise<T>, dependencies?: any[]) => {
-    const [result, setResult] = useState(undefined);
+export const useResult = <T>(promise: Promise<T>, dependencies?: any[], defaultValue: T = undefined) => {
+    const [result, setResult] = useState(defaultValue);
 
     useEffect(() => {
         let unmounted = false;    

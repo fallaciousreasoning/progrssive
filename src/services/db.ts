@@ -49,7 +49,7 @@ export const loadEntry = (entryId: string) => entryId ? db.entries.get(entryId) 
 export const addEntry = async (entry: Entry, streamId?: string, maintainUnread?: boolean) => {
     const dbEntry = {
         ...entry,
-        unread: !!entry.unread,
+        unread: +entry.unread,
         streamIds: []
     };
 
