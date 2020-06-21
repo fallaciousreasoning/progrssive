@@ -50,15 +50,13 @@ export async function* entryIterator(unreadOnly: boolean, streamId?: string, pag
 
 // A utility class for maintaining a list of entries.
 export class EntryList {
-    length: number = 0;
-    lengthPromise: Promise<number>;
+    length: Promise<number>;
     iterator: AsyncGenerator<Entry>;
     loadedEntries: Entry[] = [];
 
     constructor(unreadOnly: boolean, streamId: string) {
         this.iterator = entryIterator(unreadOnly, streamId);
-        this.lengthPromise = entryCount(unreadOnly, streamId);
-        this.lengthPromise.then(length => this.length = length);
+        this.length = entryCount(unreadOnly, streamId);
     }
 
     async get(index: number) {

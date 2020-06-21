@@ -17,6 +17,7 @@ export const initStore = () => {
     store.current = {
     };
     store.subscriptions = [];
+    store.lastUpdate = Date.now();
 
     initStorePromise = loadStore();
     return initStorePromise;

@@ -32,6 +32,7 @@ export interface StoreDef {
     [path: string]: string;
   },
   subscriptions: Subscription[];
+  lastUpdate: number;
 }
 
 declare module 'react-recollect' {

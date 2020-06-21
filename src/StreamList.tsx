@@ -47,11 +47,13 @@ export default (props: Props) => {
         setLastVisibleStartIndex(visibleStartIndex);
     }, [lastVisibleStartIndex, props.entries, markScrolledAsRead]);
 
+    const entryCount = useResult(props.entries.length, [props.entries], 0);
+
     return <FixedSizeList
         className={styles.root}
         height={height - 62 - GUTTER_SIZE * 2}
         itemSize={208}
-        itemCount={props.entries.length}
+        itemCount={entryCount}
         width={Math.min(800, width)}
         itemKey={(index) => index < props.entries.loadedEntries.length ? props.entries.loadedEntries[index].id : index}
         onItemsRendered={onItemsRendered}>
