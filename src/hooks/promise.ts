@@ -19,12 +19,6 @@ export const useResult = <T>(promise: Promise<T>, dependencies?: any[], defaultV
     return result;
 }
 
-export const executeOnce = <T>(execute: (...args) => Promise<T>, ...keys) => {
-    useEffect(() => {
-        execute(...keys);
-    }, [...keys]);
-}
-
 interface Cache<T> {
     updating: boolean;
     lastArgs: any[];

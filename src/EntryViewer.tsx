@@ -33,7 +33,7 @@ const useStyles = makeStyles({
     }
 });
 
-const maybeMarkAsRead = (entry: Entry) => {
+const useMaybeMarkAsRead = (entry: Entry) => {
     const store = useStore();
     const shouldMarkAsRead = store.settings.markOpenedAsRead;
 
@@ -44,7 +44,7 @@ const maybeMarkAsRead = (entry: Entry) => {
     }, [entry && entry.id, shouldMarkAsRead]);
 }
 
-const scrollToTop = (entry: Entry, ref: React.MutableRefObject<any>) => {
+const useScrollToTop = (entry: Entry, ref: React.MutableRefObject<any>) => {
     useEffect(() => {
         if (!entry || !ref || !ref.current) return;
 
@@ -73,8 +73,8 @@ export default (props: Props) => {
         updateEntry(props.id);
     }, [props.id]);
 
-    maybeMarkAsRead(entry);
-    scrollToTop(entry, domElement);
+    useMaybeMarkAsRead(entry);
+    useScrollToTop(entry, domElement);
 
     const doubleTap = useDoubleTap((event) => {
         if (!store.settings.doubleTapToCloseArticles)
