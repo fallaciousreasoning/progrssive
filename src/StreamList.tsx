@@ -116,7 +116,9 @@ export default (props: Props) => {
             >
                 <EntryCard entry={item} showingUnreadOnly={store.settings.unreadOnly} />
             </div>
-            : <CircularProgress/>;
+            : <div style={newStyle}>
+                <CircularProgress/>
+            </div>;
         }}
     </FixedSizeList>
 }
