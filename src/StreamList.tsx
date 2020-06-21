@@ -44,7 +44,7 @@ class EntryList {
             return undefined;
 
         // Keep loading more entries till we know the right one.
-        while (this.loadedEntries.length < index) {
+        while (this.loadedEntries.length <= index) {
             const next = await this.iterator.next();
             if (!next.value)
                 break;
