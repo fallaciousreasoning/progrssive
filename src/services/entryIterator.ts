@@ -3,11 +3,11 @@ import { db } from "./db";
 export async function entryCount(unreadOnly: boolean, streamId: string) {
     // No filtering, return total count of entries.
     if (!unreadOnly && !!streamId)
-        return db.entries.count();
+        return db.entries.where('published').above(0).count();
 
     const query = { };
     if (unreadOnly)
-        query['unread'] = true;
+        query['unread'] = 1;
 
     if (streamId)
         query['streamIds'] = streamId;

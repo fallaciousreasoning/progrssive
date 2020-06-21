@@ -15,12 +15,15 @@ export class DB extends Dexie {
             .stores({
                 streams: 'id,title',
                 entries: 'id,title,author,published,unread,*streamIds',
-                subscriptions: '',
-            })
+            });
+
+        this.entries = this.table('entries');
+        this.streams = this.table('streams');
     }
 }
 
 export const db = new DB();
+window['db'] = db;
 
 export const addStream = (stream: Stream) => {
     return db.transaction('rw',
@@ -40,12 +43,13 @@ export const addStream = (stream: Stream) => {
         })
 }
 
-export const loadEntry = (entryId: string) => db.entries.get(entryId);
+export const loadEntry = (entryId: string) => entryId ? db.entries.get(entryId) : undefined;
 
 // Ensure we don't lose any stream ids when we save an entry.
 export const addEntry = async (entry: Entry, streamId?: string, maintainUnread?: boolean) => {
     const dbEntry = {
         ...entry,
+        unread: !!entry.unread,
         streamIds: []
     };
 
