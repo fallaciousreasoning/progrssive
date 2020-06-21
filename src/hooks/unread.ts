@@ -21,10 +21,16 @@ export const useUnreadCount = (streamId?: string) => {
                 return;
             }
 
-            const diff = newEntry.unread - oldEntry.unread;
+            let diff = 0;
+            if (newEntry)
+                diff += newEntry.unread;
+
+            if (oldEntry)
+                diff -= oldEntry.unread;
+
             if (diff === 0)
                 return;
-    
+
             setUnread(unread + diff);
         }
         addEntryListener(listener);
