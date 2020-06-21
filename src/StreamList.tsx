@@ -58,7 +58,7 @@ export default (props: Props) => {
         itemKey={(index) => index < props.entries.loadedEntries.length ? props.entries.loadedEntries[index].id : index}
         onItemsRendered={onItemsRendered}>
         {rowProps => {
-            const item: Entry = useResult(props.entries.get(rowProps.index), [props.entries]);
+            const item: Entry = useResult(props.entries.get(rowProps.index), [props.entries, rowProps.index]);
             const newStyle = {
                 ...rowProps.style,
                 top: rowProps.style.top + GUTTER_SIZE,
