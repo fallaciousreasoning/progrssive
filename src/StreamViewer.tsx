@@ -33,11 +33,12 @@ export default (props: { id: string, active: boolean }) => {
 
   const loading = isUpdating('stream');
   const entries = useMemo(() => new EntryList(store.settings.unreadOnly, props.id),
+    // eslint-disable-next-line
     [store.settings.unreadOnly, props.id, store.lastUpdate]);
 
   const entryCount = useResult(entries.length, [entries], 0);
   const unreadCount = useUnreadCount();
-  const readProgress = (entryCount - unreadCount)/entryCount * 100;
+  const readProgress = (entryCount - unreadCount) / entryCount * 100;
 
   return <div className={styles.root}>
     {store.settings.unreadOnly
