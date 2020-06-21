@@ -85,7 +85,6 @@ export default (props: Props) => {
         setLastVisibleStartIndex(visibleStartIndex);
     }, [props.unreadOnly, props.streamId, lastVisibleStartIndex]);
 
-    console.log(entryCount)
     return <FixedSizeList
         className={styles.root}
         height={height - 62 - GUTTER_SIZE * 2}

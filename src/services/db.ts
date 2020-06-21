@@ -4,9 +4,13 @@ import { StoreStream } from '../types/RecollectStore';
 import { Stream } from '../model/stream';
 
 type DBStream = Omit<Stream, 'items'>;
+type DBEntry = Omit<Entry, 'unread'> & {
+    streamIds: string[],
+    unread: number,
+};
 
 export class DB extends Dexie {
-    entries: Dexie.Table<Entry & { streamIds: string[] }, string>;
+    entries: Dexie.Table<DBEntry, string>;
     streams: Dexie.Table<DBStream, string>;
 
     constructor() {

@@ -1,4 +1,5 @@
 import { db } from "./db";
+import { Entry } from "../model/entry";
 
 export async function entryCount(unreadOnly: boolean, streamId: string) {
     // No filtering, return total count of entries.
@@ -24,8 +25,9 @@ export async function* entryIterator(unreadOnly: boolean, streamId?: string, pag
         const page = await db.entries
             .where('published')
             .below(lastDate)
+            .reverse()
             // Note: An clauses happen in memory.
-            .and(e => !unreadOnly || e.unread)
+            .and(e => !unreadOnly || !!e.unread)
             .and(e => !streamId || e.streamIds.includes(streamId))
             .limit(pageSize)
             .toArray();
@@ -40,6 +42,7 @@ export async function* entryIterator(unreadOnly: boolean, streamId?: string, pag
         }
 
         // Yield the items in the page.
-        yield* page;
+        // We do the weird typecast so unread: number is unread: boolean
+        yield* page as unknown as Entry[];
     }
 }
