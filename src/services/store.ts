@@ -13,8 +13,6 @@ export const initStore = () => {
     if (initStorePromise)
         return initStorePromise;
 
-    store.streams = {};
-    store.entries = {};
     store.updating = {
         categories: false,
         stream: 0,
@@ -30,17 +28,4 @@ export const initStore = () => {
     // Include our fake stream by default.
     // setAllStreams(store.profile.id, require('../fakeStream.json'));
     // store.collections = require('../fakeCollections.json');
-}
-
-export const getStream = (streamId: string): Stream => {
-    const store = getStore();
-    const stream = store.streams[streamId];
-    if (!stream) return;
-    return {
-        ...stream,
-        items: stream.items
-            .map(i => store.entries[i])
-            .filter(e => e)
-            .filter(e => e.unread || !store.settings.unreadOnly)
-    };
 }

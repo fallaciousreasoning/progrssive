@@ -1,19 +1,22 @@
 import { db } from "./db";
 
-function getUnreadCount(streamId?: string) {
-    const query = { unread: true };
-    // If we have a streamId, use it to filter.
-    if (streamId) {
-        query['streamIds'] = streamId;
-    }
+export async function entryCount(unreadOnly: boolean, streamId: string) {
+    // No filtering, return total count of entries.
+    if (!unreadOnly && !!streamId)
+        return db.entries.count();
 
-    // Return the number of entries matching the query.
-    return db.entries
-        .where(query)
-        .count();
+    const query = { };
+    if (unreadOnly)
+        query['unread'] = true;
+
+    if (streamId)
+        query['streamIds'] = streamId;
+
+    // Otherwise, return the number of entries matching the query.
+    return db.entries.where(query).count();
 }
 
-async function* entryIterator(streamId?: string, pageSize = 50) {
+export async function* entryIterator(unreadOnly: boolean, streamId?: string, pageSize = 50) {
     let finished = false;
     let lastDate = Date.now();
 
@@ -21,7 +24,8 @@ async function* entryIterator(streamId?: string, pageSize = 50) {
         const page = await db.entries
             .where('published')
             .below(lastDate)
-            // Note: This happens in memory.
+            // Note: An clauses happen in memory.
+            .and(e => !unreadOnly || e.unread)
             .and(e => !!streamId || e.streamIds.includes(streamId))
             .limit(pageSize)
             .toArray();

@@ -35,18 +35,30 @@ export const addStream = (stream: Stream) => {
 
             // Add all the entries
             for (const entry of stream.items) {
-                // Ensure we don't lose any streamIds
-                const oldEntry = await db.entries.get(entry.id);
-                const streamIds = new Set(oldEntry.streamIds);
-                streamIds.add(stream.id);
-
-                const dbEntry = {
-                    ...entry,
-                    streamIds: Array.from(streamIds)
-                }
-
-                // Add the entry to the database.
-                db.entries.put(dbEntry, entry.id);
+                addEntry(entry, stream.id);
             }
         })
+}
+
+export const loadEntry = (entryId: string) => db.entries.get(entryId);
+
+// Ensure we don't lose any stream ids when we save an entry.
+export const addEntry = async (entry: Entry, streamId?: string) => {
+    // Ensure we don't lose any streamIds
+    const oldEntry = await db.entries.get(entry.id);
+    const streamIds = new Set(oldEntry.streamIds);
+    
+    if (streamId)
+        streamIds.add(streamId);
+
+    const dbEntry = {
+        ...entry,
+        streamIds: Array.from(streamIds)
+    }
+
+    // Add the entry to the database.
+    db.entries.put(dbEntry, entry.id);
+
+    // Return it, on the off chance anyone was interested.
+    return dbEntry;
 }

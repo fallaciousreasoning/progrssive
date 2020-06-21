@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
 import { useForeUpdate } from "./effects";
 
-export const useResult = <T>(promise: Promise<T>) => {
+export const useResult = <T>(promise: Promise<T>, dependencies?: any[]) => {
     const [result, setResult] = useState(undefined);
 
-    useEffect(() => {
-        if (result) return;
-        
+    useEffect(() => {        
         promise.then(setResult);
-    });
+    }, dependencies);
 
     return result;
 }

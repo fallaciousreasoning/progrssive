@@ -2,7 +2,6 @@ import { makeStyles, Card, CardContent, CardHeader, CircularProgress, Typography
 import * as React from 'react';
 import { useEffect, useRef } from 'react';
 import { useIsPhone } from "./hooks/responsive";
-import { useEntry } from "./hooks/stream";
 import { getEntryByline, getEntryContent, getEntryUrl } from "./services/entry";
 import { getStore, useStore } from "./hooks/store";
 import { updateEntry } from "./actions/entry";
@@ -12,6 +11,8 @@ import { Entry } from "./model/entry";
 import { setUnread } from "./actions/marker";
 import { useDoubleTap } from "./hooks/callbacks";
 import { useHistory } from "react-router";
+import { loadEntry } from "./services/db";
+import { useResult } from "./hooks/promise";
 
 const useStyles = makeStyles({
     root: {
@@ -63,8 +64,9 @@ export default (props: Props) => {
     const styles = useStyles();
     const isPhone = useIsPhone();
     const domElement = useRef(null);
-
-    const entry = store.entries[props.id];
+    
+    const entry = useResult(loadEntry(props.id),
+        [props.id]);
 
     useEffect(() => {
         if (entry || !props.id) return;

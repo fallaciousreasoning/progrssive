@@ -7,7 +7,6 @@ import AppBarButton from './components/AppBarButton';
 import Centre from './components/Centre';
 import StickyHeader from './components/StickyHeader';
 import { isUpdating, useStore } from './hooks/store';
-import { useStream } from './hooks/stream';
 import { Entry } from './model/entry';
 import { updateSubscriptions } from './services/subscriptions';
 import StreamList from './StreamList';
@@ -28,32 +27,11 @@ const useStyles = makeStyles({
   },
 });
 
-interface Props {
-  id: string;
-  active: boolean;
-};
-
-export default (props: Props) => {
-  const streamId = props.id;
-  const stream = useStream(streamId);
-
-  useEffect(() => {
-    if (!streamId || stream && stream.id !== streamId) return;
-    updateSubscriptions();
-  }, [streamId]);
-
-  return <EntriesViewer
-    entries={stream && stream.items}
-    id={streamId}
-    active={props.active} />
-};
-
-const EntriesViewer = (props: { entries: Entry[], id: string, active: boolean }) => {
+export default (props: { id: string, active: boolean }) => {
   const store = useStore();
-  const styles = useStyles(undefined);
-  const history = useHistory();
+  const styles = useStyles();
 
-  const loading = !props.entries || isUpdating('stream');
+  const loading = isUpdating('stream');
   const [entryIdsToKeep, setEntryIdsToKeep] = useState<{ [id: string]: boolean }>({});
 
   const getSuitableEntries = (keep = {}) => {
