@@ -1,12 +1,13 @@
 import { CircularProgress, FormControlLabel, IconButton, LinearProgress, makeStyles, Switch } from '@material-ui/core';
 import { Refresh } from '@material-ui/icons';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { updateStreams } from './actions/stream';
 import AppBarButton from './components/AppBarButton';
 import Centre from './components/Centre';
 import StickyHeader from './components/StickyHeader';
 import { isUpdating, useStore } from './hooks/store';
 import StreamList from './StreamList';
+import { EntryList } from './services/entryIterator';
 
 const useStyles = makeStyles({
   root: {
@@ -29,6 +30,8 @@ export default (props: { id: string, active: boolean }) => {
   const styles = useStyles();
 
   const loading = isUpdating('stream');
+  const entries = useMemo(() => new EntryList(store.settings.unreadOnly, props.id),
+    [store.settings.unreadOnly, props.id]);
 
   // TODO: Work out how to calculate the unread count and read progress efficiently.
   const unreadCount = 0;
@@ -43,7 +46,7 @@ export default (props: { id: string, active: boolean }) => {
       <CircularProgress className={styles.loader} />
     </Centre>}
 
-    <StreamList streamId={props.id} unreadOnly={store.settings.unreadOnly} />
+    <StreamList entries={entries} />
 
     {props.active && <>
       <AppBarButton>

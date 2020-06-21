@@ -1,20 +1,19 @@
+import { CircularProgress, makeStyles } from '@material-ui/core';
 import * as React from 'react';
-import { makeStyles, CircularProgress } from '@material-ui/core';
-import { Entry } from './model/entry';
-import { useScreenSize } from './hooks/screenSize';
-import { FixedSizeList } from 'react-window';
-import { useState, useCallback, useMemo } from 'react';
-import { setUnread } from './actions/marker';
-import { useStore } from './hooks/store';
-import EntryCard from './EntryCard';
+import { useCallback, useState } from 'react';
 import { useHistory } from "react-router-dom";
-import { getEntrySubscription, getEntryUrl } from './services/entry';
-import { entryIterator, entryCount } from './services/entryIterator';
+import { FixedSizeList } from 'react-window';
+import { setUnread } from './actions/marker';
+import EntryCard from './EntryCard';
 import { useResult } from './hooks/promise';
+import { useScreenSize } from './hooks/screenSize';
+import { useStore } from './hooks/store';
+import { Entry } from './model/entry';
+import { getEntrySubscription, getEntryUrl } from './services/entry';
+import { EntryList } from './services/entryIterator';
 
 interface Props {
-    streamId: string;
-    unreadOnly: boolean;
+    entries: EntryList;
 }
 
 const useStyles = makeStyles({
@@ -23,38 +22,6 @@ const useStyles = makeStyles({
         marginRight: 'auto',
     }
 });
-
-// A utility class for maintaining a list of entries.
-class EntryList {
-    length: Promise<number>;
-    iterator: AsyncGenerator<Entry>;
-    loadedEntries: Entry[] = [];
-
-    constructor(unreadOnly: boolean, streamId: string) {
-        this.iterator = entryIterator(unreadOnly, streamId);
-        this.length = entryCount(unreadOnly, streamId);
-    }
-
-    async get(index: number) {
-        // Promise is kept, so we only query the db once.
-        const length = await this.length;
-
-        // Index is out of range.
-        if (index >= length || index < 0)
-            return undefined;
-
-        // Keep loading more entries till we know the right one.
-        while (this.loadedEntries.length <= index) {
-            const next = await this.iterator.next();
-            if (!next.value)
-                break;
-
-            this.loadedEntries.push(next.value);
-        }
-
-        return this.loadedEntries[index];
-    }
-}
 
 export default (props: Props) => {
     const GUTTER_SIZE = 8;
@@ -67,34 +34,29 @@ export default (props: Props) => {
     const store = useStore();
     const markScrolledAsRead = store.settings.markScrolledAsRead;
 
-    // Get a list of entries matching the current filters.
-    const entryList = useMemo(() => new EntryList(props.unreadOnly, props.streamId),
-        [props.unreadOnly, props.streamId]);
-    const entryCount = useResult(entryList.length, [entryList], 0);
-
     const [lastVisibleStartIndex, setLastVisibleStartIndex] = useState(0)
     const onItemsRendered = useCallback(async ({ visibleStartIndex }) => {
         if (!markScrolledAsRead)
             return;
 
         for (let i = lastVisibleStartIndex; i < visibleStartIndex; ++i) {
-            const entry = await entryList.get(i);
+            const entry = await props.entries.get(i);
             setUnread(entry, false);
         }
 
         setLastVisibleStartIndex(visibleStartIndex);
-    }, [lastVisibleStartIndex, entryList, markScrolledAsRead]);
+    }, [lastVisibleStartIndex, props.entries, markScrolledAsRead]);
 
     return <FixedSizeList
         className={styles.root}
         height={height - 62 - GUTTER_SIZE * 2}
         itemSize={208}
-        itemCount={entryCount}
+        itemCount={props.entries.length}
         width={Math.min(800, width)}
-        itemKey={(index) => index < entryList.loadedEntries.length ? entryList.loadedEntries[index].id : index}
+        itemKey={(index) => index < props.entries.loadedEntries.length ? props.entries.loadedEntries[index].id : index}
         onItemsRendered={onItemsRendered}>
         {rowProps => {
-            const item: Entry = useResult(entryList.get(rowProps.index), [entryList]);
+            const item: Entry = useResult(props.entries.get(rowProps.index), [props.entries]);
             const newStyle = {
                 ...rowProps.style,
                 top: rowProps.style.top + GUTTER_SIZE,
