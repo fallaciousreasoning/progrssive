@@ -1,14 +1,11 @@
 import { CircularProgress, FormControlLabel, IconButton, LinearProgress, makeStyles, Switch } from '@material-ui/core';
 import { Refresh } from '@material-ui/icons';
-import React, { useEffect, useMemo, useState } from 'react';
-import { useHistory } from 'react-router';
+import React from 'react';
 import { updateStreams } from './actions/stream';
 import AppBarButton from './components/AppBarButton';
 import Centre from './components/Centre';
 import StickyHeader from './components/StickyHeader';
 import { isUpdating, useStore } from './hooks/store';
-import { Entry } from './model/entry';
-import { updateSubscriptions } from './services/subscriptions';
 import StreamList from './StreamList';
 
 const useStyles = makeStyles({
@@ -32,44 +29,13 @@ export default (props: { id: string, active: boolean }) => {
   const styles = useStyles();
 
   const loading = isUpdating('stream');
-  const [entryIdsToKeep, setEntryIdsToKeep] = useState<{ [id: string]: boolean }>({});
 
-  const getSuitableEntries = (keep = {}) => {
-    if (!props.entries)
-      return [];
-
-    const entries = props.entries
-      .filter(e => e && (e.unread || !store.settings.unreadOnly || keep[e.id]));
-
-    entries.sort((a, b) => b.published - a.published);
-    return entries;
-  }
-
-  // When the current viewed stream changes, reset the entries to keep.
-  useEffect(() => {
-    setEntryIdsToKeep(getSuitableEntries().reduce((prev, next) => {
-      prev[next.id] = true;
-      return prev;
-    }, {}));
-  }, [props.id, store.settings.unreadOnly]);
-
-  // Only recalculate suitable entries if something important changes,
-  // not only if we mark articles as read.
-  // In addition, make sure we don't hide any entries in the list if we receive
-  // new ones.
-  const suitableEntries = useMemo(() => getSuitableEntries(entryIdsToKeep),
-    [props.entries && props.entries.length,
-    props.id,
-    store.settings.unreadOnly,
-    store.updating[props.id],
-      entryIdsToKeep]);
-
-  const unreadCount = useMemo(() => suitableEntries.filter(e => e.unread).length, [props.entries]);
-  const readProgress = (1 - unreadCount / suitableEntries.length) * 100;
+  // TODO: Work out how to calculate the unread count and read progress efficiently.
+  const unreadCount = 0;
+  const readProgress = 0;
 
   return <div className={styles.root}>
     {store.settings.unreadOnly
-      && !!suitableEntries.length
       && <StickyHeader className={styles.header}>
         <LinearProgress variant='determinate' value={readProgress} color='secondary' />
       </StickyHeader>}
@@ -77,7 +43,7 @@ export default (props: { id: string, active: boolean }) => {
       <CircularProgress className={styles.loader} />
     </Centre>}
 
-    <StreamList entries={suitableEntries} />
+    <StreamList streamId={props.id} unreadOnly={store.settings.unreadOnly} />
 
     {props.active && <>
       <AppBarButton>

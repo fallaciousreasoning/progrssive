@@ -1,7 +1,7 @@
-import { Store } from "react-recollect";
+import { getStream, StreamRequestOptions } from "../api/streams";
 import { getStore } from "../hooks/store";
-import { updateStoreWithStream, updateSubscription, getSubscription, updateSubscriptions } from "../services/subscriptions";
-import { StreamRequestOptions, getStream } from "../api/streams";
+import { addStream } from "../services/db";
+import { updateSubscription } from "../services/subscriptions";
 
 export const updateStreams = async (...streamIds: string[]) => {
     // Only use defined stream ids.
@@ -42,7 +42,7 @@ export const getAllUnread = async (streamId: string, continuation: string = unde
 
             // Next time, start from here.
             continuation = stream.continuation;
-            updateStoreWithStream(stream);
+            addStream(stream);
         } while (continuation);
     } catch (error) {
         window.snackHelper.enqueueSnackbar('Background update failed.');
