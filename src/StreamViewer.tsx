@@ -9,6 +9,7 @@ import { isUpdating, useStore } from './hooks/store';
 import StreamList from './StreamList';
 import { EntryList } from './services/entryIterator';
 import { useResult } from './hooks/promise';
+import { useUnreadCount } from './hooks/unread';
 
 const useStyles = makeStyles({
   root: {
@@ -35,9 +36,8 @@ export default (props: { id: string, active: boolean }) => {
     [store.settings.unreadOnly, props.id, store.lastUpdate]);
 
   const entryCount = useResult(entries.length, [entries], 0);
-  // TODO: Work out how to calculate the unread count and read progress efficiently.
-  const readCount = entries.loadedEntries.filter(e => !e.unread).length;
-  const readProgress = readCount/entryCount * 100;
+  const unreadCount = useUnreadCount();
+  const readProgress = (entryCount - unreadCount)/entryCount * 100;
 
   return <div className={styles.root}>
     {store.settings.unreadOnly
