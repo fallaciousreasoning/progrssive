@@ -36,7 +36,7 @@ export const App = (props) => {
 
   const theme = useMemo(() => {
     return buildTheme(store.settings);
-  }, [store.settings.fontSize]);
+  }, [store.settings]);
 
   return <BrowserRouter>
     <MuiThemeProvider theme={theme}>

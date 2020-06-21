@@ -41,7 +41,7 @@ const useMaybeMarkAsRead = (entry: Entry) => {
         if (!entry || !entry.unread || !shouldMarkAsRead) return;
 
         setUnread(entry, false);
-    }, [entry && entry.id, shouldMarkAsRead]);
+    }, [entry, shouldMarkAsRead]);
 }
 
 const useScrollToTop = (entry: Entry, ref: React.MutableRefObject<any>) => {
@@ -49,7 +49,7 @@ const useScrollToTop = (entry: Entry, ref: React.MutableRefObject<any>) => {
         if (!entry || !ref || !ref.current) return;
 
         ref.current.parentElement.scrollTo(0, 0);
-    }, [entry && entry.id]);
+    }, [entry, ref]);
 }
 
 interface Props {
@@ -71,7 +71,7 @@ export default (props: Props) => {
     useEffect(() => {
         if (entry || !props.id) return;
         updateEntry(props.id);
-    }, [props.id]);
+    }, [props.id, entry]);
 
     useMaybeMarkAsRead(entry);
     useScrollToTop(entry, domElement);
@@ -95,6 +95,7 @@ export default (props: Props) => {
     const title = url
         ? <a
             target="_blank"
+            rel="noopener noreferrer"
             href={url}
             className={styles.titleLink}>
             {entry.title}

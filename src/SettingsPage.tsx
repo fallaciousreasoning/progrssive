@@ -1,9 +1,9 @@
-import * as React from 'react';
-import { makeStyles, List, ListItem, ListItemText, ListItemSecondaryAction, Switch, Divider } from '@material-ui/core';
+import { Divider, List, ListItem, ListItemSecondaryAction, ListItemText, makeStyles, Switch } from '@material-ui/core';
 import Slider from '@material-ui/core/Slider';
-import { getStore, useStore } from './hooks/store';
-import { updateSettings } from './actions/settings';
+import * as React from 'react';
 import { useCallback } from 'react';
+import { updateSettings } from './actions/settings';
+import { useStore } from './hooks/store';
 
 const useStyles = makeStyles({
     slider: {

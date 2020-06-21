@@ -1,13 +1,13 @@
-import * as React from 'react';
-import { makeStyles, TextField, Card, CardMedia, IconButton, FormControl, InputLabel, Select, MenuItem } from "@material-ui/core"
-import { useState, useEffect, useCallback } from 'react';
-import { useStore, getStore } from './hooks/store';
-import { Subscription } from './model/subscription';
+import { Card, CardMedia, FormControl, IconButton, InputLabel, makeStyles, MenuItem, Select, TextField } from "@material-ui/core";
 import { Add, Delete } from '@material-ui/icons';
-import { searchFeeds } from './api/search';
-import { useDebounce } from 'use-debounce';
-import { save } from './services/persister';
+import * as React from 'react';
+import { useCallback, useEffect, useState, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useDebounce } from 'use-debounce';
+import { searchFeeds } from './api/search';
+import { getStore, useStore } from './hooks/store';
+import { Subscription } from './model/subscription';
+import { save } from './services/persister';
 
 const useStyles = makeStyles({
     content: {
@@ -30,8 +30,11 @@ const useStyles = makeStyles({
 export const SubscriptionManager = (props) => {
     const styles = useStyles();
     const store = useStore();
-    const subscribedTo = new Set(store.subscriptions.map(s => s.id));
-    const isSubscribed = s => subscribedTo.has(s.id)
+
+    const isSubscribed = useMemo(() => (s: Subscription) => {
+        const subscribedTo = new Set(store.subscriptions.map(s => s.id));
+        return subscribedTo.has(s.id)
+    }, [store.subscriptions]);
 
     const [query, setQuery] = useState("@subscribed");
     const [debouncedQuery] = useDebounce(query, 200);
@@ -44,14 +47,17 @@ export const SubscriptionManager = (props) => {
             return;
         }
 
+        if (debouncedQuery !== query)
+            return;
+
         // This is a special query.
         if (query.startsWith("@"))
             return;
 
         searchFeeds(debouncedQuery).then(setSearchResults);
-    }, [debouncedQuery]);
+    }, [debouncedQuery, query]);
 
-    const subscriptions = query == "@subscribed"
+    const subscriptions = query === "@subscribed"
         ? store.subscriptions
         : searchResults;
 
@@ -66,7 +72,7 @@ export const SubscriptionManager = (props) => {
             store.subscriptions = [...store.subscriptions, subscription];
         }
         await save('subscriptions', getStore().subscriptions);
-    }, [store.subscriptions]);
+    }, [store.subscriptions, isSubscribed]);
 
     return <div className={styles.content}>
         <TextField
@@ -122,7 +128,7 @@ const SubscriptionView = (props: {
     const toggleSubscription = useCallback((e) => {
         e.stopPropagation();
         props.toggleSubscription(props.subscription);
-    }, [props.toggleSubscription, props.subscription]);
+    }, [props]);
 
     const history = useHistory();
     const viewStream = useCallback(() => {

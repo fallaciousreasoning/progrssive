@@ -83,7 +83,7 @@ export default (props: Props) => {
         }
 
         setLastVisibleStartIndex(visibleStartIndex);
-    }, [props.unreadOnly, props.streamId, lastVisibleStartIndex]);
+    }, [lastVisibleStartIndex, entryList, markScrolledAsRead]);
 
     return <FixedSizeList
         className={styles.root}

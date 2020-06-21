@@ -40,7 +40,7 @@ export default (props: Props) => {
 
         const slideIndex = props.routes.findIndex(r => r.prefix === prefix);
         setActiveSlide(slideIndex);
-    }, [props.routes, setActiveSlide]);
+    }, [props.routes, setActiveSlide, store]);
 
     return <>
         <SwipeableView
