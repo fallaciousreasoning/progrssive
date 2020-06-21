@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { DBEntry, removeEntryListener, addEntryListener } from "../services/db";
+import { Entry } from "../model/entry";
+import { addEntryListener, DBEntry, removeEntryListener } from "../services/db";
 import { entryCount } from "../services/entryIterator";
 
 export const useUnreadCount = (streamId?: string) => {
@@ -33,4 +34,22 @@ export const useUnreadCount = (streamId?: string) => {
     }, [unread, streamId]);
 
     return unread;
-} 
+}
+
+export const useUnread = (entry: Entry) => {
+    const [unread, setUnread] = useState(entry.unread);
+
+    useEffect(() => {
+        const listener = (_: DBEntry, newEntry: DBEntry) => {
+            if (newEntry.id !== entry.id)
+                return;
+
+            setUnread(!!newEntry.unread);
+        }
+
+        addEntryListener(listener);
+        return () => removeEntryListener(listener);
+    }, [entry.id]);
+
+    return unread;
+}
