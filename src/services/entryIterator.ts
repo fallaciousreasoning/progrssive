@@ -5,7 +5,7 @@ export async function entryCount(unreadOnly: boolean, streamId: string) {
     if (!unreadOnly && !!streamId)
         return db.entries.where('published').above(0).count();
 
-    const query = { };
+    const query = {};
     if (unreadOnly)
         query['unread'] = 1;
 
@@ -26,17 +26,17 @@ export async function* entryIterator(unreadOnly: boolean, streamId?: string, pag
             .below(lastDate)
             // Note: An clauses happen in memory.
             .and(e => !unreadOnly || e.unread)
-            .and(e => !!streamId || e.streamIds.includes(streamId))
+            .and(e => !streamId || e.streamIds.includes(streamId))
             .limit(pageSize)
             .toArray();
-
-        const lastPublished = page[page.length - 1].published;
-        lastDate = lastPublished;
 
         // If there weren't enough items to fill the page,
         // then we're done!
         if (page.length < pageSize) {
             finished = true;
+        } else {
+            const lastPublished = page[page.length - 1].published;
+            lastDate = lastPublished;
         }
 
         // Yield the items in the page.
