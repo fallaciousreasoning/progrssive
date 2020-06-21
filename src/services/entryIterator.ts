@@ -3,8 +3,9 @@ import { Entry } from "../model/entry";
 
 export async function entryCount(unreadOnly: boolean, streamId: string) {
     // No filtering, return total count of entries.
-    if (!unreadOnly && !!streamId)
-        return db.entries.where('published').above(0).count();
+    if (!unreadOnly && !streamId) {
+        return db.entries.count();
+    }
 
     const query = {};
     if (unreadOnly)
