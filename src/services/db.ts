@@ -35,7 +35,7 @@ export const addStream = (stream: Stream) => {
 
             // Add all the entries
             for (const entry of stream.items) {
-                addEntry(entry, stream.id);
+                addEntry(entry, stream.id, true);
             }
         })
 }
@@ -43,18 +43,30 @@ export const addStream = (stream: Stream) => {
 export const loadEntry = (entryId: string) => db.entries.get(entryId);
 
 // Ensure we don't lose any stream ids when we save an entry.
-export const addEntry = async (entry: Entry, streamId?: string) => {
-    // Ensure we don't lose any streamIds
-    const oldEntry = await db.entries.get(entry.id);
-    const streamIds = new Set(oldEntry.streamIds);
-    
-    if (streamId)
-        streamIds.add(streamId);
-
+export const addEntry = async (entry: Entry, streamId?: string, maintainUnread?: boolean) => {
     const dbEntry = {
         ...entry,
-        streamIds: Array.from(streamIds)
+        streamIds: []
+    };
+
+    const streamIds = new Set<string>();
+    streamIds.add(streamId);
+
+    const oldEntry = await db.entries.get(entry.id);
+    if (oldEntry) {
+        // Ensure we don't lose any streamIds
+        for (const s of oldEntry.streamIds)
+            streamIds.add(s);
+
+        // Maybe maintain unread information?
+        if (maintainUnread) {
+            dbEntry.unread = oldEntry.unread;
+            dbEntry.readTime = oldEntry.readTime;
+        }
     }
+
+    // Set the stream ids.
+    dbEntry.streamIds = Array.from(streamIds);
 
     // Add the entry to the database.
     db.entries.put(dbEntry, entry.id);
