@@ -34,8 +34,8 @@ export default (props: { id: string, active: boolean }) => {
     [store.settings.unreadOnly, props.id]);
 
   // TODO: Work out how to calculate the unread count and read progress efficiently.
-  const unreadCount = 0;
-  const readProgress = 0;
+  const readCount = entries.loadedEntries.filter(e => !e.unread).length;
+  const readProgress = readCount/entries.length * 100;
 
   return <div className={styles.root}>
     {store.settings.unreadOnly
