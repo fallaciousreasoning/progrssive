@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { Route, RouteComponentProps, useHistory } from 'react-router';
 import { SwipeableView } from './components/SwipeableView';
 import { useStore } from './hooks/store';
@@ -18,14 +18,20 @@ interface RouteSetterProps {
     setActive: (prefix: string, id: string) => void;
 }
 
+const Setter = (props: RouteComponentProps & RouteSetterProps) => {
+    const location = props.location.pathname;
+    const id = location.substr(props.prefix.length);
+
+    useEffect(() => {
+        props.setActive(props.prefix, id);
+    });
+    return null;
+}
+
 const RouteSetter = (props: RouteSetterProps) => {
     return <Route path={`${props.prefix}:id*`}
-        component={(p: RouteComponentProps) => {
-            const location = p.location.pathname;
-            const id = location.substr(props.prefix.length);
-
-            props.setActive(props.prefix, id);
-            return null;
+        render={p => {
+            return <Setter {...p} {...props}/>
         }}>
     </Route>
 }
