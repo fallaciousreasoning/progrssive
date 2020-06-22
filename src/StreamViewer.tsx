@@ -37,7 +37,7 @@ export default (props: { id: string, active: boolean }) => {
     [store.settings.unreadOnly, props.id, store.lastUpdate]);
 
   const entryCount = useResult(entries.length, [entries], 0);
-  const unreadCount = useUnreadCount();
+  const unreadCount = useUnreadCount(props.id);
   const readProgress = (entryCount - unreadCount) / entryCount * 100;
 
   return <div className={styles.root}>

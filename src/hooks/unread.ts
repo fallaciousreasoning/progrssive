@@ -3,7 +3,7 @@ import { Entry } from "../model/entry";
 import { addEntryListener, DBEntry, removeEntryListener } from "../services/db";
 import { entryCount } from "../services/entryIterator";
 
-export const useUnreadCount = (streamId?: string) => {
+export const useUnreadCount = (streamId: string) => {
     const [unread, setUnread] = useState(0);
 
     // Get the initial unread count.
