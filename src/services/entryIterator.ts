@@ -78,4 +78,10 @@ export class EntryList {
 
         return this.loadedEntries[index];
     }
+
+    loadedAt(index: number) {
+        return index < this.loadedEntries.length
+            ? this.loadedEntries[index]
+            : undefined;
+    }
 }

@@ -11,6 +11,7 @@ import { useStore } from './hooks/store';
 import { Entry } from './model/entry';
 import { getEntrySubscription, getEntryUrl } from './services/entry';
 import { EntryList } from './services/entryIterator';
+import { useLoadedEntry } from './hooks/entry';
 
 interface Props {
     entries: EntryList;
@@ -58,7 +59,8 @@ export default (props: Props) => {
         itemKey={(index) => index < props.entries.loadedEntries.length ? props.entries.loadedEntries[index].id : index}
         onItemsRendered={onItemsRendered}>
         {rowProps => {
-            const item: Entry = useResult(props.entries.get(rowProps.index), [props.entries, rowProps.index]);
+            const item = useLoadedEntry(props.entries, rowProps.index);
+
             const newStyle = {
                 ...rowProps.style,
                 top: rowProps.style.top + GUTTER_SIZE,
