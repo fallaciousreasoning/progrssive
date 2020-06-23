@@ -48,19 +48,25 @@ export const loadToEntry = async (index: number) => {
     if (index >= length || index < 0)
         return undefined;
 
+    const loaded = {};
+    const loadedIds = [];
+
     while (getStore().stream.loadedEntries.length <= index) {
         const next = await streamIterator.next();
         if (!next.value)
             break;
 
-        getStore().entries = {
-            ...getStore().entries,
-            [next.value.id]: next.value
-        };
-
-        getStore().stream.loadedEntries = [
-            ...getStore().stream.loadedEntries,
-            next.value.id
-        ];
+        loaded[next.value.id] = next.value;
+        loadedIds.push(next.value.id);
     }
+
+    getStore().entries = {
+        ...getStore().entries,
+        ...loaded
+    };
+
+    getStore().stream.loadedEntries = [
+        ...getStore().stream.loadedEntries,
+        ...loadedIds
+    ];
 }

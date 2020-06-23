@@ -42,7 +42,7 @@ const useMaybeMarkAsRead = (entry: Entry) => {
         if (!entry || !entry.unread || !shouldMarkAsRead) return;
 
         setUnread(entry, false);
-    }, [entry, shouldMarkAsRead]);
+    }, [entry && entry.id, shouldMarkAsRead]);
 }
 
 const useScrollToTop = (entry: Entry, ref: React.MutableRefObject<any>) => {
