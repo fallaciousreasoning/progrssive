@@ -1,6 +1,6 @@
 import { CircularProgress, makeStyles } from '@material-ui/core';
 import * as React from 'react';
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { useHistory } from "react-router-dom";
 import { FixedSizeList } from 'react-window';
 import { setUnread } from './actions/marker';
@@ -47,7 +47,7 @@ export default (props: Props) => {
 
         setLastVisibleStartIndex(visibleStartIndex);
 
-        if (visibleStopIndex % BUFFER_ENTRY_COUNT === 0 || loadedEntries.length === 0)
+        if (visibleStopIndex % BUFFER_ENTRY_COUNT === 0)
             loadToEntry(visibleStopIndex + BUFFER_ENTRY_COUNT);
     }, [lastVisibleStartIndex, loadedEntries, markScrolledAsRead]);
 

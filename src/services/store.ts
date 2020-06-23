@@ -40,13 +40,14 @@ export const setEntryList = async (unreadOnly: boolean, streamId: string) => {
         length: await entryCount(unreadOnly, streamId),
         loadedEntries: [],
     };
+
+    // Begin loading entries.
+    loadToEntry(20);
 }
 
 export const loadToEntry = async (index: number) => {
-    const length = getStore().stream.length;
-
-    if (index >= length || index < 0)
-        return undefined;
+    if (index < 0)
+        return;
 
     const loaded = {};
     const loadedIds = [];
@@ -59,6 +60,9 @@ export const loadToEntry = async (index: number) => {
         loaded[next.value.id] = next.value;
         loadedIds.push(next.value.id);
     }
+
+    if (loadedIds.length === 0)
+        return;
 
     getStore().entries = {
         ...getStore().entries,
