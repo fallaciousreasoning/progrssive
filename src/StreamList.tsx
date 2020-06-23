@@ -23,6 +23,7 @@ const useStyles = makeStyles({
 
 export default (props: Props) => {
     const GUTTER_SIZE = 8;
+    const BUFFER_ENTRY_COUNT = 20;
 
     const styles = useStyles();
     const { width, height } = useScreenSize();
@@ -34,7 +35,7 @@ export default (props: Props) => {
     const markScrolledAsRead = store.settings.markScrolledAsRead;
 
     const [lastVisibleStartIndex, setLastVisibleStartIndex] = useState(0)
-    const onItemsRendered = useCallback(({ visibleStartIndex, visibleStopIndex }) => {
+    const onItemsRendered = useCallback(async ({ visibleStartIndex, visibleStopIndex }) => {
         if (!markScrolledAsRead)
             return;
 
@@ -44,7 +45,9 @@ export default (props: Props) => {
         }
 
         setLastVisibleStartIndex(visibleStartIndex);
-        loadToEntry(visibleStopIndex);
+
+        if (visibleStopIndex%BUFFER_ENTRY_COUNT == 0 || loadedEntries.length == 0)
+            loadToEntry(visibleStopIndex+BUFFER_ENTRY_COUNT);
     }, [lastVisibleStartIndex, loadedEntries, markScrolledAsRead]);
 
     return <FixedSizeList
