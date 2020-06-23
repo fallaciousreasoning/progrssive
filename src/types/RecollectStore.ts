@@ -5,12 +5,6 @@ import { Stream } from "../model/stream";
 import { Subscription } from "../model/subscription";
 import { Collection } from "../model/collection";
 
-export type StoreStream = Omit<Stream, 'items'>
-  & {
-    lastFetched: number;
-    items: string[];
-  };
-
 export interface UpdatingInformation {
   categories: boolean;
   stream: number;
@@ -25,9 +19,9 @@ export interface Settings {
   darkMode: boolean;
 }
 
-export interface EntryLoader {
+export interface StoreStream {
   length: number;
-  loadedEntries: Entry[];
+  loadedEntries: string[];
 }
 
 export interface StoreDef {
@@ -39,7 +33,8 @@ export interface StoreDef {
   subscriptions: Subscription[];
   lastUpdate: number;
 
-  entries: EntryLoader;
+  stream: StoreStream;
+  entries: { [id: string]: Entry };
 }
 
 declare module 'react-recollect' {

@@ -13,6 +13,7 @@ import { EntryReadButton } from "./MarkerButton";
 import { Entry } from "./model/entry";
 import { loadEntry } from "./services/db";
 import { getEntryByline, getEntryContent, getEntryUrl } from "./services/entry";
+import { useEntry } from "./hooks/entry";
 
 const useStyles = makeStyles({
     root: {
@@ -65,8 +66,7 @@ export default (props: Props) => {
     const isPhone = useIsPhone();
     const domElement = useRef(null);
     
-    const entry = useResult(loadEntry(props.id),
-        [props.id]);
+    const entry = useEntry(props.id);
 
     useEffect(() => {
         if (entry || !props.id) return;

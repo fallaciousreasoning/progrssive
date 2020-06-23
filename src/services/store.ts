@@ -22,40 +22,45 @@ export const initStore = () => {
     store.subscriptions = [];
     store.lastUpdate = Date.now();
 
-    store.entries = {
+    store.stream = {
         length: 0,
         loadedEntries: []
     };
+
+    store.entries = {};
 
     initStorePromise = loadStore();
     return initStorePromise;
 }
 
-let iterator: AsyncGenerator<Entry> = undefined;
+let streamIterator: AsyncGenerator<Entry> = undefined;
 export const setEntryList = async (unreadOnly: boolean, streamId: string) => {
-    iterator = entryIterator(unreadOnly, streamId);
-    getStore().entries = {
+    streamIterator = entryIterator(unreadOnly, streamId);
+    getStore().stream = {
         length: await entryCount(unreadOnly, streamId),
         loadedEntries: [],
     };
 }
 
 export const loadToEntry = async (index: number) => {
-    const length = getStore().entries.length;
+    const length = getStore().stream.length;
 
     if (index >= length || index < 0)
         return undefined;
 
-    while (getStore().entries.loadedEntries.length <= index) {
-        const next = await iterator.next();
+    while (getStore().stream.loadedEntries.length <= index) {
+        const next = await streamIterator.next();
         if (!next.value)
             break;
 
-        getStore().entries.loadedEntries = [
-            ...getStore().entries.loadedEntries,
-            next.value
+        getStore().entries = {
+            ...getStore().entries,
+            [next.value.id]: next.value
+        };
+
+        getStore().stream.loadedEntries = [
+            ...getStore().stream.loadedEntries,
+            next.value.id
         ];
     }
-
-    return getStore().entries.loadedEntries[index];
 }

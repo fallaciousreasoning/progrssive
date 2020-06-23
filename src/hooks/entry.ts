@@ -1,20 +1,54 @@
-import { useEffect } from "react";
-import { loadToEntry } from "../services/store";
-import { useStore } from "./store";
+import { useStore, getStore } from "./store";
+import { useMemo, useState, useEffect } from "react";
+import { loadEntry } from "../services/db";
+import { Entry } from "../model/entry";
+import { getEntry } from "../api/entry";
 
-export const useLoadedEntries = () => {
+export const useStreamEntries = () => {
     const store = useStore();
-    return store.entries.loadedEntries;
+    const loadedEntries = useMemo(() =>
+        store.stream.loadedEntries.map(id => store.entries[id]),
+        [store.stream, store.entries]);
+    return loadedEntries;
 }
 
-export const useLoadedEntry = (index: number) => {
-    const loadedEntries = useLoadedEntries();
-    
-    useEffect(() => {
-        loadToEntry(index);
-    }, [loadedEntries, index])
+export const useStreamEntry = (index: number) => {
+    const store = useStore();
+    if (store.stream.loadedEntries.length < index)
+        return undefined;
 
-    return index < loadedEntries.length
-        ? loadedEntries[index]
-        : undefined;
+    const id = store.stream.loadedEntries[index];
+    return store.entries[id];
+}
+
+export const useEntry = (id: string) => {
+    const store = useStore();
+
+    useEffect(() => {
+        if (!id || store.entries[id])
+            return;
+
+        const addEntry = (e: Entry) => {
+            getStore().entries = {
+                ...getStore().entries,
+                [id]: e
+            };
+        }
+
+        // Try and load the entry from the disk and
+        // fallback to the network.
+        loadEntry(id)
+            .then(async entry => {
+                if (!entry) {
+                    getStore().updating[id] = true;
+                    entry = await getEntry(id);
+                    addEntry(entry);
+                    getStore().updating[id] = false;
+                }
+                
+                addEntry(entry);
+            });
+    }, [id, store.entries]);
+
+    return store.entries[id];
 }
