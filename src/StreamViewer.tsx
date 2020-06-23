@@ -6,7 +6,6 @@ import AppBarButton from './components/AppBarButton';
 import Centre from './components/Centre';
 import StickyHeader from './components/StickyHeader';
 import { isUpdating, useStore } from './hooks/store';
-import { useUnreadCount } from './hooks/unread';
 import { setEntryList } from './services/store';
 import StreamList from './StreamList';
 
@@ -37,8 +36,7 @@ export default (props: { id: string, active: boolean }) => {
     // eslint-disable-next-line
     [store.settings.unreadOnly, props.id, store.lastUpdate]);
 
-  const unreadCount = useUnreadCount(props.id);
-  const readProgress = (store.entries.length - unreadCount) / store.entries.length * 100;
+  const readProgress = 0; //(store.entries.length - unreadCount) / store.entries.length * 100;
 
   return <div className={styles.root}>
     {store.settings.unreadOnly
