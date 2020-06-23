@@ -60,18 +60,24 @@ export const removeEntryListener = (listener: EntryListener) => {
 }
 
 // Ensure we don't lose any stream ids when we save an entry.
-export const addEntry = async (entry: Entry, streamId?: string, maintainUnread?: boolean) => {
-    const dbEntry = {
+export const addEntry = async (entry: Partial<Entry>, streamId?: string, maintainUnread?: boolean) => {
+    let dbEntry = {
         ...entry,
         unread: +entry.unread,
         streamIds: []
-    };
+    } as unknown as DBEntry;
 
     const streamIds = new Set<string>();
     streamIds.add(streamId);
 
     const oldEntry = await db.entries.get(entry.id);
     if (oldEntry) {
+        // Don't lose anything from the old entry.
+        dbEntry = {
+            ...oldEntry,
+            ...dbEntry
+        };
+
         // Ensure we don't lose any streamIds
         for (const s of oldEntry.streamIds)
             streamIds.add(s);
