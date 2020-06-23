@@ -46,7 +46,7 @@ export default (props: Props) => {
 
         setLastVisibleStartIndex(visibleStartIndex);
 
-        if (visibleStopIndex%BUFFER_ENTRY_COUNT == 0 || loadedEntries.length == 0)
+        if (visibleStopIndex%BUFFER_ENTRY_COUNT === 0 || loadedEntries.length === 0)
             loadToEntry(visibleStopIndex+BUFFER_ENTRY_COUNT);
     }, [lastVisibleStartIndex, loadedEntries, markScrolledAsRead]);
 
