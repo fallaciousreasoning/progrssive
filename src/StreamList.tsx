@@ -12,6 +12,7 @@ import { getEntrySubscription, getEntryUrl } from './services/entry';
 import { loadToEntry } from './services/store';
 
 interface Props {
+    onProgressChanged?: (progress: number) => void;
 }
 
 const useStyles = makeStyles({
@@ -46,14 +47,29 @@ export default (props: Props) => {
 
         setLastVisibleStartIndex(visibleStartIndex);
 
-        if (visibleStopIndex%BUFFER_ENTRY_COUNT === 0 || loadedEntries.length === 0)
-            loadToEntry(visibleStopIndex+BUFFER_ENTRY_COUNT);
+        if (visibleStopIndex % BUFFER_ENTRY_COUNT === 0 || loadedEntries.length === 0)
+            loadToEntry(visibleStopIndex + BUFFER_ENTRY_COUNT);
     }, [lastVisibleStartIndex, loadedEntries, markScrolledAsRead]);
 
+    const listHeight = height - 62 - GUTTER_SIZE * 2;
+    const itemHeight = 208;
+    const totalScrollHeight = store.stream.length * itemHeight;
+
+    const onScrolled = useCallback(({ scrollOffset }) => {
+        const dps = 5;
+        const exponent = 10**dps;
+        let percent = Math.round(scrollOffset / (totalScrollHeight - listHeight) * exponent) / exponent;
+        if (!isFinite(percent) || isNaN(percent))
+            percent = 0;
+
+        if (props.onProgressChanged)
+            props.onProgressChanged(percent);
+    }, [totalScrollHeight, listHeight]);
     return <FixedSizeList
+        onScroll={onScrolled}
         className={styles.root}
-        height={height - 62 - GUTTER_SIZE * 2}
-        itemSize={208}
+        height={listHeight}
+        itemSize={itemHeight}
         itemCount={store.stream.length}
         width={Math.min(800, width)}
         itemKey={(index) => index < loadedEntries.length ? loadedEntries[index].id : index}
@@ -81,9 +97,9 @@ export default (props: Props) => {
             >
                 <EntryCard entry={item} showingUnreadOnly={store.settings.unreadOnly} />
             </div>
-            : <div style={newStyle}>
-                <CircularProgress/>
-            </div>;
+                : <div style={newStyle}>
+                    <CircularProgress />
+                </div>;
         }}
     </FixedSizeList>
 }
