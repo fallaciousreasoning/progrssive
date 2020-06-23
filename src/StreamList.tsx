@@ -5,16 +5,12 @@ import { useHistory } from "react-router-dom";
 import { FixedSizeList } from 'react-window';
 import { setUnread } from './actions/marker';
 import EntryCard from './EntryCard';
-import { useResult } from './hooks/promise';
+import { useLoadedEntries, useLoadedEntry } from './hooks/entry';
 import { useScreenSize } from './hooks/screenSize';
 import { useStore } from './hooks/store';
-import { Entry } from './model/entry';
 import { getEntrySubscription, getEntryUrl } from './services/entry';
-import { EntryList } from './services/entryIterator';
-import { useLoadedEntry } from './hooks/entry';
 
 interface Props {
-    entries: EntryList;
 }
 
 const useStyles = makeStyles({
@@ -33,33 +29,32 @@ export default (props: Props) => {
     const history = useHistory();
 
     const store = useStore();
+    const loadedEntries = useLoadedEntries();
     const markScrolledAsRead = store.settings.markScrolledAsRead;
 
     const [lastVisibleStartIndex, setLastVisibleStartIndex] = useState(0)
-    const onItemsRendered = useCallback(async ({ visibleStartIndex }) => {
+    const onItemsRendered = useCallback(({ visibleStartIndex }) => {
         if (!markScrolledAsRead)
             return;
 
         for (let i = lastVisibleStartIndex; i < visibleStartIndex; ++i) {
-            const entry = await props.entries.get(i);
+            const entry = loadedEntries[i];
             setUnread(entry, false);
         }
 
         setLastVisibleStartIndex(visibleStartIndex);
-    }, [lastVisibleStartIndex, props.entries, markScrolledAsRead]);
-
-    const entryCount = useResult(props.entries.length, [props.entries], 0);
+    }, [lastVisibleStartIndex, loadedEntries, markScrolledAsRead]);
 
     return <FixedSizeList
         className={styles.root}
         height={height - 62 - GUTTER_SIZE * 2}
         itemSize={208}
-        itemCount={entryCount}
+        itemCount={store.entries.length}
         width={Math.min(800, width)}
-        itemKey={(index) => index < props.entries.loadedEntries.length ? props.entries.loadedEntries[index].id : index}
+        itemKey={(index) => index < loadedEntries.length ? loadedEntries[index].id : index}
         onItemsRendered={onItemsRendered}>
         {rowProps => {
-            const item = useLoadedEntry(props.entries, rowProps.index);
+            const item = useLoadedEntry(rowProps.index);
 
             const newStyle = {
                 ...rowProps.style,

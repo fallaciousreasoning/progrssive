@@ -1,15 +1,14 @@
 import { CircularProgress, FormControlLabel, IconButton, LinearProgress, makeStyles, Switch } from '@material-ui/core';
 import { Refresh } from '@material-ui/icons';
-import React, { useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { updateStreams } from './actions/stream';
 import AppBarButton from './components/AppBarButton';
 import Centre from './components/Centre';
 import StickyHeader from './components/StickyHeader';
 import { isUpdating, useStore } from './hooks/store';
-import StreamList from './StreamList';
-import { EntryList } from './services/entryIterator';
-import { useResult } from './hooks/promise';
 import { useUnreadCount } from './hooks/unread';
+import { setEntryList } from './services/store';
+import StreamList from './StreamList';
 
 const useStyles = makeStyles({
   root: {
@@ -32,13 +31,14 @@ export default (props: { id: string, active: boolean }) => {
   const styles = useStyles();
 
   const loading = isUpdating('stream');
-  const entries = useMemo(() => new EntryList(store.settings.unreadOnly, props.id),
+  useEffect(() => {
+    setEntryList(store.settings.unreadOnly, props.id);
+  },
     // eslint-disable-next-line
     [store.settings.unreadOnly, props.id, store.lastUpdate]);
 
-  const entryCount = useResult(entries.length, [entries], 0);
   const unreadCount = useUnreadCount(props.id);
-  const readProgress = (entryCount - unreadCount) / entryCount * 100;
+  const readProgress = (store.entries.length - unreadCount) / store.entries.length * 100;
 
   return <div className={styles.root}>
     {store.settings.unreadOnly
@@ -49,7 +49,7 @@ export default (props: { id: string, active: boolean }) => {
       <CircularProgress className={styles.loader} />
     </Centre>}
 
-    <StreamList entries={entries} />
+    <StreamList />
 
     {props.active && <>
       <AppBarButton>

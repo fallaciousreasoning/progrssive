@@ -25,6 +25,11 @@ export interface Settings {
   darkMode: boolean;
 }
 
+export interface EntryLoader {
+  length: number;
+  loadedEntries: Entry[];
+}
+
 export interface StoreDef {
   updating: UpdatingInformation;
   settings: Settings;
@@ -33,6 +38,8 @@ export interface StoreDef {
   },
   subscriptions: Subscription[];
   lastUpdate: number;
+
+  entries: EntryLoader;
 }
 
 declare module 'react-recollect' {

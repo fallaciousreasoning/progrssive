@@ -1,13 +1,20 @@
-import { EntryList } from "../services/entryIterator";
-import { useState, useEffect } from "react";
-import { Entry } from "../model/entry";
+import { useEffect } from "react";
+import { loadToEntry } from "../services/store";
+import { useStore } from "./store";
 
-export const useLoadedEntry = (entryList: EntryList, index: number) => {
-    const [entry, setEntry] = useState<Entry>(entryList.loadedAt(index));
+export const useLoadedEntries = () => {
+    const store = useStore();
+    return store.entries.loadedEntries;
+}
 
+export const useLoadedEntry = (index: number) => {
+    const loadedEntries = useLoadedEntries();
+    
     useEffect(() => {
-        entryList.get(index).then(setEntry);
-    }, [entryList, index]);
+        loadToEntry(index);
+    }, [loadedEntries, index])
 
-    return entry;
+    return index < loadedEntries.length
+        ? loadedEntries[index]
+        : undefined;
 }
