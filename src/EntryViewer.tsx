@@ -1,6 +1,6 @@
-import { Card, CardContent, CardHeader, CircularProgress, makeStyles, Typography } from "@material-ui/core";
+import { Card, CardContent, CardHeader, CircularProgress, makeStyles, Typography, IconButton } from "@material-ui/core";
 import * as React from 'react';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import { useHistory } from "react-router";
 import { updateEntry } from "./actions/entry";
 import { setUnread } from "./actions/marker";
@@ -14,6 +14,7 @@ import { Entry } from "./model/entry";
 import { loadEntry } from "./services/db";
 import { getEntryByline, getEntryContent, getEntryUrl } from "./services/entry";
 import { useEntry } from "./hooks/entry";
+import { Share } from "@material-ui/icons";
 
 const useStyles = makeStyles({
     root: {
@@ -65,7 +66,7 @@ export default (props: Props) => {
     const styles = useStyles();
     const isPhone = useIsPhone();
     const domElement = useRef(null);
-    
+
     const entry = useEntry(props.id);
 
     useEffect(() => {
@@ -85,6 +86,13 @@ export default (props: Props) => {
         // Clear potential accidental selection.
         document.getSelection().removeAllRanges();
     }, []);
+
+    const shareArticle = useCallback(() => {
+        navigator.share({
+            title: entry.title,
+            url: getEntryUrl(entry)
+        });
+    }, [entry]);
 
     if (!entry)
         return <CircularProgress />;
@@ -121,6 +129,11 @@ export default (props: Props) => {
             <AppBarButton>
                 <EntryReadButton entry={entry} />
             </AppBarButton>
+            {navigator.share && <AppBarButton>
+                    <IconButton onClick={shareArticle}>
+                        <Share/>
+                    </IconButton>
+                </AppBarButton>}
         </>}
     </article>;
 };
