@@ -32,6 +32,9 @@ const useStyles = makeStyles({
     },
     titleLink: {
         textDecoration: 'none'
+    },
+    shareButton: {
+        color: 'white !important'
     }
 });
 
@@ -130,7 +133,9 @@ export default (props: Props) => {
                 <EntryReadButton entry={entry} />
             </AppBarButton>
             {navigator.share && <AppBarButton>
-                    <IconButton onClick={shareArticle}>
+                    <IconButton 
+                        className={styles.shareButton}
+                        onClick={shareArticle}>
                         <Share/>
                     </IconButton>
                 </AppBarButton>}
