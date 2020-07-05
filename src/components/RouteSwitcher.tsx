@@ -64,7 +64,7 @@ export default (props) => {
         }
 
         const id = location.pathname
-            .substr(route.prefix.length);
+            .substr(route.prefix.length + 1);
 
         return route.render(id);
     }, [location.pathname]);

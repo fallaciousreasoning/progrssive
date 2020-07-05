@@ -40,6 +40,7 @@ export const useEntry = (id: string) => {
         loadEntry(id)
             .then(async entry => {
                 if (!entry) {
+                    console.log(id, entry);
                     if (getStore().updating[id])
                         return;
                     getStore().updating[id] = true;
