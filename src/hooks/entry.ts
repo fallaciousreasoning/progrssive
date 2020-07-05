@@ -1,6 +1,6 @@
 import { useStore, getStore } from "./store";
 import { useMemo, useState, useEffect } from "react";
-import { loadEntry } from "../services/db";
+import { loadEntry, addEntry } from "../services/db";
 import { Entry } from "../model/entry";
 import { getEntry } from "../api/entry";
 
@@ -28,7 +28,7 @@ export const useEntry = (id: string) => {
         if (!id || store.entries[id])
             return;
 
-        const addEntry = (e: Entry) => {
+        const includeEntry = (e: Entry) => {
             getStore().entries = {
                 ...getStore().entries,
                 [id]: e
@@ -49,7 +49,7 @@ export const useEntry = (id: string) => {
                     getStore().updating[id] = false;
                 }
                 
-                addEntry(entry);
+                includeEntry(entry);
             });
     }, [id, store.entries]);
 
