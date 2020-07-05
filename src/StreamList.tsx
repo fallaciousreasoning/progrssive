@@ -7,7 +7,7 @@ import { setUnread } from './actions/marker';
 import EntryCard from './EntryCard';
 import { useStreamEntries, useStreamEntry } from './hooks/entry';
 import { useScreenSize } from './hooks/screenSize';
-import { useStore } from './hooks/store';
+import { useStore, getStore } from './hooks/store';
 import { getEntrySubscription, getEntryUrl } from './services/entry';
 import { loadToEntry } from './services/store';
 
@@ -64,12 +64,15 @@ export default (props: Props) => {
 
         if (props.onProgressChanged)
             props.onProgressChanged(percent);
+
+        getStore().stream.lastScrollPos = scrollOffset;
     }, [totalScrollHeight, listHeight]);
     return <FixedSizeList
         onScroll={onScrolled}
         className={styles.root}
         height={listHeight}
         itemSize={itemHeight}
+        initialScrollOffset={store.stream.lastScrollPos}
         itemCount={store.stream.length}
         width={Math.min(800, width)}
         itemKey={(index) => index < loadedEntries.length ? loadedEntries[index].id : index}

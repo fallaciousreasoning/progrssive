@@ -25,6 +25,7 @@ export const initStore = () => {
     store.stream = {
         id: undefined,
         length: 0,
+        lastScrollPos: 0,
         loadedEntries: []
     };
 
@@ -45,6 +46,7 @@ export const setEntryList = async (unreadOnly: boolean, streamId: string, force 
     streamIterator = entryIterator(unreadOnly, streamId);
     getStore().stream = {
         id: streamId,
+        lastScrollPos: 0,
         length: await entryCount(unreadOnly, streamId),
         loadedEntries: [],
     };
