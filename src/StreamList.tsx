@@ -94,7 +94,7 @@ export default (props: Props) => {
                     if (subscription && subscription.preferredView === "browser") {
                         window.open(getEntryUrl(item), "_blank");
                     } else {
-                        history.push(`/entries/${item.id}`);
+                        history.push(`/entries/${item.id}`, { prev: true });
                     }
                 }}
             >

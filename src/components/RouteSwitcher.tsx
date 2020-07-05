@@ -20,7 +20,6 @@ const useStyles = makeStyles(theme => ({
             transition: `transform ${duration}s ease-in-out`,
             height: 'calc(100vh - 48px)',
             width: '100vw',
-            transform: 'translate(0,0)',
             position: 'fixed',
             top: '48px',
             padding: theme.spacing(1),
@@ -28,14 +27,19 @@ const useStyles = makeStyles(theme => ({
             overflowX: 'hidden'
         },
         '.page.enter': {
-            transform: 'translate(100vw, 0)'
+            transform: 'translate(100%, 0)',
+            zIndex: 1000
+        },
+        '.page.exit': {
+            transform: 'translate(-100%, 0)'
         },
         '.page.enter-active': {
             transform: 'translate(0,0)'
-        },
-        '.page.exit': {
-            transform: 'translate(-100vw, 0)'
         }
+
+        // '.page--prev.enter': {
+        //     transform: 'translate(-100%, 0)'
+        // },
     }
 }));
 

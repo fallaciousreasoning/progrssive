@@ -1,5 +1,6 @@
 import { makeStyles } from "@material-ui/core"
 import React, { useRef, useState, useEffect } from 'react';
+import { useLocation } from "react-router-dom";
 
 interface Props {
     children: React.ReactNode;
@@ -22,7 +23,7 @@ export default (props: Props & React.HTMLProps<HTMLDivElement>) => {
             : 0
     });
 
-    return <div ref={rootRef} className='page'>
+    return <div ref={rootRef} className={`page`}>
         <div className={styles.page}>
             {props.children}
         </div>
