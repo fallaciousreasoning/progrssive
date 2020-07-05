@@ -1,13 +1,13 @@
 import { CircularProgress, FormControlLabel, IconButton, LinearProgress, makeStyles, Switch } from '@material-ui/core';
 import { Refresh } from '@material-ui/icons';
 import React, { useEffect, useState, useCallback } from 'react';
-import { updateStreams } from './actions/stream';
-import AppBarButton from './components/AppBarButton';
-import Centre from './components/Centre';
-import StickyHeader from './components/StickyHeader';
-import { isUpdating, useStore } from './hooks/store';
-import { setEntryList } from './services/store';
-import StreamList from './StreamList';
+import { updateStreams } from '../actions/stream';
+import AppBarButton from '../components/AppBarButton';
+import Centre from '../components/Centre';
+import StickyHeader from '../components/StickyHeader';
+import { isUpdating, useStore } from '../hooks/store';
+import { setEntryList } from '../services/store';
+import StreamList from '../StreamList';
 import { useRouteMatch } from 'react-router-dom';
 
 const useStyles = makeStyles({

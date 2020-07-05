@@ -2,8 +2,8 @@ import { Divider, List, ListItem, ListItemSecondaryAction, ListItemText, makeSty
 import Slider from '@material-ui/core/Slider';
 import * as React from 'react';
 import { useCallback } from 'react';
-import { updateSettings } from './actions/settings';
-import { useStore } from './hooks/store';
+import { updateSettings } from '../actions/settings';
+import { useStore } from '../hooks/store';
 
 const useStyles = makeStyles({
     slider: {

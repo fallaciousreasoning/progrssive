@@ -4,10 +4,10 @@ import * as React from 'react';
 import { useCallback, useEffect, useState, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDebounce } from 'use-debounce';
-import { searchFeeds } from './api/search';
-import { getStore, useStore } from './hooks/store';
-import { Subscription } from './model/subscription';
-import { save } from './services/persister';
+import { searchFeeds } from '../api/search';
+import { getStore, useStore } from '../hooks/store';
+import { Subscription } from '../model/subscription';
+import { save } from '../services/persister';
 
 const useStyles = makeStyles({
     results: {

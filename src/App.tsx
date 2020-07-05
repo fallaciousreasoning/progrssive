@@ -4,11 +4,11 @@ import React, { useMemo } from 'react';
 import { BrowserRouter, Route, Switch, RouteComponentProps } from 'react-router-dom';
 import AppBar from './AppBar';
 import { SnackbarHelper } from './components/SnackbarHelper';
-import EntryViewer from './EntryViewer';
+import EntryViewer from './pages/EntryViewer';
 import { useStore } from './hooks/store';
-import SettingsPage from './SettingsPage';
-import StreamViewer from './StreamViewer';
-import { SubscriptionManager } from './SubscriptionManager';
+import SettingsPage from './pages/SettingsPage';
+import StreamViewer from './pages/StreamViewer';
+import { SubscriptionManager } from './pages/SubscriptionManager';
 import { buildTheme } from './theme';
 import _Layout from './pages/_Layout';
 

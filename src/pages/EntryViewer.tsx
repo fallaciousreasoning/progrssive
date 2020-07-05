@@ -1,20 +1,18 @@
-import { Card, CardContent, CardHeader, CircularProgress, makeStyles, Typography, IconButton } from "@material-ui/core";
-import * as React from 'react';
-import { useEffect, useRef, useCallback } from 'react';
-import { useHistory, useRouteMatch } from "react-router";
-import { updateEntry } from "./actions/entry";
-import { setUnread } from "./actions/marker";
-import AppBarButton from "./components/AppBarButton";
-import { useDoubleTap } from "./hooks/callbacks";
-import { useResult } from "./hooks/promise";
-import { useIsPhone } from "./hooks/responsive";
-import { useStore } from "./hooks/store";
-import { EntryReadButton } from "./MarkerButton";
-import { Entry } from "./model/entry";
-import { loadEntry } from "./services/db";
-import { getEntryByline, getEntryContent, getEntryUrl } from "./services/entry";
-import { useEntry } from "./hooks/entry";
+import { Card, CardContent, CardHeader, CircularProgress, IconButton, makeStyles, Typography } from "@material-ui/core";
 import { Share } from "@material-ui/icons";
+import * as React from 'react';
+import { useCallback, useEffect, useRef } from 'react';
+import { useHistory, useRouteMatch } from "react-router";
+import { updateEntry } from "../actions/entry";
+import { setUnread } from "../actions/marker";
+import AppBarButton from "../components/AppBarButton";
+import { useDoubleTap } from "../hooks/callbacks";
+import { useEntry } from "../hooks/entry";
+import { useIsPhone } from "../hooks/responsive";
+import { useStore } from "../hooks/store";
+import { EntryReadButton } from "../MarkerButton";
+import { Entry } from "../model/entry";
+import { getEntryByline, getEntryContent, getEntryUrl } from "../services/entry";
 
 const useStyles = makeStyles({
     root: {
