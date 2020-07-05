@@ -4,6 +4,7 @@ import * as React from 'react';
 import { useCallback } from 'react';
 import { setUnread } from './actions/marker';
 import { Entry } from './model/entry';
+import { useEntry } from './hooks/entry';
 
 const useStyles = makeStyles({
     on: {
@@ -15,17 +16,18 @@ const useStyles = makeStyles({
 })
 
 interface MarkerButtonProps {
-    entry: Entry;
+    entryId: string;
 }
 
 export const EntryReadButton = (props: MarkerButtonProps) => {
     const styles = useStyles(undefined);
+    const entry = useEntry(props.entryId);
     const toggleRead = useCallback(() => {
-        setUnread(props.entry, !props.entry.unread);
-    }, [props.entry]);
+        setUnread(entry, !entry.unread);
+    }, [entry]);
 
     return <IconButton
-        className={props.entry.unread ? styles.on : styles.off}
+        className={entry && entry.unread ? styles.on : styles.off}
         onClick={toggleRead}>
         <RemoveRedEye/>
     </IconButton>;

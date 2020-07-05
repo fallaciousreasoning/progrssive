@@ -121,7 +121,7 @@ export default (props: { id: string }) => {
             ? article
             : <Card>{article}</Card>}
         <AppBarButton>
-            <EntryReadButton entry={entry} />
+            <EntryReadButton entryId={entry.id} />
         </AppBarButton>
         {navigator.share && <AppBarButton>
             <IconButton
