@@ -1,16 +1,12 @@
 import { makeStyles, MuiThemeProvider } from '@material-ui/core';
 import { SnackbarProvider } from 'notistack';
 import React, { useMemo } from 'react';
-import { BrowserRouter, Route, Switch, RouteComponentProps } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import AppBar from './AppBar';
 import { SnackbarHelper } from './components/SnackbarHelper';
-import EntryViewer from './pages/EntryViewer';
 import { useStore } from './hooks/store';
-import SettingsPage from './pages/SettingsPage';
-import StreamViewer from './pages/StreamViewer';
-import { SubscriptionManager } from './pages/SubscriptionManager';
 import { buildTheme } from './theme';
-import Layout from './pages/_Layout';
+import Routes from './Routes';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -18,14 +14,6 @@ const useStyles = makeStyles(theme => ({
     height: '100vw',
   }
 }));
-
-const AppRoute = (props: { path: string, children: React.ReactNode }) => {
-  return <Route path={props.path}>
-    <Layout>
-      {props.children}
-    </Layout>
-  </Route>
-}
 
 export const App = (props) => {
   const styles = useStyles({});
@@ -35,28 +23,13 @@ export const App = (props) => {
     return buildTheme(store.settings);
   }, [store.settings]);
 
-  type RouteProps = RouteComponentProps<{ id: string }>;
-
   return <BrowserRouter>
     <MuiThemeProvider theme={theme}>
       <SnackbarProvider>
         <div className={styles.root}>
           <SnackbarHelper />
           <AppBar />
-          <Switch>
-            <AppRoute path="/subscriptions">
-              <SubscriptionManager />
-            </AppRoute>
-            <AppRoute path="/settings">
-              <SettingsPage />
-            </AppRoute>
-            <AppRoute path="/stream/:id?">
-              <StreamViewer />
-            </AppRoute>
-            <AppRoute path="/entries/:id">
-              <EntryViewer />
-            </AppRoute>
-          </Switch>
+          <Routes/>
         </div>
       </SnackbarProvider>
     </MuiThemeProvider>
