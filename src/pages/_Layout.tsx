@@ -1,12 +1,11 @@
 import { makeStyles } from "@material-ui/core";
-import React, { useRef } from 'react';
-import { motion } from 'framer-motion'
+import React from 'react';
 interface Props {
     children: React.ReactNode;
 }
 
 const useStyles = makeStyles(theme => ({
-    page: {
+    root: {
         marginLeft: 'auto',
         marginRight: 'auto',
         maxWidth: '800px',
@@ -16,14 +15,9 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default (props: Props & React.HTMLProps<HTMLDivElement>) => {
-    const rootRef = useRef<HTMLDivElement>();
-    const styles = useStyles({
-        top: rootRef.current
-            ? rootRef.current.getBoundingClientRect().top
-            : 0
-    });
+    const styles = useStyles();
 
-    return <div className={styles.page}>
+    return <div className={styles.root}>
         {props.children}
     </div>;
 }

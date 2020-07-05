@@ -1,13 +1,9 @@
-import React, { useState, useMemo } from 'react';
-import { Route, Switch, Link, useLocation, useHistory } from 'react-router-dom';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
-
-import StreamViewer from '../pages/StreamViewer';
-import Routes from '../Routes';
-import _Layout from '../pages/_Layout';
-import EntryViewer from '../pages/EntryViewer';
 import { makeStyles } from '@material-ui/core';
 import { AnimatePresence, motion } from 'framer-motion';
+import React, { useMemo } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+import Routes from '../Routes';
+
 
 const pageVariants = {
     initial: (direction: number) => ({
@@ -29,16 +25,22 @@ const pageTransition = {
     ease: "anticipate",
     duration: 1
 };
-const pageStyle = {
-    position: "absolute",
-    width: '100vw',
-    height: 'calc(100vh - 48px)',
-    overflowY: 'auto',
-};
+
+const useStyles = makeStyles(theme => ({
+    root: {
+        height: 'calc(100vh - 48px)',
+        width: '100vw',
+        position: 'absolute',
+        overflowY: 'auto',
+        overflowX: 'hidden'
+    }
+}));
 
 export const SlidePage = (props: { direction?: number, children: any }) => {
+    const styles = useStyles();
+
     return <motion.div
-        style={pageStyle as any}
+        className={styles.root}
         custom={props.direction || 1}
         initial="initial"
         animate="in"
