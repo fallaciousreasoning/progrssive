@@ -6,15 +6,11 @@ interface Props {
 }
 
 const useStyles = makeStyles(theme => ({
-    root: {
-        padding: theme.spacing(1),
-        maxWidth: '800px',
+    page: {
         marginLeft: 'auto',
         marginRight: 'auto',
-        height: (props: { top: number }) =>
-            `calc(100vh - ${props.top}px)`,
-        overflowY: 'auto',
-        overflowX: 'hidden'
+        maxWidth: '800px',
+        height: '100%',
     }
 }))
 
@@ -26,7 +22,9 @@ export default (props: Props & React.HTMLProps<HTMLDivElement>) => {
             : 0
     });
 
-    return <div ref={rootRef} className={`${styles.root} page`}>
-        {props.children}
+    return <div ref={rootRef} className='page'>
+        <div className={styles.page}>
+            {props.children}
+        </div>
     </div>;
 }
