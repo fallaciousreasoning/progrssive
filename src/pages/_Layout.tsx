@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core"
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 
 interface Props {
     children: React.ReactNode;
@@ -11,15 +11,21 @@ const useStyles = makeStyles(theme => ({
         maxWidth: '800px',
         marginLeft: 'auto',
         marginRight: 'auto',
-        height: '100%',
+        height: (props: { top: number }) =>
+            `calc(100vh - ${props.top}px)`,
         overflowY: 'auto'
     }
 }))
 
 export default (props: Props) => {
-    const styles = useStyles();
+    const rootRef = useRef<HTMLDivElement>();
+    const styles = useStyles({
+        top: rootRef.current
+            ? rootRef.current.getBoundingClientRect().top
+            : 0
+    });
 
-    return <div className={styles.root}>
+    return <div ref={rootRef} className={styles.root}>
         {props.children}
     </div>;
 }
