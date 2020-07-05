@@ -10,7 +10,7 @@ import SettingsPage from './pages/SettingsPage';
 import StreamViewer from './pages/StreamViewer';
 import { SubscriptionManager } from './pages/SubscriptionManager';
 import { buildTheme } from './theme';
-import _Layout from './pages/_Layout';
+import Layout from './pages/_Layout';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -21,9 +21,9 @@ const useStyles = makeStyles(theme => ({
 
 const AppRoute = (props: { path: string, children: React.ReactNode }) => {
   return <Route path={props.path}>
-    <_Layout>
+    <Layout>
       {props.children}
-    </_Layout>
+    </Layout>
   </Route>
 }
 
