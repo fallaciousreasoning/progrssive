@@ -61,6 +61,7 @@ export default (props) => {
             && (location.pathname[r.prefix.length] === "/"
                 || location.pathname.length === r.prefix.length))[0];
         if (!route) {
+            // Fallback to the streams page when no route matches.
             history.replace('/stream');
             return null;
         }
