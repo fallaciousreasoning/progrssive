@@ -24,7 +24,7 @@ export default () => {
         <AppRoute path="/stream/:id?">
             <StreamViewer />
         </AppRoute>
-        <AppRoute path="/entries/:id">
+        <AppRoute path="/entries/:id+">
             <EntryViewer />
         </AppRoute>
         <Redirect to="/stream"/>
