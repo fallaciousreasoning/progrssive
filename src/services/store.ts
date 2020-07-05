@@ -24,6 +24,7 @@ export const initStore = () => {
 
     store.stream = {
         id: undefined,
+        unreadOnly: true,
         length: 0,
         lastScrollPos: 0,
         loadedEntries: []
@@ -38,7 +39,7 @@ export const initStore = () => {
 let streamIterator: AsyncGenerator<Entry> = undefined;
 export const setEntryList = async (unreadOnly: boolean, streamId: string, force = false) => {
     if (!force
-        && unreadOnly === getStore().settings.unreadOnly
+        && unreadOnly === getStore().stream.unreadOnly
         && streamId === getStore().stream.id
         && getStore().stream.length !== 0) {
         return;
@@ -46,6 +47,7 @@ export const setEntryList = async (unreadOnly: boolean, streamId: string, force 
     streamIterator = entryIterator(unreadOnly, streamId);
     getStore().stream = {
         id: streamId,
+        unreadOnly,
         lastScrollPos: 0,
         length: await entryCount(unreadOnly, streamId),
         loadedEntries: [],

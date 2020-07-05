@@ -21,6 +21,7 @@ export interface Settings {
 
 export interface StoreStream {
   id: string;
+  unreadOnly: boolean;
   lastScrollPos: number;
   length: number;
   loadedEntries: string[];
