@@ -4,7 +4,7 @@ import SettingsPage from './pages/SettingsPage';
 import StreamViewer from './pages/StreamViewer';
 import EntryViewer from './pages/EntryViewer';
 import Layout from './pages/_Layout';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
 const AppRoute = (props: { path: string, children: React.ReactNode }) => {
     return <Route path={props.path}>
@@ -27,5 +27,6 @@ export default () => {
         <AppRoute path="/entries/:id">
             <EntryViewer />
         </AppRoute>
+        <Redirect to="/stream"/>
     </Switch>
 }
