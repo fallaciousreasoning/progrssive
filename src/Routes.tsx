@@ -4,29 +4,30 @@ import SettingsPage from './pages/SettingsPage';
 import StreamViewer from './pages/StreamViewer';
 import EntryViewer from './pages/EntryViewer';
 import Layout from './pages/_Layout';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect, RouteProps } from 'react-router-dom';
 
-const AppRoute = (props: { path: string, children: React.ReactNode }) => {
-    return <Route path={props.path}>
-        <Layout>
+type Props = RouteProps & React.HTMLProps<HTMLDivElement>;
+
+const AppRoute = (props: Props) => {
+    const { path, component, render, location, ...rest} = props;
+    return <Route path={path} component={component} render={render} location={location}>
+        <Layout {...rest}>
             {props.children}
         </Layout>
     </Route>
 }
-export default () => {
-    return <Switch>
-        <AppRoute path="/subscriptions">
-            <SubscriptionManager />
-        </AppRoute>
-        <AppRoute path="/settings">
-            <SettingsPage />
-        </AppRoute>
-        <AppRoute path="/stream/:id?">
-            <StreamViewer />
-        </AppRoute>
-        <AppRoute path="/entries/:id+">
-            <EntryViewer />
-        </AppRoute>
-        <Redirect to="/stream"/>
-    </Switch>
-}
+export default [
+    <AppRoute path="/subscriptions">
+        <SubscriptionManager />
+    </AppRoute>,
+    <AppRoute path="/settings">
+        <SettingsPage />
+    </AppRoute>,
+    <AppRoute path="/stream/:id?">
+        <StreamViewer />
+    </AppRoute>,
+    <AppRoute path="/entries/:id+">
+        <EntryViewer />
+    </AppRoute>,
+    <Redirect to="/stream" />
+];

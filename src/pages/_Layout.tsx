@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-export default (props: Props) => {
+export default (props: Props & React.HTMLProps<HTMLDivElement>) => {
     const rootRef = useRef<HTMLDivElement>();
     const styles = useStyles({
         top: rootRef.current
@@ -26,7 +26,7 @@ export default (props: Props) => {
             : 0
     });
 
-    return <div ref={rootRef} className={styles.root}>
+    return <div ref={rootRef} className={`${styles.root} page`}>
         {props.children}
     </div>;
 }

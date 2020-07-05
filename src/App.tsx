@@ -7,6 +7,7 @@ import { SnackbarHelper } from './components/SnackbarHelper';
 import { useStore } from './hooks/store';
 import { buildTheme } from './theme';
 import Routes from './Routes';
+import RouteSwitcher from './components/RouteSwitcher';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -29,7 +30,8 @@ export const App = (props) => {
         <div className={styles.root}>
           <SnackbarHelper />
           <AppBar />
-          <Routes/>
+          <RouteSwitcher/>
+          {/* <Routes/> */}
         </div>
       </SnackbarProvider>
     </MuiThemeProvider>
