@@ -23,6 +23,7 @@ export const initStore = () => {
     store.lastUpdate = Date.now();
 
     store.stream = {
+        id: undefined,
         length: 0,
         loadedEntries: []
     };
@@ -34,9 +35,16 @@ export const initStore = () => {
 }
 
 let streamIterator: AsyncGenerator<Entry> = undefined;
-export const setEntryList = async (unreadOnly: boolean, streamId: string) => {
+export const setEntryList = async (unreadOnly: boolean, streamId: string, force = false) => {
+    if (!force
+        && unreadOnly === getStore().settings.unreadOnly
+        && streamId === getStore().stream.id
+        && getStore().stream.length !== 0) {
+        return;
+    }
     streamIterator = entryIterator(unreadOnly, streamId);
     getStore().stream = {
+        id: streamId,
         length: await entryCount(unreadOnly, streamId),
         loadedEntries: [],
     };

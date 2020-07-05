@@ -20,6 +20,7 @@ export interface Settings {
 }
 
 export interface StoreStream {
+  id: string;
   length: number;
   loadedEntries: string[];
 }
