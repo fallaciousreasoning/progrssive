@@ -62,7 +62,6 @@ export default (props: { id: string }) => {
     const styles = useStyles();
     const isPhone = useIsPhone();
     const domElement = useRef(null);
-    const match = useRouteMatch<{ id: string }>();
     const entry = useEntry(props.id);
 
     useEffect(() => {

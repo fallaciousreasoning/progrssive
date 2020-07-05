@@ -39,10 +39,9 @@ export const useEntry = (id: string) => {
         // fallback to the network.
         loadEntry(id)
             .then(async entry => {
-                if (getStore().updating[id])
-                    return;
-
                 if (!entry) {
+                    if (getStore().updating[id])
+                        return;
                     getStore().updating[id] = true;
                     entry = await getEntry(id);
                     addEntry(entry);
