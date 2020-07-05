@@ -9,18 +9,19 @@ import EntryViewer from '../pages/EntryViewer';
 import { makeStyles } from '@material-ui/core';
 import { AnimatePresence, motion } from 'framer-motion';
 
-const duration = 0.3;
-
 const pageVariants = {
     initial: (direction: number) => ({
-        x: direction > 1 ? '100vw' : '-100vw'
+        x: direction > 0 ? '100vw' : '-100vw'
     }),
     in: {
         x: 0
     },
-    out: (direction: number) => ({
-        x: direction > 1 ? '-100vw' : '100vw'
-    }),
+    out: (direction: number) => {
+        console.log(direction)
+        return {
+            x: direction > 0 ? '-100vw' : '100vw'
+        }
+    },
 };
 
 const pageTransition = {
