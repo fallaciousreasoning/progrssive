@@ -8,8 +8,12 @@ import { searchFeeds } from '../api/search';
 import { getStore, useStore } from '../hooks/store';
 import { Subscription } from '../model/subscription';
 import { save } from '../services/persister';
+import DownloadOpml, { getSubscriptionsOpml } from '../components/DownloadOpml';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
+    export: {
+        marginTop: theme.spacing(1),
+    },
     results: {
         paddingTop: '8px'
     },
@@ -17,7 +21,9 @@ const useStyles = makeStyles({
     result: {
         padding: '8px'
     }
-});
+}));
+
+window['opml'] = getSubscriptionsOpml;
 export const SubscriptionManager = (props) => {
     const styles = useStyles();
     const store = useStore();
@@ -28,9 +34,7 @@ export const SubscriptionManager = (props) => {
     }, [store.subscriptions]);
 
     // By default, if we have subscriptions, show them.
-    const [query, setQuery] = useState(store.subscriptions.length !== 0
-        ? "@subscribed"
-        : "");
+    const [query, setQuery] = useState("@subscribed");
     const [debouncedQuery] = useDebounce(query, 200);
     const [searchResults, setSearchResults] = useState([]);
 
@@ -83,6 +87,8 @@ export const SubscriptionManager = (props) => {
                 isSubscribed={isSubscribed(s)}
                 toggleSubscription={toggleSubscription} />)}
         </div>
+
+        {!!store.subscriptions.length && <DownloadOpml className={styles.export}/>}
     </div>
 }
 

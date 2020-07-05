@@ -16,6 +16,7 @@
     "localforage": "^1.7.3",
     "lorem-ipsum": "^1.0.6",
     "notistack": "^0.8.2",
+    "opml-generator": "^1.1.1",
     "query-string": "^6.2.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
