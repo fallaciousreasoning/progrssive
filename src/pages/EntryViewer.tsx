@@ -64,11 +64,6 @@ export default (props: { id: string }) => {
     const domElement = useRef(null);
     const entry = useEntry(props.id);
 
-    useEffect(() => {
-        if (entry || !props.id) return;
-        updateEntry(props.id);
-    }, [props.id, entry]);
-
     useMaybeMarkAsRead(entry);
     useScrollToTop(entry, domElement);
 
