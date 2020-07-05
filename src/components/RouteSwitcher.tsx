@@ -26,11 +26,11 @@ const useStyles = makeStyles(theme => ({
             overflowX: 'hidden'
         },
         '.page.enter': {
-            transform: 'translate(100%, 0)',
-            zIndex: 1000
+            transform: 'translate(100%, 0)'
         },
         '.page.exit': {
-            transform: 'translate(-100%, 0)'
+            transform: 'translate(-100%, 0)',
+            zIndex: 1000
         },
         '.page.enter-active': {
             transform: 'translate(0,0)'
