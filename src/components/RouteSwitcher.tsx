@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import React, { useMemo } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import Routes from '../Routes';
-
+import Layout from '../pages/_Layout';
 
 const pageVariants = {
     initial: (direction: number) => ({
@@ -76,7 +76,9 @@ export default (props) => {
 
     return <AnimatePresence custom={direction}>
         <SlidePage key={location.pathname} direction={direction}>
-            {page}
+            <Layout>
+                {page}
+            </Layout>
         </SlidePage>
     </AnimatePresence>;
 }
