@@ -12,12 +12,9 @@ const pageVariants = {
     in: {
         x: 0
     },
-    out: (direction: number) => {
-        console.log(direction)
-        return {
-            x: direction > 0 ? '-100vw' : '100vw'
-        }
-    },
+    out: (direction: number) => ({
+        x: direction > 0 ? '-100vw' : '100vw'
+    })
 };
 
 const pageTransition = {

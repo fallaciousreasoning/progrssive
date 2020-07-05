@@ -18,7 +18,7 @@ export const updateStreams = async (...streamIds: string[]) => {
         try {
             await updateSubscription(streamId);
         } catch (err) {
-            console.log(err);
+            console.error(err);
             failed = true;
         }
         getStore().updating.stream--;
