@@ -13,7 +13,8 @@ const useStyles = makeStyles(theme => ({
         marginRight: 'auto',
         height: (props: { top: number }) =>
             `calc(100vh - ${props.top}px)`,
-        overflowY: 'auto'
+        overflowY: 'auto',
+        overflowX: 'hidden'
     }
 }))
 
