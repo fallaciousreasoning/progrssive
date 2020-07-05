@@ -60,8 +60,10 @@ export default (props) => {
         const route = Routes.filter(r => location.pathname.startsWith(r.prefix)
             && (location.pathname[r.prefix.length] === "/"
                 || location.pathname.length === r.prefix.length))[0];
-        if (!route)
+        if (!route) {
+            history.replace('/stream');
             return null;
+        }
 
         const id = location.pathname
             .substr(route.prefix.length);
