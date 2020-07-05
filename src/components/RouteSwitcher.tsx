@@ -74,7 +74,7 @@ export default (props) => {
             : 1,
         [location.pathname]);
 
-    return <AnimatePresence custom={direction}>
+    return <AnimatePresence custom={direction} initial={false}>
         <SlidePage key={location.pathname} direction={direction}>
             <Layout>
                 {page}
