@@ -1,5 +1,5 @@
-import { CircularProgress, FormControlLabel, IconButton, LinearProgress, makeStyles, Switch } from '@material-ui/core';
-import { Refresh } from '@material-ui/icons';
+import { CircularProgress, FormControlLabel, IconButton, LinearProgress, makeStyles, Switch, Button } from '@material-ui/core';
+import { Refresh, EmojiPeople } from '@material-ui/icons';
 import React, { useEffect, useState } from 'react';
 import { updateStreams } from '../actions/stream';
 import AppBarButton from '../components/AppBarButton';
@@ -8,6 +8,8 @@ import StickyHeader from '../components/StickyHeader';
 import { isUpdating, useStore } from '../hooks/store';
 import { setEntryList } from '../services/store';
 import StreamList from '../StreamList';
+import FriendlyMessage from '../components/FriendlyMessage';
+import ListLinkButton from '../components/ListLinkButton';
 
 const useStyles = makeStyles({
   root: {
@@ -48,6 +50,11 @@ export default (props: { id: string }) => {
     </Centre>}
 
     <StreamList onProgressChanged={setProgress} />
+    <FriendlyMessage message="No subscriptions :'(">
+      <Button variant="contained">
+        Add Subscriptions
+      </Button>
+    </FriendlyMessage>
 
     <AppBarButton>
       <IconButton disabled={loading} onClick={() => updateStreams(props.id)}>
