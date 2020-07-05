@@ -8,7 +8,7 @@ import _Layout from '../pages/_Layout';
 import EntryViewer from '../pages/EntryViewer';
 import { makeStyles } from '@material-ui/core';
 
-const duration = 1;
+const duration = 0.3;
 const timeout = {
     enter: duration*1000,
     exit: duration*1000
@@ -17,7 +17,7 @@ const timeout = {
 const useStyles = makeStyles(theme => ({
     '@global': {
         '.page': {
-            transition: `transform ${duration}s ease-in-out`,
+            transition: `transform ${duration}s cubic-bezier(0.790, 0.005, 0.270, 1.195)`,
             height: 'calc(100vh - 48px)',
             width: '100vw',
             position: 'fixed',
