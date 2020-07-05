@@ -74,7 +74,7 @@ export default (props: Props) => {
         itemSize={itemHeight}
         initialScrollOffset={store.stream.lastScrollPos}
         itemCount={store.stream.length}
-        width={Math.min(800, width)}
+        width={Math.min(800, width - GUTTER_SIZE*2)}
         itemKey={(index) => index < loadedEntries.length ? loadedEntries[index].id : index}
         onItemsRendered={onItemsRendered}>
         {rowProps => {
@@ -83,8 +83,8 @@ export default (props: Props) => {
             const newStyle = {
                 ...rowProps.style,
                 top: rowProps.style.top + GUTTER_SIZE,
-                left: rowProps.style.left + GUTTER_SIZE,
-                right: GUTTER_SIZE,
+                left: 1,
+                right: 1,
                 width: `100% - ${GUTTER_SIZE * 2}`
             };
             return item ? <div
@@ -94,7 +94,7 @@ export default (props: Props) => {
                     if (subscription && subscription.preferredView === "browser") {
                         window.open(getEntryUrl(item), "_blank");
                     } else {
-                        history.push(`/entries/${item.id}`, { prev: true });
+                        history.push(`/entries/${item.id}`);
                     }
                 }}
             >
