@@ -55,7 +55,7 @@ const useScrollToTop = (entry: Entry, ref: React.MutableRefObject<any>) => {
     }, [entry, ref]);
 }
 
-export default (props: {}) => {
+export default (props: { id: string }) => {
     const store = useStore();
     const history = useHistory();
 
@@ -63,13 +63,12 @@ export default (props: {}) => {
     const isPhone = useIsPhone();
     const domElement = useRef(null);
     const match = useRouteMatch<{ id: string }>();
-    const id = match.params.id;
-    const entry = useEntry(id);
+    const entry = useEntry(props.id);
 
     useEffect(() => {
-        if (entry || !id) return;
-        updateEntry(id);
-    }, [id, entry]);
+        if (entry || !props.id) return;
+        updateEntry(props.id);
+    }, [props.id, entry]);
 
     useMaybeMarkAsRead(entry);
     useScrollToTop(entry, domElement);

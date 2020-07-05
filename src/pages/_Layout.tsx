@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core";
 import React, { useRef } from 'react';
-
+import { motion } from 'framer-motion'
 interface Props {
     children: React.ReactNode;
 }
@@ -23,9 +23,7 @@ export default (props: Props & React.HTMLProps<HTMLDivElement>) => {
             : 0
     });
 
-    return <div ref={rootRef} className={`page`}>
-        <div className={styles.page}>
-            {props.children}
-        </div>
+    return <div className={styles.page}>
+        {props.children}
     </div>;
 }

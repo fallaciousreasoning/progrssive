@@ -1,6 +1,6 @@
 import { CircularProgress, FormControlLabel, IconButton, LinearProgress, makeStyles, Switch } from '@material-ui/core';
 import { Refresh } from '@material-ui/icons';
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { updateStreams } from '../actions/stream';
 import AppBarButton from '../components/AppBarButton';
 import Centre from '../components/Centre';
@@ -8,7 +8,6 @@ import StickyHeader from '../components/StickyHeader';
 import { isUpdating, useStore } from '../hooks/store';
 import { setEntryList } from '../services/store';
 import StreamList from '../StreamList';
-import { useRouteMatch } from 'react-router-dom';
 
 const useStyles = makeStyles({
   root: {
@@ -26,19 +25,16 @@ const useStyles = makeStyles({
   },
 });
 
-export default (props: {}) => {
+export default (props: { id: string }) => {
   const store = useStore();
   const styles = useStyles();
-  const match = useRouteMatch<{ id: string }>();
-
-  const id = match.params.id;
 
   const loading = isUpdating('stream');
   useEffect(() => {
-    setEntryList(store.settings.unreadOnly, id);
+    setEntryList(store.settings.unreadOnly, props.id);
   },
     // eslint-disable-next-line
-    [store.settings.unreadOnly, id, store.lastUpdate]);
+    [store.settings.unreadOnly, props.id, store.lastUpdate]);
 
   const [progress, setProgress] = useState(0);
 
@@ -54,7 +50,7 @@ export default (props: {}) => {
     <StreamList onProgressChanged={setProgress} />
 
     <AppBarButton>
-      <IconButton disabled={loading} onClick={() => updateStreams(id)}>
+      <IconButton disabled={loading} onClick={() => updateStreams(props.id)}>
         <Refresh />
       </IconButton>
     </AppBarButton>
