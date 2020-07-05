@@ -29,5 +29,5 @@ export default [
     <AppRoute path="/entries/:id+">
         <EntryViewer />
     </AppRoute>,
-    <Redirect to="/stream" />
+    <Redirect to="/stream" push={false}/>
 ];
