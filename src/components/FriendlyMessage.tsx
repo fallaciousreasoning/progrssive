@@ -20,7 +20,7 @@ const useStyles = makeStyles({
     },
     icon: {
         flex: 1,
-        width: '100%'
+        width: '90%'
     },
     children: {
     }
@@ -34,9 +34,9 @@ export default (props: Props & React.HTMLProps<HTMLDivElement>) => {
                 {props.message}
             </Typography>
         </div>
-        <EmojiPeople className={styles.icon} />
         {props.children && <div className={styles.children}>
             {props.children}
         </div>}
+        <EmojiPeople className={styles.icon} />
     </div>
 }

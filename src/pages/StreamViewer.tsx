@@ -49,12 +49,13 @@ export default (props: { id: string }) => {
       <CircularProgress className={styles.loader} />
     </Centre>}
 
-    <StreamList onProgressChanged={setProgress} />
-    <FriendlyMessage message="No subscriptions :'(">
-      <Button variant="contained">
-        Add Subscriptions
+    {store.subscriptions.length !== 0
+      ? <StreamList onProgressChanged={setProgress} />
+      : <FriendlyMessage message="No subscriptions :'( Would you like to add some?">
+        <Button variant="contained" href="/subscriptions">
+          Add Subscriptions
       </Button>
-    </FriendlyMessage>
+      </FriendlyMessage>}
 
     <AppBarButton>
       <IconButton disabled={loading} onClick={() => updateStreams(props.id)}>
