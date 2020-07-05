@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Route, Switch, Link, useLocation } from 'react-router-dom';
+import { Route, Switch, Link, useLocation, useHistory } from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import StreamViewer from '../pages/StreamViewer';
@@ -12,15 +12,15 @@ import { AnimatePresence, motion } from 'framer-motion';
 const duration = 0.3;
 
 const pageVariants = {
-    initial: {
-        x: '100vw'
-    },
+    initial: (direction: number) => ({
+        x: direction > 1 ? '100vw' : '-100vw'
+    }),
     in: {
         x: 0
     },
-    out: {
-        x: '-100vw'
-    },
+    out: (direction: number) => ({
+        x: direction > 1 ? '-100vw' : '100vw'
+    }),
 };
 
 const pageTransition = {
@@ -35,9 +35,10 @@ const pageStyle = {
     overflowY: 'auto',
 };
 
-export const SlidePage = (props: { children: any }) => {
+export const SlidePage = (props: { direction?: number, children: any }) => {
     return <motion.div
         style={pageStyle as any}
+        custom={props.direction || 1}
         initial="initial"
         animate="in"
         exit="out"
@@ -50,6 +51,7 @@ export const SlidePage = (props: { children: any }) => {
 
 export default (props) => {
     const location = useLocation();
+    const history = useHistory();
     const page = useMemo(() => {
         // Find a matching route. React-Router doesn't really work for this :/
         const route = Routes.filter(r => location.pathname.startsWith(r.prefix)
@@ -60,12 +62,17 @@ export default (props) => {
 
         const id = location.pathname
             .substr(route.prefix.length);
-        
+
         return route.render(id);
     }, [location.pathname]);
+    const direction = useMemo(() =>
+        history.action === "POP"
+            ? -1
+            : 1,
+        [location.pathname]);
 
-    return <AnimatePresence>
-        <SlidePage key={location.pathname}>
+    return <AnimatePresence custom={direction}>
+        <SlidePage key={location.pathname} direction={direction}>
             {page}
         </SlidePage>
     </AnimatePresence>;
