@@ -1,16 +1,16 @@
 import { makeStyles, MuiThemeProvider } from '@material-ui/core';
 import { SnackbarProvider } from 'notistack';
 import React, { useMemo } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, RouteComponentProps } from 'react-router-dom';
 import AppBar from './AppBar';
 import { SnackbarHelper } from './components/SnackbarHelper';
 import EntryViewer from './EntryViewer';
 import { useStore } from './hooks/store';
-import RouteManager, { AppRoute } from './RouteManager';
 import SettingsPage from './SettingsPage';
 import StreamViewer from './StreamViewer';
 import { SubscriptionManager } from './SubscriptionManager';
 import { buildTheme } from './theme';
+import _Layout from './pages/_Layout';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -19,16 +19,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const routes: AppRoute[] = [
-  {
-    prefix: '/stream/',
-    render: (id, active) => <StreamViewer id={id} active={active} />
-  },
-  {
-    prefix: '/entries/',
-    render: (id, active) => <EntryViewer id={id} active={active} />
-  }
-];
+const AppRoute = (props: { path: string, children: React.ReactNode }) => {
+  return <Route path={props.path}>
+    <_Layout>
+      {props.children}
+    </_Layout>
+  </Route>
+}
 
 export const App = (props) => {
   const styles = useStyles({});
@@ -38,6 +35,8 @@ export const App = (props) => {
     return buildTheme(store.settings);
   }, [store.settings]);
 
+  type RouteProps = RouteComponentProps<{ id: string }>;
+
   return <BrowserRouter>
     <MuiThemeProvider theme={theme}>
       <SnackbarProvider>
@@ -45,13 +44,18 @@ export const App = (props) => {
           <SnackbarHelper />
           <AppBar />
           <Switch>
-            <Route path="/subscriptions">
+            <AppRoute path="/subscriptions">
               <SubscriptionManager />
-            </Route>
-            <Route path="/settings">
+            </AppRoute>
+            <AppRoute path="/settings">
               <SettingsPage />
-            </Route>
-            <RouteManager routes={routes} />
+            </AppRoute>
+            <AppRoute path="/stream/:id?">
+              <StreamViewer />
+            </AppRoute>
+            <AppRoute path="/entries/:id">
+              <EntryViewer />
+            </AppRoute>
           </Switch>
         </div>
       </SnackbarProvider>

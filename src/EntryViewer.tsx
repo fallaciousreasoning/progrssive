@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CircularProgress, makeStyles, Typography, IconButton } from "@material-ui/core";
 import * as React from 'react';
 import { useEffect, useRef, useCallback } from 'react';
-import { useHistory } from "react-router";
+import { useHistory, useRouteMatch } from "react-router";
 import { updateEntry } from "./actions/entry";
 import { setUnread } from "./actions/marker";
 import AppBarButton from "./components/AppBarButton";
@@ -57,25 +57,21 @@ const useScrollToTop = (entry: Entry, ref: React.MutableRefObject<any>) => {
     }, [entry, ref]);
 }
 
-interface Props {
-    id: string,
-    active: boolean
-}
-
-export default (props: Props) => {
+export default (props: {}) => {
     const store = useStore();
     const history = useHistory();
 
     const styles = useStyles();
     const isPhone = useIsPhone();
     const domElement = useRef(null);
-
-    const entry = useEntry(props.id);
+    const match = useRouteMatch<{ id: string }>();
+    const id = match.params.id;
+    const entry = useEntry(id);
 
     useEffect(() => {
-        if (entry || !props.id) return;
-        updateEntry(props.id);
-    }, [props.id, entry]);
+        if (entry || !id) return;
+        updateEntry(id);
+    }, [id, entry]);
 
     useMaybeMarkAsRead(entry);
     useScrollToTop(entry, domElement);
@@ -128,17 +124,15 @@ export default (props: Props) => {
         {isPhone
             ? article
             : <Card>{article}</Card>}
-        {props.active && <>
-            <AppBarButton>
-                <EntryReadButton entry={entry} />
-            </AppBarButton>
-            {navigator.share && <AppBarButton>
-                    <IconButton 
-                        className={styles.shareButton}
-                        onClick={shareArticle}>
-                        <Share/>
-                    </IconButton>
-                </AppBarButton>}
-        </>}
+        <AppBarButton>
+            <EntryReadButton entry={entry} />
+        </AppBarButton>
+        {navigator.share && <AppBarButton>
+            <IconButton
+                className={styles.shareButton}
+                onClick={shareArticle}>
+                <Share />
+            </IconButton>
+        </AppBarButton>}
     </article>;
 };

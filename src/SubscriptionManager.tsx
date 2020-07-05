@@ -10,15 +10,6 @@ import { Subscription } from './model/subscription';
 import { save } from './services/persister';
 
 const useStyles = makeStyles({
-    content: {
-        padding: '8px',
-        maxWidth: '800px',
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        height: '90vh',
-        overflowY: 'auto'
-    },
-
     results: {
         paddingTop: '8px'
     },
@@ -74,7 +65,7 @@ export const SubscriptionManager = (props) => {
         await save('subscriptions', getStore().subscriptions);
     }, [store.subscriptions, isSubscribed]);
 
-    return <div className={styles.content}>
+    return <div>
         <TextField
             label="Search term or feed url"
             variant="filled"
