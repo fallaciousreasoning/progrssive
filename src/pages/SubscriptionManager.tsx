@@ -27,7 +27,10 @@ export const SubscriptionManager = (props) => {
         return subscribedTo.has(s.id)
     }, [store.subscriptions]);
 
-    const [query, setQuery] = useState("@subscribed");
+    // By default, if we have subscriptions, show them.
+    const [query, setQuery] = useState(store.subscriptions.length !== 0
+        ? "@subscribed"
+        : "");
     const [debouncedQuery] = useDebounce(query, 200);
     const [searchResults, setSearchResults] = useState([]);
 
