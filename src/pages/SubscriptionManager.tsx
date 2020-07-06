@@ -76,7 +76,8 @@ export const SubscriptionManager = (props) => {
     }, [debouncedQuery,
         query,
         history,
-        importingSubscriptions]);
+        importingSubscriptions,
+        store.subscriptions]);
 
     // Toggles whether a subscription is active.
     const toggleSubscription = useCallback(async subscription => {
