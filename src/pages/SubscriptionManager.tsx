@@ -66,7 +66,7 @@ export const SubscriptionManager = (props) => {
             if (query === "@subscribed")
                 setSearchResults(store.subscriptions);
 
-            if (query === "@importing")
+            if (query === "@import")
                 setSearchResults(importingSubscriptions);
             return;
         }
@@ -100,7 +100,7 @@ export const SubscriptionManager = (props) => {
                 importStatus: 'pending'
             });
         setImportingSubscriptions(toImport);
-        setQuery("@importing");
+        setQuery("@import");
 
         // Find a matching subscription, one by one.
         for (let i = 0; i < toImport.length; ++i) {
@@ -149,7 +149,7 @@ export const SubscriptionManager = (props) => {
         <StackPanel direction='row'>
             {!!store.subscriptions.length
                 && <ExportOpml className={styles.opmlButton} />}
-            {query !== "@importing" && <ImportOpml className={styles.opmlButton}
+            {query !== "@import" && <ImportOpml className={styles.opmlButton}
                 onOpmlLoaded={onLoadedOpml} />}
         </StackPanel>
 
