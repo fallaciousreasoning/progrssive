@@ -10,6 +10,7 @@ import { isUpdating, useStore } from '../hooks/store';
 import { setEntryList } from '../services/store';
 import StreamList from '../StreamList';
 import { useLocation, useHistory } from 'react-router-dom';
+import LinkButton from '../components/LinkButton';
 
 const useStyles = makeStyles({
   root: {
@@ -62,9 +63,9 @@ export default (props: { id: string }) => {
     {store.subscriptions.length !== 0
       ? <StreamList onProgressChanged={setProgress} />
       : <FriendlyMessage>
-        <Button variant="contained" color="secondary" href="/subscriptions?query=">
+        <LinkButton variant="contained" color="secondary" href="/subscriptions?query=">
           No Subscriptions. Add Some?
-      </Button>
+      </LinkButton>
       </FriendlyMessage>}
 
     <AppBarButton>
