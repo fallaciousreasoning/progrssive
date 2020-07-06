@@ -23,6 +23,13 @@ const useStyles = makeStyles(theme => ({
 
     result: {
         padding: '8px'
+    },
+
+    searchBox: {
+        position: 'sticky',
+        top: theme.spacing(1),
+        background: 'white',
+        zIndex: 1
     }
 }));
 
@@ -156,7 +163,8 @@ export const SubscriptionManager = (props) => {
             variant="filled"
             fullWidth
             value={query}
-            onChange={e => setQuery(e.target.value)} />
+            onChange={e => setQuery(e.target.value)}
+            className={styles.searchBox} />
 
         <div className={styles.results}>
             {searchResults.map(s => <SubscriptionEditor
