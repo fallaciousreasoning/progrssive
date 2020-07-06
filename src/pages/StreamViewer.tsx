@@ -12,21 +12,27 @@ import StreamList from '../StreamList';
 import { useLocation, useHistory } from 'react-router-dom';
 import LinkButton from '../components/LinkButton';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
+    overflow: 'hidden auto',
+    scrollSnapType: 'y mandatory',
+    maxHeight: `calc(100vh - 48px - ${theme.spacing(2)}px)`,
+    '&> *': {
+      scrollSnapAlign: 'start'
+    }
   },
   loadingButton: {
     color: 'white !important'
   },
   loader: {
-    marginBottom: "10px",
+    marginBottom: theme.spacing(),
   },
   header: {
-    top: '-10px',
+    top: -theme.spacing(),
     zIndex: 1000,
-    margin: '-10px -10px 10px -10px'
+    margin: `-${theme.spacing(1)}px -${theme.spacing(1)}px ${theme.spacing(1)}px -${theme.spacing(1)}px`
   },
-});
+}));
 
 export default (props: { id: string }) => {
   const store = useStore();
@@ -78,5 +84,9 @@ export default (props: { id: string }) => {
         control={<Switch checked={unreadOnly} onClick={toggleUnreadOnly} />}
         label="Unread" />
     </AppBarButton>
+
+    <div style={{background: 'red', height: 'calc(100vh - 48px)'}}>
+      Foo Bar
+    </div>
   </div>
 }

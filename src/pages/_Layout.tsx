@@ -9,7 +9,6 @@ const useStyles = makeStyles(theme => ({
         marginLeft: 'auto',
         marginRight: 'auto',
         maxWidth: '800px',
-        height: '100%',
         padding: theme.spacing(1),
     }
 }))
