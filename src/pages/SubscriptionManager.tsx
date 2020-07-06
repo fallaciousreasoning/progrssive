@@ -1,15 +1,16 @@
 import { makeStyles, TextField } from "@material-ui/core";
 import * as React from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useHistory } from "react-router-dom";
 import { useDebounce } from 'use-debounce';
 import { searchFeeds } from '../api/search';
-import ExportOpml, { getSubscriptionsOpml } from '../components/ExportOpml';
+import ExportOpml from '../components/ExportOpml';
 import ImportOpml from "../components/ImportOpml";
 import StackPanel from "../components/StackPanel";
+import SubscriptionEditor from "../components/SubscriptionEditor";
 import { getStore, useStore } from '../hooks/store';
 import { Subscription } from '../model/subscription';
 import { save } from '../services/persister';
-import SubscriptionEditor from "../components/SubscriptionEditor";
 
 const useStyles = makeStyles(theme => ({
     opmlButton: {
@@ -24,10 +25,10 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-window['opml'] = getSubscriptionsOpml;
 export const SubscriptionManager = (props) => {
     const styles = useStyles();
     const store = useStore();
+    const history = useHistory();
 
     const getMatchingSubscription = useMemo(() => {
         const subscribedTo = new Map(store.subscriptions.map(s => [s.id, s]));
@@ -38,13 +39,15 @@ export const SubscriptionManager = (props) => {
         (s: Subscription) => !!getMatchingSubscription(s),
         [getMatchingSubscription]);
 
-    const [query, setQuery] = useState("@subscribed");
+    const queryParams = new URLSearchParams(window.location.search);
+    const [query, setQuery] = useState(queryParams.get('query') || "@subscribed");
     const [debouncedQuery] = useDebounce(query, 200);
     const [searchResults, setSearchResults] = useState<Subscription[]>([]);
     const [importingSubscriptions, setImportingSubscriptions] = useState<Subscription[]>([]);
 
     // Update search results when typing.
     useEffect(() => {
+        history.replace(`?query=${encodeURIComponent(query)}`);
         if (!debouncedQuery) {
             setSearchResults([]);
             return;
@@ -64,11 +67,10 @@ export const SubscriptionManager = (props) => {
         }
 
         searchFeeds(debouncedQuery).then(setSearchResults);
-    }, [debouncedQuery, query]);
-
-    const subscriptions = query === "@subscribed"
-        ? store.subscriptions
-        : searchResults;
+    }, [debouncedQuery,
+        query,
+        history,
+        importingSubscriptions]);
 
     // Toggles whether a subscription is active.
     const toggleSubscription = useCallback(async subscription => {
@@ -104,7 +106,7 @@ export const SubscriptionManager = (props) => {
             onChange={e => setQuery(e.target.value)} />
 
         <div className={styles.results}>
-            {subscriptions.map(s => <SubscriptionEditor
+            {searchResults.map(s => <SubscriptionEditor
                 key={s.id}
                 subscription={s}
                 isSubscribed={isSubscribed(s)}
