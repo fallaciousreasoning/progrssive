@@ -1,7 +1,7 @@
-import React, { useCallback } from 'react'
-import { Button, ButtonProps } from '@material-ui/core'
+import { Button, ButtonProps } from '@material-ui/core';
 import opmlToJson from 'opml-to-json';
-import { pickFile, getFileText } from '../utils/files';
+import React, { useCallback } from 'react';
+import { getFileText, pickFile } from '../utils/files';
 
 interface OpmlNode {
     text: string;

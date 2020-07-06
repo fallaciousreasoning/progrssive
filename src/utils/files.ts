@@ -1,5 +1,3 @@
-import { resolve } from "dns";
-
 interface Options {
     accept: string[];
 }
@@ -54,4 +52,15 @@ export const getFileText = (file: File): Promise<string> => {
     reader.readAsText(file);
 
     return promise;
+}
+
+export const downloadTextFile = (text: string, filename: string, type = "text/plain") => {
+    const a = document.createElement('a');
+    const href = `data:${type};charset=utf-8,${encodeURIComponent(text)}`;
+    a.setAttribute('href', href);
+    a.setAttribute('download', filename);
+
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
 }

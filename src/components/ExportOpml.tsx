@@ -1,8 +1,9 @@
-import React, { useCallback, useState, useMemo } from 'react';
 import { Button, ButtonProps } from '@material-ui/core';
-import { getStore, useStore } from '../hooks/store';
 import * as opmlGenerator from 'opml-generator';
+import React, { useCallback } from 'react';
+import { getStore } from '../hooks/store';
 import { Subscription } from '../model/subscription';
+import { downloadTextFile } from '../utils/files';
 
 export const getSubscriptionsOpml = () => {
     const prefix = "feed/";
@@ -20,14 +21,9 @@ export const getSubscriptionsOpml = () => {
 export default (props: ButtonProps) => {
     const download = useCallback(() => {
         const opml = getSubscriptionsOpml();
-        const a = document.createElement('a');
-        const href = `data:text/xml;charset=utf-8,${encodeURIComponent(opml)}`;
-        a.setAttribute('href', href);
-        a.setAttribute('download', `progrssive-feeds-${new Date().toISOString()}.xml`);
-        
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
+        downloadTextFile(opml,
+            `progrssive-feeds-${new Date().toISOString()}.opml`,
+            'text/xml');
     }, []);
     return <Button variant="outlined" color="primary" {...props} onClick={download}>
         Export Feeds
