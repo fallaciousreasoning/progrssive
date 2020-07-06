@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 import * as React from 'react';
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { useHistory } from "react-router-dom";
 import { FixedSizeList } from 'react-window';
 import { setUnread } from './actions/marker';
@@ -54,6 +54,14 @@ export default (props: Props) => {
     const listHeight = height - 48 - GUTTER_SIZE * 2;
     const itemHeight = 208;
     const totalScrollHeight = store.stream.length * itemHeight;
+    const listRef = React.createRef<FixedSizeList>();
+
+    // Scroll to the top when the stream changes.
+    useEffect(() => {
+        listRef.current && listRef.current.scrollTo(0);
+    },
+    // Only scroll back to the top of the list when the stream we're viewing changes.
+    [store.stream.id, store.stream.unreadOnly]);
 
     const onScrolled = useCallback(({ scrollOffset }) => {
         const dps = 5;
@@ -68,6 +76,7 @@ export default (props: Props) => {
         getStore().stream.lastScrollPos = scrollOffset;
     }, [totalScrollHeight, listHeight]);
     return <FixedSizeList
+        ref={listRef}
         onScroll={onScrolled}
         className={styles.root}
         height={listHeight}
