@@ -1,4 +1,4 @@
-import { Button, CircularProgress, FormControlLabel, IconButton, LinearProgress, makeStyles, Switch } from '@material-ui/core';
+import { Button, CircularProgress, FormControlLabel, IconButton, LinearProgress, makeStyles, Switch, Typography } from '@material-ui/core';
 import { Refresh } from '@material-ui/icons';
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { updateStreams } from '../actions/stream';
@@ -92,7 +92,7 @@ export default (props: { id: string }) => {
     </AppBarButton>
 
     <div className={styles.footer}>
-      <StackPanel direction="column-reverse">
+      <StackPanel direction="column-reverse" center>
         <StackPanel direction="row">
           <LinkButton href="/subscriptions?query=" variant="contained" color="secondary">
             Add Subscriptions
@@ -101,7 +101,7 @@ export default (props: { id: string }) => {
             Show Unread
           </LinkButton>}
         </StackPanel>
-        <span>That's all!</span>
+        <Typography variant='h2'>That's everything!</Typography>
       </StackPanel>
     </div>
   </div>

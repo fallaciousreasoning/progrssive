@@ -9,6 +9,7 @@ interface Props {
     | 'column-reverse';
     spacing?: number;
     animatePresence?: boolean;
+    center?: boolean;
 }
 
 const childVariants = {
@@ -42,7 +43,9 @@ const useStyles = makeStyles(theme => ({
         '&> div + div': {
             marginLeft: (props: Props) => props.direction.startsWith('row') ? theme.spacing(props.spacing) : 0,
             marginTop: (props: Props) => props.direction.startsWith('column') ? theme.spacing(props.spacing) : 0
-        }
+        },
+        justifyContent: (props: Props) => props.center && 'center',
+        alignItems: (props: Props) => props.center && 'center'
     }
 }));
 
