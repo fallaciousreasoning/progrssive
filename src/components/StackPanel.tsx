@@ -14,20 +14,23 @@ interface Props {
 
 const childVariants = {
     initial: {
-        opacity: 0
+        opacity: 0,
+        scale: 0
     },
     in: {
-        opacity: 1
+        opacity: 1,
+        scale: 1
     },
     out: {
-        opacity: 0
+        opacity: 0,
+        scale: 0
     }
 };
 
 const childTransition = {
     type: 'tween',
     ease: 'anticipate',
-    duration: 0.4
+    duration: 0.2
 };
 
 const useStyles = makeStyles(theme => ({
