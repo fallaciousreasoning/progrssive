@@ -43,12 +43,15 @@ export const SubscriptionManager = (props) => {
     const isImporting = useMemo(() => {
         const subscribedTo = new Set(importingSubscriptions.map(s => s.id));
         return (s: Subscription) => subscribedTo.has(s.id);
-    }, [importingSubscriptions])
+    }, [importingSubscriptions]);
 
     const queryParams = new URLSearchParams(window.location.search);
     const [query, setQuery] = useState(queryParams.get('query') || "@subscribed");
     const [debouncedQuery] = useDebounce(query, 200);
     const [searchResults, setSearchResults] = useState<Subscription[]>([]);
+    const viewSubscriptions = useCallback(() => {
+        setQuery("@subscribed");
+    }, [setQuery]);
 
     // Update search results when typing.
     useEffect(() => {
@@ -133,8 +136,9 @@ export const SubscriptionManager = (props) => {
 
     return <div>
         <StackPanel direction='row' animatePresence>
-            {!query.startsWith('@subscribed') && <Button variant="outlined" color="primary">
-                Current Feeds
+            {!query.startsWith('@subscribed')
+                && <Button variant="outlined" color="primary" onClick={viewSubscriptions}>
+                    Current Feeds
         </Button>}
             {!!store.subscriptions.length
                 && <ExportOpml className={styles.opmlButton} />}
