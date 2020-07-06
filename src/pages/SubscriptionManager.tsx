@@ -9,7 +9,7 @@ import ImportOpml from "../components/ImportOpml";
 import StackPanel from "../components/StackPanel";
 import SubscriptionEditor from "../components/SubscriptionEditor";
 import { getStore, useStore } from '../hooks/store';
-import { Subscription } from '../model/subscription';
+import { Subscription, guessFeedUrl } from '../model/subscription';
 import { save } from '../services/persister';
 
 const useStyles = makeStyles(theme => ({
@@ -85,7 +85,7 @@ export const SubscriptionManager = (props) => {
         await save('subscriptions', getStore().subscriptions);
     }, [store.subscriptions, isSubscribed]);
 
-    const onLoadedOpml = useCallback(toImport => {
+    const onLoadedOpml = useCallback(async (toImport: Subscription[]) => {
         toImport = toImport
             // If we already know about this subscription, use that one,
             // otherwise fall back to the one we need to import.
@@ -93,6 +93,26 @@ export const SubscriptionManager = (props) => {
                 || importing);
         setImportingSubscriptions(toImport);
         setQuery("@importing");
+
+        // Find a matching subscription, one by one.
+        for (let i = 0; i < toImport.length; ++i) {
+            const importing = toImport[i];
+            const similar = await searchFeeds(guessFeedUrl(importing));
+            const bestMatch = similar[0];
+            
+            // We couldn't find anything similar :'(
+            if (!bestMatch) {
+                // TODO: Set status to failed?
+                // Let react know we have more info.
+                setImportingSubscriptions(toImport);
+                continue;
+            }
+
+            // Update the list with the match from feedly
+            // and let React know it's changed.
+            toImport[i] = bestMatch;
+            setImportingSubscriptions(toImport);
+        }
     }, [setImportingSubscriptions,
         getMatchingSubscription,
         store.subscriptions]);
@@ -116,8 +136,8 @@ export const SubscriptionManager = (props) => {
         <StackPanel direction='row'>
             {!!store.subscriptions.length
                 && <ExportOpml className={styles.opmlButton} />}
-            <ImportOpml className={styles.opmlButton}
-                onOpmlLoaded={onLoadedOpml} />
+            {query !== "@importing" && <ImportOpml className={styles.opmlButton}
+                onOpmlLoaded={onLoadedOpml} />}
         </StackPanel>
 
     </div>

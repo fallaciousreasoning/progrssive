@@ -8,6 +8,6 @@ export interface SearchRequestOptions {
 }
 
 export const searchFeeds = async (query: string, options?: SearchRequestOptions): Promise<Subscription[]> => {
-    const result = await makeRequest<{ results: Subscription[] }>(`${endpoint}?query=${query}`, options);
+    const result = await makeRequest<{ results: Subscription[] }>(`${endpoint}?query=${encodeURIComponent(query)}`, options);
     return result.results;
 }
