@@ -53,6 +53,8 @@ export default (props: { id: string }) => {
   const location = useLocation();
   const history = useHistory();
   const rootRef = useRef<HTMLDivElement>();
+  const hasSubscriptions = store.subscriptions.length !== 0;
+
   const scrollToTop = useCallback(() => {
     rootRef.current.scrollTo(0, 0);
   }, [rootRef.current]);
@@ -99,17 +101,19 @@ export default (props: { id: string }) => {
     <div className={styles.footer}>
       <StackPanel direction="column-reverse" center>
         <StackPanel direction="row">
-          {unreadOnly && <LinkButton href="?showUnread" variant="contained" color="secondary" onClick={scrollToTop}>
+          {unreadOnly && hasSubscriptions && <LinkButton href="?showUnread" variant="contained" color="secondary" onClick={scrollToTop}>
             Show Unread
           </LinkButton>}
           <LinkButton href="/subscriptions?query=" variant="contained" color="secondary">
             Add Subscriptions
           </LinkButton>
-          <Button disabled={loading} variant="contained" color="secondary" onClick={() => updateStreams(props.id)}>
+          {hasSubscriptions && <Button disabled={loading} variant="contained" color="secondary" onClick={() => updateStreams(props.id)}>
             {loading && <CircularProgress size={16} className={styles.footerLoader} />} Refresh
-          </Button>
+          </Button>}
         </StackPanel>
-        <Typography variant='h2'>That's everything!</Typography>
+        <Typography variant='h2' align='center'>
+          {hasSubscriptions ? "That's everything!" : "You don't have any subscriptions"}
+        </Typography>
       </StackPanel>
     </div>
   </div>
