@@ -2,12 +2,10 @@ import { Button, ButtonProps } from '@material-ui/core';
 import * as opmlGenerator from 'opml-generator';
 import React, { useCallback } from 'react';
 import { getStore } from '../hooks/store';
-import { Subscription } from '../model/subscription';
+import { guessFeedUrl } from '../model/subscription';
 import { downloadTextFile } from '../utils/files';
 
 export const getSubscriptionsOpml = () => {
-    const prefix = "feed/";
-    const guessFeedUrl = (s: Subscription) => s.id.substr(prefix.length);
     const outlines = getStore().subscriptions.map(s => ({
         title: s.title,
         type: 'rss',

@@ -36,7 +36,8 @@ export const SubscriptionManager = (props) => {
 
     const [query, setQuery] = useState("@subscribed");
     const [debouncedQuery] = useDebounce(query, 200);
-    const [searchResults, setSearchResults] = useState([]);
+    const [searchResults, setSearchResults] = useState<Subscription[]>([]);
+    const [importingSubscriptions, setImportingSubscriptions] = useState<Subscription[]>([]);
 
     // Update search results when typing.
     useEffect(() => {
@@ -49,8 +50,14 @@ export const SubscriptionManager = (props) => {
             return;
 
         // This is a special query.
-        if (query.startsWith("@"))
+        if (query.startsWith("@")) {
+            if (query === "@subscribed")
+                setSearchResults(store.subscriptions);
+
+            if (query === "@importing")
+                setSearchResults(importingSubscriptions);
             return;
+        }
 
         searchFeeds(debouncedQuery).then(setSearchResults);
     }, [debouncedQuery, query]);
@@ -72,6 +79,11 @@ export const SubscriptionManager = (props) => {
         await save('subscriptions', getStore().subscriptions);
     }, [store.subscriptions, isSubscribed]);
 
+    const onLoadedOpml = useCallback(toImport => {
+        setImportingSubscriptions(toImport);
+        console.log(toImport);
+    }, []);
+
     return <div>
         <TextField
             label="Search term or feed url"
@@ -92,7 +104,7 @@ export const SubscriptionManager = (props) => {
             {!!store.subscriptions.length
                 && <ExportOpml className={styles.opmlButton} />}
             <ImportOpml className={styles.opmlButton}
-                onOpmlLoaded={console.log}/>
+                onOpmlLoaded={onLoadedOpml}/>
         </StackPanel>
 
     </div>

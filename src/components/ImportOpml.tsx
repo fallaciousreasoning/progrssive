@@ -2,6 +2,7 @@ import { Button, ButtonProps } from '@material-ui/core';
 import opmlToJson from 'opml-to-json';
 import React, { useCallback } from 'react';
 import { getFileText, pickFile } from '../utils/files';
+import { Subscription, feedUrlPrefix } from '../model/subscription';
 
 interface OpmlNode {
     text: string;
@@ -13,7 +14,7 @@ interface OpmlNode {
     children?: OpmlNode[];
 }
 interface Props {
-     onOpmlLoaded: (feeds: Omit<OpmlNode, 'children'>) => void;
+     onOpmlLoaded: (feeds: Subscription[]) => void;
 }
 
 export const parseOpml = (opml: string): Promise<OpmlNode[]> => {
@@ -47,11 +48,19 @@ export default (props: Props & ButtonProps) => {
         const file = await pickFile();
         const text = await getFileText(file);
         const opml = await parseOpml(text);
-
-        // The nodes actually may have children, but
-        // it's useful for intellisense to pretend they
-        // don't.
-        props.onOpmlLoaded(opml as any);
+        
+        // Map the opml nodes to subscriptions.
+        const subscriptions: Subscription[] = opml.map(o => ({
+            id: `${feedUrlPrefix}${o.xmlurl}`,
+            feedUrl: o.xmlurl,
+            title: o.title,
+            categories: [{
+                id: o.folder,
+                label: o.folder
+            }].filter(c => !!c.id),
+            website: o.htmlurl
+        }));
+        props.onOpmlLoaded(subscriptions);
     }, []);
 
     return <Button
