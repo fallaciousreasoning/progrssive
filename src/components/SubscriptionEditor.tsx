@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { Subscription } from '../model/subscription';
 import { makeStyles, Card, CardMedia, FormControl, InputLabel, Select, MenuItem, IconButton } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
@@ -39,6 +39,7 @@ const useCardStyles = makeStyles(theme => ({
 export default (props: {
     subscription: Subscription,
     isSubscribed?: boolean,
+    isImporting?: boolean,
     toggleSubscription: (s: Subscription) => void
 }) => {
     const styles = useCardStyles();

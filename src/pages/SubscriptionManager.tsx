@@ -104,14 +104,14 @@ export const SubscriptionManager = (props) => {
             if (!bestMatch) {
                 // TODO: Set status to failed?
                 // Let react know we have more info.
-                setImportingSubscriptions(toImport);
+                setImportingSubscriptions([...toImport]);
                 continue;
             }
 
             // Update the list with the match from feedly
             // and let React know it's changed.
             toImport[i] = bestMatch;
-            setImportingSubscriptions(toImport);
+            setImportingSubscriptions([...toImport]);
         }
     }, [setImportingSubscriptions,
         getMatchingSubscription,
