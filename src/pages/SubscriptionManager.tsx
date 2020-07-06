@@ -9,6 +9,7 @@ import { getStore, useStore } from '../hooks/store';
 import { Subscription } from '../model/subscription';
 import { save } from '../services/persister';
 import ExportOpml, { getSubscriptionsOpml } from '../components/ExportOpml';
+import StackPanel from "../components/StackPanel";
 
 const useStyles = makeStyles(theme => ({
     export: {
@@ -87,7 +88,10 @@ export const SubscriptionManager = (props) => {
                 toggleSubscription={toggleSubscription} />)}
         </div>
 
-        {!!store.subscriptions.length && <ExportOpml className={styles.export}/>}
+        <StackPanel direction='row'>
+            {!!store.subscriptions.length && <ExportOpml className={styles.export} />}
+        </StackPanel>
+
     </div>
 }
 
