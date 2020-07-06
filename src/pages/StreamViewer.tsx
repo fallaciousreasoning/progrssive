@@ -61,9 +61,9 @@ export default (props: { id: string }) => {
 
     {store.subscriptions.length !== 0
       ? <StreamList onProgressChanged={setProgress} />
-      : <FriendlyMessage message="No subscriptions :'( Would you like to add some?">
-        <Button variant="contained" href="/subscriptions">
-          Add Subscriptions
+      : <FriendlyMessage message="">
+        <Button variant="contained" color="secondary" href="/subscriptions">
+          No Subscriptions. Add Some?
       </Button>
       </FriendlyMessage>}
 

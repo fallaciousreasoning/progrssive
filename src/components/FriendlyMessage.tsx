@@ -3,7 +3,7 @@ import { EmojiPeople } from "@material-ui/icons";
 import React from 'react';
 
 interface Props {
-    message: string;
+    message?: string;
     children?: React.ReactNode;
 }
 
@@ -19,7 +19,8 @@ const useStyles = makeStyles({
     },
     icon: {
         flex: 1,
-        width: '90%'
+        width: '100%',
+        maxHeight: '70vh'
     },
     children: {
     }
@@ -33,9 +34,9 @@ export default (props: Props & React.HTMLProps<HTMLDivElement>) => {
                 {props.message}
             </Typography>
         </div>
+        <EmojiPeople className={styles.icon} />
         {props.children && <div className={styles.children}>
             {props.children}
         </div>}
-        <EmojiPeople className={styles.icon} />
     </div>
 }
