@@ -11,6 +11,7 @@ import StickyHeader from '../components/StickyHeader';
 import { isUpdating, useStore } from '../hooks/store';
 import { setEntryList } from '../services/store';
 import StreamList from '../StreamList';
+import { useIsPhone } from '../hooks/responsive';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -80,6 +81,7 @@ export default (props: { id: string }) => {
   [store.stream.length]);
 
   const [progress, setProgress] = useState(0);
+  const isPhone = useIsPhone();
 
   return <div ref={rootRef} className={styles.root}>
     {unreadOnly
@@ -105,18 +107,18 @@ export default (props: { id: string }) => {
 
     <div className={styles.footer}>
       <StackPanel direction="column-reverse" center>
-        <StackPanel direction="row">
-          {unreadOnly && hasSubscriptions && <LinkButton href="?showUnread" variant="contained" color="secondary" onClick={scrollToTop}>
+        <StackPanel direction={isPhone ? 'column' : 'row'}>
+          {unreadOnly && hasSubscriptions && <LinkButton fullWidth href="?showUnread" variant="contained" color="secondary" onClick={scrollToTop}>
             Show Unread
           </LinkButton>}
-          <LinkButton href="/subscriptions?query=" variant="contained" color="secondary">
+          <LinkButton fullWidth href="/subscriptions?query=" variant="contained" color="secondary">
             Add Subscriptions
           </LinkButton>
-          {hasSubscriptions && <Button disabled={loading} variant="contained" color="secondary" onClick={() => updateStreams(props.id)}>
+          {hasSubscriptions && <Button fullWidth disabled={loading} variant="contained" color="secondary" onClick={() => updateStreams(props.id)}>
             {loading && <CircularProgress size={16} className={styles.footerLoader} />} Refresh
           </Button>}
         </StackPanel>
-        <Typography variant='h2' align='center'>
+        <Typography variant='h3' align='center'>
           {hasSubscriptions ? "That's everything!" : "You don't have any subscriptions"}
         </Typography>
       </StackPanel>
