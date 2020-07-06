@@ -39,11 +39,16 @@ export const SubscriptionManager = (props) => {
         (s: Subscription) => !!getMatchingSubscription(s),
         [getMatchingSubscription]);
 
+    const [importingSubscriptions, setImportingSubscriptions] = useState<Subscription[]>([]);
+    const isImporting = useMemo(() => {
+        const subscribedTo = new Set(importingSubscriptions.map(s => s.id));
+        return (s: Subscription) => subscribedTo.has(s.id);
+    }, [importingSubscriptions])
+
     const queryParams = new URLSearchParams(window.location.search);
     const [query, setQuery] = useState(queryParams.get('query') || "@subscribed");
     const [debouncedQuery] = useDebounce(query, 200);
     const [searchResults, setSearchResults] = useState<Subscription[]>([]);
-    const [importingSubscriptions, setImportingSubscriptions] = useState<Subscription[]>([]);
 
     // Update search results when typing.
     useEffect(() => {
@@ -90,7 +95,10 @@ export const SubscriptionManager = (props) => {
             // If we already know about this subscription, use that one,
             // otherwise fall back to the one we need to import.
             .map(importing => getMatchingSubscription(importing)
-                || importing);
+                || {
+                ...importing,
+                importStatus: 'pending'
+            });
         setImportingSubscriptions(toImport);
         setQuery("@importing");
 
@@ -99,11 +107,15 @@ export const SubscriptionManager = (props) => {
             const importing = toImport[i];
             const similar = await searchFeeds(guessFeedUrl(importing));
             const bestMatch = similar[0];
-            
+
             // We couldn't find anything similar :'(
             if (!bestMatch) {
                 // TODO: Set status to failed?
                 // Let react know we have more info.
+                toImport[i] = {
+                    ...toImport[i],
+                    importStatus: 'failed'
+                };
                 setImportingSubscriptions([...toImport]);
                 continue;
             }
@@ -130,6 +142,7 @@ export const SubscriptionManager = (props) => {
                 key={s.id}
                 subscription={s}
                 isSubscribed={isSubscribed(s)}
+                isImporting={isImporting(s)}
                 toggleSubscription={toggleSubscription} />)}
         </div>
 

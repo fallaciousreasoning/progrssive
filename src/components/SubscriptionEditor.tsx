@@ -1,16 +1,17 @@
 import React, { useCallback, useEffect } from 'react'
 import { Subscription } from '../model/subscription';
-import { makeStyles, Card, CardMedia, FormControl, InputLabel, Select, MenuItem, IconButton } from '@material-ui/core';
+import { makeStyles, Card, CardMedia, FormControl, InputLabel, Select, MenuItem, IconButton, CircularProgress } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import { getStore } from '../hooks/store';
 import { save } from '../services/persister';
-import { Delete, Add } from '@material-ui/icons';
+import { Delete, Add, Error as ErrorIcon } from '@material-ui/icons';
 
 const useCardStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
         alignItems: 'center',
         marginBottom: theme.spacing(1),
+        minHeight: '48px'
     },
     title: {
         cursor: 'pointer'
@@ -32,7 +33,11 @@ const useCardStyles = makeStyles(theme => ({
         marginTop: theme.spacing(1)
     },
     controls: {
-        marginLeft: theme.spacing(1)
+        marginLeft: theme.spacing(1),
+    },
+    errorIcon: {
+        marginRight: theme.spacing(1.5),
+        color: theme.palette.error.main
     }
 }));
 
@@ -61,6 +66,21 @@ export default (props: {
 
     const visualUrl = props.subscription.visualUrl || props.subscription.iconUrl;
 
+    let controls: React.ReactNode;
+    if (!props.subscription.importStatus) {
+        controls = <IconButton onClick={toggleSubscription}>
+            {props.isSubscribed
+                ? <Delete />
+                : <Add />
+            }
+        </IconButton>;
+    } else if (props.subscription.importStatus == 'failed') {
+        controls = <div className={styles.errorIcon}>
+            <ErrorIcon/>
+        </div>
+    } else {
+        controls = <CircularProgress variant='indeterminate'/>
+    }
     return <Card className={styles.root}>
         <div className={styles.icon}>
             {visualUrl && <CardMedia
@@ -83,12 +103,7 @@ export default (props: {
             </div>}
         </div>
         <div className={styles.controls}>
-            <IconButton onClick={toggleSubscription}>
-                {props.isSubscribed
-                    ? <Delete />
-                    : <Add />
-                }
-            </IconButton>
+            {controls}
         </div>
     </Card>
 }

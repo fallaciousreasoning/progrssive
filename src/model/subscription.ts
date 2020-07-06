@@ -11,6 +11,10 @@ export interface Subscription {
     visualUrl?: string;
     iconUrl?: string;
     preferredView?: 'feedly' | 'browser';
+
+    // Import is considered successful when there is no
+    // import status.
+    importStatus?: 'pending' | 'failed';
 }
 
 export const feedUrlPrefix = "feed/";
