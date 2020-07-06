@@ -47,10 +47,10 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default (props: { id: string }) => {
+export default (props: { id: string, location: Location }) => {
   const store = useStore();
   const styles = useStyles();
-  const location = useLocation();
+  const location = props.location;
   const history = useHistory();
   const rootRef = useRef<HTMLDivElement>();
   const hasSubscriptions = store.subscriptions.length !== 0;

@@ -66,8 +66,8 @@ export default (props) => {
         const id = location.pathname
             .substr(route.prefix.length + 1);
 
-        return route.render(id);
-    }, [location.pathname]);
+        return route.render(id, location as any);
+    }, [location]);
     const direction = useMemo(() =>
         history.action === "POP"
             ? -1

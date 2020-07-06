@@ -56,10 +56,12 @@ export default (props: Props) => {
     const itemHeight = 208;
     const totalScrollHeight = store.stream.length * itemHeight;
     const listRef = React.createRef<FixedSizeList>();
+    const listInnerRef = React.createRef<HTMLDivElement>();
 
     // Scroll to the top when the stream changes.
     useEffect(() => {
-        listRef.current && listRef.current.scrollTo(0);
+        if (listInnerRef.current.scrollTop > store.stream.lastScrollPos)
+            listRef.current && listRef.current.scrollTo(store.stream.lastScrollPos);
     },
     // Only scroll back to the top of the list when the stream we're viewing changes.
     [store.stream.id, store.stream.unreadOnly]);
@@ -78,6 +80,7 @@ export default (props: Props) => {
     }, [totalScrollHeight, listHeight]);
     return <FixedSizeList
         ref={listRef}
+        innerRef={listInnerRef}
         onScroll={onScrolled}
         className={styles.root}
         height={listHeight}

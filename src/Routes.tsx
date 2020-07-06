@@ -10,7 +10,7 @@ type Props = RouteProps & React.HTMLProps<HTMLDivElement>;
 
 interface AppRoute {
     prefix: string;
-    render: (id: string) => React.ReactNode
+    render: (id: string, location: Location) => React.ReactNode
 }
 
 const AppRoute = (props: Props) => {
@@ -33,7 +33,7 @@ export default [
     },
     {
         prefix: '/stream',
-        render: (id) => <StreamViewer id={id}/>
+        render: (id, location) => <StreamViewer id={id} location={location}/>
     },
     {
         prefix: '/entries',
