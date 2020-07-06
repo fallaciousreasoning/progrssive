@@ -3,7 +3,6 @@ import { RemoveRedEye } from '@material-ui/icons';
 import * as React from 'react';
 import { useCallback } from 'react';
 import { setUnread } from './actions/marker';
-import { Entry } from './model/entry';
 import { useEntry } from './hooks/entry';
 
 const useStyles = makeStyles({

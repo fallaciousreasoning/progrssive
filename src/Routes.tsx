@@ -1,11 +1,10 @@
 import React from 'react';
-import { SubscriptionManager } from './pages/SubscriptionManager';
+import { Route, RouteProps } from 'react-router-dom';
+import EntryViewer from './pages/EntryViewer';
 import SettingsPage from './pages/SettingsPage';
 import StreamViewer from './pages/StreamViewer';
-import EntryViewer from './pages/EntryViewer';
+import { SubscriptionManager } from './pages/SubscriptionManager';
 import Layout from './pages/_Layout';
-import { Route, Switch, Redirect, RouteProps } from 'react-router-dom';
-import { motion } from 'framer-motion';
 
 type Props = RouteProps & React.HTMLProps<HTMLDivElement>;
 

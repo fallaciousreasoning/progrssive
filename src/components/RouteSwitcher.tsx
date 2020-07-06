@@ -2,8 +2,8 @@ import { makeStyles } from '@material-ui/core';
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { useMemo } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import Routes from '../Routes';
 import Layout from '../pages/_Layout';
+import Routes from '../Routes';
 
 const pageVariants = {
     initial: (direction: number) => ({

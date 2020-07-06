@@ -1,4 +1,4 @@
-import { makeStyles, TextField, Button } from "@material-ui/core";
+import { Button, makeStyles, TextField } from "@material-ui/core";
 import * as React from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useHistory } from "react-router-dom";
@@ -9,7 +9,7 @@ import ImportOpml from "../components/ImportOpml";
 import StackPanel from "../components/StackPanel";
 import SubscriptionEditor from "../components/SubscriptionEditor";
 import { getStore, useStore } from '../hooks/store';
-import { Subscription, guessFeedUrl } from '../model/subscription';
+import { guessFeedUrl, Subscription } from '../model/subscription';
 import { save } from '../services/persister';
 import { updateSubscription } from "../services/subscriptions";
 

@@ -1,4 +1,3 @@
-import { Component, useState } from "react";
 import { makeStyles, Typography } from "@material-ui/core";
 import { EmojiPeople } from "@material-ui/icons";
 import React from 'react';

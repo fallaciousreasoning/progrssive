@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect } from 'react'
-import { Subscription } from '../model/subscription';
-import { makeStyles, Card, CardMedia, FormControl, InputLabel, Select, MenuItem, IconButton, CircularProgress, Tooltip } from '@material-ui/core';
+import { Card, CardMedia, CircularProgress, FormControl, IconButton, InputLabel, makeStyles, MenuItem, Select, Tooltip } from '@material-ui/core';
+import { Add, Delete, Error as ErrorIcon } from '@material-ui/icons';
+import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { getStore } from '../hooks/store';
+import { Subscription } from '../model/subscription';
 import { save } from '../services/persister';
-import { Delete, Add, Error as ErrorIcon } from '@material-ui/icons';
 
 interface Props {
     subscription: Subscription,
@@ -38,7 +38,7 @@ const SubscriptionControls = (props: Props) => {
         </IconButton>;
     }
 
-    if (props.subscription.importStatus == 'failed') {
+    if (props.subscription.importStatus === 'failed') {
         return <Tooltip title={`Couldn't find a feed for ${props.subscription.feedUrl}`}>
             <div className={`${styles.errorIcon} ${styles.statusIndicator}`}>
                 <ErrorIcon />
