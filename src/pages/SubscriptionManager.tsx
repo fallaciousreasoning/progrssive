@@ -10,9 +10,10 @@ import { Subscription } from '../model/subscription';
 import { save } from '../services/persister';
 import ExportOpml, { getSubscriptionsOpml } from '../components/ExportOpml';
 import StackPanel from "../components/StackPanel";
+import ImportOpml from "../components/ImportOpml";
 
 const useStyles = makeStyles(theme => ({
-    export: {
+    opmlButton: {
         marginBottom: theme.spacing(1),
     },
     results: {
@@ -89,7 +90,9 @@ export const SubscriptionManager = (props) => {
         </div>
 
         <StackPanel direction='row'>
-            {!!store.subscriptions.length && <ExportOpml className={styles.export} />}
+            {!!store.subscriptions.length
+                && <ExportOpml className={styles.opmlButton} />}
+            <ImportOpml className={styles.opmlButton} />
         </StackPanel>
 
     </div>
