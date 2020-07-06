@@ -32,6 +32,11 @@ const useStyles = makeStyles(theme => ({
     zIndex: 1000,
     margin: `-${theme.spacing(1)}px -${theme.spacing(1)}px ${theme.spacing(1)}px -${theme.spacing(1)}px`
   },
+  footer: {
+    scrollSnapAlign: 'start',
+    background: 'red',
+    height: `calc(100vh - 48px - ${theme.spacing(2)}px)`
+  }
 }));
 
 export default (props: { id: string }) => {
@@ -85,7 +90,7 @@ export default (props: { id: string }) => {
         label="Unread" />
     </AppBarButton>
 
-    <div style={{background: 'red', height: 'calc(100vh - 48px)'}}>
+    <div className={styles.footer}>
       Foo Bar
     </div>
   </div>
