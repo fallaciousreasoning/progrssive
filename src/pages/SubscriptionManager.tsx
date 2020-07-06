@@ -146,7 +146,7 @@ export const SubscriptionManager = (props) => {
                 toggleSubscription={toggleSubscription} />)}
         </div>
 
-        <StackPanel direction='row'>
+        <StackPanel direction='row' animatePresence>
             {!!store.subscriptions.length
                 && <ExportOpml className={styles.opmlButton} />}
             {query !== "@import" && <ImportOpml className={styles.opmlButton}

@@ -1,5 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core'
+import { AnimatePresence, motion } from 'framer-motion';
 
 interface Props {
     direction?: 'row'
@@ -8,7 +9,26 @@ interface Props {
     | 'column-reverse';
     children?: React.ReactNode | React.ReactNode[];
     spacing?: number;
+    animatePresence?: boolean;
 }
+
+const childVariants = {
+    initial: {
+        opacity: 0
+    },
+    in: {
+        opacity: 1
+    },
+    out: {
+        opacity: 0
+    }
+};
+
+const childTransition = {
+    type: 'tween',
+    ease: 'anticipate',
+    duration: 0.4
+};
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -21,7 +41,7 @@ const useStyles = makeStyles(theme => ({
             marginLeft: (props: Props) => theme.spacing(props.spacing)
         }
     }
-}))
+}));
 
 export default (props: Props) => {
     const spacing = props.spacing === undefined
@@ -34,8 +54,16 @@ export default (props: Props) => {
         : [props.children];
 
     return <div className={styles.root}>
-        {children.map((c, i) => <div key={i}>
-            {c}
-        </div>)}
+        <AnimatePresence>
+            {/* Filter out null children, to make adding/removing more intuitive */}
+            {children.filter(c => !!c).map((c, i) => <motion.div key={i}
+                initial="initial"
+                animate="in"
+                exit="out"
+                variants={childVariants}
+                transition={childTransition}>
+                {c}
+            </motion.div>)}
+        </AnimatePresence>
     </div>
 }
