@@ -29,10 +29,14 @@ export const SubscriptionManager = (props) => {
     const styles = useStyles();
     const store = useStore();
 
-    const isSubscribed = useMemo(() => (s: Subscription) => {
-        const subscribedTo = new Set(store.subscriptions.map(s => s.id));
-        return subscribedTo.has(s.id)
+    const getMatchingSubscription = useMemo(() => {
+        const subscribedTo = new Map(store.subscriptions.map(s => [s.id, s]));
+        return (s: Subscription) => subscribedTo.get(s.id);
     }, [store.subscriptions]);
+
+    const isSubscribed = useMemo(() =>
+        (s: Subscription) => !!getMatchingSubscription(s),
+        [getMatchingSubscription]);
 
     const [query, setQuery] = useState("@subscribed");
     const [debouncedQuery] = useDebounce(query, 200);
@@ -80,9 +84,16 @@ export const SubscriptionManager = (props) => {
     }, [store.subscriptions, isSubscribed]);
 
     const onLoadedOpml = useCallback(toImport => {
+        toImport = toImport
+            // If we already know about this subscription, use that one,
+            // otherwise fall back to the one we need to import.
+            .map(importing => getMatchingSubscription(importing)
+                || importing);
         setImportingSubscriptions(toImport);
-        console.log(toImport);
-    }, []);
+        setQuery("@importing");
+    }, [setImportingSubscriptions,
+        getMatchingSubscription,
+        store.subscriptions]);
 
     return <div>
         <TextField
@@ -104,7 +115,7 @@ export const SubscriptionManager = (props) => {
             {!!store.subscriptions.length
                 && <ExportOpml className={styles.opmlButton} />}
             <ImportOpml className={styles.opmlButton}
-                onOpmlLoaded={onLoadedOpml}/>
+                onOpmlLoaded={onLoadedOpml} />
         </StackPanel>
 
     </div>
