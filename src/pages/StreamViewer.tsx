@@ -83,13 +83,7 @@ export default (props: { id: string }) => {
       <CircularProgress className={styles.loader} />
     </Centre>}
 
-    {store.subscriptions.length !== 0
-      ? <StreamList onProgressChanged={setProgress} />
-      : <FriendlyMessage>
-        <LinkButton variant="contained" color="secondary" href="/subscriptions?query=">
-          No Subscriptions. Add Some?
-      </LinkButton>
-      </FriendlyMessage>}
+    {store.stream.length !== 0 && <StreamList onProgressChanged={setProgress} />}
 
     <AppBarButton>
       <IconButton disabled={loading} onClick={() => updateStreams(props.id)}>
