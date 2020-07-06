@@ -12,7 +12,7 @@ import DownloadOpml, { getSubscriptionsOpml } from '../components/DownloadOpml';
 
 const useStyles = makeStyles(theme => ({
     export: {
-        marginTop: theme.spacing(1),
+        marginBottom: theme.spacing(1),
     },
     results: {
         paddingTop: '8px'
