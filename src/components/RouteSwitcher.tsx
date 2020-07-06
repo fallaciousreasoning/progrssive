@@ -25,7 +25,7 @@ const pageTransition = {
 
 const useStyles = makeStyles(theme => ({
     root: {
-        height: 'calc(100vh - 48px)',
+        height: `calc(100vh - 48px)`,
         width: '100vw',
         position: 'absolute',
         overflowY: 'auto',
