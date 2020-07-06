@@ -46,7 +46,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default (props: Props & React.HTMLProps<HTMLDivElement>) => {
-    const spacing = props.spacing === undefined
+    let { animatePresence, direction, spacing, ...rest } = props;
+    spacing = props.spacing === undefined
         ? 1
         : props.spacing;
     const styles = useStyles({ ...props, spacing });
@@ -55,7 +56,8 @@ export default (props: Props & React.HTMLProps<HTMLDivElement>) => {
         ? props.children
         : [props.children];
 
-    return <div {...props} className={`${styles.root} ${props.className}`}>
+
+    return <div {...rest} className={`${styles.root} ${props.className}`}>
         <AnimatePresence>
             {/* Filter out null children, to make adding/removing more intuitive */}
             {children.filter(c => !!c).map((c, i) => <motion.div key={i}
