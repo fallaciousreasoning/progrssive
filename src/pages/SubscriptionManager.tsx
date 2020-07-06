@@ -8,7 +8,7 @@ import { searchFeeds } from '../api/search';
 import { getStore, useStore } from '../hooks/store';
 import { Subscription } from '../model/subscription';
 import { save } from '../services/persister';
-import DownloadOpml, { getSubscriptionsOpml } from '../components/DownloadOpml';
+import ExportOpml, { getSubscriptionsOpml } from '../components/ExportOpml';
 
 const useStyles = makeStyles(theme => ({
     export: {
@@ -87,7 +87,7 @@ export const SubscriptionManager = (props) => {
                 toggleSubscription={toggleSubscription} />)}
         </div>
 
-        {!!store.subscriptions.length && <DownloadOpml className={styles.export}/>}
+        {!!store.subscriptions.length && <ExportOpml className={styles.export}/>}
     </div>
 }
 
