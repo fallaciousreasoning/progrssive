@@ -1,4 +1,4 @@
-import { makeStyles, TextField } from "@material-ui/core";
+import { makeStyles, TextField, Button } from "@material-ui/core";
 import * as React from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useHistory } from "react-router-dom";
@@ -53,13 +53,6 @@ export const SubscriptionManager = (props) => {
     // Update search results when typing.
     useEffect(() => {
         history.replace(`?query=${encodeURIComponent(query)}`);
-        if (!debouncedQuery) {
-            setSearchResults([]);
-            return;
-        }
-
-        if (debouncedQuery !== query)
-            return;
 
         // This is a special query.
         if (query.startsWith("@")) {
@@ -70,6 +63,14 @@ export const SubscriptionManager = (props) => {
                 setSearchResults(importingSubscriptions);
             return;
         }
+
+        if (!debouncedQuery) {
+            setSearchResults([]);
+            return;
+        }
+
+        if (debouncedQuery !== query)
+            return;
 
         searchFeeds(debouncedQuery).then(setSearchResults);
     }, [debouncedQuery,
@@ -130,6 +131,16 @@ export const SubscriptionManager = (props) => {
         store.subscriptions]);
 
     return <div>
+        <StackPanel direction='row' animatePresence>
+            {!query.startsWith('@subscribed') && <Button variant="outlined" color="primary">
+                Current Feeds
+        </Button>}
+            {!!store.subscriptions.length
+                && <ExportOpml className={styles.opmlButton} />}
+            {!query.startsWith("@import") && <ImportOpml className={styles.opmlButton}
+                onOpmlLoaded={onLoadedOpml} />}
+        </StackPanel>
+
         <TextField
             label="Search term or feed url"
             variant="filled"
@@ -145,14 +156,6 @@ export const SubscriptionManager = (props) => {
                 isImporting={isImporting(s)}
                 toggleSubscription={toggleSubscription} />)}
         </div>
-
-        <StackPanel direction='row' animatePresence>
-            {!!store.subscriptions.length
-                && <ExportOpml className={styles.opmlButton} />}
-            {query !== "@import" && <ImportOpml className={styles.opmlButton}
-                onOpmlLoaded={onLoadedOpml} />}
-        </StackPanel>
-
     </div>
 }
 
