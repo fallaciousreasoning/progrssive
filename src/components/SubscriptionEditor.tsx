@@ -6,7 +6,52 @@ import { getStore } from '../hooks/store';
 import { save } from '../services/persister';
 import { Delete, Add, Error as ErrorIcon } from '@material-ui/icons';
 
-const useCardStyles = makeStyles(theme => ({
+interface Props {
+    subscription: Subscription,
+    isSubscribed?: boolean,
+    isImporting?: boolean,
+    toggleSubscription: (s: Subscription) => void
+}
+
+const useControlStyles = makeStyles(theme => ({
+    errorIcon: {
+        color: theme.palette.error.main
+    },
+    statusIndicator: {
+        marginRight: theme.spacing(1.5)
+    }
+}));
+
+const SubscriptionControls = (props: Props) => {
+    const styles = useControlStyles();
+    const toggleSubscription = useCallback((e) => {
+        e.stopPropagation();
+        props.toggleSubscription(props.subscription);
+    }, [props]);
+
+    if (!props.subscription.importStatus) {
+        return <IconButton onClick={toggleSubscription}>
+            {props.isSubscribed
+                ? <Delete />
+                : <Add />
+            }
+        </IconButton>;
+    }
+
+    if (props.subscription.importStatus == 'failed') {
+        return <Tooltip title={`Couldn't find a feed for ${props.subscription.feedUrl}`}>
+            <div className={`${styles.errorIcon} ${styles.statusIndicator}`}>
+                <ErrorIcon />
+            </div>
+        </Tooltip>
+    }
+    return <CircularProgress
+        size={24}
+        variant='indeterminate'
+        className={styles.statusIndicator} />
+}
+
+const useEditorStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
         alignItems: 'center',
@@ -34,28 +79,11 @@ const useCardStyles = makeStyles(theme => ({
     },
     controls: {
         marginLeft: theme.spacing(1),
-    },
-    errorIcon: {
-        marginRight: theme.spacing(1.5),
-        color: theme.palette.error.main
-    },
-    importIndicator: {
-        marginRight: theme.spacing(1.5)
     }
 }));
 
-export default (props: {
-    subscription: Subscription,
-    isSubscribed?: boolean,
-    isImporting?: boolean,
-    toggleSubscription: (s: Subscription) => void
-}) => {
-    const styles = useCardStyles();
-
-    const toggleSubscription = useCallback((e) => {
-        e.stopPropagation();
-        props.toggleSubscription(props.subscription);
-    }, [props]);
+export default (props: Props) => {
+    const styles = useEditorStyles();
 
     const history = useHistory();
     const viewStream = useCallback(() => {
@@ -69,26 +97,6 @@ export default (props: {
 
     const visualUrl = props.subscription.visualUrl || props.subscription.iconUrl;
 
-    let controls: React.ReactNode;
-    if (!props.subscription.importStatus) {
-        controls = <IconButton onClick={toggleSubscription}>
-            {props.isSubscribed
-                ? <Delete />
-                : <Add />
-            }
-        </IconButton>;
-    } else if (props.subscription.importStatus == 'failed') {
-        controls = <Tooltip title={`Couldn't find a feed for ${props.subscription.feedUrl}`}>
-            <div className={styles.errorIcon}>
-                <ErrorIcon />
-            </div>
-        </Tooltip>
-    } else {
-        controls = <CircularProgress
-            size={24}
-            variant='indeterminate'
-            className={styles.importIndicator}/>
-    }
     return <Card className={styles.root}>
         <div className={styles.icon}>
             {visualUrl && <CardMedia
@@ -111,7 +119,7 @@ export default (props: {
             </div>}
         </div>
         <div className={styles.controls}>
-            {controls}
+            <SubscriptionControls {...props}/>
         </div>
     </Card>
 }
