@@ -51,7 +51,7 @@ export default (props: Props) => {
             loadToEntry(visibleStopIndex + BUFFER_ENTRY_COUNT);
     }, [lastVisibleStartIndex, loadedEntries, markScrolledAsRead]);
 
-    const listHeight = height - 62 - GUTTER_SIZE * 2;
+    const listHeight = height - 48 - GUTTER_SIZE * 2;
     const itemHeight = 208;
     const totalScrollHeight = store.stream.length * itemHeight;
 

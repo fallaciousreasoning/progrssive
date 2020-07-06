@@ -30,7 +30,8 @@ const useStyles = makeStyles(theme => ({
   header: {
     top: -theme.spacing(),
     zIndex: 1000,
-    margin: `-${theme.spacing(1)}px -${theme.spacing(1)}px ${theme.spacing(1)}px -${theme.spacing(1)}px`
+    margin: `-${theme.spacing(1)}px -${theme.spacing(1)}px ${theme.spacing(1)}px -${theme.spacing(1)}px`,
+    scrollSnapAlign: 'none'
   },
   footer: {
     scrollSnapAlign: 'start',
