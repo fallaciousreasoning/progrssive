@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useMemo } from 'react';
-import { Button } from '@material-ui/core';
+import { Button, ButtonProps } from '@material-ui/core';
 import { getStore, useStore } from '../hooks/store';
 import * as opmlGenerator from 'opml-generator';
 import { Subscription } from '../model/subscription';
@@ -17,7 +17,7 @@ export const getSubscriptionsOpml = () => {
     return opml;
 }
 
-export default (props) => {
+export default (props: ButtonProps) => {
     const download = useCallback(() => {
         const opml = getSubscriptionsOpml();
         const a = document.createElement('a');
@@ -29,7 +29,7 @@ export default (props) => {
         a.click();
         a.remove();
     }, []);
-    return <Button variant="outlined" color="primary" onClick={download}>
+    return <Button variant="outlined" color="primary" {...props} onClick={download}>
         Export Feeds
     </Button>
 }
