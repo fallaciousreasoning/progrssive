@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react'
 import { Subscription } from '../model/subscription';
-import { makeStyles, Card, CardMedia, FormControl, InputLabel, Select, MenuItem, IconButton, CircularProgress } from '@material-ui/core';
+import { makeStyles, Card, CardMedia, FormControl, InputLabel, Select, MenuItem, IconButton, CircularProgress, Tooltip } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import { getStore } from '../hooks/store';
 import { save } from '../services/persister';
@@ -38,6 +38,9 @@ const useCardStyles = makeStyles(theme => ({
     errorIcon: {
         marginRight: theme.spacing(1.5),
         color: theme.palette.error.main
+    },
+    importIndicator: {
+        marginRight: theme.spacing(1.5)
     }
 }));
 
@@ -75,11 +78,16 @@ export default (props: {
             }
         </IconButton>;
     } else if (props.subscription.importStatus == 'failed') {
-        controls = <div className={styles.errorIcon}>
-            <ErrorIcon/>
-        </div>
+        controls = <Tooltip title={`Couldn't find a feed for ${props.subscription.feedUrl}`}>
+            <div className={styles.errorIcon}>
+                <ErrorIcon />
+            </div>
+        </Tooltip>
     } else {
-        controls = <CircularProgress variant='indeterminate'/>
+        controls = <CircularProgress
+            size={24}
+            variant='indeterminate'
+            className={styles.importIndicator}/>
     }
     return <Card className={styles.root}>
         <div className={styles.icon}>
