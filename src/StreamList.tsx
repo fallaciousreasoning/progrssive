@@ -10,6 +10,7 @@ import { useScreenSize } from './hooks/screenSize';
 import { getStore, useStore } from './hooks/store';
 import { getEntrySubscription, getEntryUrl } from './services/entry';
 import { loadToEntry } from './services/store';
+import { addEntry } from './services/db';
 
 interface Props {
     onProgressChanged?: (progress: number) => void;
@@ -102,10 +103,13 @@ export default (props: Props) => {
                     const subscription = getEntrySubscription(item);
                     if (subscription && subscription.preferredView === "browser") {
                         window.open(getEntryUrl(item), "_blank");
-                        if (store.settings.markOpenedAsRead)
-                            item.unread = false;
                     } else {
                         history.push(`/entries/${item.id}`);
+                    }
+                    
+                    // If pages should be marked as read on open, do that.
+                    if (store.settings.markOpenedAsRead) {
+                        setUnread(item, false);
                     }
                 }}
             >
