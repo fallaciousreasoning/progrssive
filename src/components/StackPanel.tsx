@@ -7,7 +7,6 @@ interface Props {
     | 'row-reverse'
     | 'column'
     | 'column-reverse';
-    children?: React.ReactNode | React.ReactNode[];
     spacing?: number;
     animatePresence?: boolean;
 }
@@ -46,7 +45,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export default (props: Props) => {
+export default (props: Props & React.HTMLProps<HTMLDivElement>) => {
     const spacing = props.spacing === undefined
         ? 1
         : props.spacing;
@@ -56,7 +55,7 @@ export default (props: Props) => {
         ? props.children
         : [props.children];
 
-    return <div className={styles.root}>
+    return <div {...props} className={`${styles.root} ${props.className}`}>
         <AnimatePresence>
             {/* Filter out null children, to make adding/removing more intuitive */}
             {children.filter(c => !!c).map((c, i) => <motion.div key={i}

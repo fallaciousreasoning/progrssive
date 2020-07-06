@@ -2,6 +2,7 @@ import { AppBar, IconButton, makeStyles, Toolbar, Typography } from '@material-u
 import { Menu } from '@material-ui/icons';
 import React from 'react';
 import AppDrawer from './AppDrawer';
+import StackPanel from './components/StackPanel';
 
 export const AppBarContext: React.Context<React.Ref<any>> = React.createContext(undefined);
 
@@ -18,15 +19,18 @@ export default (props) => {
     const styles = useStyles();
 
     return <AppBar position="static" color="primary">
-            <Toolbar variant="dense">
-                <AppDrawer trigger={
-                    <IconButton>
-                        <Menu />
-                    </IconButton>} />
-                <Typography>Progrssive</Typography>
-                <div className={styles.pageActions} id="app-bar-button-container">
+        <Toolbar variant="dense">
+            <AppDrawer trigger={
+                <IconButton>
+                    <Menu />
+                </IconButton>} />
+            <Typography>Progrssive</Typography>
+            <StackPanel direction="row-reverse"
+                animatePresence={true}
+                className={styles.pageActions}
+                id="app-bar-button-container">
 
-                </div>
-            </Toolbar>
-        </AppBar>;
+            </StackPanel>
+        </Toolbar>
+    </AppBar>;
 }
