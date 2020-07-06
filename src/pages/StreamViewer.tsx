@@ -69,10 +69,15 @@ export default (props: { id: string }) => {
   const loading = isUpdating('stream');
   useEffect(() => {
     setEntryList(unreadOnly, props.id);
-    scrollToTop();
   },
     // eslint-disable-next-line
     [unreadOnly, props.id, store.lastUpdate, scrollToTop]);
+
+  // Show the stream list when it gets items.
+  useEffect(scrollToTop,
+  // When we get some entries in the stream, we should not be looking
+  // at the footer.
+  [store.stream.length]);
 
   const [progress, setProgress] = useState(0);
 
