@@ -20,6 +20,10 @@ const useStyles = makeStyles(theme => ({
     maxHeight: `calc(100vh - 48px - ${theme.spacing(2)}px)`,
     '&> *': {
       scrollSnapAlign: 'start'
+    },
+    scrollbarWidth: 'none',
+    '&::-webkit-scrollbar': {
+      display: 'none'
     }
   },
   loadingButton: {
