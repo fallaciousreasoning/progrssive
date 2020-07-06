@@ -21,7 +21,7 @@ const useStyles = makeStyles({
     },
     '@global': {
         'article img': {
-            maxWidth: '100%',
+            width: '100%',
             height: 'auto'
         },
         'article figure': {
