@@ -1,6 +1,6 @@
 import { Button, CircularProgress, FormControlLabel, IconButton, LinearProgress, makeStyles, Switch, Typography } from '@material-ui/core';
 import { Refresh } from '@material-ui/icons';
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import React, { useEffect, useState, useMemo, useCallback, useRef } from 'react';
 import { updateStreams } from '../actions/stream';
 import AppBarButton from '../components/AppBarButton';
 import Centre from '../components/Centre';
@@ -45,14 +45,18 @@ export default (props: { id: string }) => {
   const styles = useStyles();
   const location = useLocation();
   const history = useHistory();
+  const rootRef = useRef<HTMLDivElement>();
+  const scrollToTop = useCallback(() => {
+    rootRef.current.scrollTo(0, 0);
+  }, [rootRef.current]);
 
   const unreadOnly = useMemo(() => {
     const params = new URLSearchParams(location.search);
     return !params.has('showUnread');
   }, [location.search]);
   const toggleUnreadOnly = useCallback(() => {
-    history.replace(`?${unreadOnly ? "showUnread" : ""}`)
-  }, [unreadOnly]);
+    history.replace(`?${unreadOnly ? "showUnread" : ""}`);
+  }, [unreadOnly, store.stream]);
 
   const loading = isUpdating('stream');
   useEffect(() => {
@@ -63,7 +67,7 @@ export default (props: { id: string }) => {
 
   const [progress, setProgress] = useState(0);
 
-  return <div className={styles.root}>
+  return <div ref={rootRef} className={styles.root}>
     {unreadOnly
       && <StickyHeader className={styles.header}>
         <LinearProgress variant='determinate' value={progress * 100} color='secondary' />
@@ -97,7 +101,7 @@ export default (props: { id: string }) => {
           <LinkButton href="/subscriptions?query=" variant="contained" color="secondary">
             Add Subscriptions
           </LinkButton>
-          {unreadOnly && <LinkButton href="?showUnread" variant="contained" color="secondary">
+          {unreadOnly && <LinkButton href="?showUnread" variant="contained" color="secondary" onClick={scrollToTop}>
             Show Unread
           </LinkButton>}
         </StackPanel>

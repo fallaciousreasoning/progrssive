@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, MouseEvent } from 'react'
 import { ButtonProps, Button } from '@material-ui/core'
 import { useHistory } from 'react-router-dom';
 
@@ -13,6 +13,10 @@ export default (props: ButtonProps & { href: string, replace?: boolean }) => {
         if (!props.replace)
             history.push(props.href);
         else history.replace(props.href);
-    }, [props.href, history]);
+
+        if (props.onClick)
+            props.onClick(e as any);
+    }, [props.href, history, props.onClick]);
+    
     return <Button {...props} onClick={onClick}/>
 }
