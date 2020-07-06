@@ -21,10 +21,15 @@ const useStyles = makeStyles({
     },
     '@global': {
         'article img': {
-            width: '100%'
+            maxWidth: '100%',
+            height: 'auto'
         },
         'article figure': {
             margin: 0
+        },
+        'article iframe': {
+            maxWidth: '100%',
+            height: 'auto'
         }
     },
     titleLink: {
