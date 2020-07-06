@@ -11,6 +11,7 @@ import SubscriptionEditor from "../components/SubscriptionEditor";
 import { getStore, useStore } from '../hooks/store';
 import { Subscription, guessFeedUrl } from '../model/subscription';
 import { save } from '../services/persister';
+import { updateSubscription } from "../services/subscriptions";
 
 const useStyles = makeStyles(theme => ({
     opmlButton: {
@@ -91,6 +92,10 @@ export const SubscriptionManager = (props) => {
             store.subscriptions = newSubs;
         } else {
             store.subscriptions = [...store.subscriptions, subscription];
+
+            // Fetch new items from the feed.
+            updateSubscription(subscription)
+                .then(() => window.snackHelper.enqueueSnackbar(`Fetched new articles for ${subscription.title}`));
         }
         await save('subscriptions', getStore().subscriptions);
     }, [store.subscriptions, isSubscribed]);
