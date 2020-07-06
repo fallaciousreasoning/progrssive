@@ -22,12 +22,12 @@ export const pickFile = async (options?: Options): Promise<File> => {
 
     input.addEventListener('change', e => {
         const files: FileList = e.target['files'];
-        input.remove();
         resolvePromise(files[0]);
     });
-
+    
     document.body.appendChild(input);
     input.click();
+    input.remove();
 
     return promise;
 }
