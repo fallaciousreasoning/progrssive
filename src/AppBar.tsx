@@ -26,7 +26,6 @@ export default (props) => {
                 </IconButton>} />
             <Typography>Progrssive</Typography>
             <StackPanel direction="row-reverse"
-                animatePresence={true}
                 className={styles.pageActions}
                 id="app-bar-button-container">
 
