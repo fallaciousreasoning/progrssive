@@ -93,6 +93,8 @@ export default (props: Props) => {
                     const subscription = getEntrySubscription(item);
                     if (subscription && subscription.preferredView === "browser") {
                         window.open(getEntryUrl(item), "_blank");
+                        if (store.settings.markOpenedAsRead)
+                            item.unread = false;
                     } else {
                         history.push(`/entries/${item.id}`);
                     }
