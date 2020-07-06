@@ -1,16 +1,15 @@
-import { Card, CardMedia, FormControl, IconButton, InputLabel, makeStyles, MenuItem, Select, TextField } from "@material-ui/core";
-import { Add, Delete } from '@material-ui/icons';
+import { makeStyles, TextField } from "@material-ui/core";
 import * as React from 'react';
-import { useCallback, useEffect, useState, useMemo } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDebounce } from 'use-debounce';
 import { searchFeeds } from '../api/search';
+import ExportOpml, { getSubscriptionsOpml } from '../components/ExportOpml';
+import ImportOpml from "../components/ImportOpml";
+import StackPanel from "../components/StackPanel";
 import { getStore, useStore } from '../hooks/store';
 import { Subscription } from '../model/subscription';
 import { save } from '../services/persister';
-import ExportOpml, { getSubscriptionsOpml } from '../components/ExportOpml';
-import StackPanel from "../components/StackPanel";
-import ImportOpml from "../components/ImportOpml";
+import SubscriptionEditor from "../components/SubscriptionEditor";
 
 const useStyles = makeStyles(theme => ({
     opmlButton: {
@@ -82,7 +81,7 @@ export const SubscriptionManager = (props) => {
             onChange={e => setQuery(e.target.value)} />
 
         <div className={styles.results}>
-            {subscriptions.map(s => <SubscriptionView
+            {subscriptions.map(s => <SubscriptionEditor
                 key={s.id}
                 subscription={s}
                 isSubscribed={isSubscribed(s)}
@@ -99,80 +98,3 @@ export const SubscriptionManager = (props) => {
     </div>
 }
 
-const useCardStyles = makeStyles(theme => ({
-    root: {
-        display: 'flex',
-        alignItems: 'center',
-        marginBottom: theme.spacing(1),
-    },
-    title: {
-        cursor: 'pointer'
-    },
-    icon: {
-        width: 150,
-        alignSelf: 'stretch'
-    },
-    content: {
-        marginLeft: theme.spacing(1),
-        flexGrow: 1,
-        padding: theme.spacing(1)
-    },
-    viewPicker: {
-        marginTop: theme.spacing(1)
-    },
-    controls: {
-        marginLeft: theme.spacing(1)
-    }
-}));
-
-const SubscriptionView = (props: {
-    subscription: Subscription,
-    isSubscribed?: boolean,
-    toggleSubscription: (s: Subscription) => void
-}) => {
-    const styles = useCardStyles();
-
-    const toggleSubscription = useCallback((e) => {
-        e.stopPropagation();
-        props.toggleSubscription(props.subscription);
-    }, [props]);
-
-    const history = useHistory();
-    const viewStream = useCallback(() => {
-        history.push(`/stream/${props.subscription.id}`);
-    }, [props.subscription.id, history]);
-
-    const preferredViewChanged = useCallback(async (e) => {
-        props.subscription.preferredView = e.target.value;
-        await save('subscriptions', getStore().subscriptions)
-    }, [props.subscription]);
-
-    return <Card className={styles.root}>
-        <CardMedia className={styles.icon}
-            image={props.subscription.visualUrl || props.subscription.iconUrl} />
-        <div className={styles.content}>
-            <div onClick={viewStream} className={styles.title}>
-                <b>{props.subscription.title}</b>
-            </div>
-            {props.isSubscribed && <div>
-                <FormControl fullWidth className={styles.viewPicker}>
-                    <InputLabel>Preferred View</InputLabel>
-                    <Select
-                        onChange={preferredViewChanged}
-                        value={props.subscription.preferredView || "feedly"}>
-                        <MenuItem value="feedly">Feedly Mobilizer</MenuItem>
-                        <MenuItem value="browser">Browser</MenuItem>
-                    </Select>
-                </FormControl>
-            </div>}
-        </div>
-        <div className={styles.controls}>
-            <IconButton onClick={toggleSubscription}>
-                {props.isSubscribed
-                    ? <Delete />
-                    : <Add />
-                }
-            </IconButton>
-        </div>
-    </Card>
-}
