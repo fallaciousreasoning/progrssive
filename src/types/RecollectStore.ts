@@ -11,7 +11,6 @@ export interface UpdatingInformation {
 }
 
 export interface Settings {
-  unreadOnly: boolean;
   markOpenedAsRead: boolean;
   markScrolledAsRead: boolean;
   doubleTapToCloseArticles: boolean;

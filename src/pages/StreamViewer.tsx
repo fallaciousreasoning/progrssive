@@ -1,6 +1,6 @@
 import { Button, CircularProgress, FormControlLabel, IconButton, LinearProgress, makeStyles, Switch } from '@material-ui/core';
 import { Refresh } from '@material-ui/icons';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { updateStreams } from '../actions/stream';
 import AppBarButton from '../components/AppBarButton';
 import Centre from '../components/Centre';
@@ -9,6 +9,7 @@ import StickyHeader from '../components/StickyHeader';
 import { isUpdating, useStore } from '../hooks/store';
 import { setEntryList } from '../services/store';
 import StreamList from '../StreamList';
+import { useLocation, useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles({
   root: {
@@ -29,18 +30,28 @@ const useStyles = makeStyles({
 export default (props: { id: string }) => {
   const store = useStore();
   const styles = useStyles();
+  const location = useLocation();
+  const history = useHistory();
+
+  const unreadOnly = useMemo(() => {
+    const params = new URLSearchParams(location.search);
+    return !params.has('showUnread');
+  }, [location.search]);
+  const toggleUnreadOnly = useCallback(() => {
+    history.replace(`?${unreadOnly ? "showUnread" : ""}`)
+  }, [unreadOnly]);
 
   const loading = isUpdating('stream');
   useEffect(() => {
-    setEntryList(store.settings.unreadOnly, props.id);
+    setEntryList(unreadOnly, props.id);
   },
     // eslint-disable-next-line
-    [store.settings.unreadOnly, props.id, store.lastUpdate]);
+    [unreadOnly, props.id, store.lastUpdate]);
 
   const [progress, setProgress] = useState(0);
 
   return <div className={styles.root}>
-    {store.settings.unreadOnly
+    {unreadOnly
       && <StickyHeader className={styles.header}>
         <LinearProgress variant='determinate' value={progress * 100} color='secondary' />
       </StickyHeader>}
@@ -63,7 +74,7 @@ export default (props: { id: string }) => {
     </AppBarButton>
     <AppBarButton>
       <FormControlLabel
-        control={<Switch checked={store.settings.unreadOnly} onClick={() => store.settings.unreadOnly = !store.settings.unreadOnly} />}
+        control={<Switch checked={unreadOnly} onClick={toggleUnreadOnly} />}
         label="Unread" />
     </AppBarButton>
   </div>

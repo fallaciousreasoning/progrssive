@@ -98,7 +98,7 @@ export default (props: Props) => {
                     }
                 }}
             >
-                <EntryCard entry={item} showingUnreadOnly={store.settings.unreadOnly} />
+                <EntryCard entry={item} showingUnreadOnly={store.stream.unreadOnly} />
             </div>
                 : null;
         }}

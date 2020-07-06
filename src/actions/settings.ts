@@ -6,7 +6,6 @@ const defaultSettings: Settings = {
     markOpenedAsRead: true,
     markScrolledAsRead: true,
     doubleTapToCloseArticles: true,
-    unreadOnly: true,
     fontSize: 3,
     darkMode: false
 }
