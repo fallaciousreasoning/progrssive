@@ -17,6 +17,7 @@
     "lorem-ipsum": "^1.0.6",
     "notistack": "^0.8.2",
     "opml-generator": "^1.1.1",
+    "opml-to-json": "0.0.3",
     "query-string": "^6.2.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
