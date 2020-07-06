@@ -70,9 +70,10 @@ export default (props: { id: string }) => {
   const loading = isUpdating('stream');
   useEffect(() => {
     setEntryList(unreadOnly, props.id);
+    scrollToTop();
   },
     // eslint-disable-next-line
-    [unreadOnly, props.id, store.lastUpdate]);
+    [unreadOnly, props.id, store.lastUpdate, scrollToTop]);
 
   const [progress, setProgress] = useState(0);
 
