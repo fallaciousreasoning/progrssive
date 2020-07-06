@@ -41,6 +41,9 @@ const useStyles = makeStyles(theme => ({
   footer: {
     scrollSnapAlign: 'start',
     height: `calc(100vh - 48px - ${theme.spacing(2)}px)`
+  },
+  footerLoader: {
+    marginRight: theme.spacing(1)
   }
 }));
 
@@ -108,9 +111,9 @@ export default (props: { id: string }) => {
           <LinkButton href="/subscriptions?query=" variant="contained" color="secondary">
             Add Subscriptions
           </LinkButton>
-          {!loading && <Button variant="contained" color="secondary" onClick={() => updateStreams(props.id)}>
-            Refresh
-          </Button>}
+          <Button disabled={loading} variant="contained" color="secondary" onClick={() => updateStreams(props.id)}>
+            {loading && <CircularProgress size={16} className={styles.footerLoader} />} Refresh
+          </Button>
         </StackPanel>
         <Typography variant='h2'>That's everything!</Typography>
       </StackPanel>
