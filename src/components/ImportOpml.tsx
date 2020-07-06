@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { Button, ButtonProps } from '@material-ui/core'
 import opmlToJson from 'opml-to-json';
-import { pickFile } from '../utils/files';
+import { pickFile, getFileText } from '../utils/files';
 
 interface Props {
 
@@ -21,8 +21,9 @@ export const parseOpml = (opml: string) => {
 
 export default (props: Props & ButtonProps) => {
     const pick = useCallback(async () => {
-        const files = await pickFile();
-        console.log(files);
+        const file = await pickFile();
+        const text = await getFileText(file);
+        console.log(text);
     }, []);
 
     return <Button
