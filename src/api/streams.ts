@@ -13,5 +13,5 @@ const defaultOptions = {
 }
 
 export const getStream = async (streamId: string, type: 'contents' | 'id' = 'contents', options?: StreamRequestOptions): Promise<Stream> => {
-    return makeRequest<Stream>(`${endpoint}/${type}?streamId=${streamId}`, { ...defaultOptions, ...options });
+    return makeRequest<Stream>(`${endpoint}/${type}?streamId=${encodeURIComponent(streamId)}`, { ...defaultOptions, ...options });
 }
