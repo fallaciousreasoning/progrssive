@@ -11,6 +11,7 @@ import { setEntryList } from '../services/store';
 import StreamList from '../StreamList';
 import { useLocation, useHistory } from 'react-router-dom';
 import LinkButton from '../components/LinkButton';
+import StackPanel from '../components/StackPanel';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -35,7 +36,6 @@ const useStyles = makeStyles(theme => ({
   },
   footer: {
     scrollSnapAlign: 'start',
-    background: 'red',
     height: `calc(100vh - 48px - ${theme.spacing(2)}px)`
   }
 }));
@@ -92,7 +92,17 @@ export default (props: { id: string }) => {
     </AppBarButton>
 
     <div className={styles.footer}>
-      Foo Bar
+      <StackPanel direction="column-reverse">
+        <StackPanel direction="row">
+          <LinkButton href="/subscriptions?query=" variant="contained" color="secondary">
+            Add Subscriptions
+          </LinkButton>
+          {unreadOnly && <LinkButton href="?showUnread" variant="contained" color="secondary">
+            Show Unread
+          </LinkButton>}
+        </StackPanel>
+        <span>That's all!</span>
+      </StackPanel>
     </div>
   </div>
 }

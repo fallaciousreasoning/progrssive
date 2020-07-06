@@ -40,7 +40,8 @@ const useStyles = makeStyles(theme => ({
         flexDirection: (props: Props) =>
             props.direction || 'column',
         '&> div + div': {
-            marginLeft: (props: Props) => theme.spacing(props.spacing)
+            marginLeft: (props: Props) => props.direction.startsWith('row') ? theme.spacing(props.spacing) : 0,
+            marginTop: (props: Props) => props.direction.startsWith('column') ? theme.spacing(props.spacing) : 0
         }
     }
 }));
