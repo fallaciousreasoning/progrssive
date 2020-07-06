@@ -17,7 +17,11 @@ const useCardStyles = makeStyles(theme => ({
     },
     icon: {
         width: 150,
-        alignSelf: 'stretch'
+        alignSelf: 'stretch',
+        '&> *': {
+            width: '100%',
+            height: '100%'
+        }
     },
     content: {
         marginLeft: theme.spacing(1),
@@ -57,8 +61,10 @@ export default (props: {
     const visualUrl = props.subscription.visualUrl || props.subscription.iconUrl;
 
     return <Card className={styles.root}>
-        {visualUrl && <CardMedia className={styles.icon}
-            image={visualUrl} />}
+        <div className={styles.icon}>
+            {visualUrl && <CardMedia
+                image={visualUrl} />}
+        </div>
         <div className={styles.content}>
             <div onClick={viewStream} className={styles.title}>
                 <b>{props.subscription.title}</b>
