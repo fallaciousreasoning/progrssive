@@ -54,7 +54,9 @@ export const SubscriptionManager = (props) => {
     }, [importingSubscriptions]);
 
     const queryParams = new URLSearchParams(window.location.search);
-    const [query, setQuery] = useState(queryParams.get('query') || "@subscribed");
+    const [query, setQuery] = useState(queryParams.has('query')
+        ? queryParams.get('query')
+        : "@subscribed");
     const [debouncedQuery] = useDebounce(query, 200);
     const [searchResults, setSearchResults] = useState<Subscription[]>([]);
     const viewSubscriptions = useCallback(() => {
