@@ -102,12 +102,15 @@ export default (props: { id: string }) => {
     <div className={styles.footer}>
       <StackPanel direction="column-reverse" center>
         <StackPanel direction="row">
-          <LinkButton href="/subscriptions?query=" variant="contained" color="secondary">
-            Add Subscriptions
-          </LinkButton>
           {unreadOnly && <LinkButton href="?showUnread" variant="contained" color="secondary" onClick={scrollToTop}>
             Show Unread
           </LinkButton>}
+          <LinkButton href="/subscriptions?query=" variant="contained" color="secondary">
+            Add Subscriptions
+          </LinkButton>
+          {!loading && <Button variant="contained" color="secondary" onClick={() => updateStreams(props.id)}>
+            Refresh
+          </Button>}
         </StackPanel>
         <Typography variant='h2'>That's everything!</Typography>
       </StackPanel>
