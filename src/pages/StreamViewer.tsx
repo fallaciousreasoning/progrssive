@@ -1,17 +1,16 @@
 import { Button, CircularProgress, FormControlLabel, IconButton, LinearProgress, makeStyles, Switch, Typography } from '@material-ui/core';
 import { Refresh } from '@material-ui/icons';
-import React, { useEffect, useState, useMemo, useCallback, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import { updateStreams } from '../actions/stream';
 import AppBarButton from '../components/AppBarButton';
 import Centre from '../components/Centre';
-import FriendlyMessage from '../components/FriendlyMessage';
+import LinkButton from '../components/LinkButton';
+import StackPanel from '../components/StackPanel';
 import StickyHeader from '../components/StickyHeader';
 import { isUpdating, useStore } from '../hooks/store';
 import { setEntryList } from '../services/store';
 import StreamList from '../StreamList';
-import { useLocation, useHistory } from 'react-router-dom';
-import LinkButton from '../components/LinkButton';
-import StackPanel from '../components/StackPanel';
 
 const useStyles = makeStyles(theme => ({
   root: {
