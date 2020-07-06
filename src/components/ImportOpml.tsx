@@ -13,7 +13,7 @@ interface OpmlNode {
     children?: OpmlNode[];
 }
 interface Props {
-
+     onOpmlLoaded: (feeds: Omit<OpmlNode, 'children'>) => void;
 }
 
 export const parseOpml = (opml: string): Promise<OpmlNode[]> => {
@@ -47,6 +47,11 @@ export default (props: Props & ButtonProps) => {
         const file = await pickFile();
         const text = await getFileText(file);
         const opml = await parseOpml(text);
+
+        // The nodes actually may have children, but
+        // it's useful for intellisense to pretend they
+        // don't.
+        props.onOpmlLoaded(opml as any);
     }, []);
 
     return <Button

@@ -92,7 +92,8 @@ export const SubscriptionManager = (props) => {
         <StackPanel direction='row'>
             {!!store.subscriptions.length
                 && <ExportOpml className={styles.opmlButton} />}
-            <ImportOpml className={styles.opmlButton} />
+            <ImportOpml className={styles.opmlButton}
+                onOpmlLoaded={console.log}/>
         </StackPanel>
 
     </div>
