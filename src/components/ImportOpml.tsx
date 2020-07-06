@@ -44,6 +44,8 @@ export const parseOpml = (opml: string): Promise<OpmlNode[]> => {
 }
 
 export default (props: Props & ButtonProps) => {
+    const { onOpmlLoaded, ...buttonProps } = props;
+
     const pick = useCallback(async () => {
         const file = await pickFile();
         const text = await getFileText(file);
@@ -60,13 +62,13 @@ export default (props: Props & ButtonProps) => {
             }].filter(c => !!c.id),
             website: o.htmlurl
         }));
-        props.onOpmlLoaded(subscriptions);
-    }, []);
+        onOpmlLoaded(subscriptions);
+    }, [onOpmlLoaded]);
 
     return <Button
         variant="outlined"
         color="primary"
-        {...props}
+        {...buttonProps}
         onClick={pick}>
         Import Opml
     </Button>

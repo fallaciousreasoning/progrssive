@@ -54,9 +54,11 @@ export default (props: {
         await save('subscriptions', getStore().subscriptions)
     }, [props.subscription]);
 
+    const visualUrl = props.subscription.visualUrl || props.subscription.iconUrl;
+
     return <Card className={styles.root}>
-        <CardMedia className={styles.icon}
-            image={props.subscription.visualUrl || props.subscription.iconUrl} />
+        {visualUrl && <CardMedia className={styles.icon}
+            image={visualUrl} />}
         <div className={styles.content}>
             <div onClick={viewStream} className={styles.title}>
                 <b>{props.subscription.title}</b>
