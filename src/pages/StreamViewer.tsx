@@ -79,7 +79,6 @@ export default (props: { id: string, location: Location }) => {
     [store.stream.length]);
 
   const [progress, setProgress] = useState(0);
-  const isPhone = useIsPhone();
 
   return <div ref={rootRef} className={styles.root}>
     {unreadOnly

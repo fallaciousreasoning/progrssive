@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 import * as React from 'react';
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useHistory } from "react-router-dom";
 import { FixedSizeList } from 'react-window';
 import { setUnread } from './actions/marker';
@@ -55,24 +55,21 @@ export default (props: Props) => {
     const listHeight = height - 48 - GUTTER_SIZE * 2;
     const itemHeight = 208;
     const totalScrollHeight = store.stream.length * itemHeight;
-    const listRef = React.createRef<FixedSizeList>();
-    const listInnerRef = React.createRef<HTMLDivElement>();
+    const listRef = useRef<FixedSizeList>();
+    const listOuterRef = useRef<HTMLDivElement>();
 
     // Scroll to the top when the stream changes.
     useWhenChanged(() => {
-        if (!listInnerRef.current || !listRef.current)
-            return;
-            
-        if (listInnerRef.current.scrollTop > store.stream.lastScrollPos)
+        if (listOuterRef.current.scrollTop > store.stream.lastScrollPos)
             listRef.current && listRef.current.scrollTo(store.stream.lastScrollPos);
     },
-    // Only scroll back to the top of the list when the stream we're viewing changes.
-    [store.stream.id, store.stream.unreadOnly]);
+        // Only scroll back to the top of the list when the stream we're viewing changes.
+        [store.stream.id, store.stream.unreadOnly]);
 
     const onProgressChanged = props.onProgressChanged;
     const onScrolled = useCallback(({ scrollOffset }) => {
         const dps = 5;
-        const exponent = 10**dps;
+        const exponent = 10 ** dps;
         let percent = Math.round(scrollOffset / (totalScrollHeight - listHeight) * exponent) / exponent;
         if (!isFinite(percent) || isNaN(percent))
             percent = 0;
@@ -82,16 +79,17 @@ export default (props: Props) => {
 
         getStore().stream.lastScrollPos = scrollOffset;
     }, [totalScrollHeight, listHeight, onProgressChanged]);
+
     return <FixedSizeList
         ref={listRef}
-        innerRef={listInnerRef}
+        outerRef={listOuterRef}
         onScroll={onScrolled}
         className={styles.root}
         height={listHeight}
         itemSize={itemHeight}
         initialScrollOffset={store.stream.lastScrollPos}
         itemCount={store.stream.length}
-        width={Math.min(800, width - GUTTER_SIZE*2)}
+        width={Math.min(800, width - GUTTER_SIZE * 2)}
         itemKey={(index) => index < loadedEntries.length ? loadedEntries[index].id : index}
         onItemsRendered={onItemsRendered}>
         {rowProps => {
@@ -113,7 +111,7 @@ export default (props: Props) => {
                     } else {
                         history.push(`/entries/${item.id}`);
                     }
-                    
+
                     // If pages should be marked as read on open, do that.
                     if (store.settings.markOpenedAsRead) {
                         setUnread(item, false);
@@ -121,8 +119,7 @@ export default (props: Props) => {
                 }}
             >
                 <EntryCard entry={item} showingUnreadOnly={store.stream.unreadOnly} />
-            </div>
-                : null;
+            </div> : null;
         }}
-    </FixedSizeList>
+    </FixedSizeList>;
 }

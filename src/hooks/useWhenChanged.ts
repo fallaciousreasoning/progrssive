@@ -1,14 +1,18 @@
-import { useState } from "react"
+import { useState } from "react";
+import { useOnMount } from "./lifeCycle";
 
 export default <T>(func: () => T, watch: any[], onInitial = true) => {
     const [prev, setPrev] = useState<any[]>(undefined);
 
-    // If this is the first time the function has run, invoke func
-    if (!prev && onInitial) {
-        setPrev(watch)
-        func();
+    // Maybe do the initial call on mount.
+    useOnMount(() => {
+        setPrev(watch);
+        if (onInitial)
+            func();
+    });
+
+    if (!prev)
         return;
-    }
 
     // The length of the arrays should always match.
     if (watch.length !== prev.length) {
