@@ -10,7 +10,7 @@ import { useIsPhone } from "../hooks/responsive";
 import { useStore } from "../hooks/store";
 import { EntryReadButton } from "../MarkerButton";
 import { Entry, EntryContent } from "../model/entry";
-import { getEntryByline, getEntryContent, getEntryUrl } from "../services/entry";
+import { getEntryByline, getEntryContent, getEntryUrl, getEntryPreferredView } from "../services/entry";
 import { useResult } from "../hooks/promise";
 import mobilize from "../services/mobilize";
 import { useOnMount } from "../hooks/lifeCycle";
@@ -59,10 +59,14 @@ export default (props: { id: string }) => {
     const isPhone = useIsPhone();
     const domElement = useRef(null);
     const entry = useEntry(props.id);
+    const preferredView = getEntryPreferredView(entry);
 
     useScrollToTop(entry, domElement);
     useOnMount(() => {
-        loadMobilizedContent(props.id);
+        // If this article should be displayed with the mozilla
+        // mobilizer, load the mobilized content.
+        if (preferredView === "mozilla")
+            loadMobilizedContent(props.id);
     });
 
     const doubleTap = useDoubleTap((event) => {
@@ -87,8 +91,8 @@ export default (props: { id: string }) => {
     if (!entry)
         return <CircularProgress />;
 
-    const content = entry.mobilized
-        ? entry.mobilized.content
+    const content = preferredView === "mozilla"
+        ? entry.mobilized && entry.mobilized.content
         : getEntryContent(entry);
 
     const title = url

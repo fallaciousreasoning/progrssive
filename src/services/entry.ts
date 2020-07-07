@@ -48,3 +48,13 @@ export const getEntrySubscription = (entry: Entry) => {
     const subscriptions = getStore().subscriptions;
     return subscriptions.find(s => s.id === streamId);
 }
+
+export const getEntryPreferredView = (entry: Entry) => {
+    if (!entry)
+        return 'feedly';
+
+    const subscription = getEntrySubscription(entry);
+    return subscription
+        ? subscription.preferredView
+        : 'feedly';
+}
