@@ -60,6 +60,9 @@ export default (props: Props) => {
 
     // Scroll to the top when the stream changes.
     useWhenChanged(() => {
+        if (!listInnerRef.current || !listRef.current)
+            return;
+            
         if (listInnerRef.current.scrollTop > store.stream.lastScrollPos)
             listRef.current && listRef.current.scrollTo(store.stream.lastScrollPos);
     },

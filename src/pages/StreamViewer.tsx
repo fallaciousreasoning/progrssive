@@ -13,6 +13,7 @@ import { isUpdating, useStore } from '../hooks/store';
 import useWhenChanged from '../hooks/useWhenChanged';
 import { setEntryList } from '../services/store';
 import StreamList from '../StreamList';
+import StreamFooter from '../components/StreamFooter';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -42,9 +43,6 @@ const useStyles = makeStyles(theme => ({
   footer: {
     scrollSnapAlign: 'start',
     height: `calc(100vh - 48px - ${theme.spacing(2)}px)`
-  },
-  footerLoader: {
-    marginRight: theme.spacing(1)
   }
 }));
 
@@ -106,22 +104,7 @@ export default (props: { id: string, location: Location }) => {
     </AppBarButton>
 
     <div className={styles.footer}>
-      <StackPanel direction="column-reverse" center>
-        <StackPanel direction={isPhone ? 'column' : 'row'}>
-          {unreadOnly && hasSubscriptions && <LinkButton fullWidth href="?showUnread" variant="contained" color="secondary" onClick={scrollToTop}>
-            Show Unread
-          </LinkButton>}
-          <LinkButton fullWidth href="/subscriptions?query=" variant="contained" color="secondary">
-            Add Subscriptions
-          </LinkButton>
-          {hasSubscriptions && <Button fullWidth disabled={loading} variant="contained" color="secondary" onClick={() => updateStreams(props.id)}>
-            {loading && <CircularProgress size={16} className={styles.footerLoader} />} Refresh
-          </Button>}
-        </StackPanel>
-        <Typography variant='h3' align='center'>
-          {hasSubscriptions ? "That's everything!" : "You don't have any subscriptions"}
-        </Typography>
-      </StackPanel>
+      <StreamFooter unreadOnly={unreadOnly}/>
     </div>
   </div>
 }
