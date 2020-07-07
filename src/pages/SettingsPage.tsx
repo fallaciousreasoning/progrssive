@@ -176,7 +176,7 @@ export default (props) => {
             <ListItem>
                 <ListItemText
                     primaryTypographyProps={primaryTypographyProps}
-                    primary="Font"
+                    primary="Article Font"
                     secondary="The font used to display articles." />
                 <ListItemSecondaryAction>
                     <FontPicker
