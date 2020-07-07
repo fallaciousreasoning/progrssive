@@ -145,8 +145,7 @@ export const SubscriptionManager = (props) => {
             setImportingSubscriptions([...toImport]);
         }
     }, [setImportingSubscriptions,
-        getMatchingSubscription,
-        store.subscriptions]);
+        getMatchingSubscription]);
 
     return <div>
         <StackPanel direction='row' animatePresence>

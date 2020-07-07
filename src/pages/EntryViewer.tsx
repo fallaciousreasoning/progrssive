@@ -3,7 +3,6 @@ import { Share } from "@material-ui/icons";
 import * as React from 'react';
 import { useCallback, useEffect, useRef } from 'react';
 import { useHistory } from "react-router";
-import { setUnread } from "../actions/marker";
 import AppBarButton from "../components/AppBarButton";
 import { useDoubleTap } from "../hooks/callbacks";
 import { useEntry } from "../hooks/entry";

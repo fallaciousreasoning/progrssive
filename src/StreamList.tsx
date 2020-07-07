@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 import * as React from 'react';
-import { useCallback, useState, useEffect } from 'react';
+import { useCallback, useState } from 'react';
 import { useHistory } from "react-router-dom";
 import { FixedSizeList } from 'react-window';
 import { setUnread } from './actions/marker';
@@ -8,10 +8,9 @@ import EntryCard from './EntryCard';
 import { useStreamEntries, useStreamEntry } from './hooks/entry';
 import { useScreenSize } from './hooks/screenSize';
 import { getStore, useStore } from './hooks/store';
+import useWhenChanged from './hooks/useWhenChanged';
 import { getEntrySubscription, getEntryUrl } from './services/entry';
 import { loadToEntry } from './services/store';
-import { addEntry } from './services/db';
-import useWhenChanged from './hooks/useWhenChanged';
 
 interface Props {
     onProgressChanged?: (progress: number) => void;
@@ -67,6 +66,7 @@ export default (props: Props) => {
     // Only scroll back to the top of the list when the stream we're viewing changes.
     [store.stream.id, store.stream.unreadOnly]);
 
+    const onProgressChanged = props.onProgressChanged;
     const onScrolled = useCallback(({ scrollOffset }) => {
         const dps = 5;
         const exponent = 10**dps;
@@ -74,11 +74,11 @@ export default (props: Props) => {
         if (!isFinite(percent) || isNaN(percent))
             percent = 0;
 
-        if (props.onProgressChanged)
-            props.onProgressChanged(percent);
+        if (onProgressChanged)
+            onProgressChanged(percent);
 
         getStore().stream.lastScrollPos = scrollOffset;
-    }, [totalScrollHeight, listHeight]);
+    }, [totalScrollHeight, listHeight, onProgressChanged]);
     return <FixedSizeList
         ref={listRef}
         innerRef={listInnerRef}

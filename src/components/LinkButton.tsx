@@ -4,19 +4,20 @@ import { useHistory } from 'react-router-dom';
 
 export default (props: ButtonProps & { href: string, replace?: boolean }) => {
     const history = useHistory();
-    const onClick = useCallback((e: React.MouseEvent) => {
+    const { href, replace, onClick } = props;
+    const onButtonClick = useCallback((e: React.MouseEvent) => {
         if (e.ctrlKey || e.metaKey || e.button === 3)
             return;
 
         e.preventDefault();
 
-        if (!props.replace)
-            history.push(props.href);
-        else history.replace(props.href);
+        if (!replace)
+            history.push(href);
+        else history.replace(href);
 
-        if (props.onClick)
-            props.onClick(e as any);
-    }, [props.href, history, props.onClick]);
+        if (onClick)
+            onClick(e as any);
+    }, [href, replace, history, onClick]);
     
-    return <Button {...props} onClick={onClick}/>
+    return <Button {...props} onClick={onButtonClick}/>
 }

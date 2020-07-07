@@ -3,11 +3,10 @@ import { SnackbarProvider } from 'notistack';
 import React, { useMemo } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import AppBar from './AppBar';
+import RouteSwitcher from './components/RouteSwitcher';
 import { SnackbarHelper } from './components/SnackbarHelper';
 import { useStore } from './hooks/store';
 import { buildTheme } from './theme';
-import Routes from './Routes';
-import RouteSwitcher from './components/RouteSwitcher';
 
 const useStyles = makeStyles(theme => ({
   root: {

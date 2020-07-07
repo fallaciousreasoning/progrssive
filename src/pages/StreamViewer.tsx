@@ -1,6 +1,6 @@
 import { Button, CircularProgress, FormControlLabel, IconButton, LinearProgress, makeStyles, Switch, Typography } from '@material-ui/core';
 import { Refresh } from '@material-ui/icons';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { updateStreams } from '../actions/stream';
 import AppBarButton from '../components/AppBarButton';
@@ -10,6 +10,7 @@ import StackPanel from '../components/StackPanel';
 import StickyHeader from '../components/StickyHeader';
 import { useIsPhone } from '../hooks/responsive';
 import { isUpdating, useStore } from '../hooks/store';
+import useWhenChanged from '../hooks/useWhenChanged';
 import { setEntryList } from '../services/store';
 import StreamList from '../StreamList';
 
@@ -56,8 +57,8 @@ export default (props: { id: string, location: Location }) => {
   const hasSubscriptions = store.subscriptions.length !== 0;
 
   const scrollToTop = useCallback(() => {
-    rootRef.current.scrollTo(0, 0);
-  }, [rootRef.current]);
+    rootRef.current && rootRef.current.scrollTo(0, 0);
+  }, []);
 
   const unreadOnly = useMemo(() => {
     const params = new URLSearchParams(location.search);
@@ -65,20 +66,19 @@ export default (props: { id: string, location: Location }) => {
   }, [location.search]);
   const toggleUnreadOnly = useCallback(() => {
     history.replace(`?${unreadOnly ? "showUnread" : ""}`);
-  }, [unreadOnly, store.stream]);
+  }, [unreadOnly, history]);
 
   const loading = isUpdating('stream');
-  useEffect(() => {
+  useWhenChanged(() => {
     setEntryList(unreadOnly, props.id);
   },
-    // eslint-disable-next-line
     [unreadOnly, props.id, store.lastUpdate, scrollToTop]);
 
   // Show the stream list when it gets items.
-  useEffect(scrollToTop,
-  // When we get some entries in the stream, we should not be looking
-  // at the footer.
-  [store.stream.length]);
+  useWhenChanged(scrollToTop,
+    // When we get some entries in the stream, we should not be looking
+    // at the footer.
+    [store.stream.length]);
 
   const [progress, setProgress] = useState(0);
   const isPhone = useIsPhone();

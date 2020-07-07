@@ -67,11 +67,13 @@ export default (props) => {
             .substr(route.prefix.length + 1);
 
         return route.render(id, location as any);
-    }, [location]);
+    }, [location, history]);
     const direction = useMemo(() =>
         history.action === "POP"
             ? -1
             : 1,
+        // This should only update when the path changes.
+        // eslint-disable-next-line
         [location.pathname]);
 
     return <AnimatePresence custom={direction} initial={false}>
