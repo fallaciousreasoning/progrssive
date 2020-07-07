@@ -1,7 +1,7 @@
 import queryString from "querystring";
 
 const feedlyUrl = "https://cloud.feedly.com/v3/"
-const bypassCorsUrl = 'https://progrssive-cors.herokuapp.com/';
+export const bypassCorsUrl = 'https://progrssive-cors.herokuapp.com/';
 
 export const feedlyQueryString = (params: Object): string => {
     const fixedCase = {};
@@ -23,7 +23,7 @@ export const makeRequest = async <T>(url: string, params?: Object): Promise<T> =
     const requestUrl = `${feedlyUrl}${url}${joiner}${queryString}`;
 
     // TODO: Use a custom cors proxy, this should not be in production.
-    const response = await fetch(`${bypassCorsUrl}${requestUrl}`, {
+    const response = await fetchSansCors(requestUrl, {
         method: 'GET'
     });
 
@@ -35,11 +35,16 @@ export const makeRequest = async <T>(url: string, params?: Object): Promise<T> =
 }
 
 export const makePostRequest = (endpoint: string, params: Object) => {
-    return fetch(`${bypassCorsUrl}${feedlyUrl}${endpoint}`, {
+    return fetchSansCors(`${feedlyUrl}${endpoint}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(params)
     });
+}
+
+export const fetchSansCors = (url: string, init?: RequestInit) => {
+    url = `${bypassCorsUrl}${url}`
+    return fetch(url, init);
 }
