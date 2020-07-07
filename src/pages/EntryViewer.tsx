@@ -1,7 +1,7 @@
-import { Card, CardContent, CardHeader, CircularProgress, IconButton, makeStyles, Typography } from "@material-ui/core";
+import { Card, CardContent, CardHeader, CircularProgress, IconButton, makeStyles, Typography, Button } from "@material-ui/core";
 import { Share } from "@material-ui/icons";
 import * as React from 'react';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useHistory } from "react-router";
 import { loadMobilizedContent } from "../actions/entry";
 import AppBarButton from "../components/AppBarButton";
@@ -15,6 +15,7 @@ import { useStore } from "../hooks/store";
 import { EntryReadButton } from "../MarkerButton";
 import { Entry } from "../model/entry";
 import { getEntryByline, getEntryContent, getEntryPreferredView, getEntryUrl } from "../services/entry";
+import LinkButton from "../components/LinkButton";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -65,13 +66,19 @@ export default (props: { id: string }) => {
     const domElement = useRef(null);
     const entry = useEntry(props.id);
     const preferredView = getEntryPreferredView(entry);
+    const [failedToMobilize, setFailedToMobilize] = useState(false);
 
     useScrollToTop(entry, domElement);
     useOnMount(() => {
         // If this article should be displayed with the mozilla
         // mobilizer, load the mobilized content.
-        if (preferredView === "mozilla")
-            loadMobilizedContent(props.id);
+        if (preferredView === "mozilla") {
+            loadMobilizedContent(props.id)
+                .catch(() => {
+                    setFailedToMobilize(true);
+                    window.snackHelper.enqueueSnackbar("Failed to mobilize article! Are you offline?");
+                });
+        }
     });
 
     const doubleTap = useDoubleTap((event) => {
@@ -124,9 +131,23 @@ export default (props: { id: string }) => {
                 </Typography>
                 : <StackPanel center>
                     <Typography component="small">
-                        Mobilizing...
+                        {failedToMobilize
+                            ? "Failed to mobilize article."
+                            : "Mobilizing..."}
                     </Typography>
-                    <CircularProgress />
+                    {failedToMobilize
+                        ? <StackPanel direction="row">
+                            <Button variant="outlined">View Feedly</Button>
+                            <Button
+                                variant="outlined"
+                                href={url}
+                                target="_blank"
+                                rel="noopener noreferrer">
+                                Open in Browser
+                            </Button>
+                        </StackPanel>
+                        : <CircularProgress />}
+
                 </StackPanel>}
         </CardContent>
     </>;

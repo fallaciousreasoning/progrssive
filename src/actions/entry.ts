@@ -43,14 +43,15 @@ export const loadMobilizedContent = async (entryId: string) => {
     // Mobilize entry, if it isn't already.
     if (entry && !entry.mobilized) {
         try {
+            throw "Uh oh";
             const url = getEntryUrl(entry);
             const mobilizedContent = await mobilize(url);
             await addEntry({ id: entryId, mobilized: mobilizedContent });
             getStore().entries[entryId].mobilized = mobilizedContent;
         } catch (err) {
-            window.snackHelper
-                .enqueueSnackbar(`Failed to mobilize ${entry.title}. Are you offline?`);
+            getStore().updating[entryId] = false;
             console.error(err);
+            throw err;
         }
     }
 
