@@ -60,6 +60,10 @@ export const removeEntryListener = (listener: EntryListener) => {
 
 // Ensure we don't lose any stream ids when we save an entry.
 export const addEntry = async (entry: Partial<Entry>, maintainUnread?: boolean) => {
+    // Don't save transient entries.
+    if (entry.transient)
+        return;
+
     let dbEntry = {
         ...entry,
         unread: +entry.unread,
