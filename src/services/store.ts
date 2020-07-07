@@ -59,6 +59,9 @@ export const setEntryList = async (unreadOnly: boolean, streamId: string, force 
 }
 
 export const setTransientEntryList = async (streamId: string) => {
+    if (getStore().stream.id === streamId)
+        return;
+
     getStore().updating.stream++;
     getStore().stream = {
         id: streamId,
