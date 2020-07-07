@@ -6,11 +6,18 @@ import { updateSettings } from '../actions/settings';
 import { useStore } from '../hooks/store';
 import { green } from '@material-ui/core/colors';
 import { accentColors } from '../theme';
+import { Settings } from '../types/RecollectStore';
 
 const useStyles = makeStyles(theme => ({
     slider: {
         width: '48px !important'
     },
+    picker: {
+        minWidth: theme.spacing(15)
+    }
+}));
+
+const useAccentColorPickerStyles = makeStyles(theme => ({
     picker: {
         minWidth: theme.spacing(15)
     },
@@ -27,6 +34,25 @@ const useStyles = makeStyles(theme => ({
 const primaryTypographyProps: TypographyProps = {
     color: 'textPrimary'
 };
+
+const AccentColorPicker = (props: {
+    name: keyof Settings,
+    onPickerChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
+}) => {
+    const store = useStore();
+    const styles = useAccentColorPickerStyles();
+    return <Select
+        name={props.name}
+        variant="outlined"
+        onChange={props.onPickerChange}
+        className={styles.picker}
+        value={store.settings[props.name]}
+        renderValue={(value: string) => <div className={styles.colorPickerValue} style={{ background: value }} />}>
+        {accentColors.map(c => <MenuItem value={c} key={c}>
+            <div style={{ background: c }} className={`${styles.colorPickerItem} color`}></div>
+        </MenuItem>)}
+    </Select>
+}
 
 export default (props) => {
     const styles = useStyles();
@@ -122,17 +148,16 @@ export default (props) => {
                     primary="Accent color"
                     secondary="The primary accent color of the app." />
                 <ListItemSecondaryAction>
-                    <Select
-                        name="accent"
-                        variant="outlined"
-                        onChange={onPickerChange}
-                        className={styles.picker}
-                        value={store.settings.accent || green[500]}
-                        renderValue={(value: string) => <div className={styles.colorPickerValue} style={{background: value }}/>}>
-                        {accentColors.map(c => <MenuItem value={c} key={c}>
-                            <div style={{ background: c }} className={`${styles.colorPickerItem} color`}></div>
-                        </MenuItem>)}
-                    </Select>
+                    <AccentColorPicker name="accent" onPickerChange={onPickerChange} />
+                </ListItemSecondaryAction>
+            </ListItem>
+            <ListItem>
+                <ListItemText
+                    primaryTypographyProps={primaryTypographyProps}
+                    primary="Secondary color"
+                    secondary="The secondary accent color of the app." />
+                <ListItemSecondaryAction>
+                    <AccentColorPicker name="secondaryAccent" onPickerChange={onPickerChange} />
                 </ListItemSecondaryAction>
             </ListItem>
         </List>

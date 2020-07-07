@@ -41,7 +41,10 @@ export const buildTheme = (settings: Settings, preferDark: boolean) => {
         palette: {
             type: type,
             primary: {
-                main: settings.accent || '#2BB24C'
+                main: settings.accent || green[500]
+            },
+            secondary: {
+                main: settings.secondaryAccent || purple[500]
             },
             background: {
                 default: type === "dark"
@@ -53,6 +56,5 @@ export const buildTheme = (settings: Settings, preferDark: boolean) => {
             fontSize: 8 + (settings.fontSize * 2)
         }
     });
-    console.log(theme.palette);
     return theme;
 }

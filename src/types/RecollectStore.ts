@@ -17,6 +17,7 @@ export interface Settings {
   fontSize: 1 | 2 | 3 | 4 | 5;
   theme: 'light' | 'dark' | 'device';
   accent: string;
+  secondaryAccent: string;
 }
 
 export interface StoreStream {
