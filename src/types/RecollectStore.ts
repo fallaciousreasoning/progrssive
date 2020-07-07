@@ -4,6 +4,7 @@ import { Entry } from "../model/entry";
 import { Stream } from "../model/stream";
 import { Subscription } from "../model/subscription";
 import { Collection } from "../model/collection";
+import { AccentColor } from "../theme";
 
 export interface UpdatingInformation {
   categories: boolean;
@@ -16,8 +17,8 @@ export interface Settings {
   doubleTapToCloseArticles: boolean;
   fontSize: 1 | 2 | 3 | 4 | 5;
   theme: 'light' | 'dark' | 'device';
-  accent: string;
-  secondaryAccent: string;
+  accent: AccentColor;
+  secondaryAccent: AccentColor;
   fontFamily: 'Roboto';
 }
 

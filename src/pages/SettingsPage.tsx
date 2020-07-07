@@ -4,7 +4,7 @@ import * as React from 'react';
 import { useCallback } from 'react';
 import { updateSettings } from '../actions/settings';
 import { useStore } from '../hooks/store';
-import { accentColors, supportedFonts, fonts } from '../theme';
+import { accentColors, supportedFonts, fonts, getColor } from '../theme';
 import { Settings } from '../types/RecollectStore';
 
 const useStyles = makeStyles(theme => ({
@@ -39,13 +39,14 @@ const AccentColorPicker = (props: {
 } & SelectProps) => {
     const store = useStore();
     const styles = useAccentColorPickerStyles();
+
     return <Select
         variant="outlined"
         {...props}
         value={store.settings[props.name]}
-        renderValue={(value: string) => <div className={styles.colorPickerValue} style={{ background: value }} />}>
+        renderValue={(value: string) => <div className={styles.colorPickerValue} style={{ background: getColor(value as any) }} />}>
         {accentColors.map(c => <MenuItem value={c} key={c}>
-            <div style={{ background: c }} className={`${styles.colorPickerItem} color`}></div>
+            <div style={{ background: getColor(c as any) }} className={`${styles.colorPickerItem} color`}></div>
         </MenuItem>)}
     </Select>
 }

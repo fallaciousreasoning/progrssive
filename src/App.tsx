@@ -18,10 +18,12 @@ const useStyles = makeStyles(theme => ({
 export const App = (props) => {
   const styles = useStyles({});
   const store = useStore();
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)'); 
+
+  // Rerender when the external theme changes.
+  const prefersDark = useMediaQuery('(prefers-color-scheme: dark)'); 
   const theme = useMemo(() => {
-    return buildTheme(store.settings, prefersDarkMode);
-  }, [store.settings, prefersDarkMode]);
+    return buildTheme(store.settings);
+  }, [store.settings, prefersDark]);
 
   return <BrowserRouter>
     <MuiThemeProvider theme={theme}>

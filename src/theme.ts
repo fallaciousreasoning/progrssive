@@ -1,37 +1,43 @@
 import { createMuiTheme } from "@material-ui/core";
-import {
-    amber,
-    cyan,
-    blue,
-    green,
-    grey,
-    orange,
-    purple,
-    red,
-    deepPurple,
-    pink,
-    teal,
-    yellow,
-    lightGreen,
-    lightBlue
-} from "@material-ui/core/colors";
+import * as colors from '@material-ui/core/colors';
+import { grey } from "@material-ui/core/colors";
+import { getStore } from "./hooks/store";
 import { Settings } from "./types/RecollectStore";
 
 export const accentColors = [
-    amber,
-    cyan,
-    blue,
-    green,
-    orange,
-    purple,
-    red,
-    deepPurple,
-    pink,
-    teal,
-    yellow,
-    lightGreen,
-    lightBlue
-].map(c => c[500]);
+    "amber",
+    "cyan",
+    "blue",
+    "green",
+    "orange",
+    "purple",
+    "red",
+    "deepPurple",
+    "pink",
+    "teal",
+    "yellow",
+    "lightGreen",
+    "lightBlue",
+] as const;
+export type AccentColor = typeof accentColors[number];
+
+export const getColor = (colorName: AccentColor) => {
+    const color = colors[colorName] || colors.green;
+    const weight = themeMode() === "dark"
+        ? 700
+        : 500;
+
+    return color[weight];
+}
+
+export const themeMode = () => {
+    const preferDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const setting = getStore().settings.theme;
+
+    return setting === "device"
+        ? (preferDark ? 'dark' : 'light')
+        : setting;
+}
 
 export const fonts = {
     "Roboto": `"Roboto", "Helvetica", "Arial", sans-serif`,
@@ -56,21 +62,18 @@ export const fonts = {
 
 export const supportedFonts = Object.keys(fonts);
 
-export const buildTheme = (settings: Settings, preferDark: boolean) => {
-    const type = settings.theme === "device"
-        ? (preferDark ? 'dark' : 'light')
-        : settings.theme;
-
+export const buildTheme = (settings: Settings) => {
+    const type = themeMode();
     const fontFamily = fonts[settings.fontFamily] || fonts.Roboto;
 
     const theme = createMuiTheme({
         palette: {
             type: type,
             primary: {
-                main: settings.accent || green[500]
+                main: getColor(settings.accent || 'green')
             },
             secondary: {
-                main: settings.secondaryAccent || purple[500]
+                main: getColor(settings.secondaryAccent || 'pink')
             },
             background: {
                 default: type === "dark"
