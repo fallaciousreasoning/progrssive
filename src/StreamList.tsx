@@ -11,6 +11,7 @@ import { getStore, useStore } from './hooks/store';
 import { getEntrySubscription, getEntryUrl } from './services/entry';
 import { loadToEntry } from './services/store';
 import { addEntry } from './services/db';
+import useWhenChanged from './hooks/useWhenChanged';
 
 interface Props {
     onProgressChanged?: (progress: number) => void;
@@ -59,7 +60,7 @@ export default (props: Props) => {
     const listInnerRef = React.createRef<HTMLDivElement>();
 
     // Scroll to the top when the stream changes.
-    useEffect(() => {
+    useWhenChanged(() => {
         if (listInnerRef.current.scrollTop > store.stream.lastScrollPos)
             listRef.current && listRef.current.scrollTo(store.stream.lastScrollPos);
     },
