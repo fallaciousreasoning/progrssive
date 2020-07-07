@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader, CircularProgress, IconButton, makeStyles, Typography, Button } from "@material-ui/core";
-import { Share } from "@material-ui/icons";
+import { Card, CardContent, CardHeader, CircularProgress, IconButton, makeStyles, Typography, Button, Menu, MenuItem } from "@material-ui/core";
+import { Share, ViewArray } from "@material-ui/icons";
 import * as React from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useHistory } from "react-router";
@@ -14,8 +14,11 @@ import { useIsPhone } from "../hooks/responsive";
 import { useStore } from "../hooks/store";
 import { EntryReadButton } from "../MarkerButton";
 import { Entry } from "../model/entry";
-import { getEntryByline, getEntryContent, getEntryPreferredView, getEntryUrl } from "../services/entry";
+import { getEntryByline, getEntryContent, getEntryPreferredView, getEntryUrl, getEntrySubscription } from "../services/entry";
 import LinkButton from "../components/LinkButton";
+import { Context } from "vm";
+import PreferredViewMenu from "../components/PreferredViewMenu";
+import useWhenChanged from "../hooks/useWhenChanged";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -60,26 +63,58 @@ const useScrollToTop = (entry: Entry, ref: React.MutableRefObject<any>) => {
 export default (props: { id: string }) => {
     const store = useStore();
     const history = useHistory();
-
+    
     const styles = useStyles();
     const isPhone = useIsPhone();
     const domElement = useRef(null);
     const entry = useEntry(props.id);
-    const preferredView = getEntryPreferredView(entry);
+    const url = getEntryUrl(entry);
+    const [currentView, setCurrentView] = useState(getEntryPreferredView(entry));
     const [failedToMobilize, setFailedToMobilize] = useState(false);
 
     useScrollToTop(entry, domElement);
-    useOnMount(() => {
-        // If this article should be displayed with the mozilla
-        // mobilizer, load the mobilized content.
-        if (preferredView === "mozilla") {
+
+    const preferredViewChanged = useCallback(view => {
+        if (view === "browser") {
+            window.open(url, "_blank");
+            return;
+        }
+
+        setCurrentView(view);
+    }, [url]);
+
+    const subscription = getEntrySubscription(entry);
+    useWhenChanged(() => {
+        // We haven't tried to mobilize yet.
+        setFailedToMobilize(false);
+        
+        // Mozilla mobilization is asynchronous.
+        if (currentView === "mozilla") {
             loadMobilizedContent(props.id)
                 .catch(() => {
                     setFailedToMobilize(true);
                     window.snackHelper.enqueueSnackbar("Failed to mobilize article! Are you offline?");
                 });
         }
-    });
+    }, [currentView]);
+
+    // When the preferred view for the subscription changes,
+    // reset the current view.
+    useWhenChanged(() => {
+        // Transient entries have no subscription.
+        if (!subscription) {
+            setCurrentView("feedly");
+            return;
+        }
+
+        // Can't show the browser view, so display feedly instead.
+        if (subscription.preferredView === "browser") {
+            setCurrentView("feedly");
+            return;
+        }
+
+        setCurrentView(subscription.preferredView);
+    }, [subscription && subscription.preferredView]);
 
     const doubleTap = useDoubleTap((event) => {
         if (!store.settings.doubleTapToCloseArticles)
@@ -98,7 +133,6 @@ export default (props: { id: string }) => {
         });
     }, [entry]);
 
-    const url = getEntryUrl(entry);
 
     if (!entry) {
         return <Centre>
@@ -106,7 +140,7 @@ export default (props: { id: string }) => {
         </Centre>;
     }
 
-    const content = preferredView === "mozilla"
+    const content = currentView === "mozilla"
         ? entry.mobilized && entry.mobilized.content
         : getEntryContent(entry);
 
@@ -166,5 +200,10 @@ export default (props: { id: string }) => {
                 <Share />
             </IconButton>
         </AppBarButton>}
+        <AppBarButton>
+            <PreferredViewMenu
+                value={currentView}
+                onChange={preferredViewChanged}/>
+        </AppBarButton>
     </article>;
 };

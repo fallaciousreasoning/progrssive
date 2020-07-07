@@ -44,6 +44,8 @@ export const getEntryVisualUrl = (entry: Entry) => {
 export const isSaved = (entry: Entry) => entry.tags && entry.tags.some(e => e.id.endsWith('global.saved'));
 
 export const getEntrySubscription = (entry: Entry) => {
+    if (!entry)
+        return;
     const streamId = entry.origin && entry.origin.streamId;
     const subscriptions = getStore().subscriptions;
     return subscriptions.find(s => s.id === streamId);
