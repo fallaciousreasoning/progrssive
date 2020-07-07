@@ -11,6 +11,8 @@ import { useStore } from "../hooks/store";
 import { EntryReadButton } from "../MarkerButton";
 import { Entry } from "../model/entry";
 import { getEntryByline, getEntryContent, getEntryUrl } from "../services/entry";
+import { useResult } from "../hooks/promise";
+import mobilize from "../services/mobilize";
 
 const useStyles = makeStyles({
     root: {
@@ -74,12 +76,14 @@ export default (props: { id: string }) => {
             url: getEntryUrl(entry)
         });
     }, [entry]);
-
-    if (!entry)
-        return <CircularProgress />;
-
-    const content = getEntryContent(entry);
+    
     const url = getEntryUrl(entry);
+    const mobilized = useResult(() => mobilize(url), [url], { content: undefined, title: undefined });
+    if (!entry)
+    return <CircularProgress />;
+    
+    const content = mobilized.content
+        || getEntryContent(entry);
 
     const title = url
         ? <a
