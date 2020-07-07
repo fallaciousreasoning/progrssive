@@ -16,7 +16,7 @@ import { EntryReadButton } from "../MarkerButton";
 import { Entry } from "../model/entry";
 import { getEntryByline, getEntryContent, getEntryPreferredView, getEntryUrl } from "../services/entry";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
     root: {
         maxWidth: '1000px',
         marginLeft: 'auto',
@@ -33,6 +33,12 @@ const useStyles = makeStyles({
         'article iframe': {
             maxWidth: '100%',
             height: 'auto'
+        },
+        'article': {
+            color: theme.palette.text.primary
+        },
+        'article a': {
+            color: theme.palette.info.main
         }
     },
     titleLink: {
@@ -41,7 +47,7 @@ const useStyles = makeStyles({
     shareButton: {
         color: 'white !important'
     }
-});
+}));
 
 const useScrollToTop = (entry: Entry, ref: React.MutableRefObject<any>) => {
     useEffect(() => {

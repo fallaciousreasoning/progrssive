@@ -1,5 +1,6 @@
 import { createMuiTheme } from "@material-ui/core";
 import { Settings } from "./types/RecollectStore";
+import { grey } from "@material-ui/core/colors";
 
 export const buildTheme = (settings: Settings, preferDark: boolean) => {
     const type = settings.theme === "device"
@@ -13,8 +14,8 @@ export const buildTheme = (settings: Settings, preferDark: boolean) => {
             },
             background: {
                 default: type === "dark"
-                    ? "#212121" // grey900
-                    : "#fafafa" // grey50
+                    ? grey[900]
+                    : grey[50]
             }
         },
         typography: {
