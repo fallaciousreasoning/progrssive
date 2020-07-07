@@ -69,7 +69,6 @@ export default (props: { id: string, location: Location }) => {
     return !params.has('showUnread');
   }, [location.search]);
 
-  console.log("Rendered")
   const toggleUnreadOnly = useCallback(() => {
     history.replace(`?${unreadOnly ? "showUnread" : ""}`);
   }, [unreadOnly, history]);

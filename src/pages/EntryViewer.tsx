@@ -135,9 +135,9 @@ export default (props: { id: string }) => {
         {isPhone
             ? article
             : <Card>{article}</Card>}
-        <AppBarButton>
+        {!entry.transient && <AppBarButton>
             <EntryReadButton entryId={entry.id} />
-        </AppBarButton>
+        </AppBarButton>}
         {navigator.share && <AppBarButton>
             <IconButton
                 className={styles.shareButton}
