@@ -1,6 +1,37 @@
 import { createMuiTheme } from "@material-ui/core";
+import {
+    amber,
+    cyan,
+    blue,
+    green,
+    grey,
+    orange,
+    purple,
+    red,
+    deepPurple,
+    pink,
+    teal,
+    yellow,
+    lightGreen,
+    lightBlue
+} from "@material-ui/core/colors";
 import { Settings } from "./types/RecollectStore";
-import { grey } from "@material-ui/core/colors";
+
+export const accentColors = [
+    amber,
+    cyan,
+    blue,
+    green,
+    orange,
+    purple,
+    red,
+    deepPurple,
+    pink,
+    teal,
+    yellow,
+    lightGreen,
+    lightBlue
+].map(c => c[500]);
 
 export const buildTheme = (settings: Settings, preferDark: boolean) => {
     const type = settings.theme === "device"

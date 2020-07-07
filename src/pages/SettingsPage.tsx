@@ -4,13 +4,25 @@ import * as React from 'react';
 import { useCallback } from 'react';
 import { updateSettings } from '../actions/settings';
 import { useStore } from '../hooks/store';
-import { green, blue, orange } from '@material-ui/core/colors';
+import { green } from '@material-ui/core/colors';
+import { accentColors } from '../theme';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
     slider: {
         width: '48px !important'
+    },
+    picker: {
+        minWidth: theme.spacing(15)
+    },
+    colorPickerItem: {
+        width: '48px',
+        height: '48px'
+    },
+    colorPickerValue: {
+        width: '100%',
+        height: '1em'
     }
-});
+}));
 
 const primaryTypographyProps: TypographyProps = {
     color: 'textPrimary'
@@ -93,6 +105,7 @@ export default (props) => {
                     secondary="Toggle between light and dark mode." />
                 <ListItemSecondaryAction>
                     <Select
+                        className={styles.picker}
                         name="theme"
                         variant="outlined"
                         onChange={onPickerChange}
@@ -113,10 +126,12 @@ export default (props) => {
                         name="accent"
                         variant="outlined"
                         onChange={onPickerChange}
-                        value={store.settings.accent || green[500]}>
-                        <MenuItem value={green[500]}>Green</MenuItem>
-                        <MenuItem value={blue[500]}>Blue</MenuItem>
-                        <MenuItem value={orange[500]}>Orange</MenuItem>
+                        className={styles.picker}
+                        value={store.settings.accent || green[500]}
+                        renderValue={(value: string) => <div className={styles.colorPickerValue} style={{background: value }}/>}>
+                        {accentColors.map(c => <MenuItem value={c} key={c}>
+                            <div style={{ background: c }} className={`${styles.colorPickerItem} color`}></div>
+                        </MenuItem>)}
                     </Select>
                 </ListItemSecondaryAction>
             </ListItem>
