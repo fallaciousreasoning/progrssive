@@ -21,14 +21,17 @@ export async function entryCount(unreadOnly: boolean, streamId: string) {
 export async function* entryIterator(unreadOnly: boolean, streamId?: string, pageSize = 50) {
     let finished = false;
     let lastDate = Date.now();
+    const seen = new Set<string>();
 
     while (!finished) {
         const page = await db.entries
             .where('published')
-            .below(lastDate)
+            .belowOrEqual(lastDate)
             .reverse()
-            // Note: An clauses happen in memory.
+            // Note: And clauses happen in memory.
             .and(e => !unreadOnly || !!e.unread)
+            // Make sure we don't have this entry already.
+            .and(e => !seen.has(e.id))
             .and(e => !streamId || e.streamIds.includes(streamId))
             .limit(pageSize)
             .toArray();
@@ -43,7 +46,12 @@ export async function* entryIterator(unreadOnly: boolean, streamId?: string, pag
         }
 
         // Yield the items in the page.
-        // We do the weird typecast so unread: number is unread: boolean
-        yield* page as unknown as Entry[];
+        for (const entry of page) {
+            // Record that we've seen the entry.
+            seen.add(entry.id);
+
+            // We do the weird typecast so unread: number is unread: boolean
+            yield entry as unknown as Entry;
+        }
     }
 }
