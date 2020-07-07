@@ -86,3 +86,11 @@ export const loadToEntry = async (index: number) => {
         ...loadedIds
     ];
 }
+
+export const getUnreadStreamEntryIds = () => {
+    const store = getStore();
+    return store
+        .stream
+        .loadedEntries
+        .filter(id => store.entries[id].unread);
+}

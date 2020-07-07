@@ -7,10 +7,11 @@ import AppBarButton from '../components/AppBarButton';
 import Centre from '../components/Centre';
 import StickyHeader from '../components/StickyHeader';
 import StreamFooter from '../components/StreamFooter';
-import { isUpdating, useStore } from '../hooks/store';
+import { isUpdating, useStore, getStore } from '../hooks/store';
 import useWhenChanged from '../hooks/useWhenChanged';
-import { setEntryList } from '../services/store';
+import { setEntryList, getUnreadStreamEntryIds } from '../services/store';
 import StreamList from '../StreamList';
+import { setUnread } from '../actions/marker';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -49,6 +50,7 @@ export default (props: { id: string, location: Location }) => {
   const location = props.location;
   const history = useHistory();
   const rootRef = useRef<HTMLDivElement>();
+  const footerRef = useRef<HTMLDivElement>();
 
   const scrollToTop = useCallback(() => {
     rootRef.current && rootRef.current.scrollTo(0, 0);
@@ -74,9 +76,34 @@ export default (props: { id: string, location: Location }) => {
     // at the footer.
     [store.stream.length]);
 
+  const onFooterScrolled = useCallback(e => {
+    // Don't mark entries as read when we're also showing read
+    // articles.
+    if (!unreadOnly)
+      return;
+
+    // If we aren't meant to mark scrolled entries as read,
+    // continue.
+    if (!getStore().settings.markScrolledAsRead)
+      return;
+
+    // Don't go any further if it wasn't the root that scrolled.
+    if (e.target !== rootRef.current)
+      return;
+
+    const footerTop = footerRef.current.getBoundingClientRect().top;
+    const pageTop = rootRef.current.getBoundingClientRect().top;
+    if (footerTop > pageTop)
+      return;
+
+    const entriesToMark = getUnreadStreamEntryIds();
+    for (const id of entriesToMark)
+      setUnread(id, false);
+  }, [unreadOnly])
+
   const [progress, setProgress] = useState(0);
 
-  return <div ref={rootRef} className={styles.root}>
+  return <div ref={rootRef} className={styles.root} onScroll={onFooterScrolled}>
     {unreadOnly
       && <StickyHeader className={styles.header}>
         <LinearProgress variant='determinate' value={progress * 100} color='secondary' />
@@ -98,8 +125,8 @@ export default (props: { id: string, location: Location }) => {
         label="Unread" />
     </AppBarButton>
 
-    <div className={styles.footer}>
-      <StreamFooter unreadOnly={unreadOnly}/>
+    <div className={styles.footer} ref={footerRef}>
+      <StreamFooter unreadOnly={unreadOnly} />
     </div>
   </div>
 }
