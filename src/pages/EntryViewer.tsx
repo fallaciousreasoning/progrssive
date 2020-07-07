@@ -45,7 +45,6 @@ const useStyles = makeStyles(theme => ({
         textDecoration: 'none'
     },
     shareButton: {
-        color: 'white !important'
     }
 }));
 
