@@ -27,7 +27,6 @@ const useStyles = makeStyles(theme => ({
     }
   },
   loadingButton: {
-    color: 'white !important'
   },
   loader: {
     marginBottom: theme.spacing(),
