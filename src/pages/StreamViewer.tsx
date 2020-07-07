@@ -1,19 +1,16 @@
-import { Button, CircularProgress, FormControlLabel, IconButton, LinearProgress, makeStyles, Switch, Typography } from '@material-ui/core';
+import { CircularProgress, FormControlLabel, IconButton, LinearProgress, makeStyles, Switch } from '@material-ui/core';
 import { Refresh } from '@material-ui/icons';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { updateStreams } from '../actions/stream';
 import AppBarButton from '../components/AppBarButton';
 import Centre from '../components/Centre';
-import LinkButton from '../components/LinkButton';
-import StackPanel from '../components/StackPanel';
 import StickyHeader from '../components/StickyHeader';
-import { useIsPhone } from '../hooks/responsive';
+import StreamFooter from '../components/StreamFooter';
 import { isUpdating, useStore } from '../hooks/store';
 import useWhenChanged from '../hooks/useWhenChanged';
 import { setEntryList } from '../services/store';
 import StreamList from '../StreamList';
-import StreamFooter from '../components/StreamFooter';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -52,7 +49,6 @@ export default (props: { id: string, location: Location }) => {
   const location = props.location;
   const history = useHistory();
   const rootRef = useRef<HTMLDivElement>();
-  const hasSubscriptions = store.subscriptions.length !== 0;
 
   const scrollToTop = useCallback(() => {
     rootRef.current && rootRef.current.scrollTo(0, 0);

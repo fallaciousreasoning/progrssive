@@ -1,9 +1,15 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 type Return = void | (() => any | void);
 
 export const useOnMount = (onMount: () => Return) => {
+    const [invoked, setInvoked] = useState(false);
+
     useEffect(() => {
-        return onMount();
-    }, []);
+        if (invoked)
+            return;
+
+        onMount();
+        setInvoked(true);
+    }, [onMount, invoked]);
 }
