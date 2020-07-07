@@ -1,4 +1,4 @@
-import { Divider, List, ListItem, ListItemSecondaryAction, ListItemText, makeStyles, Switch, Select, MenuItem } from '@material-ui/core';
+import { Divider, List, ListItem, ListItemSecondaryAction, ListItemText, makeStyles, Switch, Select, MenuItem, TypographyProps } from '@material-ui/core';
 import Slider from '@material-ui/core/Slider';
 import * as React from 'react';
 import { useCallback } from 'react';
@@ -10,6 +10,10 @@ const useStyles = makeStyles({
         width: '48px !important'
     }
 });
+
+const primaryTypographyProps: TypographyProps = {
+    color: 'textPrimary'
+};
 
 export default (props) => {
     const styles = useStyles();
@@ -33,6 +37,7 @@ export default (props) => {
         <List>
             <ListItem>
                 <ListItemText
+                    primaryTypographyProps={primaryTypographyProps}
                     primary='Read opened articles'
                     secondary='Marks articles as read when you open them.' />
                 <ListItemSecondaryAction>
@@ -44,6 +49,7 @@ export default (props) => {
             </ListItem>
             <ListItem>
                 <ListItemText
+                    primaryTypographyProps={primaryTypographyProps}
                     primary='Auto mark as read'
                     secondary='Marks articles as read when you scoll past them.' />
                 <ListItemSecondaryAction>
@@ -54,6 +60,7 @@ export default (props) => {
             </ListItem>
             <ListItem>
                 <ListItemText
+                    primaryTypographyProps={primaryTypographyProps}
                     primary='Double tap to close articles'
                     secondary='Whether articles can be closed by double tapping them.' />
                 <ListItemSecondaryAction>
@@ -65,6 +72,7 @@ export default (props) => {
             <Divider />
             <ListItem>
                 <ListItemText
+                    primaryTypographyProps={primaryTypographyProps}
                     primary="Article Text Size"
                     secondary="Controls the size of the article text" />
                 <ListItemSecondaryAction>
@@ -79,6 +87,7 @@ export default (props) => {
             </ListItem>
             <ListItem>
                 <ListItemText
+                    primaryTypographyProps={primaryTypographyProps}
                     primary="Theme"
                     secondary="Toggle between light and dark mode." />
                 <ListItemSecondaryAction>

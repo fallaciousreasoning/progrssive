@@ -24,7 +24,7 @@ export default (props) => {
                 <IconButton>
                     <Menu />
                 </IconButton>} />
-            <Typography>Progrssive</Typography>
+            <Typography color="textPrimary">Progrssive</Typography>
             <StackPanel direction="row-reverse"
                 className={styles.pageActions}
                 id="app-bar-button-container">
