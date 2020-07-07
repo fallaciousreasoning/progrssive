@@ -4,7 +4,7 @@ import * as React from 'react';
 import { useCallback } from 'react';
 import { updateSettings } from '../actions/settings';
 import { useStore } from '../hooks/store';
-import { accentColors, supportedFonts } from '../theme';
+import { accentColors, supportedFonts, fonts } from '../theme';
 import { Settings } from '../types/RecollectStore';
 
 const useStyles = makeStyles(theme => ({
@@ -58,7 +58,7 @@ const FontPicker = (props: SelectProps) => {
         value={store.settings[props.name]}
         {...props}
         renderValue={(value: string) => <div>{value}</div>}>
-        {supportedFonts.map(f => <MenuItem key={f} value={f} style={{ fontFamily: f }}>
+        {supportedFonts.map(f => <MenuItem key={f} value={f} style={{ fontFamily: fonts[f] }}>
             {f} | The quick brown fox jumps over the lazy dog.
         </MenuItem>)}
     </Select>

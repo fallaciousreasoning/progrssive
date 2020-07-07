@@ -23,6 +23,9 @@ const useStyles = makeStyles(theme => ({
         marginRight: 'auto',
     },
     '@global': {
+        'article': {
+            color: theme.palette.text.primary
+        },
         'article img': {
             width: '100%',
             height: 'auto'
@@ -33,9 +36,6 @@ const useStyles = makeStyles(theme => ({
         'article iframe': {
             maxWidth: '100%',
             height: 'auto'
-        },
-        'article': {
-            color: theme.palette.text.primary
         },
         'article a': {
             color: theme.palette.info.main
