@@ -15,6 +15,8 @@ import { useResult } from "../hooks/promise";
 import mobilize from "../services/mobilize";
 import { useOnMount } from "../hooks/lifeCycle";
 import { loadMobilizedContent } from "../actions/entry";
+import Centre from "../components/Centre";
+import StackPanel from "../components/StackPanel";
 
 const useStyles = makeStyles({
     root: {
@@ -88,8 +90,11 @@ export default (props: { id: string }) => {
 
     const url = getEntryUrl(entry);
 
-    if (!entry)
-        return <CircularProgress />;
+    if (!entry) {
+        return <Centre>
+            <CircularProgress />
+        </Centre>;
+    }
 
     const content = preferredView === "mozilla"
         ? entry.mobilized && entry.mobilized.content
@@ -109,11 +114,18 @@ export default (props: { id: string }) => {
         <CardHeader
             title={title}
             subheader={getEntryByline(entry)} />
-        {content && <CardContent>
-            <Typography component='small'>
-                <div dangerouslySetInnerHTML={{ __html: content }}></div>
-            </Typography>
-        </CardContent>}
+        <CardContent>
+            {content
+                ? <Typography component='small'>
+                    <div dangerouslySetInnerHTML={{ __html: content }}></div>
+                </Typography>
+                : <StackPanel center>
+                    <Typography component="small">
+                        Mobilizing...
+                    </Typography>
+                    <CircularProgress />
+                </StackPanel>}
+        </CardContent>
     </>;
 
     return <article className={styles.root} ref={domElement} onClick={doubleTap}>

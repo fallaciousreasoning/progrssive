@@ -57,10 +57,11 @@ export default (props: Props & React.HTMLProps<HTMLDivElement>) => {
         center,
         ...rest
     } = props;
+    direction = direction || 'column';
     spacing = props.spacing === undefined
         ? 1
         : props.spacing;
-    const styles = useStyles({ ...props, spacing });
+    const styles = useStyles({ ...props, spacing, direction });
 
     const children = Array.isArray(props.children)
         ? props.children
