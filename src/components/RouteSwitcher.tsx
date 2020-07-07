@@ -30,6 +30,11 @@ const useStyles = makeStyles(theme => ({
         position: 'absolute',
         overflowY: 'auto',
         overflowX: 'hidden'
+    },
+    '@global': {
+        'body': {
+            background: `${theme.palette.background.default}`
+        }
     }
 }));
 
