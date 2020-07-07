@@ -85,12 +85,15 @@ export const SubscriptionManager = (props) => {
         if (debouncedQuery !== query)
             return;
 
-        searchFeeds(debouncedQuery).then(setSearchResults);
+        searchFeeds(debouncedQuery).then(results => {
+            setSearchResults(results.map(r => getMatchingSubscription(r) || r))
+        });
     }, [debouncedQuery,
         query,
         history,
         importingSubscriptions,
-        store.subscriptions]);
+        store.subscriptions,
+        getMatchingSubscription]);
 
     // Toggles whether a subscription is active.
     const toggleSubscription = useCallback(async subscription => {
