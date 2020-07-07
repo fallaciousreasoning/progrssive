@@ -15,6 +15,7 @@ export interface Entry {
     author: string;
     summary?: EntryContent;
     content?: EntryContent;
+    mobilized?: EntryContent;
 
     commonTopics?: any[];
     entities?: any[];

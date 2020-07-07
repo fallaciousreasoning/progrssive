@@ -9,10 +9,12 @@ import { useEntry } from "../hooks/entry";
 import { useIsPhone } from "../hooks/responsive";
 import { useStore } from "../hooks/store";
 import { EntryReadButton } from "../MarkerButton";
-import { Entry } from "../model/entry";
+import { Entry, EntryContent } from "../model/entry";
 import { getEntryByline, getEntryContent, getEntryUrl } from "../services/entry";
 import { useResult } from "../hooks/promise";
 import mobilize from "../services/mobilize";
+import { useOnMount } from "../hooks/lifeCycle";
+import { loadMobilizedContent } from "../actions/entry";
 
 const useStyles = makeStyles({
     root: {
@@ -59,6 +61,9 @@ export default (props: { id: string }) => {
     const entry = useEntry(props.id);
 
     useScrollToTop(entry, domElement);
+    useOnMount(() => {
+        loadMobilizedContent(props.id);
+    });
 
     const doubleTap = useDoubleTap((event) => {
         if (!store.settings.doubleTapToCloseArticles)
@@ -78,15 +83,13 @@ export default (props: { id: string }) => {
     }, [entry]);
 
     const url = getEntryUrl(entry);
-    const mobilized = useResult(() => url
-        ? mobilize(url)
-        : Promise.resolve(''),
-        [url]);
+
     if (!entry)
         return <CircularProgress />;
 
-    const content = mobilized
-        || getEntryContent(entry);
+    const content = entry.mobilized
+        ? entry.mobilized.content
+        : getEntryContent(entry);
 
     const title = url
         ? <a
