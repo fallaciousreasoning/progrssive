@@ -40,6 +40,9 @@ const useStyles = makeStyles(theme => ({
   footer: {
     scrollSnapAlign: 'start',
     height: `calc(100vh - 48px - ${theme.spacing(2)}px)`
+  },
+  unreadOnlySlider: {
+    color: theme.palette.text.primary
   }
 }));
 
@@ -120,6 +123,7 @@ export default (props: { id: string, location: Location }) => {
     </AppBarButton>
     <AppBarButton>
       <FormControlLabel
+        className={styles.unreadOnlySlider}
         control={<Switch checked={unreadOnly} onClick={toggleUnreadOnly} />}
         label="Unread" />
     </AppBarButton>
