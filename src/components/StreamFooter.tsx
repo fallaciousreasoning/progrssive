@@ -14,6 +14,10 @@ interface Props {
 const useStyles = makeStyles(theme => ({
     footerLoader: {
         marginRight: theme.spacing(1)
+    },
+    text: {
+        color: theme.palette.text.primary,
+        marginBottom: theme.spacing(1)
     }
 }))
 
@@ -57,7 +61,7 @@ export default (props: Props) => {
                         {loading && <CircularProgress size={16} className={styles.footerLoader} />} Refresh
                 </Button>}
                 </StackPanel>
-                <Typography variant='h3' align='center'>
+                <Typography className={styles.text} variant='h3' align='center'>
                     {hasSubscriptions ? "That's everything!" : "You don't have any subscriptions"}
                 </Typography>
             </StackPanel>
