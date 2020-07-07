@@ -76,13 +76,15 @@ export default (props: { id: string }) => {
             url: getEntryUrl(entry)
         });
     }, [entry]);
-    
+
     const url = getEntryUrl(entry);
-    const mobilized = useResult(() => mobilize(url), [url], { content: undefined, title: undefined });
+    const mobilized = useResult(() => url
+        ? mobilize(url)
+        : Promise.resolve(''), [url]);
     if (!entry)
-    return <CircularProgress />;
-    
-    const content = mobilized.content
+        return <CircularProgress />;
+
+    const content = mobilized
         || getEntryContent(entry);
 
     const title = url
