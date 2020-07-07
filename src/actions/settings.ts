@@ -10,7 +10,8 @@ const defaultSettings: Settings = {
     fontSize: 3,
     theme: 'device',
     accent: green[500],
-    secondaryAccent: pink[500]
+    secondaryAccent: pink[500],
+    fontFamily: 'Roboto'
 }
 
 const saveSettings = (settings: Settings) => {

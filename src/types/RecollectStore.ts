@@ -18,6 +18,7 @@ export interface Settings {
   theme: 'light' | 'dark' | 'device';
   accent: string;
   secondaryAccent: string;
+  fontFamily: 'Roboto'
 }
 
 export interface StoreStream {

@@ -33,6 +33,18 @@ export const accentColors = [
     lightBlue
 ].map(c => c[500]);
 
+export const supportedFonts = [
+    "Roboto",
+    "Times New Roman",
+    "Georgia", 
+    "Garamond", 
+    "Bookman Old Style",
+    "Verdana",
+    "Arial",
+    "Trebuchet MS",
+    "Comic Sans MS"
+]
+
 export const buildTheme = (settings: Settings, preferDark: boolean) => {
     const type = settings.theme === "device"
         ? (preferDark ? 'dark' : 'light')

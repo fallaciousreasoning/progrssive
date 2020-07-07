@@ -1,10 +1,10 @@
-import { Divider, List, ListItem, ListItemSecondaryAction, ListItemText, makeStyles, MenuItem, Select, Switch, TypographyProps } from '@material-ui/core';
+import { Divider, List, ListItem, ListItemSecondaryAction, ListItemText, makeStyles, MenuItem, Select, Switch, TypographyProps, Typography, SelectProps } from '@material-ui/core';
 import Slider from '@material-ui/core/Slider';
 import * as React from 'react';
 import { useCallback } from 'react';
 import { updateSettings } from '../actions/settings';
 import { useStore } from '../hooks/store';
-import { accentColors } from '../theme';
+import { accentColors, supportedFonts } from '../theme';
 import { Settings } from '../types/RecollectStore';
 
 const useStyles = makeStyles(theme => ({
@@ -12,14 +12,14 @@ const useStyles = makeStyles(theme => ({
         width: '48px !important'
     },
     picker: {
-        minWidth: theme.spacing(15)
+        width: theme.spacing(20),
+        "&>div>*": {
+            overflow: 'hidden'
+        }
     }
 }));
 
 const useAccentColorPickerStyles = makeStyles(theme => ({
-    picker: {
-        minWidth: theme.spacing(15)
-    },
     colorPickerItem: {
         width: '48px',
         height: '48px'
@@ -36,19 +36,30 @@ const primaryTypographyProps: TypographyProps = {
 
 const AccentColorPicker = (props: {
     name: keyof Settings,
-    onPickerChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
-}) => {
+} & SelectProps) => {
     const store = useStore();
     const styles = useAccentColorPickerStyles();
     return <Select
-        name={props.name}
         variant="outlined"
-        onChange={props.onPickerChange}
-        className={styles.picker}
+        {...props}
         value={store.settings[props.name]}
         renderValue={(value: string) => <div className={styles.colorPickerValue} style={{ background: value }} />}>
         {accentColors.map(c => <MenuItem value={c} key={c}>
             <div style={{ background: c }} className={`${styles.colorPickerItem} color`}></div>
+        </MenuItem>)}
+    </Select>
+}
+
+const FontPicker = (props: SelectProps) => {
+    const store = useStore();
+    
+    return <Select
+        variant="outlined"
+        value={store.settings[props.name]}
+        {...props}
+        renderValue={(value: string) => <div>{value}</div>}>
+        {supportedFonts.map(f => <MenuItem key={f} value={f} style={{ fontFamily: f }}>
+            {f} | The quick brown fox jumps over the lazy dog.
         </MenuItem>)}
     </Select>
 }
@@ -147,7 +158,7 @@ export default (props) => {
                     primary="Accent color"
                     secondary="The primary accent color of the app." />
                 <ListItemSecondaryAction>
-                    <AccentColorPicker name="accent" onPickerChange={onPickerChange} />
+                    <AccentColorPicker className={styles.picker} name="accent" onChange={onPickerChange} />
                 </ListItemSecondaryAction>
             </ListItem>
             <ListItem>
@@ -156,7 +167,22 @@ export default (props) => {
                     primary="Secondary color"
                     secondary="The secondary accent color of the app." />
                 <ListItemSecondaryAction>
-                    <AccentColorPicker name="secondaryAccent" onPickerChange={onPickerChange} />
+                    <AccentColorPicker
+                        className={styles.picker}
+                        name="secondaryAccent"
+                        onChange={onPickerChange} />
+                </ListItemSecondaryAction>
+            </ListItem>
+            <ListItem>
+                <ListItemText
+                    primaryTypographyProps={primaryTypographyProps}
+                    primary="Font"
+                    secondary="The font used to display articles." />
+                <ListItemSecondaryAction>
+                    <FontPicker
+                        className={styles.picker}
+                        name="fontFamily" 
+                        onChange={onPickerChange}/>
                 </ListItemSecondaryAction>
             </ListItem>
         </List>
