@@ -79,6 +79,11 @@ export const buildTheme = (settings: Settings) => {
                 default: type === "dark"
                     ? grey[900]
                     : grey[50]
+            },
+            text: {
+                primary: type === "dark"
+                    ? grey[200]
+                    : grey[900]
             }
         },
         typography: {
