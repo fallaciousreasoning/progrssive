@@ -114,6 +114,7 @@ export default (props: Props) => {
                         value={props.subscription.preferredView || "feedly"}>
                         <MenuItem value="feedly">Feedly Mobilizer</MenuItem>
                         <MenuItem value="browser">Browser</MenuItem>
+                        <MenuItem value="mozilla">Mozilla Readability</MenuItem>
                     </Select>
                 </FormControl>
             </div>}
