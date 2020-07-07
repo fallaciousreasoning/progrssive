@@ -34,7 +34,7 @@ export default (props: Props) => {
 
     const store = useStore();
     const loadedEntries = useStreamEntries();
-    const markScrolledAsRead = store.settings.markScrolledAsRead;
+    const markScrolledAsRead = store.settings.markScrolledAsRead && store.stream.unreadOnly;
 
     const [lastVisibleStartIndex, setLastVisibleStartIndex] = useState(0)
     const onItemsRendered = useCallback(async ({ visibleStartIndex, visibleStopIndex }) => {
@@ -43,7 +43,8 @@ export default (props: Props) => {
 
         for (let i = lastVisibleStartIndex; i < visibleStartIndex; ++i) {
             const entry = loadedEntries[i];
-            setUnread(entry, false);
+            if (entry)
+                setUnread(entry, false);
         }
 
         setLastVisibleStartIndex(visibleStartIndex);
