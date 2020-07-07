@@ -16,6 +16,7 @@ export interface Settings {
   doubleTapToCloseArticles: boolean;
   fontSize: 1 | 2 | 3 | 4 | 5;
   theme: 'light' | 'dark' | 'device';
+  accent: string;
 }
 
 export interface StoreStream {

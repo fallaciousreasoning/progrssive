@@ -10,7 +10,7 @@ export const buildTheme = (settings: Settings, preferDark: boolean) => {
         palette: {
             type: type,
             primary: {
-                main: '#2BB24C'
+                main: settings.accent || '#2BB24C'
             },
             background: {
                 default: type === "dark"

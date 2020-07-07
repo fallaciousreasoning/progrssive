@@ -7,7 +7,8 @@ const defaultSettings: Settings = {
     markScrolledAsRead: true,
     doubleTapToCloseArticles: true,
     fontSize: 3,
-    theme: 'device'
+    theme: 'device',
+    accent: '#2BB24C',
 }
 
 const saveSettings = (settings: Settings) => {
