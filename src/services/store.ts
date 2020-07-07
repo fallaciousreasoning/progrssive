@@ -60,6 +60,13 @@ export const setEntryList = async (unreadOnly: boolean, streamId: string, force 
 
 export const setTransientEntryList = async (streamId: string) => {
     getStore().updating.stream++;
+    getStore().stream = {
+        id: streamId,
+        lastScrollPos: 0,
+        length: 1,
+        loadedEntries: [],
+        unreadOnly: false
+    };
 
     const stream = await getStream(streamId);
     const entries = stream.items.reduce((prev, next) => {
