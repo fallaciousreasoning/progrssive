@@ -1,6 +1,7 @@
 import { Settings } from "../types/RecollectStore";
 import { getStore } from "../hooks/store";
 import { debounce } from "../services/debounce";
+import { green } from "@material-ui/core/colors";
 
 const defaultSettings: Settings = {
     markOpenedAsRead: true,
@@ -8,7 +9,7 @@ const defaultSettings: Settings = {
     doubleTapToCloseArticles: true,
     fontSize: 3,
     theme: 'device',
-    accent: '#2BB24C',
+    accent: green[500],
 }
 
 const saveSettings = (settings: Settings) => {

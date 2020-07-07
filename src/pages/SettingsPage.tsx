@@ -4,6 +4,7 @@ import * as React from 'react';
 import { useCallback } from 'react';
 import { updateSettings } from '../actions/settings';
 import { useStore } from '../hooks/store';
+import { green, blue, orange } from '@material-ui/core/colors';
 
 const useStyles = makeStyles({
     slider: {
@@ -99,6 +100,23 @@ export default (props) => {
                         <MenuItem value="device">Device</MenuItem>
                         <MenuItem value="light">Light</MenuItem>
                         <MenuItem value="dark">Dark</MenuItem>
+                    </Select>
+                </ListItemSecondaryAction>
+            </ListItem>
+            <ListItem>
+                <ListItemText
+                    primaryTypographyProps={primaryTypographyProps}
+                    primary="Accent color"
+                    secondary="The primary accent color of the app." />
+                <ListItemSecondaryAction>
+                    <Select
+                        name="accent"
+                        variant="outlined"
+                        onChange={onPickerChange}
+                        value={store.settings.accent || green[500]}>
+                        <MenuItem value={green[500]}>Green</MenuItem>
+                        <MenuItem value={blue[500]}>Blue</MenuItem>
+                        <MenuItem value={orange[500]}>Orange</MenuItem>
                     </Select>
                 </ListItemSecondaryAction>
             </ListItem>
