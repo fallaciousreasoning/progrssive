@@ -5,6 +5,7 @@ import { Link } from "./link";
  */
 export interface Entry {
     id?: string;
+    streamIds?: string[];
     keywords?: string[];
     originId?: string;
     fingerprint?: string;
@@ -47,6 +48,8 @@ export interface Entry {
 
     engagement?: number;
     engagementRate?: number;
+
+    transient?: boolean;
 }
 
 export interface EntryThumbnail {

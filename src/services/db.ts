@@ -4,7 +4,6 @@ import { Stream } from '../model/stream';
 
 type DBStream = Omit<Stream, 'items'>;
 export type DBEntry = Omit<Entry, 'unread'> & {
-    streamIds: string[],
     unread: number,
 };
 
@@ -29,6 +28,13 @@ export const db = new DB();
 window['db'] = db;
 
 export const addStream = (stream: Stream) => {
+    // Ensure all entries have their streamId attached.
+    for (const entry of stream.items) {
+        if (!entry.streamIds)
+            entry.streamIds = [];
+        entry.streamIds.push(stream.id);
+    }
+
     return db.transaction('rw',
         db.entries,
         db.streams,
@@ -41,7 +47,7 @@ export const addStream = (stream: Stream) => {
 
             // Add all the entries
             for (const entry of stream.items) {
-                addEntry(entry, stream.id, true);
+                addEntry(entry, true);
             }
         })
 }
@@ -60,16 +66,14 @@ export const removeEntryListener = (listener: EntryListener) => {
 }
 
 // Ensure we don't lose any stream ids when we save an entry.
-export const addEntry = async (entry: Partial<Entry>, streamId?: string, maintainUnread?: boolean) => {
+export const addEntry = async (entry: Partial<Entry>, maintainUnread?: boolean) => {
     let dbEntry = {
         ...entry,
         unread: +entry.unread,
         streamIds: []
     } as unknown as DBEntry;
 
-    const streamIds = new Set<string>();
-    streamIds.add(streamId);
-
+    const streamIds = new Set<string>(entry.streamIds || []);
     const oldEntry = await db.entries.get(entry.id);
     if (oldEntry) {
         // Don't lose anything from the old entry.

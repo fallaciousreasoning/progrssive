@@ -15,7 +15,7 @@ export const updateEntry = async (entryId: string) => {
     if (!entry) {
         entry = await getEntry(entryId);
         // Ensure we write the entry to the disk.
-        addEntry(entry, undefined, true);
+        addEntry(entry, true);
     }
 
     delete getStore().updating[entryId];

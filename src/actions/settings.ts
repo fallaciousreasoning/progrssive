@@ -11,9 +11,7 @@ const defaultSettings: Settings = {
     theme: 'device',
     accent: green[500],
     secondaryAccent: pink[500],
-    fontFamily: 'Roboto',
-    keepReadForDays: 7, 
-    keepUnreadForDays: undefined,
+    fontFamily: 'Roboto'
 }
 
 const saveSettings = (settings: Settings) => {
