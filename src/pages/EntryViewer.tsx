@@ -80,7 +80,8 @@ export default (props: { id: string }) => {
     const url = getEntryUrl(entry);
     const mobilized = useResult(() => url
         ? mobilize(url)
-        : Promise.resolve(''), [url]);
+        : Promise.resolve(''),
+        [url]);
     if (!entry)
         return <CircularProgress />;
 
