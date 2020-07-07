@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
     searchBox: {
         position: 'sticky',
         top: theme.spacing(1),
-        background: 'white',
+        background: theme.palette.background.paper,
         zIndex: 1
     }
 }));
