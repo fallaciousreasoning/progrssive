@@ -1,7 +1,7 @@
-import { Settings } from "../types/RecollectStore";
+import { green, pink } from "@material-ui/core/colors";
 import { getStore } from "../hooks/store";
 import { debounce } from "../services/debounce";
-import { green, purple } from "@material-ui/core/colors";
+import { Settings } from "../types/RecollectStore";
 
 const defaultSettings: Settings = {
     markOpenedAsRead: true,
@@ -10,7 +10,7 @@ const defaultSettings: Settings = {
     fontSize: 3,
     theme: 'device',
     accent: green[500],
-    secondaryAccent: purple[500]
+    secondaryAccent: pink[500]
 }
 
 const saveSettings = (settings: Settings) => {

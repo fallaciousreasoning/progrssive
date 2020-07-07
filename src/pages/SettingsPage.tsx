@@ -1,10 +1,9 @@
-import { Divider, List, ListItem, ListItemSecondaryAction, ListItemText, makeStyles, Switch, Select, MenuItem, TypographyProps } from '@material-ui/core';
+import { Divider, List, ListItem, ListItemSecondaryAction, ListItemText, makeStyles, MenuItem, Select, Switch, TypographyProps } from '@material-ui/core';
 import Slider from '@material-ui/core/Slider';
 import * as React from 'react';
 import { useCallback } from 'react';
 import { updateSettings } from '../actions/settings';
 import { useStore } from '../hooks/store';
-import { green } from '@material-ui/core/colors';
 import { accentColors } from '../theme';
 import { Settings } from '../types/RecollectStore';
 
