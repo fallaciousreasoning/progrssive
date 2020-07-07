@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
 
     },
     tint: {
-        background: '#FFFFFF',
+        background: theme.palette.background.paper,
         opacity: 0.6,
         top: '0',
         left: '0',
