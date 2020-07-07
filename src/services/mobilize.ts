@@ -1,5 +1,6 @@
 import { getPageText } from "../utils/fetch"
 import Readability from '../third_party/Readability';
+import DOMPurify from 'dompurify';
 
 export default async (url: string) => {
     const text = await getPageText(url);
@@ -11,5 +12,6 @@ export default async (url: string) => {
 
     const readable = await new Readability(document)
         .parse();
-    return readable.content;
+
+    return DOMPurify.sanitize(readable.content);
 }
