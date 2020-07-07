@@ -50,7 +50,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default (props: Props & React.HTMLProps<HTMLDivElement>) => {
-    let { animatePresence, direction, spacing, ...rest } = props;
+    let {
+        animatePresence,
+        direction,
+        spacing,
+        center,
+        ...rest
+    } = props;
     spacing = props.spacing === undefined
         ? 1
         : props.spacing;
