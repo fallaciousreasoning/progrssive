@@ -28,13 +28,6 @@ export const db = new DB();
 window['db'] = db;
 
 export const addStream = (stream: Stream) => {
-    // Ensure all entries have their streamId attached.
-    for (const entry of stream.items) {
-        if (!entry.streamIds)
-            entry.streamIds = [];
-        entry.streamIds.push(stream.id);
-    }
-
     return db.transaction('rw',
         db.entries,
         db.streams,

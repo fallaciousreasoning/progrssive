@@ -17,6 +17,12 @@ export const getSubscription = (id: string) => {
 }
 
 export const updateSubscription = async (subscription: Subscription | string) => {
-    const stream = await getStream(typeof subscription === "string" ? subscription : subscription.id);
+    const subscriptionId = typeof subscription === "string" ? subscription : subscription.id;
+    const stream = await getStream(subscriptionId);
+
+    for (const entry of stream.items) {
+        entry.streamIds = [subscriptionId];
+    }
+
     await addStream(stream);
 }

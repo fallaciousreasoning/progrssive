@@ -9,9 +9,10 @@ import StickyHeader from '../components/StickyHeader';
 import StreamFooter from '../components/StreamFooter';
 import { isUpdating, useStore, getStore } from '../hooks/store';
 import useWhenChanged from '../hooks/useWhenChanged';
-import { setEntryList, getUnreadStreamEntryIds } from '../services/store';
+import { setEntryList, getUnreadStreamEntryIds, setTransientEntryList } from '../services/store';
 import StreamList from '../StreamList';
 import { setUnread } from '../actions/marker';
+import { useIsTransientSubscription } from '../hooks/subscription';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -53,22 +54,33 @@ export default (props: { id: string, location: Location }) => {
   const history = useHistory();
   const rootRef = useRef<HTMLDivElement>();
   const footerRef = useRef<HTMLDivElement>();
+  const isTransient = useIsTransientSubscription(props.id);
 
   const scrollToTop = useCallback(() => {
     rootRef.current && rootRef.current.scrollTo(0, 0);
   }, []);
 
   const unreadOnly = useMemo(() => {
+    // Transient streams don't have unread articles.
+    if (isTransient)
+      return false;
+
     const params = new URLSearchParams(location.search);
     return !params.has('showUnread');
   }, [location.search]);
+
+  console.log("Rendered")
   const toggleUnreadOnly = useCallback(() => {
     history.replace(`?${unreadOnly ? "showUnread" : ""}`);
   }, [unreadOnly, history]);
 
   const loading = isUpdating('stream');
   useWhenChanged(() => {
-    setEntryList(unreadOnly, props.id);
+    if (isTransient) {
+      setTransientEntryList(props.id);
+    } else {
+      setEntryList(unreadOnly, props.id);
+    }
   },
     [unreadOnly, props.id, store.lastUpdate, scrollToTop]);
 
@@ -121,12 +133,12 @@ export default (props: { id: string, location: Location }) => {
         <Refresh />
       </IconButton>
     </AppBarButton>
-    <AppBarButton>
+    {!isTransient && <AppBarButton>
       <FormControlLabel
         className={styles.unreadOnlySlider}
         control={<Switch checked={unreadOnly} onClick={toggleUnreadOnly} />}
         label="Unread" />
-    </AppBarButton>
+    </AppBarButton>}
 
     <div className={styles.footer} ref={footerRef}>
       <StreamFooter unreadOnly={unreadOnly} />

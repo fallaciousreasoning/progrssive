@@ -5,6 +5,7 @@ import { loadStore } from './persister';
 import { getStore } from '../hooks/store';
 import { entryCount, entryIterator } from './entryIterator';
 import { Entry } from '../model/entry';
+import { getStream } from '../api/streams';
 const store = s as StoreDef;
 
 let initStorePromise: Promise<void>;
@@ -55,6 +56,32 @@ export const setEntryList = async (unreadOnly: boolean, streamId: string, force 
 
     // Begin loading entries.
     loadToEntry(20);
+}
+
+export const setTransientEntryList = async (streamId: string) => {
+    getStore().updating.stream++;
+
+    const stream = await getStream(streamId);
+    const entries = stream.items.reduce((prev, next) => {
+        next.transient = true;
+        prev[next.id] = next;
+        return prev;
+    }, {} as any);
+
+    getStore().entries = {
+        ...getStore().entries,
+        ...entries
+    };
+
+    getStore().stream = {
+        length: stream.items.length,
+        id: streamId,
+        unreadOnly: false,
+        lastScrollPos: 0,
+        loadedEntries: stream.items.map(s => s.id)
+    };
+
+    getStore().updating.stream--;
 }
 
 export const loadToEntry = async (index: number) => {
