@@ -1,4 +1,4 @@
-import { Divider, List, ListItem, ListItemSecondaryAction, ListItemText, makeStyles, Switch } from '@material-ui/core';
+import { Divider, List, ListItem, ListItemSecondaryAction, ListItemText, makeStyles, Switch, Select, MenuItem } from '@material-ui/core';
 import Slider from '@material-ui/core/Slider';
 import * as React from 'react';
 import { useCallback } from 'react';
@@ -18,6 +18,11 @@ export default (props) => {
     const onSwitchChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>, value: boolean) => {
         const setting = e.target['name'];
         updateSettings(setting as any, value)
+    }, []);
+
+    const onPickerChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        const setting = e.target['name'];
+        updateSettings(setting as any, e.target.value);
     }, []);
 
     const onFontSizeChange = useCallback((e: React.ChangeEvent<{}>, value: any) => {
@@ -54,7 +59,7 @@ export default (props) => {
                 <ListItemSecondaryAction>
                     <Switch checked={store.settings.doubleTapToCloseArticles}
                         name='doubleTapToCloseArticles'
-                        onChange={onSwitchChange}/>
+                        onChange={onSwitchChange} />
                 </ListItemSecondaryAction>
             </ListItem>
             <Divider />
@@ -70,6 +75,22 @@ export default (props) => {
                         step={1}
                         onChange={onFontSizeChange}
                         value={store.settings.fontSize} />
+                </ListItemSecondaryAction>
+            </ListItem>
+            <ListItem>
+                <ListItemText
+                    primary="Theme"
+                    secondary="Toggle between light and dark mode." />
+                <ListItemSecondaryAction>
+                    <Select
+                        name="theme"
+                        variant="outlined"
+                        onChange={onPickerChange}
+                        value={store.settings.theme || "device"}>
+                        <MenuItem value="device">Device</MenuItem>
+                        <MenuItem value="light">Light</MenuItem>
+                        <MenuItem value="dark">Dark</MenuItem>
+                    </Select>
                 </ListItemSecondaryAction>
             </ListItem>
         </List>

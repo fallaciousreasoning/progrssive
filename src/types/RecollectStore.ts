@@ -15,7 +15,7 @@ export interface Settings {
   markScrolledAsRead: boolean;
   doubleTapToCloseArticles: boolean;
   fontSize: 1 | 2 | 3 | 4 | 5;
-  darkMode: boolean;
+  theme: 'light' | 'dark' | 'device';
 }
 
 export interface StoreStream {

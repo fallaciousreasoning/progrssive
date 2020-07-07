@@ -7,7 +7,7 @@ const defaultSettings: Settings = {
     markScrolledAsRead: true,
     doubleTapToCloseArticles: true,
     fontSize: 3,
-    darkMode: false
+    theme: 'device'
 }
 
 const saveSettings = (settings: Settings) => {
