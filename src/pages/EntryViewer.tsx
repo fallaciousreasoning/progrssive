@@ -3,20 +3,18 @@ import { Share } from "@material-ui/icons";
 import * as React from 'react';
 import { useCallback, useEffect, useRef } from 'react';
 import { useHistory } from "react-router";
+import { loadMobilizedContent } from "../actions/entry";
 import AppBarButton from "../components/AppBarButton";
+import Centre from "../components/Centre";
+import StackPanel from "../components/StackPanel";
 import { useDoubleTap } from "../hooks/callbacks";
 import { useEntry } from "../hooks/entry";
+import { useOnMount } from "../hooks/lifeCycle";
 import { useIsPhone } from "../hooks/responsive";
 import { useStore } from "../hooks/store";
 import { EntryReadButton } from "../MarkerButton";
-import { Entry, EntryContent } from "../model/entry";
-import { getEntryByline, getEntryContent, getEntryUrl, getEntryPreferredView } from "../services/entry";
-import { useResult } from "../hooks/promise";
-import mobilize from "../services/mobilize";
-import { useOnMount } from "../hooks/lifeCycle";
-import { loadMobilizedContent } from "../actions/entry";
-import Centre from "../components/Centre";
-import StackPanel from "../components/StackPanel";
+import { Entry } from "../model/entry";
+import { getEntryByline, getEntryContent, getEntryPreferredView, getEntryUrl } from "../services/entry";
 
 const useStyles = makeStyles({
     root: {
