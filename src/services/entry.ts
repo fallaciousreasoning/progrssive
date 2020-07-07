@@ -30,6 +30,8 @@ export const getEntryByline = (entry: Entry) => `${entry.engagement ? entry.enga
 
 export const getEntryVisualUrl = (entry: Entry) => {
     let url = entry.visual && entry.visual.url;
+    if (url === "none")
+        return null;
 
     // Attempt to stop the mixed content warnings!
     // If the site doesn't have an https version of the image, we just won't display one.

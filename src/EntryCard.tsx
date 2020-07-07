@@ -1,5 +1,5 @@
 import { makeStyles, Card, CardContent, CardHeader, CardMedia, Paper, Typography } from "@material-ui/core";
-import React from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Entry } from "./model/entry";
 import { getEntryByline, getEntrySummary, getEntryVisualUrl } from "./services/entry";
 
@@ -47,6 +47,16 @@ export default (props: { entry: Entry, showingUnreadOnly?: boolean }) => {
     const subheader = getEntryByline(props.entry);
     const summary = getEntrySummary(props.entry);
 
+    const [imageUrl, setImageUrl] = useState(visualUrl);
+    useEffect(() => {
+        setImageUrl(visualUrl);
+    }, [visualUrl]);
+
+    // Unset the image url when there's an error.
+    const onImageError = useCallback((e) => {
+        setImageUrl(null);
+    }, []);
+    
     // Tint unread articles if and only if they are read and only unread articles are meant to be displayed.
     const tintGray = !props.entry.unread && props.showingUnreadOnly;
 
@@ -63,8 +73,9 @@ export default (props: { entry: Entry, showingUnreadOnly?: boolean }) => {
                         </Typography>
                     </CardContent>}
                 </div>
-                {visualUrl && <CardMedia
-                    src={visualUrl}
+                {imageUrl && <CardMedia
+                    onError={onImageError}
+                    src={imageUrl}
                     component='img'
                     title="Visual"
                     className={styles.image}
