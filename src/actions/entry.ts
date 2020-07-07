@@ -43,7 +43,6 @@ export const loadMobilizedContent = async (entryId: string) => {
     // Mobilize entry, if it isn't already.
     if (entry && !entry.mobilized) {
         try {
-            throw "Uh oh";
             const url = getEntryUrl(entry);
             const mobilizedContent = await mobilize(url);
             await addEntry({ id: entryId, mobilized: mobilizedContent });
