@@ -1,5 +1,4 @@
 import { getPageText } from "../utils/fetch"
-import DOMPurify from 'dompurify';
 import { EntryContent } from "../model/entry";
 
 export default async (url: string): Promise<EntryContent> => {
@@ -7,9 +6,12 @@ export default async (url: string): Promise<EntryContent> => {
     if (!text)
         return;
 
-    // Import Readability on demand, it's a big library.
-    const Readability = await (await import("../third_party/Readability")).default;
-
+    // Import these libraries on demand. They're big, and we only
+    // use them here.
+    const [Readability, DOMPurify] = (await Promise.all([
+        import("../third_party/Readability"),
+        import("dompurify")]))
+        .map(i => i.default);
     const document = new DOMParser()
         .parseFromString(text, 'text/html');
 
