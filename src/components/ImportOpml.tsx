@@ -1,4 +1,4 @@
-import { Button, ButtonProps } from '@material-ui/core';
+import Button, { ButtonProps } from '@material-ui/core/Button';
 import React, { useCallback } from 'react';
 import { getFileText, pickFile } from '../utils/files';
 import { Subscription, feedUrlPrefix } from '../model/subscription';
