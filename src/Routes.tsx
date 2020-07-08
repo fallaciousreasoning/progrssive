@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route, RouteProps } from 'react-router-dom';
-import EntryViewer from './pages/EntryViewer';
 import StreamViewer from './pages/StreamViewer';
 import Layout from './pages/_Layout';
 
@@ -13,6 +12,7 @@ interface AppRoute {
 
 const SubscriptionManager = React.lazy(() => import('./pages/SubscriptionManager'));
 const SettingsPage = React.lazy(() => import('./pages/SettingsPage'));
+const EntryViewer = React.lazy(() => import('./pages/EntryViewer'));
 
 const AppRoute = (props: Props) => {
     const { path, component, render, location, ...rest } = props;

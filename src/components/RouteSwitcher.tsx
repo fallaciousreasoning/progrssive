@@ -1,9 +1,16 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { AnimatePresence, motion } from 'framer-motion';
-import React, { useMemo } from 'react';
+import React, { useMemo, Suspense } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import Layout from '../pages/_Layout';
 import Routes from '../Routes';
+import StackPanel from './StackPanel';
+import { CircularProgress } from '@material-ui/core';
+import Centre from './Centre';
+
+const pageLoadingIndicator = <Centre className="page-loader">
+    <CircularProgress />
+</Centre>
 
 const pageVariants = {
     initial: (direction: number) => ({
@@ -34,6 +41,9 @@ const useStyles = makeStyles(theme => ({
     '@global': {
         'body': {
             background: `${theme.palette.background.default}`
+        },
+        '.page-loader': {
+            marginTop: theme.spacing(1)
         }
     }
 }));
@@ -50,7 +60,9 @@ export const SlidePage = (props: { direction?: number, children: any }) => {
         variants={pageVariants}
         transition={pageTransition}
     >
-        {props.children}
+        <Suspense fallback={pageLoadingIndicator}>
+            {props.children}
+        </Suspense>
     </motion.div>
 }
 

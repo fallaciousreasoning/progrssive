@@ -11,7 +11,7 @@ const useStyles = makeStyles({
 export default props => {
     const styles = useStyles();
 
-    return <div className={styles.root}>
+    return <div className={`${props.className} ${styles.root}`}>
         {props.children}
     </div>
 }
