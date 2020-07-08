@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 import * as React from 'react';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useRef, useState, useEffect } from 'react';
 import { useHistory } from "react-router-dom";
 import { FixedSizeList } from 'react-window';
 import { setUnread } from './actions/marker';
@@ -59,6 +59,13 @@ export default (props: Props) => {
     const listRef = useRef<FixedSizeList>();
     const listOuterRef = useRef<HTMLDivElement>();
 
+    // Update the scroll pos on unmount.
+    useEffect(() => {
+        return () => {
+            getStore().stream.lastScrollPos = listOuterRef.current.scrollTop;
+        }
+    }, [])
+
     // Scroll to the top when the stream changes.
     useWhenChanged(() => {
         if (listOuterRef.current.scrollTop > store.stream.lastScrollPos)
@@ -77,8 +84,6 @@ export default (props: Props) => {
 
         if (onProgressChanged)
             onProgressChanged(percent);
-
-        getStore().stream.lastScrollPos = scrollOffset;
     }, [totalScrollHeight, listHeight, onProgressChanged]);
 
     return <FixedSizeList

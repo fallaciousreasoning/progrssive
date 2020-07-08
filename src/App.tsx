@@ -20,7 +20,7 @@ export const App = (props) => {
   const store = useStore();
 
   // Rerender when the external theme changes.
-  const prefersDark = useMediaQuery('(prefers-color-scheme: dark)'); 
+  const prefersDark = useMediaQuery('(prefers-color-scheme: dark)');
   const theme = useMemo(() => {
     return buildTheme(store.settings);
   }, [store.settings, prefersDark]);
@@ -29,8 +29,9 @@ export const App = (props) => {
     <MuiThemeProvider theme={theme}>
       <LazySnackbarProvider>
         <div className={styles.root}>
-          <AppBar />
-          <RouteSwitcher/>
+          <AppBar>
+            <RouteSwitcher />
+          </AppBar>
         </div>
       </LazySnackbarProvider>
     </MuiThemeProvider>

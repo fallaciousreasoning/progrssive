@@ -1,14 +1,19 @@
-import ReactDOM from "react-dom";
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { AppBarContext } from "./AppBar";
 
-export default (props: { children: React.ReactNode }) => {
-    const [appBar, setAppBar] = useState(undefined);
-
+export default (props: { children: React.ReactNode, name?: string; }) => {
+    const context = useContext(AppBarContext);
+    const [id] = useState(Math.random().toString());
     useEffect(() => {
-        setAppBar(document.getElementById('app-bar-button-container'));
-    }, []);
+        context.add({
+            id,
+            child: props.children
+        });
 
-    if (!appBar) return null;
-    
-    return ReactDOM.createPortal(props.children, appBar);
+        return () => {
+            context.remove(id);
+        }
+    });
+
+    return null;
 }
