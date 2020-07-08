@@ -7,18 +7,15 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select, { SelectProps } from '@material-ui/core/Select';
 import Slider from '@material-ui/core/Slider';
 import { makeStyles } from '@material-ui/core/styles';
-import Switch from '@material-ui/core/Switch';
-import { TypographyProps } from '@material-ui/core/Typography';
 import * as React from 'react';
 import { useCallback } from 'react';
 import { updateSettings } from '../actions/settings';
-import { useStore } from '../hooks/store';
-import { accentColors, fonts, getColor, supportedFonts, primaryTypographyProps } from '../theme';
-import { Settings } from '../types/RecollectStore';
-import { Button } from '@material-ui/core';
-import { useResult } from '../hooks/promise';
 import LinkButton from '../components/LinkButton';
 import ListOptionToggle from '../components/ListOptionToggle';
+import { useResult } from '../hooks/promise';
+import { useStore } from '../hooks/store';
+import { accentColors, fonts, getColor, supportedFonts } from '../theme';
+import { Settings } from '../types/RecollectStore';
 
 const useStyles = makeStyles(theme => ({
     slider: {
@@ -121,7 +118,6 @@ export default (props) => {
             <Divider />
             <ListItem>
                 <ListItemText
-                    primaryTypographyProps={primaryTypographyProps}
                     primary="Article Text Size"
                     secondary="Controls the size of the article text" />
                 <ListItemSecondaryAction>
@@ -136,7 +132,6 @@ export default (props) => {
             </ListItem>
             <ListItem>
                 <ListItemText
-                    primaryTypographyProps={primaryTypographyProps}
                     primary="Theme"
                     secondary="Toggle between light and dark mode." />
                 <ListItemSecondaryAction>
@@ -154,7 +149,6 @@ export default (props) => {
             </ListItem>
             <ListItem>
                 <ListItemText
-                    primaryTypographyProps={primaryTypographyProps}
                     primary="Accent color"
                     secondary="The primary accent color of the app." />
                 <ListItemSecondaryAction>
@@ -163,7 +157,6 @@ export default (props) => {
             </ListItem>
             <ListItem>
                 <ListItemText
-                    primaryTypographyProps={primaryTypographyProps}
                     primary="Secondary color"
                     secondary="The secondary accent color of the app." />
                 <ListItemSecondaryAction>
@@ -175,7 +168,6 @@ export default (props) => {
             </ListItem>
             <ListItem>
                 <ListItemText
-                    primaryTypographyProps={primaryTypographyProps}
                     primary="Font"
                     secondary="The font used throughout the application." />
                 <ListItemSecondaryAction>
@@ -188,7 +180,6 @@ export default (props) => {
             <Divider />
             <ListItem>
                 <ListItemText
-                    primaryTypographyProps={primaryTypographyProps}
                     primary="Storage"
                     secondary={storageUsage} />
                 <ListItemSecondaryAction>

@@ -60,10 +60,6 @@ export const fonts = {
     "Lucida Console": `"Lucida Console", Monaco, monospace`
 };
 
-export const primaryTypographyProps: TypographyProps = {
-    color: 'textPrimary'
-};
-
 export const supportedFonts = Object.keys(fonts);
 
 export const buildTheme = (settings: Settings) => {
@@ -92,7 +88,12 @@ export const buildTheme = (settings: Settings) => {
         },
         typography: {
             fontSize: 8 + (settings.fontSize * 2),
-            fontFamily: fontFamily
+            fontFamily: fontFamily,
+            allVariants: {
+                color: type === "dark"
+                    ? grey[200]
+                    : grey[900]
+            }
         }
     });
     return theme;
