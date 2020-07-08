@@ -107,13 +107,13 @@ export default (props) => {
                 primaryText='Auto mark as read'
                 secondaryText='Mark articles as read when you scroll past them.'
                 name='markScrolledAsRead'
-                value={store.settings.markOpenedAsRead}
+                value={store.settings.markScrolledAsRead}
                 onChange={onSwitchChange} />
             <ListOptionToggle
                 primaryText='Double tap to close articles'
                 secondaryText='Whether articles can be closed by double tapping them.'
                 name='doubleTapToCloseArticles'
-                value={store.settings.markOpenedAsRead}
+                value={store.settings.doubleTapToCloseArticles}
                 onChange={onSwitchChange} />
             <Divider />
             <ListItem>
