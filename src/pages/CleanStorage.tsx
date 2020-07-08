@@ -1,7 +1,7 @@
+import { Button, makeStyles, Typography } from '@material-ui/core';
 import List from '@material-ui/core/List';
-import React, { useState, useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import ListOptionToggle from '../components/ListOptionToggle';
-import { Typography, Button, makeStyles } from '@material-ui/core';
 import { useResult } from '../hooks/promise';
 import { useStore } from '../hooks/store';
 import { getDb } from '../services/db';
