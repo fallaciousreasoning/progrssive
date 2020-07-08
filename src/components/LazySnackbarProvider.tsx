@@ -16,7 +16,7 @@ const SnackHelper = (props: { useSnackbar: () => any }) => {
 export default (props) => {
     const { useSnackbar } = useResult(() => import('notistack'), [], {} as any);
 
-    return <Suspense fallback={<div>Sadness</div>}>
+    return <Suspense fallback={props.children}>
         <SnackbarProvider>
             <SnackHelper useSnackbar={useSnackbar} />
             {props.children}
