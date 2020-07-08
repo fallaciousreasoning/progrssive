@@ -1,4 +1,4 @@
-import { createMuiTheme, TypographyProps } from "@material-ui/core";
+import { createMuiTheme } from "@material-ui/core";
 import * as colors from '@material-ui/core/colors';
 import { grey } from "@material-ui/core/colors";
 import { getStore } from "./hooks/store";

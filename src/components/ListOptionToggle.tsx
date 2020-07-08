@@ -1,4 +1,4 @@
-import { ListItem, ListItemText, ListItemSecondaryAction, Switch } from "@material-ui/core";
+import { ListItem, ListItemText, Switch } from "@material-ui/core";
 import React from 'react';
 
 export default (props: {

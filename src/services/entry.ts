@@ -20,10 +20,18 @@ export const getEntryContent = (entry: Entry) => {
     return sanitizeContent(detail && detail.content);
 }
 
-export const getEntryUrl = (entry: Entry) =>
-    entry ? entry.canonicalUrl ||
-    (entry.canonical && entry.canonical.length && entry.canonical[0].href)
-    : '';
+export const getEntryUrl = (entry: Entry) => {
+    if (!entry)
+        return '';
+
+    if (entry.originId)
+        return entry.originId;
+
+    return entry.canonicalUrl ||
+        (entry.canonical
+            && entry.canonical.length
+            && entry.canonical[0].href);
+}
 
 export const getEntrySummary = (entry: Entry) => sanitizeContent(entry.summary && entry.summary.content);
 
