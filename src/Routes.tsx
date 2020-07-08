@@ -13,6 +13,7 @@ interface AppRoute {
 const SubscriptionManager = React.lazy(() => import('./pages/SubscriptionManager'));
 const SettingsPage = React.lazy(() => import('./pages/SettingsPage'));
 const EntryViewer = React.lazy(() => import('./pages/EntryViewer'));
+const CleanStorage = React.lazy(() => import('./pages/CleanStorage'));
 
 const AppRoute = (props: Props) => {
     const { path, component, render, location, ...rest } = props;
@@ -45,5 +46,9 @@ export default [
     {
         prefix: '/entries',
         render: (id, location) => <EntryViewer id={id} location={location}/>
+    },
+    {
+        prefix: '/clean',
+        render: () => <CleanStorage/>
     }
 ] as AppRoute[];

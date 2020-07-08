@@ -13,10 +13,12 @@ import * as React from 'react';
 import { useCallback } from 'react';
 import { updateSettings } from '../actions/settings';
 import { useStore } from '../hooks/store';
-import { accentColors, fonts, getColor, supportedFonts } from '../theme';
+import { accentColors, fonts, getColor, supportedFonts, primaryTypographyProps } from '../theme';
 import { Settings } from '../types/RecollectStore';
 import { Button } from '@material-ui/core';
 import { useResult } from '../hooks/promise';
+import LinkButton from '../components/LinkButton';
+import ListOptionToggle from '../components/ListOptionToggle';
 
 const useStyles = makeStyles(theme => ({
     slider: {
@@ -40,10 +42,6 @@ const useAccentColorPickerStyles = makeStyles(theme => ({
         height: '1em'
     }
 }));
-
-const primaryTypographyProps: TypographyProps = {
-    color: 'textPrimary'
-};
 
 const AccentColorPicker = (props: {
     name: keyof Settings,
@@ -102,40 +100,24 @@ export default (props) => {
 
     return <div>
         <List>
-            <ListItem>
-                <ListItemText
-                    primaryTypographyProps={primaryTypographyProps}
-                    primary='Read opened articles'
-                    secondary='Marks articles as read when you open them.' />
-                <ListItemSecondaryAction>
-                    <Switch
-                        checked={store.settings.markOpenedAsRead}
-                        name='markOpenedAsRead'
-                        onChange={onSwitchChange} />
-                </ListItemSecondaryAction>
-            </ListItem>
-            <ListItem>
-                <ListItemText
-                    primaryTypographyProps={primaryTypographyProps}
-                    primary='Auto mark as read'
-                    secondary='Marks articles as read when you scoll past them.' />
-                <ListItemSecondaryAction>
-                    <Switch checked={store.settings.markScrolledAsRead}
-                        name='markScrolledAsRead'
-                        onChange={onSwitchChange} />
-                </ListItemSecondaryAction>
-            </ListItem>
-            <ListItem>
-                <ListItemText
-                    primaryTypographyProps={primaryTypographyProps}
-                    primary='Double tap to close articles'
-                    secondary='Whether articles can be closed by double tapping them.' />
-                <ListItemSecondaryAction>
-                    <Switch checked={store.settings.doubleTapToCloseArticles}
-                        name='doubleTapToCloseArticles'
-                        onChange={onSwitchChange} />
-                </ListItemSecondaryAction>
-            </ListItem>
+            <ListOptionToggle
+                primaryText='Read opened articles'
+                secondaryText='Mark articles as read when you open them.'
+                name='markOpenedAsRead'
+                value={store.settings.markOpenedAsRead}
+                onChange={onSwitchChange} />
+            <ListOptionToggle
+                primaryText='Auto mark as read'
+                secondaryText='Mark articles as read when you scroll past them.'
+                name='markScrolledAsRead'
+                value={store.settings.markOpenedAsRead}
+                onChange={onSwitchChange} />
+            <ListOptionToggle
+                primaryText='Double tap to close articles'
+                secondaryText='Whether articles can be closed by double tapping them.'
+                name='doubleTapToCloseArticles'
+                value={store.settings.markOpenedAsRead}
+                onChange={onSwitchChange} />
             <Divider />
             <ListItem>
                 <ListItemText
@@ -203,14 +185,16 @@ export default (props) => {
                         onChange={onPickerChange} />
                 </ListItemSecondaryAction>
             </ListItem>
-            <Divider/>
+            <Divider />
             <ListItem>
                 <ListItemText
                     primaryTypographyProps={primaryTypographyProps}
                     primary="Storage"
                     secondary={storageUsage} />
                 <ListItemSecondaryAction>
-                    
+                    <LinkButton variant="outlined" color="primary" href="/clean">
+                        Clean
+                    </LinkButton>
                 </ListItemSecondaryAction>
             </ListItem>
         </List>

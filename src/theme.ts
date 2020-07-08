@@ -1,4 +1,4 @@
-import { createMuiTheme } from "@material-ui/core";
+import { createMuiTheme, TypographyProps } from "@material-ui/core";
 import * as colors from '@material-ui/core/colors';
 import { grey } from "@material-ui/core/colors";
 import { getStore } from "./hooks/store";
@@ -58,6 +58,10 @@ export const fonts = {
 
     "Courier New": `"Courier New", Courier, monospace`,
     "Lucida Console": `"Lucida Console", Monaco, monospace`
+};
+
+export const primaryTypographyProps: TypographyProps = {
+    color: 'textPrimary'
 };
 
 export const supportedFonts = Object.keys(fonts);
