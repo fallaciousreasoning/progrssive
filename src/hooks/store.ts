@@ -20,6 +20,9 @@ export const getStore = () => currentStore;
 (window as any).getStore = getStore;
 
 afterChange(event => {
+    if (event.store === event.prevStore)
+      return;
+
     currentStore = event.store;
     updaters.forEach(u => u(event.store));
 });
