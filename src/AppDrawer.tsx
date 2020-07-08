@@ -4,15 +4,22 @@ import Typography from '@material-ui/core/Typography';
 import Book from '@material-ui/icons/Book';
 import RssFeed from '@material-ui/icons/RssFeed';
 import SettingsIcon from '@material-ui/icons/Settings';
-import React, { useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import ListLinkButton from './components/ListLinkButton';
 
 export default (props: { trigger: JSX.Element }) => {
     const [open, setOpen] = useState(false);
+    const close = useCallback(() => {
+        setOpen(false)
+    }, []);
+
+    const triggerProps = useMemo(() => ({
+        onClick: () => setOpen(true)
+    }), []);
 
     return <div>
-        {React.cloneElement(props.trigger, { onClick: () => setOpen(true) })}
-        <Drawer open={open} onClose={() => setOpen(false)}>
+        {React.cloneElement(props.trigger, triggerProps)}
+        <Drawer open={open} onClose={close}>
             <div style={{ width: '250px', margin: '10px' }}>
                 <Typography variant='h5'>
                     Progrssive Reader
