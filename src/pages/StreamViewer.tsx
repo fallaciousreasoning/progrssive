@@ -1,5 +1,10 @@
-import { CircularProgress, FormControlLabel, IconButton, LinearProgress, makeStyles, Switch } from '@material-ui/core';
-import { Refresh } from '@material-ui/icons';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import IconButton from '@material-ui/core/IconButton';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import { makeStyles } from '@material-ui/core/styles';
+import Switch from '@material-ui/core/Switch';
+import Refresh from '@material-ui/icons/Refresh';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { updateStreams } from '../actions/stream';
