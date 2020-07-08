@@ -20,7 +20,7 @@ export const getStore = () => currentStore;
 (window as any).getStore = getStore;
 
 afterChange(event => {
-    if (event.store === event.prevStore)
+    if (event.changedProps && event.changedProps.length === 0)
       return;
 
     currentStore = event.store;
