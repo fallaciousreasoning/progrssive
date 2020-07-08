@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import * as React from 'react';
 import { useCallback, useRef, useState } from 'react';
 import { useHistory } from "react-router-dom";

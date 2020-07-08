@@ -1,5 +1,16 @@
-import { Card, CardMedia, CircularProgress, FormControl, IconButton, InputLabel, makeStyles, MenuItem, Select, Tooltip } from '@material-ui/core';
-import { Add, Delete, Error as ErrorIcon } from '@material-ui/icons';
+import Card from '@material-ui/core/Card';
+import CardMedia from '@material-ui/core/CardMedia';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import FormControl from '@material-ui/core/FormControl';
+import IconButton from '@material-ui/core/IconButton';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import { makeStyles } from '@material-ui/core/styles';
+import Tooltip from '@material-ui/core/Tooltip';
+import Add from '@material-ui/icons/Add';
+import Delete from '@material-ui/icons/Delete';
+import ErrorIcon from '@material-ui/icons/Error';
 import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { getStore } from '../hooks/store';

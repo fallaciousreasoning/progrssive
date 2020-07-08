@@ -1,5 +1,5 @@
-import React, { useCallback, MouseEvent } from 'react'
-import { ButtonProps, Button } from '@material-ui/core'
+import Button, { ButtonProps } from '@material-ui/core/Button';
+import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 
 export default (props: ButtonProps & { href: string, replace?: boolean }) => {

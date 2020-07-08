@@ -1,4 +1,5 @@
-import { makeStyles, MuiThemeProvider, useMediaQuery } from '@material-ui/core';
+import { makeStyles, MuiThemeProvider } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { SnackbarProvider } from 'notistack';
 import React, { useMemo } from 'react';
 import { BrowserRouter } from 'react-router-dom';

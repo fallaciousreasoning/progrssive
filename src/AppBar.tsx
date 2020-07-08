@@ -1,5 +1,9 @@
-import { AppBar, IconButton, makeStyles, Toolbar, Typography } from '@material-ui/core';
-import { Menu } from '@material-ui/icons';
+import AppBar from '@material-ui/core/AppBar';
+import IconButton from '@material-ui/core/IconButton';
+import { makeStyles } from '@material-ui/core/styles';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Menu from '@material-ui/icons/Menu';
 import React from 'react';
 import AppDrawer from './AppDrawer';
 import StackPanel from './components/StackPanel';

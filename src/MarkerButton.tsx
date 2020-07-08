@@ -1,5 +1,6 @@
-import { IconButton } from '@material-ui/core';
-import { Visibility, VisibilityOff } from '@material-ui/icons';
+import IconButton from '@material-ui/core/IconButton';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import * as React from 'react';
 import { useCallback } from 'react';
 import { setUnread } from './actions/marker';

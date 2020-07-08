@@ -1,4 +1,6 @@
-import { Collapse, List, makeStyles } from '@material-ui/core';
+import Collapse from '@material-ui/core/Collapse';
+import List from '@material-ui/core/List';
+import { makeStyles } from '@material-ui/core/styles';
 import * as React from 'react';
 import { useState } from 'react';
 

@@ -1,10 +1,19 @@
-import { Divider, List, ListItem, ListItemSecondaryAction, ListItemText, makeStyles, MenuItem, Select, Switch, TypographyProps, Typography, SelectProps } from '@material-ui/core';
+import Divider from '@material-ui/core/Divider';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select, { SelectProps } from '@material-ui/core/Select';
 import Slider from '@material-ui/core/Slider';
+import { makeStyles } from '@material-ui/core/styles';
+import Switch from '@material-ui/core/Switch';
+import { TypographyProps } from '@material-ui/core/Typography';
 import * as React from 'react';
 import { useCallback } from 'react';
 import { updateSettings } from '../actions/settings';
 import { useStore } from '../hooks/store';
-import { accentColors, supportedFonts, fonts, getColor } from '../theme';
+import { accentColors, fonts, getColor, supportedFonts } from '../theme';
 import { Settings } from '../types/RecollectStore';
 
 const useStyles = makeStyles(theme => ({
@@ -53,7 +62,7 @@ const AccentColorPicker = (props: {
 
 const FontPicker = (props: SelectProps) => {
     const store = useStore();
-    
+
     return <Select
         variant="outlined"
         value={store.settings[props.name]}
@@ -182,8 +191,8 @@ export default (props) => {
                 <ListItemSecondaryAction>
                     <FontPicker
                         className={styles.picker}
-                        name="fontFamily" 
-                        onChange={onPickerChange}/>
+                        name="fontFamily"
+                        onChange={onPickerChange} />
                 </ListItemSecondaryAction>
             </ListItem>
         </List>
