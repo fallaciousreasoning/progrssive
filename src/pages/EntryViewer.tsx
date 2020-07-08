@@ -169,7 +169,9 @@ export default (props: { id: string, location: Location }) => {
                     </Typography>
                     {failedToMobilize
                         ? <StackPanel direction="row">
-                            <Button variant="outlined">View Feedly</Button>
+                            <Button
+                                variant="outlined"
+                                onClick={() => setCurrentView("mozilla")}>View Feedly</Button>
                             <Button
                                 variant="outlined"
                                 href={url}
