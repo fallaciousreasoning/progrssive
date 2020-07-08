@@ -1,5 +1,4 @@
 import { Button, ButtonProps } from '@material-ui/core';
-import opmlToJson from 'opml-to-json';
 import React, { useCallback } from 'react';
 import { getFileText, pickFile } from '../utils/files';
 import { Subscription, feedUrlPrefix } from '../model/subscription';
@@ -30,7 +29,8 @@ export const parseOpml = (opml: string): Promise<OpmlNode[]> => {
 
         return nodes;
     }
-    return new Promise((accept, reject) => {
+    return new Promise(async (accept, reject) => {
+        const opmlToJson = (await import("opml-to-json")).default;
         opmlToJson(opml, (error, json) => {
             if (error) {
                 reject(error);
