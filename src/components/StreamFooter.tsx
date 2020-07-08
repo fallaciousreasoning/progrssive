@@ -52,7 +52,7 @@ export default (props: Props) => {
             animate="animate"
             transition={transition}
         >
-            <StackPanel direction="column-reverse" center>
+            <StackPanel direction="column-reverse" center key={`${store.stream.id}?${store.stream.unreadOnly ? "showUnread" : ""}`}>
                 <StackPanel direction={isPhone ? 'column' : 'row'}>
                     {props.unreadOnly && hasSubscriptions && <LinkButton fullWidth href="?showUnread" variant="contained" color="secondary" key="showUnread">
                         Show Unread
