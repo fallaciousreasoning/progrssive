@@ -6,6 +6,7 @@ import { getStore } from '../hooks/store';
 import { entryCount, entryIterator } from './entryIterator';
 import { Entry } from '../model/entry';
 import { getStream } from '../api/streams';
+import { delayResult } from '../utils/promise';
 const store = s as StoreDef;
 
 let initStorePromise: Promise<void>;
@@ -50,9 +51,10 @@ export const setEntryList = async (unreadOnly: boolean, streamId: string, force 
         id: streamId,
         unreadOnly,
         lastScrollPos: 0,
-        length: await entryCount(unreadOnly, streamId),
+        length: 0,
         loadedEntries: [],
     };
+    getStore().stream.length = await entryCount(unreadOnly, streamId);
 
     // Begin loading entries.
     loadToEntry(20);
