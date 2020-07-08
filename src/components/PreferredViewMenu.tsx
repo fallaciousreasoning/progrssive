@@ -34,12 +34,14 @@ export default (props: Props) => {
             : iconButtonRef.current);
     }, [anchorEl]);
     const closeMenu = useCallback(() => setAnchorEl(null), []);
+
+    const onChange = props.onChange;
     const menuItemClicked = useCallback((e) => {
         const value = e.target.getAttribute('value');
-        props.onChange(value);
+        onChange(value);
         closeMenu();
-    }, [closeMenu, props.onChange]);
-    
+    }, [closeMenu, onChange]);
+
     return <div>
         <IconButton ref={iconButtonRef} className={`${!!anchorEl && styles.iconButtonSelected} ${styles.iconButton}`} onClick={toggleMenu}>
             <ViewArray />

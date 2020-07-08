@@ -1,25 +1,22 @@
-import { Card, CardContent, CardHeader, CircularProgress, IconButton, makeStyles, Typography, Button, Menu, MenuItem } from "@material-ui/core";
-import { Share, ViewArray } from "@material-ui/icons";
+import { Button, Card, CardContent, CardHeader, CircularProgress, IconButton, makeStyles, Typography } from "@material-ui/core";
+import { Share } from "@material-ui/icons";
 import * as React from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useHistory } from "react-router";
 import { loadMobilizedContent } from "../actions/entry";
 import AppBarButton from "../components/AppBarButton";
 import Centre from "../components/Centre";
+import PreferredViewMenu from "../components/PreferredViewMenu";
 import StackPanel from "../components/StackPanel";
 import { useDoubleTap } from "../hooks/callbacks";
 import { useEntry } from "../hooks/entry";
-import { useOnMount } from "../hooks/lifeCycle";
 import { useIsPhone } from "../hooks/responsive";
 import { useStore } from "../hooks/store";
+import useWhenChanged from "../hooks/useWhenChanged";
 import { EntryReadButton } from "../MarkerButton";
 import { Entry } from "../model/entry";
-import { getEntryByline, getEntryContent, getEntryPreferredView, getEntryUrl, getEntrySubscription } from "../services/entry";
-import LinkButton from "../components/LinkButton";
-import { Context } from "vm";
-import PreferredViewMenu from "../components/PreferredViewMenu";
-import useWhenChanged from "../hooks/useWhenChanged";
 import { useIsActive } from "../Routes";
+import { getEntryByline, getEntryContent, getEntryPreferredView, getEntrySubscription, getEntryUrl } from "../services/entry";
 
 const useStyles = makeStyles(theme => ({
     root: {

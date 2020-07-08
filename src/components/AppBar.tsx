@@ -68,7 +68,7 @@ const appBarButtonVariants = {
 }
 export default (props: { children: React.ReactNode }) => {
     const styles = useStyles();
-    const [_, setBarChildren] = useState<BarMap>({});
+    const [, setBarChildren] = useState<BarMap>({});
 
     const [context] = useState(new ContextHelper(setBarChildren));
 

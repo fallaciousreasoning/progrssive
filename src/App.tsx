@@ -23,6 +23,7 @@ export const App = (props) => {
   const prefersDark = useMediaQuery('(prefers-color-scheme: dark)');
   const theme = useMemo(() => {
     return buildTheme(store.settings);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [store.settings, prefersDark]);
 
   return <BrowserRouter>

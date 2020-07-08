@@ -6,19 +6,19 @@ import { makeStyles } from '@material-ui/core/styles';
 import Switch from '@material-ui/core/Switch';
 import Refresh from '@material-ui/icons/Refresh';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import { setUnread } from '../actions/marker';
 import { updateStreams } from '../actions/stream';
 import AppBarButton from '../components/AppBarButton';
 import Centre from '../components/Centre';
 import StickyHeader from '../components/StickyHeader';
 import StreamFooter from '../components/StreamFooter';
-import { isUpdating, useStore, getStore } from '../hooks/store';
-import useWhenChanged from '../hooks/useWhenChanged';
-import { setEntryList, getUnreadStreamEntryIds, setTransientEntryList } from '../services/store';
-import StreamList from '../StreamList';
-import { setUnread } from '../actions/marker';
+import { getStore, isUpdating, useStore } from '../hooks/store';
 import { useIsTransientSubscription } from '../hooks/subscription';
+import useWhenChanged from '../hooks/useWhenChanged';
 import { useIsActive } from '../Routes';
+import { getUnreadStreamEntryIds, setEntryList, setTransientEntryList } from '../services/store';
+import StreamList from '../StreamList';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -74,7 +74,7 @@ export default (props: { id: string, location: Location }) => {
 
     const params = new URLSearchParams(location.search);
     return !params.has('showUnread');
-  }, [location.search]);
+  }, [location.search, isTransient]);
 
   const toggleUnreadOnly = useCallback(() => {
     history.replace(`?${unreadOnly ? "showUnread" : ""}`);
