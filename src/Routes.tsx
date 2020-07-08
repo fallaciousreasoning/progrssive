@@ -1,9 +1,7 @@
 import React from 'react';
 import { Route, RouteProps } from 'react-router-dom';
 import EntryViewer from './pages/EntryViewer';
-import SettingsPage from './pages/SettingsPage';
 import StreamViewer from './pages/StreamViewer';
-import { SubscriptionManager } from './pages/SubscriptionManager';
 import Layout from './pages/_Layout';
 
 type Props = RouteProps & React.HTMLProps<HTMLDivElement>;
@@ -12,6 +10,9 @@ interface AppRoute {
     prefix: string;
     render: (id: string, location: Location) => React.ReactNode
 }
+
+const SubscriptionManager = React.lazy(() => import('./pages/SubscriptionManager'));
+const SettingsPage = React.lazy(() => import('./pages/SettingsPage'));
 
 const AppRoute = (props: Props) => {
     const { path, component, render, location, ...rest } = props;
@@ -25,7 +26,7 @@ const AppRoute = (props: Props) => {
 export default [
     {
         prefix: '/subscriptions',
-        render: () => <SubscriptionManager />
+        render: () => <SubscriptionManager/>
     },
     {
         prefix: "/settings",

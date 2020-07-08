@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export const SubscriptionManager = (props) => {
+export default (props) => {
     const styles = useStyles();
     const store = useStore();
     const history = useHistory();
