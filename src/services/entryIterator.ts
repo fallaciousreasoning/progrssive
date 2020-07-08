@@ -1,7 +1,9 @@
-import { db } from "./db";
+import { getDb } from "./db";
 import { Entry } from "../model/entry";
 
 export async function entryCount(unreadOnly: boolean, streamId: string) {
+    const db = await getDb();
+
     // No filtering, return total count of entries.
     if (!unreadOnly && !streamId) {
         return db.entries.count();
@@ -22,6 +24,7 @@ export async function* entryIterator(unreadOnly: boolean, streamId?: string, pag
     let finished = false;
     let lastDate = Date.now();
     const seen = new Set<string>();
+    const db = await getDb();
 
     while (!finished) {
         const page = await db.entries

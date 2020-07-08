@@ -1,33 +1,18 @@
-import Dexie from 'dexie';
 import { Entry } from '../model/entry';
 import { Stream } from '../model/stream';
+import { DBEntry, DB } from './dbBuilder';
 
-type DBStream = Omit<Stream, 'items'>;
-export type DBEntry = Omit<Entry, 'unread'> & {
-    unread: number,
-};
-
-export class DB extends Dexie {
-    entries: Dexie.Table<DBEntry, string>;
-    streams: Dexie.Table<DBStream, string>;
-
-    constructor() {
-        super('articles');
-        this.version(1)
-            .stores({
-                streams: '&id,title',
-                entries: '&id,title,published,unread,*streamIds',
-            });
-
-        this.entries = this.table('entries');
-        this.streams = this.table('streams');
+let _db;
+export const getDb = async (): Promise<DB> => {
+    if (!_db) {
+        const { DB } = await import('./dbBuilder');
+        _db = new DB();
     }
+    return _db;
 }
 
-export const db = new DB();
-window['db'] = db;
-
-export const addStream = (stream: Stream) => {
+export const addStream = async (stream: Stream) => {
+    const db = await getDb();
     return db.transaction('rw',
         db.entries,
         db.streams,
@@ -45,21 +30,15 @@ export const addStream = (stream: Stream) => {
         })
 }
 
-export const loadEntry = (entryId: string) => entryId ? db.entries.get(entryId) : Promise.resolve(undefined);
-
-type EntryListener = (oldEntry: DBEntry, newEntry: DBEntry) => void;
-const entryListeners: EntryListener[] = [];
-export const addEntryListener = (listener: EntryListener) => {
-    entryListeners.push(listener);
-}
-
-export const removeEntryListener = (listener: EntryListener) => {
-    const index = entryListeners.indexOf(listener);
-    entryListeners.splice(index, 1);
+export const loadEntry = async (entryId: string) => {
+    const db = await getDb();
+    return entryId ? db.entries.get(entryId) : Promise.resolve(undefined);
 }
 
 // Ensure we don't lose any stream ids when we save an entry.
 export const addEntry = async (entry: Partial<Entry>, maintainUnread?: boolean) => {
+    const db = await getDb();
+
     // Don't save transient entries.
     if (entry.transient)
         return;
@@ -95,10 +74,6 @@ export const addEntry = async (entry: Partial<Entry>, maintainUnread?: boolean) 
 
     // Add the entry to the database.
     db.entries.put(dbEntry, entry.id);
-
-    // Notify listeners of the change.
-    for (const listener of entryListeners)
-        listener(oldEntry, dbEntry);
 
     // Return it, on the off chance anyone was interested.
     return dbEntry;
