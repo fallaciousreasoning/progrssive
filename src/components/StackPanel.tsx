@@ -79,11 +79,10 @@ export default (props: Props & React.HTMLProps<HTMLDivElement>) => {
         ? props.children
         : [props.children];
 
-
     return <div {...rest} className={`${styles.root} ${props.className}`}>
         <AnimatePresence>
             {/* Filter out null children, to make adding/removing more intuitive */}
-            {children.filter(c => !!c).map((c, i) => <motion.div key={i}
+            {children.filter(c => !!c).map((c, i) => <motion.div key={c['key'] || c['id'] || i}
                 initial="initial"
                 animate="in"
                 exit="out"
