@@ -7,6 +7,9 @@ interface Props {
     | 'row-reverse'
     | 'column'
     | 'column-reverse';
+    alignItems?: 'start' | 'end' | 'center' | 'stretch';
+    justifyContent?: 'start' | 'end' | 'center' | 'stretch';
+
     spacing?: number;
     animatePresence?: boolean;
     center?: boolean;
@@ -44,8 +47,8 @@ const useStyles = makeStyles(theme => ({
             marginLeft: (props: Props) => props.direction.startsWith('row') ? theme.spacing(props.spacing) : 0,
             marginTop: (props: Props) => props.direction.startsWith('column') ? theme.spacing(props.spacing) : 0
         },
-        justifyContent: (props: Props) => props.center && 'center',
-        alignItems: (props: Props) => props.center && 'center'
+        justifyContent: (props: Props) => props.center ? 'center' : props.justifyContent,
+        alignItems: (props: Props) => props.center ? 'center' : props.alignItems
     }
 }));
 

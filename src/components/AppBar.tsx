@@ -70,7 +70,7 @@ export default (props: { children: React.ReactNode }) => {
                 <Typography color="textPrimary">Progrssive</Typography>
                 <StackPanel direction="row-reverse"
                     className={styles.pageActions}
-                    id="app-bar-button-container">
+                    alignItems='center'>
                     {Object.values(context.children).map(child => <React.Fragment key={child.id}>
                         {child.child}
                     </React.Fragment>)}
