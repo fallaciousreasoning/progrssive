@@ -1,14 +1,14 @@
-import React from 'react'
-import StackPanel from './StackPanel'
-import LinkButton from './LinkButton'
-import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import { updateStreams } from '../actions/stream'
-import { useIsPhone } from '../hooks/responsive'
-import { useStore } from '../hooks/store'
-import { motion, AnimatePresence } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion';
+import React from 'react';
+import { updateStreams } from '../actions/stream';
+import { useIsPhone } from '../hooks/responsive';
+import { useStore } from '../hooks/store';
+import LinkButton from './LinkButton';
+import StackPanel from './StackPanel';
 
 interface Props {
     unreadOnly: boolean;

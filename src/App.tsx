@@ -2,7 +2,7 @@ import { makeStyles, MuiThemeProvider } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import React, { useMemo } from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import AppBar from './AppBar';
+import AppBar from './components/AppBar';
 import RouteSwitcher from './components/RouteSwitcher';
 import { useStore } from './hooks/store';
 import { buildTheme } from './theme';

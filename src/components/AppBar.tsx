@@ -5,8 +5,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Menu from '@material-ui/icons/Menu';
 import React from 'react';
-import AppDrawer from './AppDrawer';
-import StackPanel from './components/StackPanel';
+import AppDrawer from '../AppDrawer';
+import StackPanel from './StackPanel';
 
 export const AppBarContext: React.Context<React.Ref<any>> = React.createContext(undefined);
 
