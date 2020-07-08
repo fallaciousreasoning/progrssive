@@ -18,8 +18,8 @@ type BarMap = {
 };
 
 export const AppBarContext = React.createContext({
-    add: (node: BarChild) => {},
-    remove: (id: string) => {}
+    add: (node: BarChild) => { },
+    remove: (id: string) => { }
 });
 
 const useStyles = makeStyles(theme => ({
@@ -49,6 +49,7 @@ class ContextHelper {
     }
 
     remove(id: string) {
+        this.children = { ...this.children };
         delete this.children[id];
         this.setChildren(this.children);
     }
