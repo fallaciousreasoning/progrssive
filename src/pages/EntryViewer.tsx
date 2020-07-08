@@ -19,6 +19,7 @@ import LinkButton from "../components/LinkButton";
 import { Context } from "vm";
 import PreferredViewMenu from "../components/PreferredViewMenu";
 import useWhenChanged from "../hooks/useWhenChanged";
+import { useIsActive } from "../Routes";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -60,10 +61,10 @@ const useScrollToTop = (entry: Entry, ref: React.MutableRefObject<any>) => {
     }, [entry, ref]);
 }
 
-export default (props: { id: string }) => {
+export default (props: { id: string, location: Location }) => {
     const store = useStore();
     const history = useHistory();
-    
+    const isActive = useIsActive(props.location.pathname);
     const styles = useStyles();
     const isPhone = useIsPhone();
     const domElement = useRef(null);
@@ -87,7 +88,7 @@ export default (props: { id: string }) => {
     useWhenChanged(() => {
         // We haven't tried to mobilize yet.
         setFailedToMobilize(false);
-        
+
         // Mozilla mobilization is asynchronous.
         if (currentView === "mozilla") {
             loadMobilizedContent(props.id)
@@ -190,20 +191,22 @@ export default (props: { id: string }) => {
         {isPhone
             ? article
             : <Card>{article}</Card>}
-        {!entry.transient && <AppBarButton>
-            <EntryReadButton entryId={entry.id} />
-        </AppBarButton>}
-        {navigator.share && <AppBarButton>
-            <IconButton
-                className={styles.shareButton}
-                onClick={shareArticle}>
-                <Share />
-            </IconButton>
-        </AppBarButton>}
-        <AppBarButton>
-            <PreferredViewMenu
-                value={currentView}
-                onChange={preferredViewChanged}/>
-        </AppBarButton>
+        {isActive && <>
+            {!entry.transient && <AppBarButton>
+                <EntryReadButton entryId={entry.id} />
+            </AppBarButton>}
+            {navigator.share && <AppBarButton>
+                <IconButton
+                    className={styles.shareButton}
+                    onClick={shareArticle}>
+                    <Share />
+                </IconButton>
+            </AppBarButton>}
+            <AppBarButton>
+                <PreferredViewMenu
+                    value={currentView}
+                    onChange={preferredViewChanged} />
+            </AppBarButton>
+        </>}
     </article>;
 };

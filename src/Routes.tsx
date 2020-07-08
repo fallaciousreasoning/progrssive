@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, RouteProps } from 'react-router-dom';
+import { Route, RouteProps, useLocation } from 'react-router-dom';
 import StreamViewer from './pages/StreamViewer';
 import Layout from './pages/_Layout';
 
@@ -23,6 +23,12 @@ const AppRoute = (props: Props) => {
         </Layout>
     </Route >
 }
+
+export const useIsActive = (pagePath: string) => {
+    const actualLocation = useLocation();
+    return actualLocation.pathname === pagePath;
+}
+
 export default [
     {
         prefix: '/subscriptions',
@@ -38,6 +44,6 @@ export default [
     },
     {
         prefix: '/entries',
-        render: (id) => <EntryViewer id={id}/>
+        render: (id, location) => <EntryViewer id={id} location={location}/>
     }
 ] as AppRoute[];

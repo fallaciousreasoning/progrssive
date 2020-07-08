@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Switch from '@material-ui/core/Switch';
 import Refresh from '@material-ui/icons/Refresh';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { updateStreams } from '../actions/stream';
 import AppBarButton from '../components/AppBarButton';
 import Centre from '../components/Centre';
@@ -18,6 +18,7 @@ import { setEntryList, getUnreadStreamEntryIds, setTransientEntryList } from '..
 import StreamList from '../StreamList';
 import { setUnread } from '../actions/marker';
 import { useIsTransientSubscription } from '../hooks/subscription';
+import { useIsActive } from '../Routes';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -56,6 +57,7 @@ export default (props: { id: string, location: Location }) => {
   const store = useStore();
   const styles = useStyles();
   const location = props.location;
+  const active = useIsActive(location.pathname);
   const history = useHistory();
   const rootRef = useRef<HTMLDivElement>();
   const footerRef = useRef<HTMLDivElement>();
@@ -132,20 +134,22 @@ export default (props: { id: string, location: Location }) => {
 
     {store.stream.length !== 0 && <StreamList onProgressChanged={setProgress} />}
 
-    <AppBarButton>
-      <IconButton disabled={loading} onClick={() => updateStreams(props.id)}>
-        <Refresh />
-      </IconButton>
-    </AppBarButton>
-    {!isTransient && <AppBarButton>
-      <FormControlLabel
-        className={styles.unreadOnlySlider}
-        control={<Switch checked={unreadOnly} onClick={toggleUnreadOnly} />}
-        label="Unread" />
-    </AppBarButton>}
+    {active && <>
+      <AppBarButton>
+        <IconButton disabled={loading} onClick={() => updateStreams(props.id)}>
+          <Refresh />
+        </IconButton>
+      </AppBarButton>
+      {!isTransient && <AppBarButton>
+        <FormControlLabel
+          className={styles.unreadOnlySlider}
+          control={<Switch checked={unreadOnly} onClick={toggleUnreadOnly} />}
+          label="Unread" />
+      </AppBarButton>}
+    </>}
 
     <div className={styles.footer} ref={footerRef}>
       <StreamFooter unreadOnly={unreadOnly} />
     </div>
-  </div>
+  </div >
 }
