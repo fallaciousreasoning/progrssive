@@ -153,12 +153,12 @@ export default (props) => {
     return <div>
         <StackPanel direction='row' animatePresence>
             {!query.startsWith('@subscribed')
-                && <Button variant="outlined" color="primary" onClick={viewSubscriptions}>
+                && <Button key="current" variant="outlined" color="primary" onClick={viewSubscriptions}>
                     Current Feeds
-        </Button>}
+            </Button>}
             {!!store.subscriptions.length
-                && <ExportOpml className={styles.opmlButton} />}
-            {!query.startsWith("@import") && <ImportOpml className={styles.opmlButton}
+                && <ExportOpml key="export" className={styles.opmlButton} />}
+            {!query.startsWith("@import") && <ImportOpml key="import" className={styles.opmlButton}
                 onOpmlLoaded={onLoadedOpml} />}
         </StackPanel>
 

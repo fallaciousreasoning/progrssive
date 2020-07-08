@@ -54,13 +54,13 @@ export default (props: Props) => {
         >
             <StackPanel direction="column-reverse" center>
                 <StackPanel direction={isPhone ? 'column' : 'row'}>
-                    {props.unreadOnly && hasSubscriptions && <LinkButton fullWidth href="?showUnread" variant="contained" color="secondary">
+                    {props.unreadOnly && hasSubscriptions && <LinkButton fullWidth href="?showUnread" variant="contained" color="secondary" key="showUnread">
                         Show Unread
                 </LinkButton>}
-                    <LinkButton fullWidth href="/subscriptions?query=" variant="contained" color="secondary">
+                    <LinkButton fullWidth href="/subscriptions?query=" variant="contained" color="secondary" key="addSubscriptions">
                         Add Subscriptions
                 </LinkButton>
-                    {hasSubscriptions && <Button fullWidth disabled={loading} variant="contained" color="secondary" onClick={() => updateStreams(store.stream.id)}>
+                    {hasSubscriptions && <Button fullWidth disabled={loading} variant="contained" color="secondary" key="refresh" onClick={() => updateStreams(store.stream.id)}>
                         {loading && <CircularProgress size={16} className={styles.footerLoader} />} Refresh
                 </Button>}
                 </StackPanel>
