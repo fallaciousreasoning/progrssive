@@ -1,6 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, Variant } from 'framer-motion';
 
 interface Props {
     direction?: 'row'
@@ -13,6 +13,12 @@ interface Props {
     spacing?: number;
     animatePresence?: boolean;
     center?: boolean;
+
+    variants?: {
+        initial?: Variant;
+        in?: Variant;
+        out?: Variant;
+    }
 }
 
 const childVariants = {
@@ -78,7 +84,7 @@ export default (props: Props & React.HTMLProps<HTMLDivElement>) => {
                 initial="initial"
                 animate="in"
                 exit="out"
-                variants={childVariants}
+                variants={props.variants || childVariants}
                 transition={childTransition}>
                 {c}
             </motion.div>)}

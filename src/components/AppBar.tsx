@@ -54,6 +54,18 @@ class ContextHelper {
         this.setChildren(this.children);
     }
 }
+
+const appBarButtonVariants = {
+    initial: {
+        width: 0
+    },
+    in: { 
+        width: 'auto'
+    },
+    out: {
+        width: 0
+    }
+}
 export default (props: { children: React.ReactNode }) => {
     const styles = useStyles();
     const [_, setBarChildren] = useState<BarMap>({});
@@ -70,7 +82,8 @@ export default (props: { children: React.ReactNode }) => {
                 <Typography color="textPrimary">Progrssive</Typography>
                 <StackPanel direction="row-reverse"
                     className={styles.pageActions}
-                    alignItems='center'>
+                    alignItems='center'
+                    variants={appBarButtonVariants}>
                     {Object.values(context.children).map(child => <React.Fragment key={child.id}>
                         {child.child}
                     </React.Fragment>)}
