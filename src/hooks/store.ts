@@ -20,9 +20,6 @@ export const getStore = () => currentStore;
 (window as any).getStore = getStore;
 
 afterChange(event => {
-    if (event.changedProps && event.changedProps.length === 0)
-      return;
-
     currentStore = event.store;
     updaters.forEach(u => u(event.store));
 });

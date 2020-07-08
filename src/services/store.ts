@@ -1,12 +1,11 @@
 import { store as s } from 'react-recollect';
 import { loadSettings } from '../actions/settings';
-import { StoreDef } from '../types/RecollectStore';
-import { loadStore } from './persister';
-import { getStore } from '../hooks/store';
-import { entryCount, entryIterator } from './entryIterator';
-import { Entry } from '../model/entry';
 import { getStream } from '../api/streams';
-import { delayResult } from '../utils/promise';
+import { getStore } from '../hooks/store';
+import { Entry } from '../model/entry';
+import { StoreDef } from '../types/RecollectStore';
+import { entryCount, entryIterator } from './entryIterator';
+import { loadStore } from './persister';
 const store = s as StoreDef;
 
 let initStorePromise: Promise<void>;
