@@ -1,13 +1,12 @@
 import { makeStyles, MuiThemeProvider } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { SnackbarProvider } from 'notistack';
 import React, { useMemo } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import AppBar from './AppBar';
 import RouteSwitcher from './components/RouteSwitcher';
-import { SnackbarHelper } from './components/SnackbarHelper';
 import { useStore } from './hooks/store';
 import { buildTheme } from './theme';
+import LazySnackbarProvider from './components/LazySnackbarProvider';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -28,13 +27,12 @@ export const App = (props) => {
 
   return <BrowserRouter>
     <MuiThemeProvider theme={theme}>
-      <SnackbarProvider>
+      <LazySnackbarProvider>
         <div className={styles.root}>
-          <SnackbarHelper />
           <AppBar />
           <RouteSwitcher/>
         </div>
-      </SnackbarProvider>
+      </LazySnackbarProvider>
     </MuiThemeProvider>
   </BrowserRouter>;
 };
