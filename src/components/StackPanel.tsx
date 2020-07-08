@@ -64,6 +64,9 @@ export default (props: Props & React.HTMLProps<HTMLDivElement>) => {
         direction,
         spacing,
         center,
+        alignItems,
+        justifyContent,
+        variants,
         ...rest
     } = props;
     direction = direction || 'column';
