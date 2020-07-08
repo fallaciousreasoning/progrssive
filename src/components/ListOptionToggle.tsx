@@ -9,7 +9,5 @@ export default (props: {
     onChange: (e: React.ChangeEvent<HTMLInputElement>, value: boolean) => void;
 }) => <ListItem>
         <ListItemText primary={props.primaryText} secondary={props.secondaryText} />
-        <ListItemSecondaryAction>
-            <Switch checked={props.value} onChange={props.onChange} name={props.name} />
-        </ListItemSecondaryAction>
+        <Switch checked={props.value} onChange={props.onChange} name={props.name} />
     </ListItem>;

@@ -120,73 +120,61 @@ export default (props) => {
                 <ListItemText
                     primary="Article Text Size"
                     secondary="Controls the size of the article text" />
-                <ListItemSecondaryAction>
-                    <Slider
-                        className={styles.slider}
-                        min={1}
-                        max={5}
-                        step={1}
-                        onChange={onFontSizeChange}
-                        value={store.settings.fontSize} />
-                </ListItemSecondaryAction>
+                <Slider
+                    className={styles.slider}
+                    min={1}
+                    max={5}
+                    step={1}
+                    onChange={onFontSizeChange}
+                    value={store.settings.fontSize} />
             </ListItem>
             <ListItem>
                 <ListItemText
                     primary="Theme"
                     secondary="Toggle between light and dark mode." />
-                <ListItemSecondaryAction>
-                    <Select
-                        className={styles.picker}
-                        name="theme"
-                        variant="outlined"
-                        onChange={onPickerChange}
-                        value={store.settings.theme || "device"}>
-                        <MenuItem value="device">Device</MenuItem>
-                        <MenuItem value="light">Light</MenuItem>
-                        <MenuItem value="dark">Dark</MenuItem>
-                    </Select>
-                </ListItemSecondaryAction>
+                <Select
+                    className={styles.picker}
+                    name="theme"
+                    variant="outlined"
+                    onChange={onPickerChange}
+                    value={store.settings.theme || "device"}>
+                    <MenuItem value="device">Device</MenuItem>
+                    <MenuItem value="light">Light</MenuItem>
+                    <MenuItem value="dark">Dark</MenuItem>
+                </Select>
             </ListItem>
             <ListItem>
                 <ListItemText
                     primary="Accent color"
                     secondary="The primary accent color of the app." />
-                <ListItemSecondaryAction>
-                    <AccentColorPicker className={styles.picker} name="accent" onChange={onPickerChange} />
-                </ListItemSecondaryAction>
+                <AccentColorPicker className={styles.picker} name="accent" onChange={onPickerChange} />
             </ListItem>
             <ListItem>
                 <ListItemText
                     primary="Secondary color"
                     secondary="The secondary accent color of the app." />
-                <ListItemSecondaryAction>
-                    <AccentColorPicker
-                        className={styles.picker}
-                        name="secondaryAccent"
-                        onChange={onPickerChange} />
-                </ListItemSecondaryAction>
+                <AccentColorPicker
+                    className={styles.picker}
+                    name="secondaryAccent"
+                    onChange={onPickerChange} />
             </ListItem>
             <ListItem>
                 <ListItemText
                     primary="Font"
                     secondary="The font used throughout the application." />
-                <ListItemSecondaryAction>
-                    <FontPicker
-                        className={styles.picker}
-                        name="fontFamily"
-                        onChange={onPickerChange} />
-                </ListItemSecondaryAction>
+                <FontPicker
+                    className={styles.picker}
+                    name="fontFamily"
+                    onChange={onPickerChange} />
             </ListItem>
             <Divider />
             <ListItem>
                 <ListItemText
                     primary="Storage"
                     secondary={storageUsage} />
-                <ListItemSecondaryAction>
-                    <LinkButton variant="outlined" color="primary" href="/clean">
-                        Clean
-                    </LinkButton>
-                </ListItemSecondaryAction>
+                <LinkButton variant="outlined" color="primary" href="/clean">
+                    Clean
+                </LinkButton>
             </ListItem>
         </List>
     </div>;
