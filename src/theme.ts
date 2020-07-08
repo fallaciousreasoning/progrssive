@@ -62,15 +62,20 @@ export const fonts = {
 
 export const supportedFonts = Object.keys(fonts);
 
+const themeMeta =  document.querySelector('meta[name="theme-color"]');
 export const buildTheme = (settings: Settings) => {
     const type = themeMode();
     const fontFamily = fonts[settings.fontFamily] || fonts.Roboto;
+    const accentColor = getColor(settings.accent || 'green');
+    
+    // Update the theme color used by the browser.
+    themeMeta.setAttribute('content', accentColor);
 
     const theme = createMuiTheme({
         palette: {
             type: type,
             primary: {
-                main: getColor(settings.accent || 'green')
+                main: accentColor
             },
             secondary: {
                 main: getColor(settings.secondaryAccent || 'pink')

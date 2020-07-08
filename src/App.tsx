@@ -3,10 +3,10 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import React, { useMemo } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import AppBar from './components/AppBar';
+import LazySnackbarProvider from './components/LazySnackbarProvider';
 import RouteSwitcher from './components/RouteSwitcher';
 import { useStore } from './hooks/store';
 import { buildTheme } from './theme';
-import LazySnackbarProvider from './components/LazySnackbarProvider';
 
 const useStyles = makeStyles(theme => ({
   root: {
