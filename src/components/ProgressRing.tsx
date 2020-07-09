@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { makeStyles, Typography } from '@material-ui/core';
-import {round} from '../utils/math';
+import { round } from '../utils/math';
 
 interface Props {
     percent: number;
@@ -28,6 +28,9 @@ const useStyles = makeStyles(theme => ({
         transform: 'rotate(0.75turn)',
         transformOrigin: '50% 50%',
         stroke: theme.palette.secondary.main
+    },
+    backgroundCircle: {
+        stroke: theme.palette.secondary.dark
     }
 }));
 
@@ -35,9 +38,9 @@ export default (props: Props) => {
     const stroke = props.stroke || 2;
     const radius = props.radius || 19;
     const padding = props.padding || 2;
-    
+
     const normalizedRadius = radius - stroke * 2;
-    const size = normalizedRadius * 2 - padding*2;
+    const size = normalizedRadius * 2 - padding * 2;
     const circumference = normalizedRadius * Math.PI * 2;
 
     const strokeDashoffset = circumference - props.percent * circumference;
@@ -63,6 +66,14 @@ export default (props: Props) => {
             <svg
                 viewBox={`0 0 ${radius * 2} ${radius * 2}`}
                 className={styles.svg}>
+                <circle
+                    className={styles.backgroundCircle}
+                    stroke="white"
+                    fill="transparent"
+                    strokeWidth={stroke}
+                    r={normalizedRadius}
+                    cx={radius}
+                    cy={radius} />
                 <circle
                     className={styles.circle}
                     stroke="white"
