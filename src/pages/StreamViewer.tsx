@@ -138,6 +138,9 @@ export default (props: { id: string, location: Location }) => {
 
     {active && <>
       <AppBarButton>
+        <ProgressRing key="progress" percent={progress} text={remainingArticles} />
+      </AppBarButton>
+      <AppBarButton>
         <IconButton disabled={loading} onClick={() => updateStreams(props.id)}>
           <Refresh />
         </IconButton>
@@ -148,9 +151,6 @@ export default (props: { id: string, location: Location }) => {
           control={<Switch checked={unreadOnly} onClick={toggleUnreadOnly} />}
           label="Unread" />
       </AppBarButton>}
-      <AppBarButton>
-        <ProgressRing key="progress" percent={progress} stroke={2} radius={19} text={remainingArticles} />
-      </AppBarButton>
     </>}
 
     <div className={styles.footer} ref={footerRef}>

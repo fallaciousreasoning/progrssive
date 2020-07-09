@@ -57,13 +57,16 @@ class ContextHelper {
 
 const appBarButtonVariants = {
     initial: {
-        width: 0
+        width: 0,
+        opacity: 0
     },
     in: { 
-        width: 'auto'
+        width: 'auto',
+        opacity: 1
     },
     out: {
-        width: 0
+        width: 0,
+        opacity: 0
     }
 }
 export default (props: { children: React.ReactNode }) => {

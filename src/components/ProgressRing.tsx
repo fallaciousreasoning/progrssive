@@ -31,9 +31,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default (props: Props) => {
-    const stroke = props.stroke || 1;
-    const radius = props.radius || 48;
-    const padding = props.padding || 4;
+    const stroke = props.stroke || 2;
+    const radius = props.radius || 19;
+    const padding = props.padding || 2;
     
     const normalizedRadius = radius - stroke * 2;
     const size = normalizedRadius * 2 - padding*2;

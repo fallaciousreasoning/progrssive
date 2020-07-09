@@ -17,6 +17,7 @@ import { EntryReadButton } from "../MarkerButton";
 import { Entry } from "../model/entry";
 import { useIsActive } from "../Routes";
 import { getEntryByline, getEntryContent, getEntryPreferredView, getEntrySubscription, getEntryUrl } from "../services/entry";
+import ProgressRing from "../components/ProgressRing";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -191,6 +192,9 @@ export default (props: { id: string, location: Location }) => {
             ? article
             : <Card>{article}</Card>}
         {isActive && <>
+            <AppBarButton>
+                <ProgressRing key="progress" percent={0.5} />
+            </AppBarButton>
             {!entry.transient && <AppBarButton>
                 <EntryReadButton entryId={entry.id} />
             </AppBarButton>}
