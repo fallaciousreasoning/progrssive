@@ -64,7 +64,6 @@ export default (props: { id: string, location: Location }) => {
     const history = useHistory();
     const isActive = useIsActive(props.location.pathname);
     const styles = useStyles();
-    const isPhone = useIsPhone();
     const domElement = useRef(null);
     const entry = useEntry(props.id);
     const url = getEntryUrl(entry);
@@ -188,9 +187,7 @@ export default (props: { id: string, location: Location }) => {
     </>;
 
     return <article className={styles.root} ref={domElement} onClick={doubleTap}>
-        {isPhone
-            ? article
-            : <Card>{article}</Card>}
+        {article}
         {isActive && <>
             {!entry.transient && <AppBarButton>
                 <EntryReadButton entryId={entry.id} />
