@@ -11,7 +11,7 @@ import SubscriptionEditor from "../components/SubscriptionEditor";
 import { getStore, useStore } from '../hooks/store';
 import { guessFeedUrl, Subscription } from '../model/subscription';
 import { save } from '../services/persister';
-import { updateSubscription } from "../services/subscriptions";
+import { updateSubscription, toggleSubscription } from "../services/subscriptions";
 
 const useStyles = makeStyles(theme => ({
     opmlButton: {
@@ -94,23 +94,6 @@ export default (props) => {
         importingSubscriptions,
         store.subscriptions,
         getMatchingSubscription]);
-
-    // Toggles whether a subscription is active.
-    const toggleSubscription = useCallback(async subscription => {
-        if (isSubscribed(subscription)) {
-            const newSubs = [...store.subscriptions];
-            const index = newSubs.findIndex(s => s.id === subscription.id);
-            newSubs.splice(index, 1);
-            store.subscriptions = newSubs;
-        } else {
-            store.subscriptions = [...store.subscriptions, subscription];
-
-            // Fetch new items from the feed.
-            updateSubscription(subscription)
-                .then(() => window.snackHelper.enqueueSnackbar(`Fetched new articles for ${subscription.title}`));
-        }
-        await save('subscriptions', getStore().subscriptions);
-    }, [store.subscriptions, isSubscribed]);
 
     const onLoadedOpml = useCallback(async (toImport: Subscription[]) => {
         toImport = toImport

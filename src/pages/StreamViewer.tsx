@@ -18,6 +18,7 @@ import useWhenChanged from '../hooks/useWhenChanged';
 import { useIsActive } from '../Routes';
 import { getUnreadStreamEntryIds, setEntryList, setTransientEntryList } from '../services/store';
 import StreamList from '../StreamList';
+import { Add } from '@material-ui/icons';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -138,6 +139,11 @@ export default (props: { id: string, location: Location }) => {
           className={styles.unreadOnlySlider}
           control={<Switch checked={unreadOnly} onClick={toggleUnreadOnly} />}
           label="Unread" />
+      </AppBarButton>}
+      {isTransient && <AppBarButton>
+        <IconButton onClick={() => {}}>
+          <Add/>
+        </IconButton>
       </AppBarButton>}
     </>}
 

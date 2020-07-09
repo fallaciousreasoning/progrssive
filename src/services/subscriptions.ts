@@ -2,6 +2,7 @@ import { getStream } from "../api/streams";
 import { getStore } from "../hooks/store";
 import { Subscription } from "../model/subscription";
 import { addStream } from "./db";
+import { save } from "./persister";
 
 export const updateSubscriptions = async () => {
     const subscriptions = getStore().subscriptions;
@@ -25,4 +26,21 @@ export const updateSubscription = async (subscription: Subscription | string) =>
     }
 
     await addStream(stream);
+}
+
+export const toggleSubscription = (subscription: Subscription) => {
+    const subscriptions = getStore().subscriptions;
+    const index = subscriptions.findIndex(s => s.id === subscription.id);
+    if (index !== -1) {
+        const newSubs = [...subscriptions];
+        newSubs.splice(index, 1);
+        getStore().subscriptions = newSubs;
+    } else {
+        getStore().subscriptions = [
+            ...subscriptions,
+            subscription
+        ];
+    }
+
+    return save('subscriptions', getStore().subscriptions);
 }
