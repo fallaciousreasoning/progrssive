@@ -131,6 +131,10 @@ export default (props: { id: string, location: Location }) => {
         });
     }, [entry]);
 
+    const content = currentView === "mozilla"
+        ? entry && entry.mobilized && entry.mobilized.content
+        : entry && getEntryContent(entry);
+
     useWhenChanged(() => {
         if (!domElement.current)
             return;
@@ -144,7 +148,7 @@ export default (props: { id: string, location: Location }) => {
                 aspectRatio = 4/3;
             frame.setAttribute('style', `height: ${actualWidth/aspectRatio}px`);
         }
-    }, [domElement.current, screenWidth]);
+    }, [domElement.current, screenWidth, content]);
 
 
     if (!entry) {
@@ -152,10 +156,6 @@ export default (props: { id: string, location: Location }) => {
             <CircularProgress />
         </Centre>;
     }
-
-    const content = currentView === "mozilla"
-        ? entry.mobilized && entry.mobilized.content
-        : getEntryContent(entry);
 
     const title = url
         ? <a
