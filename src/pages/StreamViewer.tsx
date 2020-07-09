@@ -1,7 +1,6 @@
 import CircularProgress from '@material-ui/core/CircularProgress';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import IconButton from '@material-ui/core/IconButton';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import Switch from '@material-ui/core/Switch';
 import Refresh from '@material-ui/icons/Refresh';
@@ -11,7 +10,7 @@ import { setUnread } from '../actions/marker';
 import { updateStreams } from '../actions/stream';
 import AppBarButton from '../components/AppBarButton';
 import Centre from '../components/Centre';
-import StickyHeader from '../components/StickyHeader';
+import ProgressRing from '../components/ProgressRing';
 import StreamFooter from '../components/StreamFooter';
 import { getStore, isUpdating, useStore } from '../hooks/store';
 import { useIsTransientSubscription } from '../hooks/subscription';
@@ -19,7 +18,6 @@ import useWhenChanged from '../hooks/useWhenChanged';
 import { useIsActive } from '../Routes';
 import { getUnreadStreamEntryIds, setEntryList, setTransientEntryList } from '../services/store';
 import StreamList from '../StreamList';
-import ProgressRing from '../components/ProgressRing';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -38,12 +36,6 @@ const useStyles = makeStyles(theme => ({
   },
   loader: {
     marginBottom: theme.spacing(),
-  },
-  header: {
-    top: -theme.spacing(),
-    zIndex: 1000,
-    margin: `-${theme.spacing(1)}px -${theme.spacing(1)}px ${theme.spacing(1)}px -${theme.spacing(1)}px`,
-    scrollSnapAlign: 'none'
   },
   footer: {
     scrollSnapAlign: 'start',
@@ -126,10 +118,6 @@ export default (props: { id: string, location: Location }) => {
   const remainingArticles = Math.round(store.stream.length - progress * store.stream.length);
 
   return <div ref={rootRef} className={styles.root} onScroll={onFooterScrolled}>
-    {unreadOnly
-      && <StickyHeader className={styles.header}>
-        <LinearProgress variant='determinate' value={progress * 100} color='secondary' />
-      </StickyHeader>}
     {loading && <Centre>
       <CircularProgress className={styles.loader} />
     </Centre>}
