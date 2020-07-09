@@ -55,7 +55,7 @@ export default (props: Props) => {
             <StackPanel direction="column-reverse" center key={`${store.stream.id}?${store.stream.unreadOnly ? "showUnread" : ""}`}>
                 <StackPanel direction={isPhone ? 'column' : 'row'} key="buttons">
                     {props.unreadOnly && hasSubscriptions && <LinkButton fullWidth href="?showUnread" variant="contained" color="secondary" key="showUnread">
-                        Show Unread
+                        Show Read
                 </LinkButton>}
                     <LinkButton fullWidth href="/subscriptions?query=" variant="contained" color="secondary" key="addSubscriptions">
                         Add Subscriptions
