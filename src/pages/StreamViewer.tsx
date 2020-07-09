@@ -148,7 +148,7 @@ export default (props: { id: string, location: Location }) => {
           label="Unread" />
       </AppBarButton>}
       <AppBarButton>
-        <ProgressRing percent={0.8} stroke={2} radius={19} text="50" />
+        <ProgressRing percent={progress} stroke={2} radius={19} text="50" />
       </AppBarButton>
     </>}
 
