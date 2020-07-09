@@ -53,7 +53,7 @@ export default (props: Props) => {
             transition={transition}
         >
             <StackPanel direction="column-reverse" center key={`${store.stream.id}?${store.stream.unreadOnly ? "showUnread" : ""}`}>
-                <StackPanel direction={isPhone ? 'column' : 'row'}>
+                <StackPanel direction={isPhone ? 'column' : 'row'} key="buttons">
                     {props.unreadOnly && hasSubscriptions && <LinkButton fullWidth href="?showUnread" variant="contained" color="secondary" key="showUnread">
                         Show Unread
                 </LinkButton>}
@@ -64,7 +64,7 @@ export default (props: Props) => {
                         {loading && <CircularProgress size={16} className={styles.footerLoader} />} Refresh
                 </Button>}
                 </StackPanel>
-                <Typography className={styles.text} variant='h3' align='center'>
+                <Typography className={styles.text} variant='h3' align='center' key="message">
                     {hasSubscriptions ? "That's everything!" : "You don't have any subscriptions"}
                 </Typography>
             </StackPanel>
