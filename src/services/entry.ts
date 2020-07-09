@@ -24,13 +24,14 @@ export const getEntryUrl = (entry: Entry) => {
     if (!entry)
         return '';
 
-    if (entry.originId)
-        return entry.originId;
+    if (entry.canonicalUrl)
+        return entry.canonicalUrl;
 
-    return entry.canonicalUrl ||
-        (entry.canonical
-            && entry.canonical.length
-            && entry.canonical[0].href);
+    if (entry.canonical && entry.canonical.length)
+        return entry.canonical[0].href;
+
+    if (entry.originId && entry.originId.startsWith('http'))
+        return entry.originId;
 }
 
 export const getEntrySummary = (entry: Entry) => sanitizeContent(entry.summary && entry.summary.content);
