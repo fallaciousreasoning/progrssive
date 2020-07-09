@@ -15,6 +15,7 @@ export interface Subscription {
     // Import is considered successful when there is no
     // import status.
     importStatus?: 'pending' | 'failed';
+    deleting?: boolean;
 }
 
 export const feedUrlPrefix = "feed/";

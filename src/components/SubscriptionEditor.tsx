@@ -40,6 +40,14 @@ const SubscriptionControls = (props: Props) => {
         props.toggleSubscription(props.subscription);
     }, [props]);
 
+    const progress = <CircularProgress
+        size={24}
+        variant='indeterminate'
+        className={styles.statusIndicator} />;
+
+    if (props.subscription.deleting)
+        return progress;
+
     if (!props.subscription.importStatus) {
         return <IconButton onClick={toggleSubscription}>
             {props.isSubscribed
@@ -56,10 +64,8 @@ const SubscriptionControls = (props: Props) => {
             </div>
         </Tooltip>
     }
-    return <CircularProgress
-        size={24}
-        variant='indeterminate'
-        className={styles.statusIndicator} />
+
+    return progress;
 }
 
 const useEditorStyles = makeStyles(theme => ({
@@ -117,7 +123,7 @@ export default (props: Props) => {
             <div onClick={viewStream} className={styles.title}>
                 <b>{props.subscription.title}</b>
             </div>
-            {props.isSubscribed && <div>
+            {props.isSubscribed && !props.subscription.deleting && <div>
                 <FormControl fullWidth className={styles.viewPicker}>
                     <InputLabel>Preferred View</InputLabel>
                     <Select
@@ -131,7 +137,7 @@ export default (props: Props) => {
             </div>}
         </div>
         <div className={styles.controls}>
-            <SubscriptionControls {...props}/>
+            <SubscriptionControls {...props} />
         </div>
     </Card>
 }

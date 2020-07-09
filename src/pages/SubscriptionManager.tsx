@@ -40,7 +40,7 @@ export default (props) => {
 
     const getMatchingSubscription = useMemo(() => {
         const subscribedTo = new Map(store.subscriptions.map(s => [s.id, s]));
-        return (s: Subscription) => subscribedTo.get(s.id);
+        return (s: Subscription) => subscribedTo.get(s && s.id);
     }, [store.subscriptions]);
 
     const isSubscribed = useMemo(() =>
@@ -86,7 +86,7 @@ export default (props) => {
             return;
 
         searchFeeds(debouncedQuery).then(results => {
-            setSearchResults(results.map(r => getMatchingSubscription(r) || r))
+            setSearchResults(results);
         });
     }, [debouncedQuery,
         query,
@@ -99,11 +99,12 @@ export default (props) => {
         toImport = toImport
             // If we already know about this subscription, use that one,
             // otherwise fall back to the one we need to import.
-            .map(importing => getMatchingSubscription(importing)
-                || {
-                ...importing,
-                importStatus: 'pending'
-            });
+            .map(importing => isSubscribed(importing)
+                ? importing
+                : {
+                    ...importing,
+                    importStatus: 'pending'
+                });
         setImportingSubscriptions(toImport);
         setQuery("@import");
 
@@ -133,6 +134,8 @@ export default (props) => {
     }, [setImportingSubscriptions,
         getMatchingSubscription]);
 
+    // Where possible, use results from the store, so we can edit them.
+    const storeOrSearchResults = searchResults.map(s => getMatchingSubscription(s) || s);
     return <div>
         <StackPanel direction='row' animatePresence>
             {!query.startsWith('@subscribed')
@@ -154,7 +157,7 @@ export default (props) => {
             className={styles.searchBox} />
 
         <div className={styles.results}>
-            {searchResults.map(s => <SubscriptionEditor
+            {storeOrSearchResults.map(s => <SubscriptionEditor
                 key={s.id}
                 subscription={s}
                 isSubscribed={isSubscribed(s)}
