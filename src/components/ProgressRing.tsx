@@ -10,6 +10,8 @@ interface Props {
     stroke?: number;
 
     padding?: number;
+
+    upSize?: boolean;
 }
 
 const useStyles = makeStyles(theme => ({
@@ -48,6 +50,10 @@ export default (props: Props) => {
         const heightScale = textScale * size / textBBox.height;
         let scale = Math.min(widthScale, heightScale);
         scale = round(scale, 2);
+
+        if (scale > 1 && !props.upSize)
+            scale = 1;
+
         setTextScale(scale);
     }, [props.text, textScale]);
 
