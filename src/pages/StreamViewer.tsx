@@ -140,11 +140,6 @@ export default (props: { id: string, location: Location }) => {
           control={<Switch checked={unreadOnly} onClick={toggleUnreadOnly} />}
           label="Unread" />
       </AppBarButton>}
-      {isTransient && <AppBarButton>
-        <IconButton onClick={() => {}}>
-          <Add/>
-        </IconButton>
-      </AppBarButton>}
     </>}
 
     <div className={styles.footer} ref={footerRef}>
