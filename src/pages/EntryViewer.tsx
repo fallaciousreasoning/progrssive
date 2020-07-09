@@ -172,7 +172,7 @@ export default (props: { id: string, location: Location }) => {
                         ? <StackPanel direction="row">
                             <Button
                                 variant="outlined"
-                                onClick={() => setCurrentView("mozilla")}>View Feedly</Button>
+                                onClick={() => setCurrentView("feedly")}>View Feedly</Button>
                             <Button
                                 variant="outlined"
                                 href={url}
