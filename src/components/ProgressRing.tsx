@@ -3,7 +3,7 @@ import { makeStyles, Typography } from '@material-ui/core';
 
 interface Props {
     percent: number;
-    text?: string;
+    text?: string | number;
 
     radius?: number;
     stroke?: number;
@@ -51,9 +51,9 @@ export default (props: Props) => {
                     r={normalizedRadius}
                     cx={radius}
                     cy={radius}/>
-                {props.text && <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle">
+                <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle">
                     {props.text}
-                </text>}
+                </text>
             </svg>
         </Typography>
     </div>

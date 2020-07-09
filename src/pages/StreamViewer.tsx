@@ -123,6 +123,7 @@ export default (props: { id: string, location: Location }) => {
   }, [unreadOnly])
 
   const [progress, setProgress] = useState(0);
+  const remainingArticles = Math.round(store.stream.length - progress * store.stream.length);
 
   return <div ref={rootRef} className={styles.root} onScroll={onFooterScrolled}>
     {unreadOnly
@@ -148,7 +149,7 @@ export default (props: { id: string, location: Location }) => {
           label="Unread" />
       </AppBarButton>}
       <AppBarButton>
-        <ProgressRing percent={progress} stroke={2} radius={19} text="50" />
+        <ProgressRing percent={progress} stroke={2} radius={19} text={remainingArticles} />
       </AppBarButton>
     </>}
 
