@@ -18,6 +18,7 @@ import { Entry } from "../model/entry";
 import { useIsActive } from "../Routes";
 import { getEntryByline, getEntryContent, getEntryPreferredView, getEntrySubscription, getEntryUrl } from "../services/entry";
 import ProgressRing from "../components/ProgressRing";
+import { useScreenSize } from "../hooks/screenSize";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -37,7 +38,7 @@ const useStyles = makeStyles(theme => ({
             margin: 0
         },
         'article iframe': {
-            maxWidth: '100%',
+            width: `calc(100% - ${theme.spacing(1)}px)`,
             height: 'auto'
         },
         'article a': {
@@ -64,11 +65,12 @@ export default (props: { id: string, location: Location }) => {
     const history = useHistory();
     const isActive = useIsActive(props.location.pathname);
     const styles = useStyles();
-    const domElement = useRef(null);
+    const domElement = useRef<HTMLDivElement>(null);
     const entry = useEntry(props.id);
     const url = getEntryUrl(entry);
     const [currentView, setCurrentView] = useState(getEntryPreferredView(entry));
     const [failedToMobilize, setFailedToMobilize] = useState(false);
+    const { width: screenWidth } = useScreenSize();
 
     useScrollToTop(entry, domElement);
 
@@ -130,6 +132,21 @@ export default (props: { id: string, location: Location }) => {
             url: getEntryUrl(entry)
         });
     }, [entry]);
+
+    useWhenChanged(() => {
+        if (!domElement.current)
+            return;
+        const iframes = Array.from(domElement.current.querySelectorAll('iframe'));
+        for (const frame of iframes) {
+            const actualWidth = frame.getBoundingClientRect().width;
+            const preferredWidth = parseInt(frame.width);
+            const preferredHeight = parseInt(frame.height);
+            let aspectRatio = preferredWidth/preferredHeight;
+            if (isNaN(aspectRatio))
+                aspectRatio = 4/3;
+            frame.setAttribute('style', `height: ${actualWidth/aspectRatio}px`);
+        }
+    }, [domElement.current, screenWidth]);
 
 
     if (!entry) {
