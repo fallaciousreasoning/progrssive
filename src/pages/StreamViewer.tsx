@@ -19,6 +19,7 @@ import useWhenChanged from '../hooks/useWhenChanged';
 import { useIsActive } from '../Routes';
 import { getUnreadStreamEntryIds, setEntryList, setTransientEntryList } from '../services/store';
 import StreamList from '../StreamList';
+import ProgressRing from '../components/ProgressRing';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -146,6 +147,9 @@ export default (props: { id: string, location: Location }) => {
           control={<Switch checked={unreadOnly} onClick={toggleUnreadOnly} />}
           label="Unread" />
       </AppBarButton>}
+      <AppBarButton>
+        <ProgressRing percent={0.8} stroke={2} radius={19} text="50" />
+      </AppBarButton>
     </>}
 
     <div className={styles.footer} ref={footerRef}>
