@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { makeStyles, Typography } from '@material-ui/core';
+import {round} from '../utils/math';
 
 interface Props {
     percent: number;
@@ -45,7 +46,8 @@ export default (props: Props) => {
         const textBBox = textRef.current.getBBox();
         const widthScale = textScale * size / textBBox.width;
         const heightScale = textScale * size / textBBox.height;
-        const scale = Math.min(widthScale, heightScale);
+        let scale = Math.min(widthScale, heightScale);
+        scale = round(scale, 2);
         setTextScale(scale);
     }, [props.text, textScale]);
 
