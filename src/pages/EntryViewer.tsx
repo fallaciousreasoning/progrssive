@@ -192,9 +192,6 @@ export default (props: { id: string, location: Location }) => {
             ? article
             : <Card>{article}</Card>}
         {isActive && <>
-            <AppBarButton>
-                <ProgressRing key="progress" percent={0.5} />
-            </AppBarButton>
             {!entry.transient && <AppBarButton>
                 <EntryReadButton entryId={entry.id} />
             </AppBarButton>}
