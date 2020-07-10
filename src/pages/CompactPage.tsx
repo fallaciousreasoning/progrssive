@@ -7,7 +7,7 @@ import { useIsPhone } from '../hooks/responsive';
 
 const useStyles = makeStyles(theme => ({
     root: {
-        display: 'flex'
+        display: 'flex',
     },
     stream: {
         width: '100%',
@@ -18,6 +18,9 @@ const useStyles = makeStyles(theme => ({
     entry: {
         maxHeight: 'calc(100vh - 48px)',
         width: '100%',
+        maxWidth: '800px',
+        marginRight: 'auto',
+        marginLeft: 'auto',
         overflowY: 'auto',
         flex: 1
     },
@@ -77,7 +80,7 @@ export default () => {
 
     return <div className={styles.root}>
         {(!entryId || !isPhone) && <div className={styles.stream}>
-            <StreamViewer location={window.location} id={streamId} active={streamActive} />
+            <StreamViewer id={streamId} active={streamActive} />
         </div>}
         {entryActive && <div className={styles.entry}>
             <EntryViewer id={entryId} active={entryActive} />

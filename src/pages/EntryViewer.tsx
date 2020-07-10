@@ -15,7 +15,6 @@ import { useStore } from "../hooks/store";
 import useWhenChanged from "../hooks/useWhenChanged";
 import { EntryReadButton } from "../MarkerButton";
 import { Entry } from "../model/entry";
-import { useIsActive } from "../Routes";
 import { getEntryByline, getEntryContent, getEntryPreferredView, getEntrySubscription, getEntryUrl } from "../services/entry";
 
 const useStyles = makeStyles(theme => ({

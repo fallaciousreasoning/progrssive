@@ -28,11 +28,6 @@ const AppRoute = (props: Props) => {
     </Route >
 }
 
-export const useIsActive = (pagePath: string) => {
-    const actualLocation = useLocation();
-    return actualLocation.pathname === pagePath;
-}
-
 export default [
     {
         prefix: '/subscriptions',
@@ -48,7 +43,7 @@ export default [
     },
     {
         prefix: '/stream',
-        render: (id, location) => <StreamViewer id={id} location={location} active/>
+        render: (id, location) => <StreamViewer id={id} active/>
     },
     {
         prefix: '/entries',

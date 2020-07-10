@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Switch from '@material-ui/core/Switch';
 import Refresh from '@material-ui/icons/Refresh';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { setUnread } from '../actions/marker';
 import { updateStreams } from '../actions/stream';
 import AppBarButton from '../components/AppBarButton';
@@ -15,7 +15,6 @@ import StreamFooter from '../components/StreamFooter';
 import { getStore, isUpdating, useStore } from '../hooks/store';
 import { useIsTransientSubscription } from '../hooks/subscription';
 import useWhenChanged from '../hooks/useWhenChanged';
-import { useIsActive } from '../Routes';
 import { getUnreadStreamEntryIds, setEntryList, setTransientEntryList } from '../services/store';
 import StreamList from '../StreamList';
 
@@ -46,10 +45,10 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default (props: { id: string, location: Location, active: boolean }) => {
+export default (props: { id: string, active: boolean }) => {
   const store = useStore();
   const styles = useStyles();
-  const location = props.location;
+  const location = useLocation();
   const history = useHistory();
   const rootRef = useRef<HTMLDivElement>();
   const footerRef = useRef<HTMLDivElement>();
