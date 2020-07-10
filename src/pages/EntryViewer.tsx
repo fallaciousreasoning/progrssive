@@ -174,7 +174,7 @@ export default (props: { id: string }) => {
             title={title}
             subheader={getEntryByline(entry)} />
         <CardContent>
-            {content
+            {content === undefined
                 ? <Typography component='small'>
                     <div dangerouslySetInnerHTML={{ __html: content }}></div>
                 </Typography>
