@@ -94,7 +94,7 @@ export default (props: { id: string }) => {
                     window.snackHelper.enqueueSnackbar("Failed to mobilize article! Are you offline?");
                 });
         }
-    }, [currentView]);
+    }, [currentView, props.id, !!entry]);
 
     // When the preferred view for the subscription changes,
     // reset the current view.
@@ -152,7 +152,6 @@ export default (props: { id: string }) => {
             frame.setAttribute('style', `height: ${actualWidth/aspectRatio}px`);
         }
     }, [domElement.current, screenWidth, content]);
-
 
     if (!entry) {
         return <Centre>
