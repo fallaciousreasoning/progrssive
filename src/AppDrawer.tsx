@@ -6,6 +6,7 @@ import RssFeed from '@material-ui/icons/RssFeed';
 import SettingsIcon from '@material-ui/icons/Settings';
 import React, { useCallback, useMemo, useState } from 'react';
 import ListLinkButton from './components/ListLinkButton';
+import { Help } from '@material-ui/icons';
 
 export default (props: { trigger: JSX.Element }) => {
     const [open, setOpen] = useState(false);
@@ -28,6 +29,7 @@ export default (props: { trigger: JSX.Element }) => {
                     <ListLinkButton icon={<Book/>} text="Articles" href="/stream" />
                     <ListLinkButton icon={<RssFeed/>} text="Subscriptions" href="/subscriptions"/>
                     <ListLinkButton icon={<SettingsIcon/>} text="Settings" href="/settings"/>
+                    <ListLinkButton icon={<Help/>} text="About" href="/about"/>
                 </List>
             </div>
         </Drawer>

@@ -16,6 +16,7 @@ const SettingsPage = React.lazy(() => import('./pages/SettingsPage'));
 const entryViewerPromise = import('./pages/EntryViewer');
 const EntryViewer = React.lazy(() => entryViewerPromise);
 const CleanStorage = React.lazy(() => import('./pages/CleanStorage'));
+const AboutPage = React.lazy(() => import('./pages/AboutPage'));
 
 const AppRoute = (props: Props) => {
     const { path, component, render, location, ...rest } = props;
@@ -40,6 +41,10 @@ export default [
     {
         prefix: "/settings",
         render: () => <SettingsPage />
+    },
+    {
+        prefix: "/about",
+        render: () => <AboutPage/>
     },
     {
         prefix: '/stream',
