@@ -1,6 +1,7 @@
 import { Entry } from "../model/entry";
 import relativeDate from 'tiny-relative-date';
 import { getStore } from "../hooks/store";
+import { Subscription } from "../model/subscription";
 
 const sanitizeContent = (contentString: string) => {
     if (!contentString)
@@ -71,4 +72,15 @@ export const getEntryPreferredView = (entry: Entry) => {
     return subscription
         ? subscription.preferredView
         : 'feedly';
+}
+
+export const getProgrssiveUrl = (to: Entry) => {
+    const streamId = getStore().stream.id;
+    let url = "/stream/";
+    if (streamId)
+        url += encodeURIComponent(streamId) + '/'
+    url += `entries/${encodeURIComponent(to.id)}/`
+    if (!getStore().stream.unreadOnly)
+        url += "?showUnread";
+    return url;
 }

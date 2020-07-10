@@ -9,7 +9,7 @@ import { useStreamEntries, useStreamEntry } from './hooks/entry';
 import { useScreenSize } from './hooks/screenSize';
 import { getStore, useStore } from './hooks/store';
 import useWhenChanged from './hooks/useWhenChanged';
-import { getEntrySubscription, getEntryUrl } from './services/entry';
+import { getEntrySubscription, getEntryUrl, getProgrssiveUrl } from './services/entry';
 import { loadToEntry } from './services/store';
 
 interface Props {
@@ -124,7 +124,8 @@ export default (props: Props) => {
                     if (subscription && subscription.preferredView === "browser") {
                         window.open(getEntryUrl(item), "_blank");
                     } else {
-                        history.push(`/entries/${item.id}`);
+                        const url = getProgrssiveUrl(item);
+                        history.push(url);
                     }
 
                     // If pages should be marked as read on open, do that.
