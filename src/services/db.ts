@@ -32,8 +32,10 @@ export const addStream = async (stream: Stream) => {
 }
 
 export const loadEntry = async (entryId: string) => {
+    if (!entryId)
+        return Promise.resolve(undefined);
     const db = await getDb();
-    return entryId ? db.entries.get(entryId) : Promise.resolve(undefined);
+    return db.entries.get(entryId);
 }
 
 // Ensure we don't lose any stream ids when we save an entry.
