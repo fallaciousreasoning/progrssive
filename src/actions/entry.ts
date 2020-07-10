@@ -1,9 +1,8 @@
-import { getStore } from "../hooks/store";
 import { getEntry } from "../api/entry";
+import { getStore } from "../hooks/store";
 import { addEntry, loadEntry } from "../services/db";
-import { Entry } from "../model/entry";
-import mobilize from "../services/mobilize";
 import { getEntryUrl } from "../services/entry";
+import mobilize from "../services/mobilize";
 
 export const loadMobilizedContent = async (entryId: string) => {
     if (getStore().updating[entryId]) return;

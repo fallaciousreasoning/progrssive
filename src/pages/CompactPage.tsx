@@ -80,7 +80,7 @@ export default () => {
     entryId = decodeURIComponent(entryId || '');
 
     const entryActive = !!entryId;
-    return <SlidePage className={styles.root} initial>
+    return <SlidePage className={styles.root}>
         {(!entryActive || !isPhone) && <div className={styles.stream} key="stream">
             <Layout>
                 <StreamViewer id={streamId} />

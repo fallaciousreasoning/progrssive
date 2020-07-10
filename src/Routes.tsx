@@ -1,8 +1,7 @@
 import React from 'react';
-import { Route, RouteProps, useLocation } from 'react-router-dom';
-import StreamViewer from './pages/StreamViewer';
-import Layout from './pages/_Layout';
+import { Route, RouteProps } from 'react-router-dom';
 import CompactPage from './pages/CompactPage';
+import Layout from './pages/_Layout';
 
 type Props = RouteProps & React.HTMLProps<HTMLDivElement>;
 

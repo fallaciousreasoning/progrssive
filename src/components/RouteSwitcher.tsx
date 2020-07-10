@@ -1,4 +1,3 @@
-import { AnimatePresence } from 'framer-motion';
 import React, { useMemo } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import Layout from '../pages/_Layout';

@@ -1,7 +1,6 @@
-import { Entry } from "../model/entry";
 import relativeDate from 'tiny-relative-date';
 import { getStore } from "../hooks/store";
-import { Subscription } from "../model/subscription";
+import { Entry } from "../model/entry";
 
 const sanitizeContent = (contentString: string) => {
     if (!contentString)
