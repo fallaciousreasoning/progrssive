@@ -2,7 +2,7 @@ import { Entry } from "../model/entry";
 import relativeDate from 'tiny-relative-date';
 import { getStore } from "../hooks/store";
 
-export const sanitizeContent = (contentString: string) => {
+const sanitizeContent = (contentString: string) => {
     if (!contentString)
         return contentString;
 
@@ -16,6 +16,8 @@ export const sanitizeContent = (contentString: string) => {
     return contentString;
 }
 export const getEntryContent = (entry: Entry) => {
+    if (!entry)
+        return '';
     const detail = entry.content || entry.summary;
     return sanitizeContent(detail && detail.content);
 }
@@ -34,11 +36,14 @@ export const getEntryUrl = (entry: Entry) => {
         return entry.originId;
 }
 
-export const getEntrySummary = (entry: Entry) => sanitizeContent(entry.summary && entry.summary.content);
+export const getEntrySummary = (entry: Entry) => entry && sanitizeContent(entry.summary && entry.summary.content);
 
-export const getEntryByline = (entry: Entry) => `${entry.engagement ? entry.engagement + ' ' : ''}${entry.origin && entry.origin.title} / ${relativeDate(new Date(entry.published))}`;
+export const getEntryByline = (entry: Entry) => entry && `${entry.engagement ? entry.engagement + ' ' : ''}${entry.origin && entry.origin.title} / ${relativeDate(new Date(entry.published))}`;
 
 export const getEntryVisualUrl = (entry: Entry) => {
+    if (!entry)
+        return;
+
     let url = entry.visual && entry.visual.url;
     if (url === "none")
         return null;
@@ -49,8 +54,6 @@ export const getEntryVisualUrl = (entry: Entry) => {
         url = url.replace("$http:", "https:");
     return url;
 }
-
-export const isSaved = (entry: Entry) => entry.tags && entry.tags.some(e => e.id.endsWith('global.saved'));
 
 export const getEntrySubscription = (entry: Entry) => {
     if (!entry)
