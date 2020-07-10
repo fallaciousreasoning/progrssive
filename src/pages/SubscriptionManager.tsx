@@ -11,6 +11,7 @@ import SubscriptionEditor from "../components/SubscriptionEditor";
 import { useStore } from '../hooks/store';
 import { guessFeedUrl, Subscription } from '../model/subscription';
 import { toggleSubscription } from "../services/subscriptions";
+import Centre from "../components/Centre";
 
 const useStyles = makeStyles(theme => ({
     opmlButton: {
@@ -21,6 +22,10 @@ const useStyles = makeStyles(theme => ({
     },
 
     result: {
+        padding: '8px'
+    },
+
+    loadingIndicator: {
         padding: '8px'
     },
 
@@ -171,7 +176,11 @@ export default (props) => {
             onChange={e => setQuery(e.target.value)}
             className={styles.searchBox} />
 
-        {isSearching && <CircularProgress variant="indeterminate" />}
+        {isSearching && <Centre>
+            <CircularProgress
+                className={styles.loadingIndicator}
+                variant="indeterminate" />
+        </Centre>}
         <div className={styles.results}>
             {storeOrSearchResults.map(s => <SubscriptionEditor
                 key={s.id}
