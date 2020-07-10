@@ -29,6 +29,8 @@ export const useEntry = (id: string) => {
             return;
 
         const includeEntry = (e: Entry) => {
+            if (!e)
+                return;
             getStore().entries = {
                 ...getStore().entries,
                 [id]: e
@@ -40,7 +42,6 @@ export const useEntry = (id: string) => {
         loadEntry(id)
             .then(async entry => {
                 if (!entry) {
-                    console.log(id, entry);
                     if (getStore().updating[id])
                         return;
                     getStore().updating[id] = true;
