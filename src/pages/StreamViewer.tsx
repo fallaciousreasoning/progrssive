@@ -58,7 +58,7 @@ export default (props: { id: string, location: Location }) => {
 
   const scrollToTop = useCallback(() => {
     rootRef.current && rootRef.current.scrollTo(0, 0);
-  }, []);
+  }, [rootRef.current]);
 
   const unreadOnly = useMemo(() => {
     // Transient streams don't have unread articles.

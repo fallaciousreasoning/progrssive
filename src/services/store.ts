@@ -73,7 +73,19 @@ export const setTransientEntryList = async (streamId: string) => {
         unreadOnly: false
     };
 
-    const stream = await getStream(streamId);
+    const stream = await getStream(streamId).catch(() => null);
+    if (!stream) {
+        getStore().stream = {
+            id: streamId,
+            lastScrollPos: 0,
+            length: 0,
+            loadedEntries: [],
+            unreadOnly: false
+        };
+        window.snackHelper.enqueueSnackbar(`Failed to load stream. Are you offline?`);
+        return;
+    }
+
     const entries = stream.items.reduce((prev, next) => {
         next.transient = true;
         prev[next.id] = next;
@@ -105,7 +117,7 @@ export const loadToEntry = async (index: number) => {
 
     while (getStore().stream.loadedEntries.length <= index) {
         const next = await streamIterator.next();
-        if (!next.value)
+        if (!next.value || next.done)
             break;
 
         loaded[next.value.id] = next.value;
