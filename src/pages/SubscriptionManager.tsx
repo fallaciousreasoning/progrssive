@@ -86,7 +86,7 @@ export default (props) => {
 
         searchFeeds(debouncedQuery).then(results => {
             setSearchResults(results);
-        });
+        }).catch(() => setSearchResults([]));
     }, [debouncedQuery,
         query,
         history,
@@ -110,7 +110,8 @@ export default (props) => {
         // Find a matching subscription, one by one.
         for (let i = 0; i < toImport.length; ++i) {
             const importing = toImport[i];
-            const similar = await searchFeeds(guessFeedUrl(importing));
+            const similar = await searchFeeds(guessFeedUrl(importing))
+                .catch(() => []);
             const bestMatch = similar[0];
 
             // We couldn't find anything similar :'(

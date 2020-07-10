@@ -44,11 +44,15 @@ export const useEntry = (id: string) => {
                     if (getStore().updating[id])
                         return;
                     getStore().updating[id] = true;
-                    entry = await getEntry(id);
-                    addEntry(entry);
+                    try {
+                        entry = await getEntry(id);
+                        addEntry(entry);
+                    } catch {
+                        window.snackHelper.enqueueSnackbar('Unabled to load entry. Are you offline?')
+                    }
                     getStore().updating[id] = false;
                 }
-                
+
                 includeEntry(entry);
             });
     }, [id, store.entries]);
