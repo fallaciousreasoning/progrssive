@@ -2,19 +2,17 @@ import React from 'react';
 import { Route, RouteProps, useLocation } from 'react-router-dom';
 import StreamViewer from './pages/StreamViewer';
 import Layout from './pages/_Layout';
+import CompactPage from './pages/CompactPage';
 
 type Props = RouteProps & React.HTMLProps<HTMLDivElement>;
 
 interface AppRoute {
     prefix: string;
-    render: (id: string, location: Location) => React.ReactNode
+    component: React.SFC<{}>
 }
 
 const SubscriptionManager = React.lazy(() => import('./pages/SubscriptionManager'));
 const SettingsPage = React.lazy(() => import('./pages/SettingsPage'));
-
-const entryViewerPromise = import('./pages/EntryViewer');
-const EntryViewer = React.lazy(() => entryViewerPromise);
 const CleanStorage = React.lazy(() => import('./pages/CleanStorage'));
 const AboutPage = React.lazy(() => import('./pages/AboutPage'));
 
@@ -31,26 +29,22 @@ const AppRoute = (props: Props) => {
 export default [
     {
         prefix: '/subscriptions',
-        render: () => <SubscriptionManager/>
+        component: SubscriptionManager
     },
     {
         prefix: "/settings",
-        render: () => <SettingsPage />
+        component: SettingsPage
     },
     {
         prefix: "/about",
-        render: () => <AboutPage/>
+        component: AboutPage
     },
     {
         prefix: '/stream',
-        render: (id, location) => <StreamViewer id={id} active/>
-    },
-    {
-        prefix: '/entries',
-        render: (id, location) => <EntryViewer id={id} active/>
+        component: CompactPage
     },
     {
         prefix: '/clean',
-        render: () => <CleanStorage/>
+        component: CleanStorage
     }
 ] as AppRoute[];

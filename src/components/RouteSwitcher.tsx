@@ -1,7 +1,7 @@
 import { CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { AnimatePresence, motion } from 'framer-motion';
-import React, { Suspense, useMemo } from 'react';
+import React, { Suspense, useMemo, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import Layout from '../pages/_Layout';
 import Routes from '../Routes';
@@ -79,10 +79,7 @@ export default (props) => {
             return null;
         }
 
-        const id = location.pathname
-            .substr(route.prefix.length + 1);
-
-        return route.render(id, location as any);
+        return route;
     }, [location, history]);
     const direction = useMemo(() =>
         history.action === "POP"
@@ -93,10 +90,10 @@ export default (props) => {
         [location.pathname]);
 
     return <AnimatePresence custom={direction} initial={false}>
-        <SlidePage key={location.pathname} direction={direction}>
+        {page && <SlidePage key={page.prefix} direction={direction}>
             <Layout>
-                {page}
+                <page.component/>
             </Layout>
-        </SlidePage>
+        </SlidePage>}
     </AnimatePresence>;
 }

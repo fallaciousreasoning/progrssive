@@ -7,6 +7,7 @@ import LazySnackbarProvider from './components/LazySnackbarProvider';
 import { useStore } from './hooks/store';
 import { buildTheme } from './theme';
 import CompactPage from './pages/CompactPage';
+import RouteSwitcher from './components/RouteSwitcher';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -31,8 +32,7 @@ export const App = (props) => {
       <LazySnackbarProvider>
         <div className={styles.root}>
           <AppBar>
-            {/* <RouteSwitcher /> */}
-              <CompactPage/>
+            <RouteSwitcher />
           </AppBar>
         </div>
       </LazySnackbarProvider>
