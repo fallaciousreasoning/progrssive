@@ -58,6 +58,7 @@ export const setEntryList = async (unreadOnly: boolean, streamId: string, force 
     // Begin loading entries.
     loadToEntry(20);
 }
+window['setEntryList'] = setEntryList;
 
 export const setTransientEntryList = async (streamId: string) => {
     if (getStore().stream.id === streamId)

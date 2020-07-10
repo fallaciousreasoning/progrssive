@@ -7,6 +7,7 @@ export const getDb = async (): Promise<DB> => {
     if (!_db) {
         const { DB } = await import('./dbBuilder');
         _db = new DB();
+        window['db'] = _db;
     }
     return _db;
 }

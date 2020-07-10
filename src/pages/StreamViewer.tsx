@@ -18,7 +18,6 @@ import useWhenChanged from '../hooks/useWhenChanged';
 import { useIsActive } from '../Routes';
 import { getUnreadStreamEntryIds, setEntryList, setTransientEntryList } from '../services/store';
 import StreamList from '../StreamList';
-import { Add } from '@material-ui/icons';
 
 const useStyles = makeStyles(theme => ({
   root: {
