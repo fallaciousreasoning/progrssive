@@ -37,6 +37,14 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
+const searchResultVariants = {
+    initial: { opacity: 0, height: 0},
+    in: { opacity: 1, height: 'auto' },
+    out: { opacity: 0, height: 0 }
+};
+
+const searchResultTransition = { staggerChildren: 0.2, duration: 0.5 };
+
 export default (props) => {
     const styles = useStyles();
     const store = useStore();
@@ -181,14 +189,16 @@ export default (props) => {
                 className={styles.loadingIndicator}
                 variant="indeterminate" />
         </Centre>}
-        <div className={styles.results}>
+        <StackPanel variants={searchResultVariants}
+            transition={searchResultTransition}
+            className={styles.results}>
             {storeOrSearchResults.map(s => <SubscriptionEditor
                 key={s.id}
                 subscription={s}
                 isSubscribed={isSubscribed(s)}
                 isImporting={isImporting(s)}
                 toggleSubscription={toggleSubscription} />)}
-        </div>
+        </StackPanel>
         {!isSearching && storeOrSearchResults.length === 0 && <StackPanel>
             <Typography>
                 There's nothing here.

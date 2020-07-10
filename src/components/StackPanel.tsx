@@ -1,6 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { AnimatePresence, motion, Variant } from 'framer-motion';
+import { AnimatePresence, motion, Variant, Transition } from 'framer-motion';
 
 interface Props {
     direction?: 'row'
@@ -18,7 +18,9 @@ interface Props {
         initial?: Variant;
         in?: Variant;
         out?: Variant;
-    }
+    },
+
+    transition?: Transition;
 }
 
 const childVariants = {
@@ -67,6 +69,7 @@ export default (props: Props & React.HTMLProps<HTMLDivElement>) => {
         alignItems,
         justifyContent,
         variants,
+        transition,
         ...rest
     } = props;
     direction = direction || 'column';
@@ -87,7 +90,7 @@ export default (props: Props & React.HTMLProps<HTMLDivElement>) => {
                 animate="in"
                 exit="out"
                 variants={props.variants || childVariants}
-                transition={childTransition}>
+                transition={transition || childTransition}>
                 {c}
             </motion.div>)}
         </AnimatePresence>
