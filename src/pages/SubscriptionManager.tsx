@@ -84,9 +84,16 @@ export default (props) => {
         if (debouncedQuery !== query)
             return;
 
-        searchFeeds(debouncedQuery).then(results => {
-            setSearchResults(results);
-        }).catch(() => setSearchResults([]));
+        let cancelled = false;
+        // Only set results if this search hasn't been cancelled.
+        const maybeSetResults = (results: Subscription[]) => !cancelled
+            && setSearchResults(results);
+        searchFeeds(debouncedQuery).then(maybeSetResults)
+            .catch(() => maybeSetResults([]));
+
+        return () => {
+            cancelled = true;
+        }
     }, [debouncedQuery,
         query,
         history,
