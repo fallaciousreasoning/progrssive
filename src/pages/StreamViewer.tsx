@@ -46,11 +46,10 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default (props: { id: string, location: Location }) => {
+export default (props: { id: string, location: Location, active: boolean }) => {
   const store = useStore();
   const styles = useStyles();
   const location = props.location;
-  const active = useIsActive(location.pathname);
   const history = useHistory();
   const rootRef = useRef<HTMLDivElement>();
   const footerRef = useRef<HTMLDivElement>();
@@ -124,7 +123,7 @@ export default (props: { id: string, location: Location }) => {
 
     {store.stream.length !== 0 && <StreamList onProgressChanged={setProgress} />}
 
-    {active && <>
+    {props.active && <>
       <AppBarButton>
         <ProgressRing key="progress" percent={progress} text={remainingArticles} />
       </AppBarButton>

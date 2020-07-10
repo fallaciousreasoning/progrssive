@@ -48,11 +48,11 @@ export default [
     },
     {
         prefix: '/stream',
-        render: (id, location) => <StreamViewer id={id} location={location}/>
+        render: (id, location) => <StreamViewer id={id} location={location} active/>
     },
     {
         prefix: '/entries',
-        render: (id, location) => <EntryViewer id={id} location={location}/>
+        render: (id, location) => <EntryViewer id={id} active/>
     },
     {
         prefix: '/clean',

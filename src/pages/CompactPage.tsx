@@ -72,12 +72,15 @@ export default () => {
     streamId = decodeURIComponent(streamId || '');
     entryId = decodeURIComponent(entryId || '');
 
+    const streamActive = !entryId || !isPhone;
+    const entryActive = !!entryId;
+
     return <div className={styles.root}>
         {(!entryId || !isPhone) && <div className={styles.stream}>
-            <StreamViewer location={window.location} id={streamId} />
+            <StreamViewer location={window.location} id={streamId} active={streamActive} />
         </div>}
-        {entryId && <div className={styles.entry}>
-            <EntryViewer id={entryId} location={window.location} />
+        {entryActive && <div className={styles.entry}>
+            <EntryViewer id={entryId} active={entryActive} />
         </div>}
     </div>
 }

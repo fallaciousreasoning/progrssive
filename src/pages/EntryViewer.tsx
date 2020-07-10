@@ -58,10 +58,9 @@ const useScrollToTop = (entry: Entry, ref: React.MutableRefObject<any>) => {
     }, [entry, ref]);
 }
 
-export default (props: { id: string, location: Location }) => {
+export default (props: { id: string, active: boolean }) => {
     const store = useStore();
     const history = useHistory();
-    const isActive = useIsActive(props.location.pathname);
     const styles = useStyles();
     const domElement = useRef<HTMLDivElement>(null);
     const entry = useEntry(props.id);
@@ -127,7 +126,7 @@ export default (props: { id: string, location: Location }) => {
     const shareArticle = useCallback(() => {
         if (!('share' in navigator))
             return;
-            
+
         navigator.share({
             title: entry.title,
             url: getEntryUrl(entry)
@@ -206,7 +205,7 @@ export default (props: { id: string, location: Location }) => {
 
     return <article className={styles.root} ref={domElement} onClick={doubleTap}>
         {article}
-        {isActive && <>
+        {props.active && <>
             {!entry.transient && <AppBarButton>
                 <EntryReadButton entryId={entry.id} />
             </AppBarButton>}
