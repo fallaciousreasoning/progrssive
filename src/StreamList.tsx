@@ -62,7 +62,12 @@ export default (props: Props) => {
     // Update the scroll pos on unmount.
     useEffect(() => {
         const list = listOuterRef.current;
+        const wasUnreadOnly = store.stream.unreadOnly;
         return () => {
+            // If we were unmounted because the stream changed, don't store the
+            // scroll position.
+            if (wasUnreadOnly !== store.stream.unreadOnly)
+                return;
             getStore().stream.lastScrollPos = list.scrollTop;
         }
     }, [])
