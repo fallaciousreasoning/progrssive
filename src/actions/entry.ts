@@ -5,22 +5,6 @@ import { Entry } from "../model/entry";
 import mobilize from "../services/mobilize";
 import { getEntryUrl } from "../services/entry";
 
-export const updateEntry = async (entryId: string) => {
-    if (getStore().updating[entryId]) return;
-    getStore().updating[entryId] = false;
-
-    // If we aren't forcing network, try and load the entry from disk.
-    // Fallback to fetching from the network.
-    let entry: Entry = await loadEntry(entryId);
-    if (!entry) {
-        entry = await getEntry(entryId);
-        // Ensure we write the entry to the disk.
-        addEntry(entry, true);
-    }
-
-    delete getStore().updating[entryId];
-}
-
 export const loadMobilizedContent = async (entryId: string) => {
     if (getStore().updating[entryId]) return;
     getStore().updating[entryId] = true;

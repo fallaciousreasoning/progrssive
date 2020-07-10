@@ -1,7 +1,6 @@
 import { getStore } from "../hooks/store";
 import { debounce } from "../services/debounce";
 import { Settings } from "../types/RecollectStore";
-import { getColor } from "../theme";
 
 const defaultSettings: Settings = {
     markOpenedAsRead: true,
