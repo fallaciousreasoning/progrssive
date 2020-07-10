@@ -19,6 +19,7 @@ export async function entryCount(unreadOnly: boolean, streamId: string) {
     // Otherwise, return the number of entries matching the query.
     return db.entries.where(query).count();
 }
+window['entryCount'] = entryCount;
 
 export async function* entryIterator(unreadOnly: boolean, streamId?: string, pageSize = 50) {
     let finished = false;
@@ -58,3 +59,4 @@ export async function* entryIterator(unreadOnly: boolean, streamId?: string, pag
         }
     }
 }
+window['entryIterator'] = entryIterator;
