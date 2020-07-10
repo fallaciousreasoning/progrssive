@@ -125,6 +125,9 @@ export default (props: { id: string, location: Location }) => {
     }, []);
 
     const shareArticle = useCallback(() => {
+        if (!('share' in navigator))
+            return;
+            
         navigator.share({
             title: entry.title,
             url: getEntryUrl(entry)

@@ -71,8 +71,8 @@ export default () => {
         <div className={styles.stream}>
             <StreamViewer location={window.location} id={streamId} />
         </div>
-        <div className={styles.entry}>
+        {entryId && <div className={styles.entry}>
             <EntryViewer id={entryId} location={window.location} />
-        </div>
+        </div>}
     </div>
 }
