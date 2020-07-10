@@ -1,4 +1,4 @@
-import { Button, makeStyles, TextField } from "@material-ui/core";
+import { Button, makeStyles, TextField, CircularProgress, Typography } from "@material-ui/core";
 import * as React from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useHistory } from "react-router-dom";
@@ -62,6 +62,8 @@ export default (props) => {
         setQuery("@subscribed");
     }, [setQuery]);
 
+    const [isSearching, setIsSearching] = useState(false);
+
     // Update search results when typing.
     useEffect(() => {
         history.replace(`?query=${encodeURIComponent(query)}`);
@@ -85,11 +87,17 @@ export default (props) => {
             return;
 
         let cancelled = false;
+        setIsSearching(true);
+
         // Only set results if this search hasn't been cancelled.
-        const maybeSetResults = (results: Subscription[]) => !cancelled
-            && setSearchResults(results);
-        searchFeeds(debouncedQuery).then(maybeSetResults)
-            .catch(() => maybeSetResults([]));
+        const finish = (results: Subscription[]) => {
+            if (cancelled)
+                return;
+            setIsSearching(false);
+            setSearchResults(results);
+        }
+        searchFeeds(debouncedQuery).then(finish)
+            .catch(() => finish([]));
 
         return () => {
             cancelled = true;
@@ -163,6 +171,7 @@ export default (props) => {
             onChange={e => setQuery(e.target.value)}
             className={styles.searchBox} />
 
+        {isSearching && <CircularProgress variant="indeterminate" />}
         <div className={styles.results}>
             {storeOrSearchResults.map(s => <SubscriptionEditor
                 key={s.id}
@@ -171,6 +180,11 @@ export default (props) => {
                 isImporting={isImporting(s)}
                 toggleSubscription={toggleSubscription} />)}
         </div>
+        {!isSearching && storeOrSearchResults.length === 0 && <StackPanel>
+            <Typography>
+                There's nothing here.
+            </Typography>
+        </StackPanel>}
     </div>
 }
 
