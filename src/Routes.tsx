@@ -8,6 +8,7 @@ type Props = RouteProps & React.HTMLProps<HTMLDivElement>;
 
 interface AppRoute {
     prefix: string;
+    noLayout?: boolean;
     component: React.SFC<{}>
 }
 
@@ -40,6 +41,7 @@ export default [
         component: AboutPage
     },
     {
+        noLayout: true,
         prefix: '/stream',
         component: CompactPage
     },

@@ -89,11 +89,13 @@ export default (props) => {
         // eslint-disable-next-line
         [location.pathname]);
 
+    const Container = page && page.noLayout ? React.Fragment : Layout;
+
     return <AnimatePresence custom={direction} initial={false}>
         {page && <SlidePage key={page.prefix} direction={direction}>
-            <Layout>
+            <Container>
                 <page.component/>
-            </Layout>
+            </Container>
         </SlidePage>}
     </AnimatePresence>;
 }
