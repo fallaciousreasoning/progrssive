@@ -116,6 +116,7 @@ export const loadToEntry = async (index: number) => {
     const loadedIds = [];
 
     while (getStore().stream.loadedEntries.length <= index) {
+        console.log("I'm in a loop!")
         const next = await streamIterator.next();
         if (!next.value || next.done)
             break;
