@@ -9,12 +9,13 @@ const useStyles = makeStyles(theme => ({
         display: 'flex'
     },
     stream: {
-        maxWidth: '800px'
+        width: '400px'
     },
     entry: {
         maxHeight: 'calc(100vh - 48px)',
         width: '100%',
-        overflowY: 'auto'
+        overflowY: 'auto',
+        flex: 1
     },
     '@global': {
         'body': {

@@ -92,6 +92,9 @@ export default (props: Props) => {
             onProgressChanged(percent);
     }, [totalScrollHeight, listHeight, onProgressChanged]);
 
+    const parentWidth = listOuterRef.current && listOuterRef.current.parentElement
+        ? listOuterRef.current.parentElement.getBoundingClientRect().width
+        : width;
     return <FixedSizeList
         ref={listRef}
         outerRef={listOuterRef}
@@ -101,7 +104,7 @@ export default (props: Props) => {
         itemSize={itemHeight}
         initialScrollOffset={store.stream.lastScrollPos}
         itemCount={store.stream.length}
-        width={Math.min(800, width - GUTTER_SIZE * 2)}
+        width={Math.min(800, parentWidth - GUTTER_SIZE * 2)}
         itemKey={(index) => index < loadedEntries.length ? loadedEntries[index].id : index}
         onItemsRendered={onItemsRendered}>
         {rowProps => {
