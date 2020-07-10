@@ -1,6 +1,4 @@
-import { getStream, StreamRequestOptions } from "../api/streams";
 import { getStore } from "../hooks/store";
-import { addStream } from "../services/db";
 import { updateSubscription } from "../services/subscriptions";
 
 export const updateStreams = async (...streamIds: string[]) => {
@@ -30,25 +28,4 @@ export const updateStreams = async (...streamIds: string[]) => {
         window.snackHelper.enqueueSnackbar("Failed to update subscriptions!");
     else
         window.snackHelper.enqueueSnackbar("Updated subscriptions!");
-}
-
-export const getAllUnread = async (streamId: string, continuation: string = undefined) => {
-    try {
-        do {
-            const options: StreamRequestOptions = {
-            };
-            if (continuation)
-                options.continuation = continuation;
-
-            const stream = await getStream(streamId, 'contents', options);
-
-            // Next time, start from here.
-            continuation = stream.continuation;
-            addStream(stream);
-        } while (continuation);
-    } catch (error) {
-        window.snackHelper.enqueueSnackbar('Background update failed.');
-    }
-
-    window.snackHelper.enqueueSnackbar('Background sync complete.');
 }

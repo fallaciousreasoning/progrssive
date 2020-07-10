@@ -2,17 +2,8 @@ import { getStream } from "../api/streams";
 import { getStore } from "../hooks/store";
 import { Subscription } from "../model/subscription";
 import { addStream, getDb } from "./db";
-import { save } from "./persister";
 import { entryIterator } from "./entryIterator";
-import { delay } from "../utils/promise";
-
-export const updateSubscriptions = async () => {
-    const subscriptions = getStore().subscriptions;
-
-    for (const subscription of subscriptions) {
-        await updateSubscription(subscription);
-    }
-}
+import { save } from "./persister";
 
 export const getSubscription = (id: string) => {
     const subscriptions = getStore().subscriptions;
@@ -64,6 +55,14 @@ export const toggleSubscription = async (subscription: Subscription) => {
             ...getStore().subscriptions,
             subscription
         ];
+
+        // Fetch articles for the subscription.
+        try {
+            await updateSubscription(subscription);
+            window.snackHelper.enqueueSnackbar(`Fetched articles for ${subscription.title}`);
+        } catch {
+            window.snackHelper.enqueueSnackbar(`Failed to fetch ${subscription.title}`);
+        }
     }
 
     return save('subscriptions', getStore().subscriptions);

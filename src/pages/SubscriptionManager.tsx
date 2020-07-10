@@ -8,10 +8,9 @@ import ExportOpml from '../components/ExportOpml';
 import ImportOpml from "../components/ImportOpml";
 import StackPanel from "../components/StackPanel";
 import SubscriptionEditor from "../components/SubscriptionEditor";
-import { getStore, useStore } from '../hooks/store';
+import { useStore } from '../hooks/store';
 import { guessFeedUrl, Subscription } from '../model/subscription';
-import { save } from '../services/persister';
-import { updateSubscription, toggleSubscription } from "../services/subscriptions";
+import { toggleSubscription } from "../services/subscriptions";
 
 const useStyles = makeStyles(theme => ({
     opmlButton: {
