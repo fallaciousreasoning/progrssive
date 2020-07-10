@@ -4,6 +4,7 @@ import { useLocation, useRouteMatch } from 'react-router-dom';
 import StreamViewer from './StreamViewer';
 import EntryViewer from './EntryViewer';
 import { useIsPhone } from '../hooks/responsive';
+import SlidePage from '../components/SlidePage';
 
 const useStyles = makeStyles(theme => ({
     root: {
