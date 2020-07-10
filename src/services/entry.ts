@@ -19,6 +19,8 @@ export const getEntryContent = (entry: Entry) => {
     if (!entry)
         return '';
     const detail = entry.content || entry.summary;
+    if (!detail)
+        return '';
     return sanitizeContent(detail && detail.content);
 }
 
