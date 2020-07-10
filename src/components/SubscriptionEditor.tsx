@@ -104,7 +104,7 @@ export default (props: Props) => {
 
     const history = useHistory();
     const viewStream = useCallback(() => {
-        history.push(`/stream/${props.subscription.id}`);
+        history.push(`/stream/${encodeURIComponent(props.subscription.id)}`);
     }, [props.subscription.id, history]);
 
     const preferredViewChanged = useCallback(async (e) => {
