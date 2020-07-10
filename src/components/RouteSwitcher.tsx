@@ -24,8 +24,8 @@ export default () => {
     const Container = page && page.noLayout ? React.Fragment : Layout;
 
     return <SlidePage>
-        <Container key={page.prefix}>
-            {page && <page.component />}
-        </Container>
+        {page && <Container key={page.prefix}>
+            <page.component />
+        </Container>}
     </SlidePage>;
 }
