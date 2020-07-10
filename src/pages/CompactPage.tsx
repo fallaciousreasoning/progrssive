@@ -3,13 +3,17 @@ import { makeStyles } from '@material-ui/core';
 import { useLocation, useRouteMatch } from 'react-router-dom';
 import StreamViewer from './StreamViewer';
 import EntryViewer from './EntryViewer';
+import { useIsPhone } from '../hooks/responsive';
 
 const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex'
     },
     stream: {
-        width: '400px'
+        width: '100%',
+        [theme.breakpoints.up('md')]: {
+            width: '400px'
+        }
     },
     entry: {
         maxHeight: 'calc(100vh - 48px)',
@@ -27,6 +31,7 @@ const useStyles = makeStyles(theme => ({
 export default () => {
     const styles = useStyles();
     const location = useLocation();
+    const isPhone = useIsPhone();
 
     // Path should be something like this:
     // /stream/:streamId?(/entries/entryId)?
@@ -68,9 +73,9 @@ export default () => {
     entryId = decodeURIComponent(entryId || '');
 
     return <div className={styles.root}>
-        <div className={styles.stream}>
+        {(!entryId || !isPhone) && <div className={styles.stream}>
             <StreamViewer location={window.location} id={streamId} />
-        </div>
+        </div>}
         {entryId && <div className={styles.entry}>
             <EntryViewer id={entryId} location={window.location} />
         </div>}
