@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import SlidePage from '../components/SlidePage';
 import { useIsPhone } from '../hooks/responsive';
 import StreamViewer from './StreamViewer';
+import Layout from './_Layout';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -18,9 +19,6 @@ const useStyles = makeStyles(theme => ({
     entry: {
         maxHeight: 'calc(100vh - 48px)',
         width: '100%',
-        maxWidth: '800px',
-        marginRight: 'auto',
-        marginLeft: 'auto',
         overflowY: 'auto',
         flex: 1
     },
@@ -84,10 +82,14 @@ export default () => {
     const entryActive = !!entryId;
     return <SlidePage className={styles.root} initial>
         {(!entryActive || !isPhone) && <div className={styles.stream} key="stream">
-            <StreamViewer id={streamId} />
+            <Layout>
+                <StreamViewer id={streamId} />
+            </Layout>
         </div>}
         {entryActive && <div className={styles.entry} key="entry">
-            <EntryViewer id={entryId} />
+            <Layout>
+                <EntryViewer id={entryId} />
+            </Layout>
         </div>}
     </SlidePage>
 }
