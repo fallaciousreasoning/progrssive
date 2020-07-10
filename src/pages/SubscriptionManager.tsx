@@ -43,7 +43,8 @@ const searchResultVariants = {
     out: { opacity: 0, height: 0 }
 };
 
-const searchResultTransition = { staggerChildren: 0.2, duration: 0.5 };
+const searchResultTransition = { duration: 0.3 };
+const queryCache: {[query: string]: Subscription[] } = {}
 
 export default (props) => {
     const styles = useStyles();
@@ -88,11 +89,19 @@ export default (props) => {
 
             if (query === "@import")
                 setSearchResults(importingSubscriptions);
+            setIsSearching(false);
             return;
         }
 
         if (!debouncedQuery) {
+            setIsSearching(false);
             setSearchResults([]);
+            return;
+        }
+
+        if (queryCache[debouncedQuery]) {
+            setIsSearching(false);
+            setSearchResults(queryCache[debouncedQuery]);
             return;
         }
 
@@ -103,14 +112,18 @@ export default (props) => {
         setIsSearching(true);
 
         // Only set results if this search hasn't been cancelled.
-        const finish = (results: Subscription[]) => {
+        const finish = (results?: Subscription[]) => {
+            // Cache for faster retreival next time.
+            if (results)
+                queryCache[debouncedQuery] = results;
+
             if (cancelled)
                 return;
             setIsSearching(false);
-            setSearchResults(results);
+            setSearchResults(results || []);
         }
         searchFeeds(debouncedQuery).then(finish)
-            .catch(() => finish([]));
+            .catch(() => finish());
 
         return () => {
             cancelled = true;
