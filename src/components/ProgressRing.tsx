@@ -59,8 +59,7 @@ export default (props: Props) => {
             scale = 1;
 
         setTextScale(scale);
-        console.log("Was it me?");
-    }, [props.text, textScale]);
+    }, [props.text]);
 
     return <div className={styles.root}>
         <Typography gutterBottom={false}>
