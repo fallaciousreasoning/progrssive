@@ -1,10 +1,9 @@
-import React from 'react';
 import { makeStyles } from '@material-ui/core';
-import { useLocation, useRouteMatch } from 'react-router-dom';
-import StreamViewer from './StreamViewer';
-import EntryViewer from './EntryViewer';
-import { useIsPhone } from '../hooks/responsive';
+import React from 'react';
+import { useLocation } from 'react-router-dom';
 import SlidePage from '../components/SlidePage';
+import { useIsPhone } from '../hooks/responsive';
+import StreamViewer from './StreamViewer';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -34,6 +33,9 @@ const useStyles = makeStyles(theme => ({
         }
     }
 }));
+
+const entryViewerPromise = import('./EntryViewer');
+const EntryViewer = React.lazy(() => entryViewerPromise);
 
 export default () => {
     const styles = useStyles();
