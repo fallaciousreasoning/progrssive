@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useRouteMatch } from 'react-router-dom';
 import StreamViewer from './StreamViewer';
 import EntryViewer from './EntryViewer';
 
@@ -25,18 +25,54 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default () => {
-    const streamId = '';
-    const unreadOnly = false;
-    const entryId = 'PSNTZO8gXFUe+cpCZyApw0vEKWPT4b14D6teBEocIAE=_17334afa011:e01657:35147dfd';
     const styles = useStyles();
     const location = useLocation();
 
+    // Path should be something like this:
+    // /stream/:streamId?(/entries/entryId)?
+    const path = location.pathname
+        // Trim leading and trailing slash
+        .substring(1, location.pathname.endsWith('/')
+            ? location.pathname.length - 1
+            : location.pathname.length)
+        .split('/');
+
+    if (path[0] !== 'stream' || path.length > 4)
+        return null;
+
+    let streamId = '';
+    let entryId = '';
+
+    // Case: /stream/:streamId/entries/:entryId
+    if (path.length === 4) {
+        streamId = path[1];
+        if (path[2] !== 'entries')
+            return null;
+
+        entryId = path[3];
+    }
+
+    // Case: /stream/entries/:entryId
+    if (path.length === 3) {
+        if (path[1] !== 'entries')
+            return null;
+        entryId = path[2];
+    }
+
+    // Case: /stream/:streamId
+    if (path.length === 2) {
+        streamId = path[1];
+    }
+
+    streamId = decodeURIComponent(streamId || '');
+    entryId = decodeURIComponent(entryId || '');
+
     return <div className={styles.root}>
         <div className={styles.stream}>
-            <StreamViewer location={window.location} id={streamId}/>
+            <StreamViewer location={window.location} id={streamId} />
         </div>
         <div className={styles.entry}>
-            <EntryViewer id={entryId} location={window.location}/>
+            <EntryViewer id={entryId} location={window.location} />
         </div>
     </div>
 }

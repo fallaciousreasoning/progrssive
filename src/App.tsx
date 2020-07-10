@@ -1,10 +1,9 @@
 import { makeStyles, MuiThemeProvider } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import React, { useMemo } from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 import AppBar from './components/AppBar';
 import LazySnackbarProvider from './components/LazySnackbarProvider';
-import RouteSwitcher from './components/RouteSwitcher';
 import { useStore } from './hooks/store';
 import { buildTheme } from './theme';
 import CompactPage from './pages/CompactPage';
@@ -33,7 +32,7 @@ export const App = (props) => {
         <div className={styles.root}>
           <AppBar>
             {/* <RouteSwitcher /> */}
-            <CompactPage/>
+              <CompactPage/>
           </AppBar>
         </div>
       </LazySnackbarProvider>
