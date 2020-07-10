@@ -25,6 +25,9 @@ const useStyles = makeStyles(theme => ({
         overflowY: 'auto',
         flex: 1
     },
+    page: {
+
+    },
     '@global': {
         'body': {
             background: theme.palette.background.default
@@ -76,15 +79,13 @@ export default () => {
     streamId = decodeURIComponent(streamId || '');
     entryId = decodeURIComponent(entryId || '');
 
-    const streamActive = !entryId || !isPhone;
     const entryActive = !!entryId;
-
-    return <div className={styles.root}>
-        {(!entryId || !isPhone) && <div className={styles.stream}>
-            <StreamViewer id={streamId} active={streamActive} />
+    return <SlidePage className={styles.root} initial>
+        {(!entryActive || !isPhone) && <div className={styles.stream} key="stream">
+            <StreamViewer id={streamId} />
         </div>}
-        {entryActive && <div className={styles.entry}>
-            <EntryViewer id={entryId} active={entryActive} />
+        {entryActive && <div className={styles.entry} key="entry">
+            <EntryViewer id={entryId} />
         </div>}
-    </div>
+    </SlidePage>
 }

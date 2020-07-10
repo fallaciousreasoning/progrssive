@@ -17,6 +17,7 @@ import { useIsTransientSubscription } from '../hooks/subscription';
 import useWhenChanged from '../hooks/useWhenChanged';
 import { getUnreadStreamEntryIds, setEntryList, setTransientEntryList } from '../services/store';
 import StreamList from '../StreamList';
+import { useIsPhone } from '../hooks/responsive';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -45,10 +46,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default (props: { id: string, active: boolean }) => {
+export default (props: { id: string }) => {
   const store = useStore();
   const styles = useStyles();
   const location = useLocation();
+  const isPhone = useIsPhone();
+  const active = location.pathname.includes('/stream')
+    && (!isPhone || !location.pathname.includes('/entries/'));
   const history = useHistory();
   const rootRef = useRef<HTMLDivElement>();
   const footerRef = useRef<HTMLDivElement>();
@@ -122,7 +126,7 @@ export default (props: { id: string, active: boolean }) => {
 
     {store.stream.length !== 0 && <StreamList onProgressChanged={setProgress} />}
 
-    {props.active && <>
+    {active && <>
       <AppBarButton>
         <ProgressRing key="progress" percent={progress} text={remainingArticles} />
       </AppBarButton>

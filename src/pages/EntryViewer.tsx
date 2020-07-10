@@ -2,7 +2,7 @@ import { Button, CardContent, CardHeader, CircularProgress, IconButton, makeStyl
 import { Share } from "@material-ui/icons";
 import * as React from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useHistory } from "react-router";
+import { useHistory, useLocation } from "react-router";
 import { loadMobilizedContent } from "../actions/entry";
 import AppBarButton from "../components/AppBarButton";
 import Centre from "../components/Centre";
@@ -57,13 +57,15 @@ const useScrollToTop = (entry: Entry, ref: React.MutableRefObject<any>) => {
     }, [entry, ref]);
 }
 
-export default (props: { id: string, active: boolean }) => {
+export default (props: { id: string }) => {
     const store = useStore();
     const history = useHistory();
     const styles = useStyles();
     const domElement = useRef<HTMLDivElement>(null);
     const entry = useEntry(props.id);
     const url = getEntryUrl(entry);
+    const location = useLocation();
+    const active = location.pathname.includes("/entries/");
     const [currentView, setCurrentView] = useState(getEntryPreferredView(entry));
     const [failedToMobilize, setFailedToMobilize] = useState(false);
     const { width: screenWidth } = useScreenSize();
@@ -204,7 +206,7 @@ export default (props: { id: string, active: boolean }) => {
 
     return <article className={styles.root} ref={domElement} onClick={doubleTap}>
         {article}
-        {props.active && <>
+        {active && <>
             {!entry.transient && <AppBarButton>
                 <EntryReadButton entryId={entry.id} />
             </AppBarButton>}
