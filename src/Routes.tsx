@@ -12,7 +12,9 @@ interface AppRoute {
 
 const SubscriptionManager = React.lazy(() => import('./pages/SubscriptionManager'));
 const SettingsPage = React.lazy(() => import('./pages/SettingsPage'));
-const EntryViewer = React.lazy(() => import('./pages/EntryViewer'));
+
+const entryViewerPromise = import('./pages/EntryViewer');
+const EntryViewer = React.lazy(() => entryViewerPromise);
 const CleanStorage = React.lazy(() => import('./pages/CleanStorage'));
 
 const AppRoute = (props: Props) => {
