@@ -5,7 +5,7 @@ import Layout from '../pages/_Layout';
 import Routes from '../Routes';
 import SlidePage from './SlidePage';
 
-export default (props) => {
+export default () => {
     const location = useLocation();
     const history = useHistory();
     const page = useMemo(() => {
@@ -21,21 +21,12 @@ export default (props) => {
 
         return route;
     }, [location, history]);
-    const direction = useMemo(() =>
-        history.action === "POP"
-            ? -1
-            : 1,
-        // This should only update when the path changes.
-        // eslint-disable-next-line
-        [location.pathname]);
 
     const Container = page && page.noLayout ? React.Fragment : Layout;
 
-    return <AnimatePresence custom={direction} initial={false}>
-        <SlidePage key={page.prefix} direction={direction}>
-            <Container>
-                {page && <page.component/>}
-            </Container>
-        </SlidePage>
-    </AnimatePresence>;
+    return <SlidePage>
+        <Container key={page.prefix}>
+            {page && <page.component />}
+        </Container>
+    </SlidePage>;
 }
