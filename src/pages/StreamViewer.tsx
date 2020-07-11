@@ -15,7 +15,7 @@ import { useIsPhone } from '../hooks/responsive';
 import { getStore, isUpdating, useStore } from '../hooks/store';
 import { useIsTransientSubscription } from '../hooks/subscription';
 import useWhenChanged from '../hooks/useWhenChanged';
-import { markStreamAs, setEntryList, setTransientEntryList } from '../services/store';
+import { markStreamAs, setStreamList } from '../services/store';
 import StreamList from '../StreamList';
 
 const useStyles = makeStyles(theme => ({
@@ -75,13 +75,8 @@ export default (props: { id: string }) => {
   }, [unreadOnly, history]);
 
   const loading = isUpdating('stream');
-  useWhenChanged(() => {
-    if (isTransient) {
-      setTransientEntryList(props.id);
-    } else {
-      setEntryList(unreadOnly, props.id);
-    }
-  },
+  useWhenChanged(() =>
+    setStreamList(unreadOnly, props.id),
     [unreadOnly, props.id, store.lastUpdate, scrollToTop]);
 
   // Show the stream list when it gets items.
