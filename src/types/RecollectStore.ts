@@ -8,7 +8,7 @@ import { AccentColor } from "../theme";
 
 export interface UpdatingInformation {
   categories: boolean;
-  stream: number;
+  stream: boolean;
 }
 
 export interface Settings {

@@ -9,7 +9,7 @@ export const updateStreams = async (...streamIds: string[]) => {
     if (streamIds.length === 0)
         streamIds = getStore().subscriptions.map(s => s.id);
     
-    getStore().updating.stream = streamIds.length;
+    getStore().updating.stream = true;
 
     let failed = false;
     for (const streamId of streamIds) {
@@ -19,9 +19,9 @@ export const updateStreams = async (...streamIds: string[]) => {
             console.error(err);
             failed = true;
         }
-        getStore().updating.stream--;
     }
 
+    getStore().updating.stream = false;
     getStore().lastUpdate = Date.now();
 
     if (failed)

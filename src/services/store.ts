@@ -16,7 +16,7 @@ export const initStore = () => {
 
     store.updating = {
         categories: false,
-        stream: 0,
+        stream: false,
     };
     store.settings = loadSettings();
     store.current = {
@@ -65,7 +65,7 @@ export const setTransientEntryList = async (streamId: string) => {
     if (getStore().stream.id === streamId)
         return;
 
-    getStore().updating.stream++;
+    getStore().updating.stream = true;
     getStore().stream = {
         id: streamId,
         lastScrollPos: 0,
@@ -106,7 +106,7 @@ export const setTransientEntryList = async (streamId: string) => {
         loadedEntries: stream.items.map(s => s.id)
     };
 
-    getStore().updating.stream--;
+    getStore().updating.stream = false;
 }
 
 export const loadToEntry = async (index: number) => {
