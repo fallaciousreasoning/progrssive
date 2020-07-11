@@ -23,7 +23,8 @@ const useStyles = makeStyles(theme => ({
         flex: 1
     },
     page: {
-
+        width: '100%',
+        height: '100%'
     },
     '@global': {
         'body': {
@@ -82,19 +83,19 @@ export default () => {
     const entryActive = !!entryId;
     console.log(entryActive);
     return <div className={styles.root}>
-        <SlidePage className={styles.stream}>
-            {(!entryActive || !isPhone) && <div key="stream">
-                <Layout>
+        <div className={styles.stream}>
+            <SlidePage className={styles.page}>
+                {(!entryActive || !isPhone) && <Layout key="stream">
                     <StreamViewer id={streamId} />
-                </Layout>
-            </div>}
-        </SlidePage>
-        <SlidePage className={styles.entry}>
-            {entryActive && <div key="entry">
-                <Layout>
+                </Layout>}
+            </SlidePage>
+        </div>
+        <div className={styles.entry}>
+            <SlidePage className={styles.page}>
+                {entryActive && <Layout key="entry">
                     <EntryViewer id={entryId} />
-                </Layout>
-            </div>}
-        </SlidePage>
+                </Layout>}
+            </SlidePage>
+        </div>
     </div>
 }
