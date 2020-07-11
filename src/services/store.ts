@@ -6,7 +6,7 @@ import { getStore } from '../hooks/store';
 import { Entry } from '../model/entry';
 import { StoreDef } from '../types/RecollectStore';
 import { entryCount, entryIterator } from './entryIterator';
-import { loadStore } from './persister';
+import { getDb } from './db';
 const store = s as StoreDef;
 
 let initStorePromise: Promise<void>;
@@ -34,7 +34,11 @@ export const initStore = () => {
 
     store.entries = {};
 
-    initStorePromise = loadStore();
+    initStorePromise = getDb()
+        .then(db => db.subscriptions.toArray())
+        .then(subscriptions => {
+            store.subscriptions = subscriptions;
+        });
     return initStorePromise;
 }
 

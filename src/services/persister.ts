@@ -32,9 +32,3 @@ export const load = async (storeKey: keyof Store, defaultValue = undefined) => {
     getStore()[storeKey] = value;
     return value;
 }
-
-export const loadStore = async () => {
-    await Promise.all([
-        load('subscriptions', [])
-    ]);
-}

@@ -13,7 +13,10 @@ export const getDb = async (): Promise<DB> => {
     return _db;
 }
 
-export const saveSubscription = async (subscription: Subscription, entries: Entry[]) => {
+export const saveSubscription = async (subscription: Subscription, entries: Entry[]=[]) => {
+    // Get rid of all the store proxy stuff.
+    subscription = JSON.parse(JSON.stringify(subscription));
+    
     const db = await getDb();
     return db.transaction('rw',
         db.entries,

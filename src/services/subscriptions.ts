@@ -1,9 +1,8 @@
 import { getAllEntries } from "../api/streams";
 import { getStore } from "../hooks/store";
 import { Subscription } from "../model/subscription";
-import { saveSubscription, getDb } from "./db";
+import { getDb, saveSubscription } from "./db";
 import { entryIterator } from "./entryIterator";
-import { save } from "./persister";
 
 export const getSubscription = (id: string) => {
     const subscriptions = getStore().subscriptions;
@@ -14,8 +13,11 @@ export const updateSubscription = async (subscription: Subscription) => {
     const syncDate = Date.now();
     const entries = await getAllEntries(subscription.id, subscription.lastSync);
 
+    for (const entry of entries)
+        entry.streamIds = [subscription.id];
+
     subscription.lastSync = syncDate;
-    await saveSubscription(JSON.parse(JSON.stringify(subscription)),
+    await saveSubscription(subscription,
         entries);
 }
 
@@ -41,7 +43,7 @@ export const toggleSubscription = async (subscription: Subscription) => {
 
         const newSubs = [...getStore().subscriptions];
         newSubs.splice(index, 1);
-        
+
         // Delete any entries associated with this subscription.
         await deleteSubscriptionData(id);
 
@@ -61,7 +63,7 @@ export const toggleSubscription = async (subscription: Subscription) => {
         } catch {
             window.snackHelper.enqueueSnackbar(`Failed to fetch ${subscription.title}`);
         }
-    }
 
-    return save('subscriptions', getStore().subscriptions);
+        await saveSubscription(subscription);
+    }
 }

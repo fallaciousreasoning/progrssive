@@ -16,6 +16,7 @@ import { useHistory } from 'react-router-dom';
 import { getStore } from '../hooks/store';
 import { Subscription } from '../model/subscription';
 import { save } from '../services/persister';
+import { saveSubscription } from '../services/db';
 
 interface Props {
     subscription: Subscription,
@@ -109,7 +110,7 @@ export default (props: Props) => {
 
     const preferredViewChanged = useCallback(async (e) => {
         props.subscription.preferredView = e.target.value;
-        await save('subscriptions', getStore().subscriptions)
+        await saveSubscription(props.subscription)
     }, [props.subscription]);
 
     const visualUrl = props.subscription.visualUrl || props.subscription.iconUrl;

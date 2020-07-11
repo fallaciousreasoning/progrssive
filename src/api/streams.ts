@@ -40,3 +40,4 @@ export const getAllEntries = async (streamId: string, since: number, batchSize=2
 
     return result;
 }
+window['getAllEntries'] = getAllEntries
