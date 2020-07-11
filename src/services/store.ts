@@ -1,4 +1,5 @@
 import { store as s } from 'react-recollect';
+import { bulkSetUnread } from '../actions/marker';
 import { loadSettings } from '../actions/settings';
 import { getStream } from '../api/streams';
 import { getStore } from '../hooks/store';
@@ -6,7 +7,6 @@ import { Entry } from '../model/entry';
 import { StoreDef } from '../types/RecollectStore';
 import { entryCount, entryIterator } from './entryIterator';
 import { loadStore } from './persister';
-import { setUnread } from '../actions/marker';
 const store = s as StoreDef;
 
 let initStorePromise: Promise<void>;
@@ -146,7 +146,6 @@ export const markStreamAsRead = async () => {
     const unread = getStore()
         .stream
         .loadedEntries
-        .filter(id => store.entries[id].unread);
-    for (const entry of unread)
-        setUnread(entry, false);
+        .filter(id => store.entries[id].unread)
+    await bulkSetUnread(unread, false);
 }
