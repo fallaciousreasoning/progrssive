@@ -17,7 +17,7 @@ export const getStream = async (streamId: string, type: 'contents' | 'id' = 'con
     return makeRequest<Stream>(`${endpoint}/${type}?streamId=${encodeURIComponent(streamId)}`, { ...defaultOptions, ...options });
 }
 
-export const getAllEntries = async (streamId: string, since: number, batchSize=20) => {
+export const getAllEntries = async (streamId: string, since: number, batchSize=1000, limit=1000) => {
     const result: Entry[] = [];
     
     let continuation: string;
@@ -33,8 +33,11 @@ export const getAllEntries = async (streamId: string, since: number, batchSize=2
             options.continuation = continuation;
 
         const stream = await getStream(streamId, 'contents', options);
-        for (const entry of stream.items)
+        for (const entry of stream.items) {
             result.push(entry);
+            if (result.length >= limit)
+                return result;
+        }
         continuation = stream.continuation;
     } while (continuation);
 
