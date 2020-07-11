@@ -5,7 +5,6 @@ import { AccentColor } from "../theme";
 export interface UpdatingInformation {
   categories: boolean;
   stream: {
-    all?: Promise<void>;
     [streamId: string]: Promise<void>;
   };
 }
