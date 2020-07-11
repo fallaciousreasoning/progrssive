@@ -61,9 +61,9 @@ export default (props: {
         // eslint-disable-next-line
         [location.pathname]);
 
-    const children = Array.isArray(props.children)
+    const children = (Array.isArray(props.children)
         ? props.children
-        : [props.children];
+        : [props.children]).filter(c => c);
 
     return <AnimatePresence custom={direction} initial={!!props.initial}>
         {children.map((child, index) => <motion.div
