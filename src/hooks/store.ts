@@ -54,4 +54,16 @@ export const makeStoreCache = <T>(fetcher: (store: Store) => T | Promise<T>, onF
     }
 }
 
-export const isUpdating = (id: string) => !!currentStore.updating[id || undefined];
+export const getStreamUpdating = (streamId: string) => {
+    const updating = getStore().updating.stream;
+    if (!streamId)
+        return updating.all;
+
+    if (updating[streamId])
+        return updating[streamId];
+
+    if (updating.all)
+        return updating.all;
+}
+
+window['up'] = getStreamUpdating

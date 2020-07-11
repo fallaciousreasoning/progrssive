@@ -12,7 +12,7 @@ import Centre from '../components/Centre';
 import MarkAsReadButton from '../components/MarkAsReadButton';
 import StreamFooter from '../components/StreamFooter';
 import { useIsPhone } from '../hooks/responsive';
-import { getStore, isUpdating, useStore } from '../hooks/store';
+import { getStore, getStreamUpdating, useStore } from '../hooks/store';
 import { useIsTransientSubscription } from '../hooks/subscription';
 import useWhenChanged from '../hooks/useWhenChanged';
 import { markStreamAs, setStreamList } from '../services/store';
@@ -74,7 +74,8 @@ export default (props: { id: string }) => {
     history.replace(`?${unreadOnly ? "showUnread" : ""}`);
   }, [unreadOnly, history]);
 
-  const loading = isUpdating('stream');
+
+  const loading = !!getStreamUpdating(props.id);
   useWhenChanged(() =>
     setStreamList(unreadOnly, props.id),
     [unreadOnly, props.id, store.lastUpdate, scrollToTop]);

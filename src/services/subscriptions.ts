@@ -38,10 +38,12 @@ export const updateSubscription = async (subscription: Subscription) => {
         await saveSubscription(subscription,
             entries);
     } catch (err) {
+        delete getStore().updating.stream[subscription.id];
         resolve();
         throw err;
     }
 
+    delete getStore().updating.stream[subscription.id];
     resolve();
 }
 
