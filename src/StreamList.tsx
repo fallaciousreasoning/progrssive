@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import * as React from 'react';
 import { useCallback, useRef, useState, useEffect } from 'react';
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { FixedSizeList } from 'react-window';
 import { setUnread } from './actions/marker';
 import EntryCard from './EntryCard';
@@ -31,6 +31,7 @@ export default (props: Props) => {
     const { width, height } = useScreenSize();
 
     const history = useHistory();
+    const location = useLocation();
 
     const store = useStore();
     const loadedEntries = useStreamEntries();
@@ -125,7 +126,12 @@ export default (props: Props) => {
                         window.open(getEntryUrl(item), "_blank");
                     } else {
                         const url = getProgrssiveUrl(item);
-                        history.push(url);
+                        // If we're currently looking at an entry,
+                        // replace it.
+                        const action = location.pathname.includes('/entries/')
+                            ? history.replace
+                            : history.push;
+                        action(url);
                     }
 
                     // If pages should be marked as read on open, do that.
