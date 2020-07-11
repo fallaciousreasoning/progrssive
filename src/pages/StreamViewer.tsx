@@ -17,6 +17,7 @@ import { useIsTransientSubscription } from '../hooks/subscription';
 import useWhenChanged from '../hooks/useWhenChanged';
 import { markStreamAs, setStreamList } from '../services/store';
 import StreamList from '../StreamList';
+import MaybeUpdateStreamList from '../components/MaybeUpdateStreamList';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -117,6 +118,7 @@ export default (props: { id: string }) => {
       <CircularProgress className={styles.loader} />
     </Centre>}
 
+    <MaybeUpdateStreamList streamId={props.id} />
     {store.stream.length !== 0 && <StreamList onProgressChanged={setProgress} />}
 
     {active && <>
