@@ -1,14 +1,12 @@
-import { Omit } from "@material-ui/core";
-import { Category } from "../model/category";
 import { Entry } from "../model/entry";
-import { Stream } from "../model/stream";
 import { Subscription } from "../model/subscription";
-import { Collection } from "../model/collection";
 import { AccentColor } from "../theme";
 
 export interface UpdatingInformation {
   categories: boolean;
-  stream: boolean;
+  stream: {
+    [streamId: string]: Promise<Entry[]>
+  };
 }
 
 export interface Settings {

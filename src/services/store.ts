@@ -7,6 +7,7 @@ import { Entry } from '../model/entry';
 import { StoreDef } from '../types/RecollectStore';
 import { entryCount, entryIterator } from './entryIterator';
 import { getDb } from './db';
+import { resolvable } from '../utils/promise';
 const store = s as StoreDef;
 
 let initStorePromise: Promise<void>;
@@ -16,7 +17,7 @@ export const initStore = () => {
 
     store.updating = {
         categories: false,
-        stream: false,
+        stream: {},
     };
     store.settings = loadSettings();
     store.current = {
@@ -69,7 +70,12 @@ export const setTransientEntryList = async (streamId: string) => {
     if (getStore().stream.id === streamId)
         return;
 
-    getStore().updating.stream = true;
+    if (getStore().updating.stream[streamId]) {
+        return getStore().updating.stream[streamId];
+    }
+
+    const { resolve, promise } = resolvable<Entry[]>();
+    getStore().updating.stream[streamId] = promise;
     getStore().stream = {
         id: streamId,
         lastScrollPos: 0,
@@ -88,6 +94,9 @@ export const setTransientEntryList = async (streamId: string) => {
             unreadOnly: false
         };
         window.snackHelper.enqueueSnackbar(`Failed to load stream. Are you offline?`);
+        
+        resolve([]);
+        delete getStore().updating.stream[streamId];
         return;
     }
 
@@ -110,7 +119,8 @@ export const setTransientEntryList = async (streamId: string) => {
         loadedEntries: stream.items.map(s => s.id)
     };
 
-    getStore().updating.stream = false;
+    resolve(stream.items);
+    delete getStore().updating.stream[streamId];
 }
 
 export const loadToEntry = async (index: number) => {
