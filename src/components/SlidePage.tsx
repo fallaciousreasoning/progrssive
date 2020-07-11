@@ -61,24 +61,25 @@ export default (props: {
         // eslint-disable-next-line
         [location.pathname]);
 
-    const childKey = props.children
-        && props.children['key'] || props.children['id'] || null;
+    const children = Array.isArray(props.children)
+        ? props.children
+        : [props.children];
 
     return <AnimatePresence custom={direction} initial={!!props.initial}>
-        <motion.div
+        {children.map((child, index) => <motion.div
             className={props.className || styles.root}
             custom={direction || 1}
             initial="initial"
             animate="in"
             exit="out"
             variants={pageVariants}
-            key={childKey}
+            key={child['key'] || child['id'] || index}
             transition={pageTransition}
         >
             <Suspense fallback={pageLoadingIndicator}>
-                {props.children}
+                {child}
             </Suspense>
-        </motion.div>
+        </motion.div>)}
 
     </AnimatePresence>
 }

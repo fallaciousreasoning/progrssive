@@ -81,7 +81,8 @@ export default () => {
     entryId = decodeURIComponent(entryId || '');
 
     const entryActive = !!entryId;
-    return <SlidePage className={styles.root}>
+    const Container = isPhone ? SlidePage : 'div';
+    return <Container className={styles.root}>
         {(!entryActive || !isPhone) && <div key="stream" className={styles.stream}>
             <Layout key="stream">
                 <StreamViewer id={streamId} />
@@ -93,5 +94,5 @@ export default () => {
                 <EntryViewer id={entryId} />
             </Layout>
         </div>}
-    </SlidePage>
+    </Container>
 }
