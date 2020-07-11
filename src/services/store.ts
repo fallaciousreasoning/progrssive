@@ -86,7 +86,7 @@ const setTransientEntryList = async (streamId: string, force=false) => {
     getStore().stream = {
         id: streamId,
         lastScrollPos: 0,
-        length: 1,
+        length: 0,
         loadedEntries: [],
         unreadOnly: false
     };
