@@ -13,9 +13,7 @@ import Delete from '@material-ui/icons/Delete';
 import ErrorIcon from '@material-ui/icons/Error';
 import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
-import { getStore } from '../hooks/store';
 import { Subscription } from '../model/subscription';
-import { save } from '../services/persister';
 import { saveSubscription } from '../services/db';
 
 interface Props {
