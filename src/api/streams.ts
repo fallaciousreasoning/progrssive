@@ -17,7 +17,7 @@ export const getStream = async (streamId: string, type: 'contents' | 'id' = 'con
     return makeRequest<Stream>(`${endpoint}/${type}?streamId=${encodeURIComponent(streamId)}`, { ...defaultOptions, ...options });
 }
 
-export const getAllEntries = async (streamId: string, since: number, batchSize=1000, limit=1000) => {
+export const getAllEntries = async (streamId: string, since: number, batchSize=100, limit=100) => {
     const result: Entry[] = [];
     
     let continuation: string;
