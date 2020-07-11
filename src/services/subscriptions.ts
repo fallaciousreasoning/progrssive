@@ -1,7 +1,7 @@
-import { getStream } from "../api/streams";
+import { getAllEntries } from "../api/streams";
 import { getStore } from "../hooks/store";
 import { Subscription } from "../model/subscription";
-import { addStream, getDb } from "./db";
+import { saveSubscription, getDb } from "./db";
 import { entryIterator } from "./entryIterator";
 import { save } from "./persister";
 
@@ -10,15 +10,13 @@ export const getSubscription = (id: string) => {
     return subscriptions.find(s => s.id === id);
 }
 
-export const updateSubscription = async (subscription: Subscription | string) => {
-    const subscriptionId = typeof subscription === "string" ? subscription : subscription.id;
-    const stream = await getStream(subscriptionId);
+export const updateSubscription = async (subscription: Subscription) => {
+    const syncDate = Date.now();
+    const entries = await getAllEntries(subscription.id, subscription.lastSync);
 
-    for (const entry of stream.items) {
-        entry.streamIds = [subscriptionId];
-    }
-
-    await addStream(stream);
+    subscription.lastSync = syncDate;
+    await saveSubscription(JSON.parse(JSON.stringify(subscription)),
+        entries);
 }
 
 const deleteSubscriptionData = async (id: string) => {
@@ -31,7 +29,7 @@ const deleteSubscriptionData = async (id: string) => {
     }
 
     const db = await getDb();
-    await db.streams.delete(id);
+    await db.subscriptions.delete(id);
     await db.entries.bulkDelete(toDelete);
 }
 

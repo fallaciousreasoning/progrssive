@@ -6,6 +6,7 @@ export interface Subscription {
     categories: Category[];
     added?: number;
     updated?: number;
+    lastSync?: number;
     website?: string;
     feedUrl?: string;
     visualUrl?: string;

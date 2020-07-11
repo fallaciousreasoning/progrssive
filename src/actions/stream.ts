@@ -14,7 +14,8 @@ export const updateStreams = async (...streamIds: string[]) => {
     let failed = false;
     for (const streamId of streamIds) {
         try {
-            await updateSubscription(streamId);
+            const subscription = getStore().subscriptions.find(s => s.id === streamId);
+            await updateSubscription(subscription);
         } catch (err) {
             console.error(err);
             failed = true;

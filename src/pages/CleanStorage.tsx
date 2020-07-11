@@ -43,7 +43,6 @@ export default (props) => {
         const db = await getDb();
         if (clean.articles) {
             db.entries.clear();
-            db.streams.clear();
             store.stream = {
                 id: 'unknown stream',
                 lastScrollPos: 0,
@@ -55,7 +54,8 @@ export default (props) => {
         }
 
         if (clean.subscriptions){
-            // TODO.
+            db.subscriptions.clear();
+            // TODO?
         }
     }, [clean]);
 

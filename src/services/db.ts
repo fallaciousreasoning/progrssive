@@ -1,6 +1,7 @@
 import { Entry } from '../model/entry';
 import { Stream } from '../model/stream';
 import { DBEntry, DB } from './dbBuilder';
+import { Subscription } from '../model/subscription';
 
 let _db;
 export const getDb = async (): Promise<DB> => {
@@ -12,20 +13,18 @@ export const getDb = async (): Promise<DB> => {
     return _db;
 }
 
-export const addStream = async (stream: Stream) => {
+export const saveSubscription = async (subscription: Subscription, entries: Entry[]) => {
     const db = await getDb();
     return db.transaction('rw',
         db.entries,
-        db.streams,
+        db.subscriptions,
         async (transaction) => {
-            const dbStream = { ...stream };
-            delete dbStream.items;
-
-            // Add the stream, sans the items.
-            db.streams.put(dbStream, stream.id);
+            // Update/put the subscription.
+            db.subscriptions.put(subscription,
+                subscription.id);
 
             // Add all the entries
-            for (const entry of stream.items) {
+            for (const entry of entries) {
                 addEntry(entry, true);
             }
         })
