@@ -139,13 +139,14 @@ export const loadToEntry = async (index: number) => {
     ];
 }
 
-export const markStreamAsRead = async () => {
+export const markStreamAs = async (status: 'read' | 'unread') => {
+    const unreadStatus = status === 'unread';
     // Make sure we've loaded all the entries in the stream.
     await loadToEntry(getStore().stream.length);
 
-    const unread = getStore()
+    const entries = getStore()
         .stream
         .loadedEntries
-        .filter(id => store.entries[id].unread)
-    await bulkSetUnread(unread, false);
+        .filter(id => store.entries[id].unread == !unreadStatus)
+    await bulkSetUnread(entries, unreadStatus);
 }

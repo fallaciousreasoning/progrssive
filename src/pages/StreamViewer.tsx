@@ -15,7 +15,7 @@ import { useIsPhone } from '../hooks/responsive';
 import { getStore, isUpdating, useStore } from '../hooks/store';
 import { useIsTransientSubscription } from '../hooks/subscription';
 import useWhenChanged from '../hooks/useWhenChanged';
-import { markStreamAsRead, setEntryList, setTransientEntryList } from '../services/store';
+import { markStreamAs, setEntryList, setTransientEntryList } from '../services/store';
 import StreamList from '../StreamList';
 
 const useStyles = makeStyles(theme => ({
@@ -110,7 +110,7 @@ export default (props: { id: string }) => {
     if (footerTop > pageTop)
       return;
 
-    markStreamAsRead();
+    markStreamAs('read');
   }, [unreadOnly])
 
   const [progress, setProgress] = useState(0);
