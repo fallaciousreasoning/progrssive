@@ -17,15 +17,17 @@ export const updateStreams = async (...streamIds: string[]) => {
     getStore().updating.stream.all = promise;
 
     let failed = false;
-    for (const streamId of streamIds) {
+    const updates = streamIds.map(async id => {
         try {
-            const subscription = getStore().subscriptions.find(s => s.id === streamId);
+            const subscription = getStore().subscriptions.find(s => s.id === id);
             await updateSubscription(subscription);
         } catch (err) {
             console.error(err);
             failed = true;
         }
-    }
+    });
+
+    await Promise.all(updates);
 
     delete getStore().updating.stream.all;
     getStore().lastUpdate = Date.now();
