@@ -49,14 +49,6 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const useScrollToTop = (entry: Entry, ref: React.MutableRefObject<any>) => {
-    useEffect(() => {
-        if (!entry || !ref || !ref.current) return;
-
-        ref.current.parentElement.scrollTo(0, 0);
-    }, [entry, ref]);
-}
-
 export default (props: { id: string }) => {
     const store = useStore();
     const history = useHistory();
@@ -70,7 +62,21 @@ export default (props: { id: string }) => {
     const [failedToMobilize, setFailedToMobilize] = useState(false);
     const { width: screenWidth } = useScreenSize();
 
-    useScrollToTop(entry, domElement);
+    useWhenChanged(() => {
+        if (!domElement.current)
+            return;
+
+        // Find the first parent element that has been
+        // scrolled.
+        let element: HTMLElement = domElement.current;
+        while (element && element.scrollHeight === element.clientHeight)
+            element = element.parentElement;
+
+        if (!element)
+            return;
+
+        element.scrollTo(0, 0);
+    }, [props.id]);
 
     const preferredViewChanged = useCallback(view => {
         if (view === "browser") {
