@@ -41,9 +41,9 @@ export default (props: Props) => {
         className: `${props.trigger.props.className} ${styles.trigger} ${!!anchorEl && styles.triggerSelected}`
     });
 
-    const children = Array.isArray(props.children)
+    const children = (Array.isArray(props.children)
         ? props.children
-        : [props.children]
+        : [props.children]).filter(c => c)
 
     return <>
         {trigger}
