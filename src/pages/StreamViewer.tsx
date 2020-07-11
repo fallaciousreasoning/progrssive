@@ -18,6 +18,7 @@ import useWhenChanged from '../hooks/useWhenChanged';
 import { getUnreadStreamEntryIds, setEntryList, setTransientEntryList } from '../services/store';
 import StreamList from '../StreamList';
 import { useIsPhone } from '../hooks/responsive';
+import MarkAsReadButton from '../components/MarkAsReadButton';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -128,7 +129,7 @@ export default (props: { id: string }) => {
 
     {active && <>
       <AppBarButton>
-        <ProgressRing key="progress" percent={progress} text={remainingArticles} />
+        <MarkAsReadButton progress={progress} text={remainingArticles.toString()}/>
       </AppBarButton>
       <AppBarButton>
         <IconButton disabled={loading} onClick={() => updateStreams(props.id)}>
