@@ -1,7 +1,8 @@
 import React from 'react';
-import { IconButton } from '@material-ui/core';
+import { IconButton, MenuItem } from '@material-ui/core';
 import ProgressRing from './ProgressRing';
 import ToggleMenu from './ToggleMenu';
+import { markStreamAsRead } from '../services/store';
 
 export default (props: {
     progress: number,
@@ -12,5 +13,8 @@ export default (props: {
             percent={props.progress}
             text={props.text} />
     </IconButton>}>
+        <MenuItem onClick={markStreamAsRead}>
+            Mark as Read
+        </MenuItem>
     </ToggleMenu>;
 }

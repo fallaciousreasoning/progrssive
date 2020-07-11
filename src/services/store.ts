@@ -6,6 +6,7 @@ import { Entry } from '../model/entry';
 import { StoreDef } from '../types/RecollectStore';
 import { entryCount, entryIterator } from './entryIterator';
 import { loadStore } from './persister';
+import { setUnread } from '../actions/marker';
 const store = s as StoreDef;
 
 let initStorePromise: Promise<void>;
@@ -138,10 +139,14 @@ export const loadToEntry = async (index: number) => {
     ];
 }
 
-export const getUnreadStreamEntryIds = () => {
-    const store = getStore();
-    return store
+export const markStreamAsRead = async () => {
+    // Make sure we've loaded all the entries in the stream.
+    await loadToEntry(getStore().stream.length);
+
+    const unread = getStore()
         .stream
         .loadedEntries
         .filter(id => store.entries[id].unread);
+    for (const entry of unread)
+        setUnread(entry, false);
 }

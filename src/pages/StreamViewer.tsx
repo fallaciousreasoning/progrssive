@@ -6,19 +6,17 @@ import Switch from '@material-ui/core/Switch';
 import Refresh from '@material-ui/icons/Refresh';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { setUnread } from '../actions/marker';
 import { updateStreams } from '../actions/stream';
 import AppBarButton from '../components/AppBarButton';
 import Centre from '../components/Centre';
-import ProgressRing from '../components/ProgressRing';
+import MarkAsReadButton from '../components/MarkAsReadButton';
 import StreamFooter from '../components/StreamFooter';
+import { useIsPhone } from '../hooks/responsive';
 import { getStore, isUpdating, useStore } from '../hooks/store';
 import { useIsTransientSubscription } from '../hooks/subscription';
 import useWhenChanged from '../hooks/useWhenChanged';
-import { getUnreadStreamEntryIds, setEntryList, setTransientEntryList } from '../services/store';
+import { markStreamAsRead, setEntryList, setTransientEntryList } from '../services/store';
 import StreamList from '../StreamList';
-import { useIsPhone } from '../hooks/responsive';
-import MarkAsReadButton from '../components/MarkAsReadButton';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -112,9 +110,7 @@ export default (props: { id: string }) => {
     if (footerTop > pageTop)
       return;
 
-    const entriesToMark = getUnreadStreamEntryIds();
-    for (const id of entriesToMark)
-      setUnread(id, false);
+    markStreamAsRead();
   }, [unreadOnly])
 
   const [progress, setProgress] = useState(0);
