@@ -146,10 +146,18 @@ export default (props: { id: string }) => {
             const actualWidth = frame.getBoundingClientRect().width;
             const preferredWidth = parseInt(frame.width);
             const preferredHeight = parseInt(frame.height);
-            let aspectRatio = preferredWidth/preferredHeight;
-            if (isNaN(aspectRatio))
-                aspectRatio = 4/3;
-            frame.setAttribute('style', `height: ${actualWidth/aspectRatio}px`);
+
+            let newHeight = preferredHeight;
+
+            // If the width is a percentage, presumably it looks
+            // good stretched out.
+            if (!frame.width.endsWith('%')) {
+                let aspectRatio = preferredWidth/preferredHeight;
+                if (isNaN(aspectRatio))
+                    aspectRatio = 4/3;
+                newHeight = actualWidth/aspectRatio;
+            }
+            frame.setAttribute('style', `height: ${newHeight}px`);
         }
     }, [domElement.current, screenWidth, content]);
 
