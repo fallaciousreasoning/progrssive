@@ -1,15 +1,26 @@
-import React, { useState } from 'react'
-import { getStreamUpdating, useStore, getStore } from '../hooks/store';
+import { Button } from '@material-ui/core';
+import React, { useCallback } from 'react';
+import { getStore, getStreamUpdating, useStore } from '../hooks/store';
 import useWhenChanged from '../hooks/useWhenChanged';
 import { entryCount } from '../services/entryIterator';
-import { Button } from '@material-ui/core';
+import { setStreamList } from '../services/store';
 
 interface Props {
     streamId: string;
 }
 
+const UpdateButton = (props: { streamId: string, unreadOnly: boolean }) => {
+    const callback = useCallback(() =>
+        setStreamList(props.unreadOnly, props.streamId)
+        , [props.streamId, props.unreadOnly]);
+
+    return <Button color="secondary" onClick={callback}>
+        Show
+    </Button>
+}
+
 export default (props: Props) => {
-    const store = useStore();
+    useStore();
     const updatePromise = getStreamUpdating(props.streamId);
 
 
@@ -25,9 +36,7 @@ export default (props: Props) => {
         if (newCount > getStore().stream.length) {
             // Updates are available.
             window.snackHelper.enqueueSnackbar("New articles available!", {
-                action: <Button color="primary">
-                    Show
-                </Button>,
+                action: <UpdateButton streamId={props.streamId} unreadOnly={unreadOnly} />,
                 autoHideDuration: 15000,
                 key: 'articles-available',
                 preventDuplicate: true,
