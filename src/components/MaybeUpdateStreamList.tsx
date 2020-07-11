@@ -11,7 +11,7 @@ interface Props {
 
 const UpdateButton = (props: { streamId: string, unreadOnly: boolean }) => {
     const callback = useCallback(() =>
-        setStreamList(props.unreadOnly, props.streamId)
+        setStreamList(props.unreadOnly, props.streamId, /*force=*/true)
         , [props.streamId, props.unreadOnly]);
 
     return <Button color="secondary" onClick={callback}>
@@ -21,29 +21,40 @@ const UpdateButton = (props: { streamId: string, unreadOnly: boolean }) => {
 
 export default (props: Props) => {
     useStore();
-    const updatePromise = getStreamUpdating(props.streamId);
-
+    const loading = !!getStreamUpdating(props.streamId);
 
     useWhenChanged(async () => {
-        // We're only interested in when the stream finishes
-        // updating.
-        if (updatePromise)
+        // We're only interested when the stream finishes
+        // loading.
+        if (loading)
             return;
 
         const { unreadOnly } = getStore().stream;
 
+        const streamLength = getStore().stream.length;
         const newCount = await entryCount(unreadOnly, props.streamId);
-        if (newCount > getStore().stream.length) {
-            // Updates are available.
-            window.snackHelper.enqueueSnackbar("New articles available!", {
-                action: <UpdateButton streamId={props.streamId} unreadOnly={unreadOnly} />,
-                autoHideDuration: 15000,
-                key: 'articles-available',
-                preventDuplicate: true,
-            })
-        }
-    }, [!!updatePromise]);
-    return <div>
+        
+        // No new articles.
+        if (newCount <= streamLength)
+            return;
+        
 
-    </div>
+        // We have articles now, and we didn't before.
+        if (streamLength === 0) {
+            // So automatically load in the new articles,
+            // as there isn't any risk of losing our spot.
+            setStreamList(unreadOnly, props.streamId, /*force=*/true);
+            return;
+        }
+
+        // Updates are available, ask the user if they
+        // want to see them.
+        window.snackHelper.enqueueSnackbar("New articles available!", {
+            action: <UpdateButton streamId={props.streamId} unreadOnly={unreadOnly} />,
+            autoHideDuration: 15000,
+            key: 'articles-available',
+            preventDuplicate: true,
+        });
+    }, [loading]);
+    return null;
 }

@@ -42,13 +42,13 @@ export const initStore = () => {
     return initStorePromise;
 }
 
-export const setStreamList = async (unreadOnly: boolean, streamId: string) => {
+export const setStreamList = async (unreadOnly: boolean, streamId: string, force=false) => {
     await initStorePromise;
 
     const isTransient = !getStore().subscriptions.find(s => s.id === streamId);
     if (isTransient)
-        setTransientEntryList(streamId);
-    else setEntryList(unreadOnly, streamId);
+        setTransientEntryList(streamId, force);
+    else setEntryList(unreadOnly, streamId, force);
 }
 
 let streamIterator: AsyncGenerator<Entry> = undefined;
@@ -73,8 +73,8 @@ const setEntryList = async (unreadOnly: boolean, streamId: string, force = false
     loadToEntry(20);
 }
 
-const setTransientEntryList = async (streamId: string) => {
-    if (getStore().stream.id === streamId)
+const setTransientEntryList = async (streamId: string, force=false) => {
+    if (!force && getStore().stream.id === streamId)
         return;
 
     if (getStore().updating.stream[streamId]) {
