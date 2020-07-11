@@ -1,6 +1,7 @@
 import { getAllEntries } from "../api/streams";
 import { getStore } from "../hooks/store";
 import { Subscription } from "../model/subscription";
+import { resolvable } from "../utils/promise";
 import { getDb, saveSubscription } from "./db";
 import { entryIterator } from "./entryIterator";
 
@@ -10,24 +11,38 @@ export const getSubscription = (id: string) => {
 }
 
 export const updateSubscription = async (subscription: Subscription) => {
+    const updatePromise = getStore().updating.stream[subscription.id];
+    if (updatePromise)
+        return updatePromise;
+
+    const { resolve, promise } = resolvable();
+    getStore().updating.stream[subscription.id] = promise;
+
     const lastSync = subscription.lastSync;
-    
+
     // Update the store subscription. This won't propogate
     // unless we get the item from the store again, so
     // make a copy and update the last sync time on that
     // too.
     const syncDate = Date.now();
     subscription.lastSync = syncDate;
-    subscription = {...subscription};
+    subscription = { ...subscription };
     subscription.lastSync = syncDate;
 
-    const entries = await getAllEntries(subscription.id, lastSync);
+    try {
+        const entries = await getAllEntries(subscription.id, lastSync);
 
-    for (const entry of entries)
-        entry.streamIds = [subscription.id];
+        for (const entry of entries)
+            entry.streamIds = [subscription.id];
 
-    await saveSubscription(subscription,
-        entries);
+        await saveSubscription(subscription,
+            entries);
+    } catch (err) {
+        resolve();
+        throw err;
+    }
+
+    resolve();
 }
 
 const deleteSubscriptionData = async (id: string) => {
@@ -65,7 +80,7 @@ export const toggleSubscription = async (subscription: Subscription) => {
             subscription
         ];
 
-        subscription = 
+        subscription =
             getStore().subscriptions[getStore().subscriptions.length - 1];
 
         // Fetch articles for the subscription.

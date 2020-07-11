@@ -9,7 +9,7 @@ export const delayResult = <T>(by: number) => {
     }
 }
 
-export const resolvable = <T>() => {
+export const resolvable = <T = void>() => {
     let resolve: (value: T) => void;
     let reject: (reason?: any) => void;
     const promise = new Promise<T>((res, rej) => {

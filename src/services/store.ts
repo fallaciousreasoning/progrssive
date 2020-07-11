@@ -74,7 +74,7 @@ export const setTransientEntryList = async (streamId: string) => {
         return getStore().updating.stream[streamId];
     }
 
-    const { resolve, promise } = resolvable<Entry[]>();
+    const { resolve, promise } = resolvable();
     getStore().updating.stream[streamId] = promise;
     getStore().stream = {
         id: streamId,
@@ -95,7 +95,7 @@ export const setTransientEntryList = async (streamId: string) => {
         };
         window.snackHelper.enqueueSnackbar(`Failed to load stream. Are you offline?`);
         
-        resolve([]);
+        resolve();
         delete getStore().updating.stream[streamId];
         return;
     }
@@ -119,7 +119,7 @@ export const setTransientEntryList = async (streamId: string) => {
         loadedEntries: stream.items.map(s => s.id)
     };
 
-    resolve(stream.items);
+    resolve();
     delete getStore().updating.stream[streamId];
 }
 

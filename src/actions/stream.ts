@@ -1,7 +1,11 @@
 import { getStore } from "../hooks/store";
 import { updateSubscription } from "../services/subscriptions";
+import { resolvable } from "../utils/promise";
 
 export const updateStreams = async (...streamIds: string[]) => {
+    if (getStore().updating.stream.all)
+        return getStore().updating.stream.all;
+
     // Only use defined stream ids.
     streamIds = streamIds.filter(s => s);
 
@@ -9,7 +13,8 @@ export const updateStreams = async (...streamIds: string[]) => {
     if (streamIds.length === 0)
         streamIds = getStore().subscriptions.map(s => s.id);
     
-    getStore().updating.stream = true;
+    const {resolve, promise} = resolvable();
+    getStore().updating.stream.all = promise;
 
     let failed = false;
     for (const streamId of streamIds) {
@@ -22,8 +27,9 @@ export const updateStreams = async (...streamIds: string[]) => {
         }
     }
 
-    getStore().updating.stream = false;
+    delete getStore().updating.stream.all;
     getStore().lastUpdate = Date.now();
+    resolve();
 
     if (failed)
         window.snackHelper.enqueueSnackbar("Failed to update subscriptions!");
