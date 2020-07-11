@@ -10,13 +10,22 @@ export const getSubscription = (id: string) => {
 }
 
 export const updateSubscription = async (subscription: Subscription) => {
+    const lastSync = subscription.lastSync;
+    
+    // Update the store subscription. This won't propogate
+    // unless we get the item from the store again, so
+    // make a copy and update the last sync time on that
+    // too.
     const syncDate = Date.now();
-    const entries = await getAllEntries(subscription.id, subscription.lastSync);
+    subscription.lastSync = syncDate;
+    subscription = {...subscription};
+    subscription.lastSync = syncDate;
+
+    const entries = await getAllEntries(subscription.id, lastSync);
 
     for (const entry of entries)
         entry.streamIds = [subscription.id];
 
-    subscription.lastSync = syncDate;
     await saveSubscription(subscription,
         entries);
 }
@@ -55,6 +64,9 @@ export const toggleSubscription = async (subscription: Subscription) => {
             ...getStore().subscriptions,
             subscription
         ];
+
+        subscription = 
+            getStore().subscriptions[getStore().subscriptions.length - 1];
 
         // Fetch articles for the subscription.
         try {
