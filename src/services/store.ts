@@ -110,7 +110,7 @@ export const setTransientEntryList = async (streamId: string) => {
 }
 
 export const loadToEntry = async (index: number) => {
-    if (index < 0)
+    if (index < 0 || !streamIterator)
         return;
 
     const loaded = {};
