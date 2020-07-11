@@ -81,7 +81,6 @@ export default () => {
     entryId = decodeURIComponent(entryId || '');
 
     const entryActive = !!entryId;
-    console.log(entryActive);
     return <div className={styles.root}>
         <div className={styles.stream}>
             <SlidePage className={styles.page}>
