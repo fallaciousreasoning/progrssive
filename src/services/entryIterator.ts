@@ -27,10 +27,16 @@ export async function* entryIterator(unreadOnly: boolean, streamId?: string, pag
     const seen = new Set<string>();
     const db = await getDb();
 
+    const { default: Dexie } = await import('dexie');
+
     while (!finished) {
+        const unreadMin = unreadOnly ? 0 : 1;
         const page = await db.entries
-            .where('published')
-            .belowOrEqual(lastDate)
+            .where('[published+unread]')
+            .between(
+                [Dexie.minKey, unreadMin],
+                [lastDate, 1],
+                true, true)
             .reverse()
             // Note: And clauses happen in memory.
             .and(e => !unreadOnly || !!e.unread)
