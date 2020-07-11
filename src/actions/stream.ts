@@ -22,8 +22,6 @@ export const updateStreams = async (...streamIds: string[]) => {
 
     await Promise.all(updates);
 
-    getStore().lastUpdate = Date.now();
-
     if (failed)
         window.snackHelper.enqueueSnackbar("Failed to update subscriptions!");
     else

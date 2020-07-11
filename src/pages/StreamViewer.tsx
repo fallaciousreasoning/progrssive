@@ -78,7 +78,7 @@ export default (props: { id: string }) => {
   const loading = !!getStreamUpdating(props.id);
   useWhenChanged(() =>
     setStreamList(unreadOnly, props.id),
-    [unreadOnly, props.id, store.lastUpdate, scrollToTop]);
+    [unreadOnly, props.id, scrollToTop]);
 
   // Show the stream list when it gets items.
   useWhenChanged(scrollToTop,

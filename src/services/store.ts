@@ -23,7 +23,6 @@ export const initStore = () => {
     store.current = {
     };
     store.subscriptions = [];
-    store.lastUpdate = Date.now();
 
     store.stream = {
         id: undefined,
