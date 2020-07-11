@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
     stream: {
         width: '100%',
         [theme.breakpoints.up('md')]: {
-            width: '400px'
+            width: '500px'
         }
     },
     entry: {
