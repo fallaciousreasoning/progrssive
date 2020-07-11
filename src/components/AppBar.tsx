@@ -10,6 +10,7 @@ import StackPanel from './StackPanel';
 
 type BarChild = {
     id: string;
+    sort: number;
     child: React.ReactNode;
 };
 
@@ -87,7 +88,7 @@ export default (props: { children: React.ReactNode }) => {
                     className={styles.pageActions}
                     alignItems='center'
                     variants={appBarButtonVariants}>
-                    {Object.values(context.children).map(child => <React.Fragment key={child.id}>
+                    {Object.values(context.children).sort((a, b) => b.sort - a.sort).map(child => <React.Fragment key={child.id}>
                         {child.child}
                     </React.Fragment>)}
                 </StackPanel>

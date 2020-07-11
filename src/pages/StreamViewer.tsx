@@ -127,17 +127,17 @@ export default (props: { id: string }) => {
       <AppBarButton>
         <MarkAsReadButton progress={progress} text={remainingArticles.toString()}/>
       </AppBarButton>
-      <AppBarButton>
-        <IconButton disabled={loading} onClick={() => updateStreams(props.id)}>
-          <Refresh />
-        </IconButton>
-      </AppBarButton>
       {!isTransient && <AppBarButton>
         <FormControlLabel
           className={styles.unreadOnlySlider}
           control={<Switch checked={unreadOnly} onClick={toggleUnreadOnly} />}
           label="Unread" />
       </AppBarButton>}
+      <AppBarButton>
+        <IconButton disabled={loading} onClick={() => updateStreams(props.id)}>
+          <Refresh />
+        </IconButton>
+      </AppBarButton>
     </>}
 
     <div className={styles.footer} ref={footerRef}>
