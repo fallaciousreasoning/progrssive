@@ -47,7 +47,7 @@ const pageLoadingIndicator = <Centre className="page-loader">
 
 export default (props: {
     className?: string,
-    children: React.ReactNode | React.ReactNode[]
+    children: React.ReactNode | undefined,
     initial?: boolean
 }) => {
     const styles = useStyles();
@@ -61,27 +61,24 @@ export default (props: {
         // eslint-disable-next-line
         [location.pathname]);
 
-    const children = (Array
-        .isArray(props.children)
-        ? props.children
-        : [props.children])
-        .filter(c => c);
+    const childKey = props.children
+        && props.children['key'] || props.children['id'] || null;
 
     return <AnimatePresence custom={direction} initial={!!props.initial}>
-        {children.map((child, index) => <motion.div
+        <motion.div
             className={props.className || styles.root}
             custom={direction || 1}
             initial="initial"
             animate="in"
             exit="out"
             variants={pageVariants}
-            key={child['key'] || child['id'] || index}
+            key={childKey}
             transition={pageTransition}
         >
             <Suspense fallback={pageLoadingIndicator}>
                 {props.children}
             </Suspense>
-        </motion.div>)}
+        </motion.div>
 
     </AnimatePresence>
 }
