@@ -14,10 +14,10 @@ export default (props: {
             text={props.text} />
     </IconButton>}>
         <MenuItem onClick={() => markStreamAs('read')}>
-            Mark as Read
+            Mark Stream as Read
         </MenuItem>
         <MenuItem onClick={() => markStreamAs('unread')}>
-            Mark as Unread
+            Mark Stream as Unread
         </MenuItem>
     </ToggleMenu>;
 }
