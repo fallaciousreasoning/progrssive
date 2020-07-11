@@ -80,16 +80,21 @@ export default () => {
     entryId = decodeURIComponent(entryId || '');
 
     const entryActive = !!entryId;
-    return <SlidePage className={styles.root}>
-        {(!entryActive || !isPhone) && <div className={styles.stream} key="stream">
-            <Layout>
-                <StreamViewer id={streamId} />
-            </Layout>
-        </div>}
-        {entryActive && <div className={styles.entry} key="entry">
-            <Layout>
-                <EntryViewer id={entryId} />
-            </Layout>
-        </div>}
-    </SlidePage>
+    console.log(entryActive);
+    return <div className={styles.root}>
+        <SlidePage className={styles.stream}>
+            {(!entryActive || !isPhone) && <div key="stream">
+                <Layout>
+                    <StreamViewer id={streamId} />
+                </Layout>
+            </div>}
+        </SlidePage>
+        <SlidePage className={styles.entry}>
+            {entryActive && <div key="entry">
+                <Layout>
+                    <EntryViewer id={entryId} />
+                </Layout>
+            </div>}
+        </SlidePage>
+    </div>
 }

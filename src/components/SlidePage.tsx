@@ -69,7 +69,7 @@ export default (props: {
 
     return <AnimatePresence custom={direction} initial={!!props.initial}>
         {children.map((child, index) => <motion.div
-            className={`${props.className || ''} ${styles.root}`}
+            className={props.className || styles.root}
             custom={direction || 1}
             initial="initial"
             animate="in"
