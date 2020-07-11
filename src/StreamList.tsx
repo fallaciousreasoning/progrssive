@@ -39,6 +39,9 @@ export default (props: Props) => {
 
     const [lastVisibleStartIndex, setLastVisibleStartIndex] = useState(0)
     const onItemsRendered = useCallback(async ({ visibleStartIndex, visibleStopIndex }) => {
+        if (visibleStopIndex % BUFFER_ENTRY_COUNT === 0 || visibleStopIndex >= getStore().stream.loadedEntries.length)
+            loadToEntry(visibleStopIndex + BUFFER_ENTRY_COUNT);
+
         if (!markScrolledAsRead)
             return;
 
@@ -49,9 +52,6 @@ export default (props: Props) => {
         }
 
         setLastVisibleStartIndex(visibleStartIndex);
-
-        if (visibleStopIndex % BUFFER_ENTRY_COUNT === 0)
-            loadToEntry(visibleStopIndex + BUFFER_ENTRY_COUNT);
     }, [lastVisibleStartIndex, loadedEntries, markScrolledAsRead]);
 
     const listHeight = height - 48 - GUTTER_SIZE * 2;
