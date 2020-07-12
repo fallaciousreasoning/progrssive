@@ -28,18 +28,23 @@ export async function* entryIterator(unreadOnly: boolean, streamId?: string, pag
     const db = await getDb();
 
     const { default: Dexie } = await import('dexie');
+    const query = (to: typeof db.entries) => {
+        if (unreadOnly) {
+            return to
+                .where('[unread+published]')
+                .between(
+                    [1, Dexie.minKey],
+                    [1, lastDate],
+                    true, true)
+        }
+
+        return to.orderBy('published');
+    }
 
     while (!finished) {
-        const unreadMin = unreadOnly ? 0 : 1;
-        const page = await db.entries
-            .where('[published+unread]')
-            .between(
-                [Dexie.minKey, unreadMin],
-                [lastDate, 1],
-                true, true)
+        const page = await query(db.entries)
             .reverse()
             // Note: And clauses happen in memory.
-            .and(e => !unreadOnly || !!e.unread)
             // Make sure we don't have this entry already.
             .and(e => !seen.has(e.id))
             .and(e => !streamId || e.streamIds.includes(streamId))
