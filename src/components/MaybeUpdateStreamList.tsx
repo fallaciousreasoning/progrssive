@@ -38,7 +38,6 @@ export default (props: Props) => {
             return;
 
         const newCount = await entryCount(unreadOnly, props.streamId);
-        console.log(newCount, streamLength)
         // No new articles.
         if (newCount <= streamLength)
             return;
