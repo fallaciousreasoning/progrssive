@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import React from 'react';
 import { updateStreams } from '../actions/stream';
 import { useIsPhone } from '../hooks/responsive';
-import { useStore } from '../hooks/store';
+import { useStore, getStreamUpdating } from '../hooks/store';
 import LinkButton from './LinkButton';
 import StackPanel from './StackPanel';
 
@@ -43,7 +43,7 @@ export default (props: Props) => {
     const isPhone = useIsPhone();
     const store = useStore();
     const hasSubscriptions = !!store.subscriptions.length;
-    const loading = !!store.updating.stream;
+    const loading = !!getStreamUpdating(store.stream.id);
 
     return <AnimatePresence>
         <motion.div
@@ -57,10 +57,10 @@ export default (props: Props) => {
                     {props.unreadOnly && hasSubscriptions && <LinkButton fullWidth href="?showUnread" variant="contained" color="secondary" key="showUnread">
                         Show Read
                 </LinkButton>}
-                    <LinkButton fullWidth href="/subscriptions?query=" variant="contained" color="secondary" key="addSubscriptions">
+                <LinkButton fullWidth href="/subscriptions?query=" variant="contained" color="secondary" key="addSubscriptions">
                         Add Subscriptions
                 </LinkButton>
-                    {hasSubscriptions && <Button fullWidth disabled={loading} variant="contained" color="secondary" key="refresh" onClick={() => updateStreams(store.stream.id)}>
+                {hasSubscriptions && <Button fullWidth disabled={loading} variant="contained" color="secondary" key="refresh" onClick={() => updateStreams(store.stream.id)}>
                         {loading && <CircularProgress size={16} className={styles.footerLoader} />} Refresh
                 </Button>}
                 </StackPanel>
