@@ -18,6 +18,8 @@ export const getStream = async (streamId: string, type: 'contents' | 'id' = 'con
 }
 
 export const getAllEntries = async (streamId: string, since: number, batchSize=100, limit=100) => {
+    batchSize = Math.min(batchSize, 1000);
+    
     const result: Entry[] = [];
     
     let continuation: string;
