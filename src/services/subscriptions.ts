@@ -4,6 +4,7 @@ import { Subscription } from "../model/subscription";
 import { getDb, saveSubscription } from "./db";
 import { entryIterator } from "./entryIterator";
 import { setStreamList } from "./store";
+import { maybePerist } from "../utils/persist";
 
 export const getSubscription = (id: string) => {
     const subscriptions = getStore().subscriptions;
@@ -39,6 +40,10 @@ export const toggleSubscription = async (subscription: Subscription) => {
         // Reset the StreamList, so we don't try and iterate over deleted entries.
         setStreamList(getStore().stream.unreadOnly, getStore().stream.id, true);
     } else {
+        // If we're adding a subscription, prompt the user
+        // to enable persistence.
+        maybePerist();
+
         getStore().subscriptions = [
             ...getStore().subscriptions,
             subscription
