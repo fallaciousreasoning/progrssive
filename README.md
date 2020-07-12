@@ -1,8 +1,16 @@
-Progrssive is a Progressive Web App for reading RSS feeds (hence the name). It's build in such a way that it works entirely offline.
+Progrssive is a Progressive Web App for reading RSS feeds (hence the name: ProgRSSive). It's build in such a way that it works entirely offline.
 
 A live version is available at https://progrssive.now.sh/
 
 ![Progrssive installed as a PWA on desktop](images/desktop-installed.png)
+
+## Installing
+Currently not all browsers support installing PWAs. I've collected some of the ones that do here:
+
+- [Firefox](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Add_to_home_screen) - Android only, last I checked
+- [Chrome](https://support.google.com/chrome/answer/9658361)
+- [Edge](https://www.ghacks.net/2020/03/02/how-to-install-progressive-web-apps-pwas-in-the-new-microsoft-edge/)
+- Safari - Disclaimer: I've never tested this on Safari, so it's highly likely it won't work.
 
 ## Developing
 
