@@ -54,7 +54,6 @@ export const addEntry = async (entry: Partial<Entry>, maintainUnread?: boolean) 
         streamIds: []
     } as unknown as DBEntry;
 
-    const streamIds = new Set<string>(entry.streamIds || []);
     const oldEntry = await db.entries.get(entry.id);
     if (oldEntry) {
         // Don't lose anything from the old entry.
@@ -63,19 +62,12 @@ export const addEntry = async (entry: Partial<Entry>, maintainUnread?: boolean) 
             ...dbEntry
         };
 
-        // Ensure we don't lose any streamIds
-        for (const s of oldEntry.streamIds)
-            streamIds.add(s);
-
         // Maybe maintain unread information?
         if (maintainUnread) {
             dbEntry.unread = oldEntry.unread;
             dbEntry.readTime = oldEntry.readTime;
         }
     }
-
-    // Set the stream ids.
-    dbEntry.streamIds = Array.from(streamIds);
 
     // Add the entry to the database.
     db.entries.put(dbEntry, entry.id);

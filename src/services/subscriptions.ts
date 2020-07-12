@@ -32,8 +32,13 @@ export const updateSubscription = async (subscription: Subscription) => {
     try {
         const entries = await getAllEntries(subscription.id, lastSync);
 
-        for (const entry of entries)
-            entry.streamIds = [subscription.id];
+        for (const entry of entries) {
+            if (!entry.origin)
+                entry.origin = {} as any;
+
+            if (entry.origin.streamId !== subscription.id)
+                entry.origin.streamId = subscription.id;
+        }
 
         await saveSubscription(subscription,
             entries);
@@ -50,11 +55,8 @@ export const updateSubscription = async (subscription: Subscription) => {
 const deleteSubscriptionData = async (id: string) => {
     const iterator = await entryIterator(false, id, 100);
     const toDelete = [];
-    for await (const entry of iterator) {
-        if (entry.streamIds.length > 1)
-            continue;
+    for await (const entry of iterator)
         toDelete.push(entry.id);
-    }
 
     const db = await getDb();
     await db.subscriptions.delete(id);

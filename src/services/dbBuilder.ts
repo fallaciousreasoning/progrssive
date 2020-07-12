@@ -15,7 +15,7 @@ export class DB extends Dexie {
         this.version(4)
             .stores({
                 subscriptions: '&id,title',
-                entries: '&id,title,published,unread,*streamIds,[unread+published]',
+                entries: '&id,title,published,[unread+origin.streamId],[unread+published]',
             });
 
         this.entries = this.table('entries');

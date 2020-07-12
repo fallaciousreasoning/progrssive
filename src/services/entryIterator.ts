@@ -14,7 +14,7 @@ export async function entryCount(unreadOnly: boolean, streamId: string) {
         query['unread'] = 1;
 
     if (streamId)
-        query['streamIds'] = streamId;
+        query['origin.streamId'] = streamId;
 
     // Otherwise, return the number of entries matching the query.
     return db.entries.where(query).count();
@@ -47,7 +47,7 @@ export async function* entryIterator(unreadOnly: boolean, streamId?: string, pag
             // Note: And clauses happen in memory.
             // Make sure we don't have this entry already.
             .and(e => !seen.has(e.id))
-            .and(e => !streamId || e.streamIds.includes(streamId))
+            .and(e => !streamId || e.origin.streamId === streamId)
             .limit(pageSize)
             .toArray();
 
