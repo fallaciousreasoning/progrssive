@@ -3,6 +3,7 @@ import { getStore } from "../hooks/store";
 import { Subscription } from "../model/subscription";
 import { getDb, saveSubscription } from "./db";
 import { entryIterator } from "./entryIterator";
+import { setStreamList } from "./store";
 
 export const getSubscription = (id: string) => {
     const subscriptions = getStore().subscriptions;
@@ -35,6 +36,8 @@ export const toggleSubscription = async (subscription: Subscription) => {
         subscription.deleting = false;
         getStore().subscriptions = newSubs;
 
+        // Reset the StreamList, so we don't try and iterate over deleted entries.
+        setStreamList(getStore().stream.unreadOnly, getStore().stream.id, true);
     } else {
         getStore().subscriptions = [
             ...getStore().subscriptions,
