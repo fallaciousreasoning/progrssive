@@ -32,8 +32,13 @@ export default (props: Props) => {
         const { unreadOnly } = getStore().stream;
 
         const streamLength = getStore().stream.length;
-        const newCount = await entryCount(unreadOnly, props.streamId);
         
+        // We're still reading from disk.
+        if (streamLength === undefined)
+            return;
+
+        const newCount = await entryCount(unreadOnly, props.streamId);
+        console.log(newCount, streamLength)
         // No new articles.
         if (newCount <= streamLength)
             return;

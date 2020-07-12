@@ -27,7 +27,7 @@ export const initStore = () => {
     store.stream = {
         id: undefined,
         unreadOnly: true,
-        length: 0,
+        length: undefined,
         lastScrollPos: 0,
         loadedEntries: []
     };
@@ -68,11 +68,12 @@ const setEntryList = async (unreadOnly: boolean, streamId: string, force = false
 
     streamIterator = entryIterator(unreadOnly, streamId);
     currentLoader = makeLoader();
+
     getStore().stream = {
         id: streamId,
         unreadOnly,
         lastScrollPos: 0,
-        length: 0,
+        length: undefined,
         loadedEntries: [],
     };
     getStore().stream.length = await entryCount(unreadOnly, streamId);
@@ -93,25 +94,19 @@ const setTransientEntryList = async (streamId: string, force=false) => {
     getStore().updating.stream[streamId] = promise;
     streamIterator = undefined;
     currentLoader = undefined;
+
     getStore().stream = {
         id: streamId,
         lastScrollPos: 0,
-        length: 0,
+        length: undefined,
         loadedEntries: [],
         unreadOnly: false
     };
 
     const stream = await getStream(streamId).catch(() => null);
     if (!stream) {
-        getStore().stream = {
-            id: streamId,
-            lastScrollPos: 0,
-            length: 0,
-            loadedEntries: [],
-            unreadOnly: false
-        };
+        getStore().stream.length = 0;
         window.snackHelper.enqueueSnackbar(`Failed to load stream. Are you offline?`);
-        
         resolve();
         delete getStore().updating.stream[streamId];
         return;

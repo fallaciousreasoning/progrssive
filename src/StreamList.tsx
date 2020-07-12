@@ -104,7 +104,7 @@ export default (props: Props) => {
         height={listHeight}
         itemSize={itemHeight}
         initialScrollOffset={store.stream.lastScrollPos}
-        itemCount={store.stream.length}
+        itemCount={store.stream.length || 0}
         width={Math.min(800, parentWidth - GUTTER_SIZE * 2)}
         itemKey={(index) => index < loadedEntries.length ? loadedEntries[index].id : index}
         onItemsRendered={onItemsRendered}>
