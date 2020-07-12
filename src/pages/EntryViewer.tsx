@@ -1,7 +1,7 @@
 import { Button, CardContent, CardHeader, CircularProgress, IconButton, makeStyles, Typography } from "@material-ui/core";
 import { Share } from "@material-ui/icons";
 import * as React from 'react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useHistory, useLocation } from "react-router";
 import { loadMobilizedContent } from "../actions/entry";
 import AppBarButton from "../components/AppBarButton";
@@ -14,7 +14,6 @@ import { useScreenSize } from "../hooks/screenSize";
 import { useStore } from "../hooks/store";
 import useWhenChanged from "../hooks/useWhenChanged";
 import { EntryReadButton } from "../MarkerButton";
-import { Entry } from "../model/entry";
 import { getEntryByline, getEntryContent, getEntryPreferredView, getEntrySubscription, getEntryUrl } from "../services/entry";
 
 const useStyles = makeStyles(theme => ({
