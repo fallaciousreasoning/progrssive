@@ -51,7 +51,8 @@ export const setStreamList = async (unreadOnly: boolean, streamId: string, force
     else setEntryList(unreadOnly, streamId, force);
 }
 
-let streamIterator: AsyncGenerator<Entry> = undefined;
+let streamIterator: AsyncGenerator<Entry>;
+let currentLoader: (index: number) => Promise<void>;
 const setEntryList = async (unreadOnly: boolean, streamId: string, force = false) => {
     if (!force
         && unreadOnly === getStore().stream.unreadOnly
@@ -59,7 +60,9 @@ const setEntryList = async (unreadOnly: boolean, streamId: string, force = false
         && getStore().stream.length !== 0) {
         return;
     }
+    console.log("Set list", streamId)
     streamIterator = entryIterator(unreadOnly, streamId);
+    currentLoader = makeLoader();
     getStore().stream = {
         id: streamId,
         unreadOnly,
@@ -83,6 +86,8 @@ const setTransientEntryList = async (streamId: string, force=false) => {
 
     const { resolve, promise } = resolvable();
     getStore().updating.stream[streamId] = promise;
+    streamIterator = undefined;
+    currentLoader = undefined;
     getStore().stream = {
         id: streamId,
         lastScrollPos: 0,
@@ -130,34 +135,91 @@ const setTransientEntryList = async (streamId: string, force=false) => {
     delete getStore().updating.stream[streamId];
 }
 
-export const loadToEntry = async (index: number) => {
-    if (index < 0 || !streamIterator)
-        return;
+const makeLoader = () => {
+    const iterator = streamIterator;
+    const loadsQueue: {
+        resolve: (value?: void) => void;
+        index: number;
+    }[] = [];
 
-    const loaded = {};
-    const loadedIds = [];
+    const loadNEntries = async (n: number) => {
+        if (n <= 0)
+            return;
+    
+        const loaded = {};
+        const loadedIds = [];
+        const seen = new Set();
+    
+        while (loadedIds.length <= n) {
+            const next = await iterator.next();
+            if (iterator !== streamIterator)
+                return;
 
-    while (getStore().stream.loadedEntries.length + loadedIds.length < index) {
-        const next = await streamIterator.next();
-        if (!next.value || next.done)
-            break;
-
-        loaded[next.value.id] = next.value;
-        loadedIds.push(next.value.id);
+            if (!next.value || next.done)
+                break;
+    
+            loaded[next.value.id] = next.value;
+            loadedIds.push(next.value.id);
+            seen.add(next.value.id);
+        }
+    
+        if (loadedIds.length === 0)
+            return;
+    
+        getStore().entries = {
+            ...getStore().entries,
+            ...loaded
+        };
+    
+        getStore().stream.loadedEntries = [
+            ...getStore().stream.loadedEntries,
+            ...loadedIds
+        ];
     }
 
-    if (loadedIds.length === 0)
+    let running = false;
+    const run = async () => {
+        running = true;
+
+        while (loadsQueue.length > 0) {
+            const current = loadsQueue.splice(0, 1)[0];
+            const toLoad = current.index - getStore().stream.loadedEntries.length;
+            if (toLoad <= 0) {
+                current.resolve();
+                continue;
+            }
+                
+            await loadNEntries(toLoad);
+            current.resolve();
+
+            // This is no longer the loader.
+            if (iterator !== streamIterator) {
+                loadsQueue.forEach(l => l.resolve());
+                return;
+            }
+        }
+
+        running = false;
+    };
+    
+    return (index: number) => {
+        const { resolve, promise } = resolvable();
+        loadsQueue.push({
+            resolve,
+            index
+        });
+
+        if (!running)
+            run();
+        return promise;
+    }
+}
+
+export const loadToEntry = (index: number) => {
+    if (!currentLoader)
         return;
 
-    getStore().entries = {
-        ...getStore().entries,
-        ...loaded
-    };
-
-    getStore().stream.loadedEntries = [
-        ...getStore().stream.loadedEntries,
-        ...loadedIds
-    ];
+    currentLoader(index);
 }
 
 export const markStreamAs = async (status: 'read' | 'unread') => {
