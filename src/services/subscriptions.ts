@@ -4,52 +4,11 @@ import { Subscription } from "../model/subscription";
 import { resolvable } from "../utils/promise";
 import { getDb, saveSubscription } from "./db";
 import { entryIterator } from "./entryIterator";
+import { updateStreams } from "../actions/stream";
 
 export const getSubscription = (id: string) => {
     const subscriptions = getStore().subscriptions;
     return subscriptions.find(s => s.id === id);
-}
-
-export const updateSubscription = async (subscription: Subscription) => {
-    const updatePromise = getStore().updating.stream[subscription.id];
-    if (updatePromise)
-        return updatePromise;
-
-    const { resolve, promise } = resolvable();
-    getStore().updating.stream[subscription.id] = promise;
-
-    const lastSync = subscription.lastSync;
-
-    // Update the store subscription. This won't propogate
-    // unless we get the item from the store again, so
-    // make a copy and update the last sync time on that
-    // too.
-    const syncDate = Date.now();
-    subscription.lastSync = syncDate;
-    subscription = { ...subscription };
-    subscription.lastSync = syncDate;
-
-    try {
-        const entries = await getAllEntries(subscription.id, lastSync);
-
-        for (const entry of entries) {
-            if (!entry.origin)
-                entry.origin = {} as any;
-
-            if (entry.origin.streamId !== subscription.id)
-                entry.origin.streamId = subscription.id;
-        }
-
-        await saveSubscription(subscription,
-            entries);
-    } catch (err) {
-        delete getStore().updating.stream[subscription.id];
-        resolve();
-        throw err;
-    }
-
-    delete getStore().updating.stream[subscription.id];
-    resolve();
 }
 
 const deleteSubscriptionData = async (id: string) => {
@@ -87,14 +46,9 @@ export const toggleSubscription = async (subscription: Subscription) => {
         subscription =
             getStore().subscriptions[getStore().subscriptions.length - 1];
 
-        // Fetch articles for the subscription.
-        try {
-            await updateSubscription(subscription);
-            window.snackHelper.enqueueSnackbar(`Fetched articles for ${subscription.title}`);
-        } catch {
-            window.snackHelper.enqueueSnackbar(`Failed to fetch ${subscription.title}`);
-        }
-
         await saveSubscription(subscription);
+        
+        // Fetch articles for the subscription.
+        await updateStreams(subscription.id);
     }
 }

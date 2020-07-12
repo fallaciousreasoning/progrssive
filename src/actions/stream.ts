@@ -24,14 +24,14 @@ export const updateStreams = async (streamId?: string) => {
         [next.id]: promise
     }), { ...getStore().updating.stream });
 
-    const lowestSince = Math.min(...affectedSubscriptions.map(s => s.lastSync));
+    const lowestSync = Math.min(...affectedSubscriptions.map(s => s.lastSync));
     const fetchId = affectedSubscriptions.map(s => s.id).join(',');
 
     try {
         const syncDate = Date.now();
         const maxResults = affectedSubscriptions.length * 100;
         const entries = await getAllEntries(fetchId,
-            lowestSince,
+            lowestSync,
             maxResults,
             maxResults);
 
@@ -50,7 +50,7 @@ export const updateStreams = async (streamId?: string) => {
             lastSync: syncDate
         }))));
 
-        window.snackHelper.enqueueSnackbar(`Fetched articles${streamId ? " for " + affectedSubscriptions[0] : ""}.`)
+        window.snackHelper.enqueueSnackbar(`Fetched articles${streamId ? " for " + affectedSubscriptions[0].title : ""}.`)
     } catch {
         window.snackHelper.enqueueSnackbar(`Failed to update ${streamId ? affectedSubscriptions[0].title : "Stream"}`);
     }
