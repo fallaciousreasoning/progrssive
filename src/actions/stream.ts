@@ -50,7 +50,7 @@ export const updateStreams = async (streamId?: string) => {
             lastSync: syncDate
         }))));
 
-        window.snackHelper.enqueueSnackbar(`Fetched articles${streamId ? " for " + affectedSubscriptions[0].title : ""}.`)
+        window.snackHelper.enqueueSnackbar(`Fetched articles${streamId ? " for " + (affectedSubscriptions[0].title || "").trim() : ""}.`)
     } catch {
         window.snackHelper.enqueueSnackbar(`Failed to update ${streamId ? affectedSubscriptions[0].title : "Stream"}`);
     }
