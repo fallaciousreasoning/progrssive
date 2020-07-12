@@ -45,7 +45,8 @@ export const initStore = () => {
 export const setStreamList = async (unreadOnly: boolean, streamId: string, force=false) => {
     await initStorePromise;
 
-    const isTransient = !getStore().subscriptions.find(s => s.id === streamId);
+    const isTransient = streamId
+        && !getStore().subscriptions.find(s => s.id === streamId);
     if (isTransient)
         setTransientEntryList(streamId, force);
     else setEntryList(unreadOnly, streamId, force);
