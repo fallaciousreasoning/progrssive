@@ -30,15 +30,15 @@ export default (props: { trigger: JSX.Element }) => {
                     Progrssive Reader
                 </Typography>
                 <List>
-                    <ListLinkButton icon={<Book/>} text="Articles" href="/stream" />
-                    <ListLinkButton icon={<RssFeed/>} text="Subscriptions" href="/subscriptions"/>
-                    <ListLinkButton icon={<SettingsIcon/>} text="Settings" href="/settings"/>
-                    <ListLinkButton icon={<Help/>} text="About" href="/about"/>
+                    <ListLinkButton icon={<Book />} text="Articles" href="/stream" />
+                    <ListLinkButton icon={<RssFeed />} text="Subscriptions" href="/subscriptions" />
+                    <ListLinkButton icon={<SettingsIcon />} text="Settings" href="/settings" />
+                    <ListLinkButton icon={<Help />} text="About" href="/about" />
                     {installPrompt && <ListItem button onClick={installPrompt}>
                         <ListItemIcon>
-                            <GetApp/>
+                            <GetApp />
                         </ListItemIcon>
-                        <ListItemText primary="Install"/>
+                        <ListItemText primary="Install" />
                     </ListItem>}
                 </List>
             </div>
