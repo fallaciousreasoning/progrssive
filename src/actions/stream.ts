@@ -42,8 +42,8 @@ export const updateStreams = async (streamId?: string) => {
 
         const db = await getDb();
 
-        for (const entry of entries)
-            addEntry(entry, true);
+        const save = entries.map(e => addEntry(e, true));
+        await Promise.all(save);
 
         await db.subscriptions.bulkPut(copy(affectedSubscriptions.map(s => ({
             ...s,

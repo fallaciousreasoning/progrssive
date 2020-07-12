@@ -9,10 +9,12 @@ interface Props {
     streamId: string;
 }
 
+const SNACK_KEY = 'articles-available';
 const UpdateButton = (props: { streamId: string, unreadOnly: boolean }) => {
-    const callback = useCallback(() =>
-        setStreamList(props.unreadOnly, props.streamId, /*force=*/true)
-        , [props.streamId, props.unreadOnly]);
+    const callback = useCallback(() => {
+        setStreamList(props.unreadOnly, props.streamId, /*force=*/true);
+        window.snackHelper.closeSnackbar(SNACK_KEY);
+    }, [props.streamId, props.unreadOnly]);
 
     return <Button color="secondary" onClick={callback}>
         Show
@@ -32,7 +34,7 @@ export default (props: Props) => {
         const { unreadOnly } = getStore().stream;
 
         const streamLength = getStore().stream.length;
-        
+
         // We're still reading from disk.
         if (streamLength === undefined)
             return;
@@ -41,7 +43,6 @@ export default (props: Props) => {
         // No new articles.
         if (newCount <= streamLength)
             return;
-        
 
         // We have articles now, and we didn't before.
         if (streamLength === 0) {
@@ -56,7 +57,7 @@ export default (props: Props) => {
         window.snackHelper.enqueueSnackbar("New articles available!", {
             action: <UpdateButton streamId={props.streamId} unreadOnly={unreadOnly} />,
             autoHideDuration: 15000,
-            key: 'articles-available',
+            key: SNACK_KEY,
             preventDuplicate: true,
         });
     }, [loading]);
