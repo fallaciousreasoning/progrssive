@@ -72,7 +72,7 @@ export default (props: { id: string }) => {
   }, [unreadOnly, history]);
 
 
-  const loading = !!getStreamUpdating(props.id);
+  const loading = !!getStreamUpdating(props.id) || store.stream.length === undefined;
   useWhenChanged(() =>
     setStreamList(unreadOnly, props.id),
     [unreadOnly, props.id]);
@@ -107,8 +107,7 @@ export default (props: { id: string }) => {
   }, [unreadOnly])
 
   const [progress, setProgress] = useState(0);
-  const streamLength = store.stream.length || 0;
-  const remainingArticles = Math.round(streamLength - progress * streamLength);
+  const remainingArticles = Math.round(store.stream.length - progress * store.stream.length);
 
   return <div ref={rootRef} className={styles.root} onScroll={onFooterScrolled}>
     {loading && <Centre>
@@ -120,7 +119,7 @@ export default (props: { id: string }) => {
 
     {active && <>
       <AppBarButton>
-        <MarkAsReadButton progress={progress} text={remainingArticles.toString()} />
+        <MarkAsReadButton progress={progress} text={isNaN(remainingArticles) ? "" : remainingArticles.toString()} />
       </AppBarButton>
       {!isTransient && <AppBarButton>
         <FormControlLabel
