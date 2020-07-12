@@ -10,11 +10,12 @@ interface Props {
 }
 
 const SNACK_KEY = 'articles-available';
-const UpdateButton = (props: { streamId: string, unreadOnly: boolean }) => {
+const UpdateButton = () => {
     const callback = useCallback(() => {
-        setStreamList(props.unreadOnly, props.streamId, /*force=*/true);
+        const stream = getStore().stream;
+        setStreamList(stream.unreadOnly, stream.id, /*force=*/true);
         window.snackHelper.closeSnackbar(SNACK_KEY);
-    }, [props.streamId, props.unreadOnly]);
+    }, []);
 
     return <Button color="secondary" onClick={callback}>
         Show
@@ -55,7 +56,7 @@ export default (props: Props) => {
         // Updates are available, ask the user if they
         // want to see them.
         window.snackHelper.enqueueSnackbar("New articles available!", {
-            action: <UpdateButton streamId={props.streamId} unreadOnly={unreadOnly} />,
+            action: <UpdateButton />,
             autoHideDuration: 15000,
             key: SNACK_KEY,
             preventDuplicate: true,
