@@ -63,13 +63,9 @@ export default (props: { id: string }) => {
   }, [rootRef.current]);
 
   const unreadOnly = useMemo(() => {
-    // Transient streams don't have unread articles.
-    if (isTransient)
-      return false;
-
     const params = new URLSearchParams(location.search);
     return !params.has('showUnread');
-  }, [location.search, isTransient]);
+  }, [location.search]);
 
   const toggleUnreadOnly = useCallback(() => {
     history.replace(`?${unreadOnly ? "showUnread" : ""}`);
@@ -79,7 +75,7 @@ export default (props: { id: string }) => {
   const loading = !!getStreamUpdating(props.id);
   useWhenChanged(() =>
     setStreamList(unreadOnly, props.id),
-    [unreadOnly, props.id, scrollToTop]);
+    [unreadOnly, props.id]);
 
   // Show the stream list when it gets items.
   useWhenChanged(scrollToTop,

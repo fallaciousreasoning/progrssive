@@ -56,11 +56,15 @@ let currentLoader: (index: number) => Promise<void>;
 const setEntryList = async (unreadOnly: boolean, streamId: string, force = false) => {
     if (!force
         && unreadOnly === getStore().stream.unreadOnly
-        && streamId === getStore().stream.id
-        && getStore().stream.length !== 0) {
+        && streamId === getStore().stream.id) {
         return;
     }
-    console.log("Set list", streamId)
+
+    console.log("Set list", streamId, unreadOnly, 'Force:', force);
+    console.log("Was:    ", getStore().stream.id, getStore().stream.unreadOnly)
+
+    console.trace()
+
     streamIterator = entryIterator(unreadOnly, streamId);
     currentLoader = makeLoader();
     getStore().stream = {
