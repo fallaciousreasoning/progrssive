@@ -12,10 +12,10 @@ export class DB extends Dexie {
 
     constructor() {
         super('articles');
-        this.version(4)
+        this.version(5)
             .stores({
                 subscriptions: '&id,title',
-                entries: '&id,title,published,[unread+origin.streamId],[unread+published]',
+                entries: '&id,title,published,origin.streamId,[origin.streamId+unread],[unread+published]',
             });
 
         this.entries = this.table('entries');
