@@ -29,7 +29,7 @@ export default (props) => {
 
     const usage = useResult(async () => {
         const estimate = await navigator.storage.estimate();
-        const {friendlyBytes} = await import('../utils/bytes');
+        const { friendlyBytes } = await import('../utils/bytes');
         return `Currently using ${friendlyBytes(estimate.usage)} of storage.`
     }, [store.entries], "Calculating storage usage...");
 
@@ -41,7 +41,7 @@ export default (props) => {
 
     const deleteStorage = useCallback(async () => {
         const db = await getDb();
-        if (clean.articles) {
+        if (clean.articles || clean.subscriptions) {
             db.entries.clear();
             store.stream = {
                 id: 'unknown stream',
@@ -53,9 +53,16 @@ export default (props) => {
             store.entries = {};
         }
 
-        if (clean.subscriptions){
+        if (clean.subscriptions) {
+            store.subscriptions = [];
+            store.stream = {
+                id: undefined,
+                unreadOnly: true,
+                lastScrollPos: 0,
+                length: 0,
+                loadedEntries: []
+            };
             db.subscriptions.clear();
-            // TODO?
         }
     }, [clean]);
 
