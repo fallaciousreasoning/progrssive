@@ -51,6 +51,7 @@ export default (props: Props) => {
             initial="initial"
             animate="animate"
             transition={transition}
+            key="footer"
         >
             <StackPanel direction="column-reverse" center key={`${store.stream.id}?${store.stream.unreadOnly ? "showUnread" : ""}`}>
                 <StackPanel direction={isPhone ? 'column' : 'row'} key="buttons">
