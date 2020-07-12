@@ -219,12 +219,11 @@ export const loadToEntry = (index: number) => {
 
 export const markStreamAs = async (status: 'read' | 'unread') => {
     const unreadStatus = status === 'unread';
-    // Make sure we've loaded all the entries in the stream.
-    await loadToEntry(getStore().stream.length);
+    // Collect the ids to update.
+    const ids = new Set(getStore().stream.loadedEntries);
+    const idsIterator = entryIterator(getStore().stream.unreadOnly, getStore().stream.id, 10000);
+    for await (const entry of idsIterator)
+        ids.add(entry.id);
 
-    const entries = getStore()
-        .stream
-        .loadedEntries
-        .filter(id => store.entries[id].unread == !unreadStatus)
-    await bulkSetUnread(entries, unreadStatus);
+    await bulkSetUnread(Array.from(ids), unreadStatus);
 }
