@@ -61,11 +61,6 @@ const setEntryList = async (unreadOnly: boolean, streamId: string, force = false
         return;
     }
 
-    console.log("Set list", streamId, unreadOnly, 'Force:', force);
-    console.log("Was:    ", getStore().stream.id, getStore().stream.unreadOnly)
-
-    console.trace()
-
     streamIterator = entryIterator(unreadOnly, streamId);
     currentLoader = makeLoader();
 
