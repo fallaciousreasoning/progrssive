@@ -1,8 +1,8 @@
-import { getStore } from "../hooks/store";
 import { getAllEntries } from "../api/streams";
-import { resolvable } from "../utils/promise";
-import { saveSubscription, getDb, addEntry } from "../services/db";
+import { getStore } from "../hooks/store";
+import { addEntry, getDb } from "../services/db";
 import { copy } from "../utils/object";
+import { resolvable } from "../utils/promise";
 
 export const updateStreams = async (streamId?: string) => {
     const affectedSubscriptions = (!streamId

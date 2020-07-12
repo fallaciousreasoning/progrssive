@@ -1,10 +1,8 @@
-import { getAllEntries } from "../api/streams";
+import { updateStreams } from "../actions/stream";
 import { getStore } from "../hooks/store";
 import { Subscription } from "../model/subscription";
-import { resolvable } from "../utils/promise";
 import { getDb, saveSubscription } from "./db";
 import { entryIterator } from "./entryIterator";
-import { updateStreams } from "../actions/stream";
 
 export const getSubscription = (id: string) => {
     const subscriptions = getStore().subscriptions;
@@ -47,7 +45,7 @@ export const toggleSubscription = async (subscription: Subscription) => {
             getStore().subscriptions[getStore().subscriptions.length - 1];
 
         await saveSubscription(subscription);
-        
+
         // Fetch articles for the subscription.
         await updateStreams(subscription.id);
     }
