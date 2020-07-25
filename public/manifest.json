@@ -1,6 +1,8 @@
 {
   "short_name": "Progrssive",
   "name": "Progrssive Reader",
+  "description": "An offline PWA for reading and subscribing to RSS feeds.",
+  "categories": [ "news", "PWA", "RSS", "feeds", "feedly", "offline"],
   "icons": [
     {
       "src": "icon-green.png",
