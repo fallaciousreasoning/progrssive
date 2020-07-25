@@ -2,9 +2,8 @@
   "short_name": "Progrssive",
   "name": "Progrssive Reader",
   "description": "An offline PWA for reading and subscribing to RSS feeds.",
-  "categories": [ "news", "PWA", "RSS", "feeds", "feedly", "offline"],
-  "icons": [
-    {
+  "categories": ["news", "PWA", "RSS", "feeds", "feedly", "offline"],
+  "icons": [{
       "src": "icon-green.png",
       "sizes": "480x480",
       "type": "image/png"
@@ -12,6 +11,17 @@
     {
       "src": "icon-green-512.png",
       "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [{
+      "src": "screenshots/s_0.png",
+      "sizes": "1439x2881",
+      "type": "image/png"
+    },
+    {
+      "src": "screenshots/s_1.png",
+      "sizes": "1439x2881",
       "type": "image/png"
     }
   ],
