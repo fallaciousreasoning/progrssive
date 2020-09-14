@@ -12,7 +12,6 @@
     "@types/react-dom": "16.9.8",
     "@types/react-router-dom": "5.1.5",
     "dexie": "^3.0.1",
-    "dompurify": "^2.0.12",
     "framer-motion": "^1.11.1",
     "notistack": "^0.8.2",
     "opml-generator": "^1.1.1",
