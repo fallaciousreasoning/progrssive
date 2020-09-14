@@ -18,6 +18,8 @@ import useWhenChanged from '../hooks/useWhenChanged';
 import { markStreamAs, setStreamList } from '../services/store';
 import StreamList from '../StreamList';
 import MaybeUpdateStreamList from '../components/MaybeUpdateStreamList';
+import { toggleSubscription, findSubscription } from '../services/subscriptions';
+import { Add } from '@material-ui/icons';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -121,7 +123,13 @@ export default (props: { id: string }) => {
       <AppBarButton>
         <MarkAsReadButton progress={progress} text={isNaN(remainingArticles) ? "" : remainingArticles.toString()} />
       </AppBarButton>
-      {!isTransient && <AppBarButton>
+      {isTransient
+      ? <AppBarButton>
+        <IconButton onClick={() => toggleSubscription(findSubscription(props.id))}>
+          <Add/>
+        </IconButton>
+      </AppBarButton>
+      : <AppBarButton>
         <FormControlLabel
           className={styles.unreadOnlySlider}
           control={<Switch checked={unreadOnly} onClick={toggleUnreadOnly} />}

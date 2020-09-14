@@ -5,7 +5,13 @@ import { getDb, saveSubscription } from "./db";
 import { entryIterator } from "./entryIterator";
 import { setStreamList } from "./store";
 import { maybePerist } from "../utils/persist";
+import { getFeed } from "../api/search";
 
+// Get the subscription from our store or fetch it from Feedly, if we don't have
+// it.
+export const findSubscription = async (id: string) => {
+    return await getSubscription(id) || await getFeed(id);
+}
 export const getSubscription = (id: string) => {
     const subscriptions = getStore().subscriptions;
     return subscriptions.find(s => s.id === id);
@@ -22,7 +28,9 @@ const deleteSubscriptionData = async (id: string) => {
     await db.entries.bulkDelete(toDelete);
 }
 
-export const toggleSubscription = async (subscription: Subscription) => {
+export const toggleSubscription = async (subscriptionPromise: Subscription | Promise<Subscription>) => {
+    const subscription = await subscriptionPromise;
+
     const id = subscription.id;
     const index = getStore().subscriptions.findIndex(s => s.id === subscription.id);
     if (index !== -1) {
@@ -49,10 +57,7 @@ export const toggleSubscription = async (subscription: Subscription) => {
             subscription
         ];
 
-        subscription =
-            getStore().subscriptions[getStore().subscriptions.length - 1];
-
-        await saveSubscription(subscription);
+        await saveSubscription(getStore().subscriptions[getStore().subscriptions.length - 1]);
 
         // Fetch articles for the subscription.
         await updateStreams(subscription.id);
