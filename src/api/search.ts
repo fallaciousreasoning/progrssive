@@ -11,3 +11,8 @@ export const searchFeeds = async (query: string, options?: SearchRequestOptions)
     const result = await makeRequest<{ results: Subscription[] }>(`${endpoint}?query=${encodeURIComponent(query)}`, options);
     return result.results;
 }
+
+export const getFeed = async (id: string): Promise<Subscription> => {
+    const result = await makeRequest<Subscription>(`/feeds/${encodeURIComponent(id)}`);
+    return result;
+}
