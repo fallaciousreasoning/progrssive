@@ -17,10 +17,7 @@ ReactDOM.render(<App />, document.getElementById('root'));
 // Learn more about service workers: http://bit.ly/CRA-PWA
 serviceWorker.register();
 
-setTimeout(async () => {
-    try {
-        await fetch('https://bit.ly/2EVWKns', { mode: 'no-cors' });
-    } finally {
-        console.info('Logged page load!')
-    }
+setTimeout(() => {
+    fetch('https://bit.ly/2EVWKns', { mode: 'no-cors' })
+        .catch(() => { });
 }, 1000);
