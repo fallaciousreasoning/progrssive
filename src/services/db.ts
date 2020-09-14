@@ -1,5 +1,4 @@
 import { Entry } from '../model/entry';
-import { Stream } from '../model/stream';
 import { DBEntry, DB } from './dbBuilder';
 import { Subscription } from '../model/subscription';
 
