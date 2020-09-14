@@ -20,6 +20,7 @@ import StreamList from '../StreamList';
 import MaybeUpdateStreamList from '../components/MaybeUpdateStreamList';
 import { toggleSubscription, findSubscription } from '../services/subscriptions';
 import { Add } from '@material-ui/icons';
+import { delay } from '../utils/promise';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -59,6 +60,7 @@ export default (props: { id: string }) => {
   const rootRef = useRef<HTMLDivElement>();
   const footerRef = useRef<HTMLDivElement>();
   const isTransient = useIsTransientSubscription(props.id);
+  const [isAdding, setIsAdding] = useState(false);
 
   const scrollToTop = useCallback(() => {
     rootRef.current && rootRef.current.scrollTo(0, 0);
@@ -124,17 +126,24 @@ export default (props: { id: string }) => {
         <MarkAsReadButton progress={progress} text={isNaN(remainingArticles) ? "" : remainingArticles.toString()} />
       </AppBarButton>
       {isTransient
-      ? <AppBarButton>
-        <IconButton onClick={() => toggleSubscription(findSubscription(props.id))}>
-          <Add/>
-        </IconButton>
-      </AppBarButton>
-      : <AppBarButton>
-        <FormControlLabel
-          className={styles.unreadOnlySlider}
-          control={<Switch checked={unreadOnly} onClick={toggleUnreadOnly} />}
-          label="Unread" />
-      </AppBarButton>}
+        ? <AppBarButton>
+          {isAdding
+            ? <CircularProgress color="secondary" size={24} />
+            : <IconButton onClick={async () => {
+              setIsAdding(true);
+              await toggleSubscription(findSubscription(props.id));
+              await delay(1000);
+              setIsAdding(false);
+            }}>
+              <Add/>
+            </IconButton>}
+        </AppBarButton>
+        : <AppBarButton>
+          <FormControlLabel
+            className={styles.unreadOnlySlider}
+            control={<Switch checked={unreadOnly} onClick={toggleUnreadOnly} />}
+            label="Unread" />
+        </AppBarButton>}
       <AppBarButton>
         <IconButton disabled={loading} onClick={() => updateStreams(props.id)}>
           <Refresh />
