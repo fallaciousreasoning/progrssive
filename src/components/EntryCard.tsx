@@ -22,7 +22,8 @@ const useStyles = makeStyles(theme => ({
         flexBasis: 1
     },
     cardHeader: {
-        paddingBottom: 0
+        paddingBottom: 0,
+        maxLines: 4
     },
     cardContent: {
         paddingTop: 0,
