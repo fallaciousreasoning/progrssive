@@ -39,7 +39,7 @@ export const runEntryCleanup = async (cleanupSettings: CleanupSettings) => {
 
     const deleteIds = oldEntries.map(e => e.id);
     // Uncomment this to actually delete entries.
-    // await db.entries.bulkDelete(deleteIds);
+    await db.entries.bulkDelete(deleteIds);
 
     const end = performance.now();
     console.log(`Took ${round(end - start)}ms to cleanup entries`);
