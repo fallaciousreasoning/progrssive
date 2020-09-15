@@ -7,6 +7,7 @@ import LazySnackbarProvider from './components/LazySnackbarProvider';
 import RouteSwitcher from './components/RouteSwitcher';
 import { useStore } from './hooks/store';
 import { buildTheme } from './theme';
+import WebWorker from './worker';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -40,3 +41,6 @@ export const App = (props) => {
 };
 
 export default App;
+
+const worker = new WebWorker();
+worker.runEntryCleanup();
