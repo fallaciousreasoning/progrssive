@@ -2,7 +2,7 @@ import { getStore } from "../hooks/store";
 import { debounce } from "../services/debounce";
 import { Settings } from "../types/RecollectStore";
 
-const defaultSettings: Settings = {
+export const defaultSettings: Settings = {
     markOpenedAsRead: true,
     markScrolledAsRead: true,
     doubleTapToCloseArticles: true,
@@ -10,7 +10,11 @@ const defaultSettings: Settings = {
     theme: 'device',
     accent: 'green',
     secondaryAccent: 'pink',
-    fontFamily: 'Roboto'
+    fontFamily: 'Roboto',
+    cleanupSettings: {
+        deleteReadEntries: 7,
+        deleteUnreadEntries: 'never'
+    }
 }
 
 const saveSettings = (settings: Settings) => {

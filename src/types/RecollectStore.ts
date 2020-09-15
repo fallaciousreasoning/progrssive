@@ -9,6 +9,11 @@ export interface UpdatingInformation {
   };
 }
 
+export interface CleanupSettings {
+    deleteReadEntries: 'never' | 1 | 3 | 7 | 14 | 21 | 28;
+    deleteUnreadEntries: 'never' | 1 | 3 | 7 | 14 | 21 | 28;
+}
+
 export interface Settings {
   markOpenedAsRead: boolean;
   markScrolledAsRead: boolean;
@@ -18,6 +23,7 @@ export interface Settings {
   accent: AccentColor;
   secondaryAccent: AccentColor;
   fontFamily: 'Roboto';
+  cleanupSettings: CleanupSettings;
 }
 
 export interface StoreStream {

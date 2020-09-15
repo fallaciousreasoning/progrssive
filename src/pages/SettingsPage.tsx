@@ -8,7 +8,7 @@ import Slider from '@material-ui/core/Slider';
 import { makeStyles } from '@material-ui/core/styles';
 import * as React from 'react';
 import { useCallback } from 'react';
-import { updateSettings } from '../actions/settings';
+import { defaultSettings, updateSettings } from '../actions/settings';
 import LinkButton from '../components/LinkButton';
 import ListOptionToggle from '../components/ListOptionToggle';
 import { useResult } from '../hooks/promise';
@@ -67,6 +67,36 @@ const FontPicker = (props: SelectProps) => {
         {supportedFonts.map(f => <MenuItem key={f} value={f} style={{ fontFamily: fonts[f] }}>
             {f} | The quick brown fox jumps over the lazy dog.
         </MenuItem>)}
+    </Select>
+}
+
+const CleanupPicker = (props: {
+    name: keyof Settings['cleanupSettings'];
+} & SelectProps) => {
+    const store = useStore();
+    const cleanupSettings = store.settings.cleanupSettings || defaultSettings.cleanupSettings;
+    const value = cleanupSettings[props.name];
+
+    const onChange = useCallback(e => {
+        console.log(e)
+        updateSettings("cleanupSettings", {
+            ...cleanupSettings,
+            [props.name]: e.target.value
+        })
+    }, [props.name, cleanupSettings]);
+
+    return <Select
+        variant="outlined"
+        {...props}
+        onChange={onChange}
+        value={value}>
+        <MenuItem value="never">Never</MenuItem>
+        <MenuItem value={1}>1 day</MenuItem>
+        <MenuItem value={3}>3 days</MenuItem>
+        <MenuItem value={7}>1 week</MenuItem>
+        <MenuItem value={14}>2 weeks</MenuItem>
+        <MenuItem value={21}>3 weeks</MenuItem>
+        <MenuItem value={28}>4 weeks</MenuItem>
     </Select>
 }
 
@@ -167,6 +197,22 @@ export default (props) => {
                     onChange={onPickerChange} />
             </ListItem>
             <Divider />
+            <ListItem>
+                <ListItemText
+                    primary="Delete Unread Articles"
+                    secondary="When unread articles should be deleted" />
+                <CleanupPicker
+                    className={styles.picker}
+                    name="deleteUnreadEntries" />
+            </ListItem>
+            <ListItem>
+                <ListItemText
+                    primary="Delete Read Articles"
+                    secondary="When read articles should be deleted" />
+                <CleanupPicker
+                    className={styles.picker}
+                    name="deleteReadEntries" />
+            </ListItem>
             <ListItem>
                 <ListItemText
                     primary="Storage"
