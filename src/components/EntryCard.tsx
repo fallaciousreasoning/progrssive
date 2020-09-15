@@ -43,7 +43,8 @@ const useStyles = makeStyles(theme => ({
         }
     },
     detail: {
-        flex: 1
+        flex: 1,
+        minWidth: 0
     },
     read: {
         color: '#F0F0F0 !important'
