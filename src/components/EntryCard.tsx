@@ -7,7 +7,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import React, { useState, useCallback, useEffect } from 'react';
 import { Entry } from "../model/entry";
-import { getEntryByline, getEntrySummary, getEntryVisualUrl } from "../services/entry";
+import { getEntryByline, getEntryContent, getEntrySummary, getEntryVisualUrl } from "../services/entry";
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -20,6 +20,22 @@ const useStyles = makeStyles(theme => ({
     content: {
         display: 'flex',
         flexBasis: 1
+    },
+    cardHeader: {
+        paddingBottom: 0
+    },
+    cardContent: {
+        paddingTop: 0,
+    },
+    summary: {
+        maxHeight: '10px',
+        overflow: 'none',
+        '& img': {
+            display: 'none'
+        },
+        '& small': {
+            display: 'none'
+        }
     },
     detail: {
         flex: 1
@@ -51,7 +67,7 @@ export default (props: { entry: Entry, showingUnreadOnly?: boolean }) => {
 
     const visualUrl = getEntryVisualUrl(props.entry);
     const subheader = getEntryByline(props.entry);
-    const summary = getEntrySummary(props.entry);
+    const summary = getEntryContent(props.entry);
 
     const [imageUrl, setImageUrl] = useState(visualUrl);
     useEffect(() => {
@@ -62,7 +78,7 @@ export default (props: { entry: Entry, showingUnreadOnly?: boolean }) => {
     const onImageError = useCallback((e) => {
         setImageUrl(null);
     }, []);
-    
+
     // Tint unread articles if and only if they are read and only unread articles are meant to be displayed.
     const tintGray = !props.entry.unread && props.showingUnreadOnly;
 
@@ -71,11 +87,12 @@ export default (props: { entry: Entry, showingUnreadOnly?: boolean }) => {
             <div className={styles.content}>
                 <div className={styles.detail}>
                     <CardHeader
+                        className={styles.cardHeader}
                         titleTypographyProps={{ variant: "body1" }}
                         title={props.entry.title} subheader={subheader} />
-                    {summary && <CardContent>
+                    {summary && <CardContent className={styles.cardContent}>
                         <Typography component="small" variant="body2">
-                            <div dangerouslySetInnerHTML={{ __html: summary }}></div>
+                            <div className={styles.summary} dangerouslySetInnerHTML={{ __html: summary }}></div>
                         </Typography>
                     </CardContent>}
                 </div>
