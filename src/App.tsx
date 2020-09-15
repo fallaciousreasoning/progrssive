@@ -2,11 +2,14 @@ import { makeStyles, MuiThemeProvider } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import React, { useMemo } from 'react';
 import { BrowserRouter } from 'react-router-dom';
+import { defaultSettings } from './actions/settings';
 import AppBar from './components/AppBar';
 import LazySnackbarProvider from './components/LazySnackbarProvider';
 import RouteSwitcher from './components/RouteSwitcher';
-import { useStore } from './hooks/store';
+import { getStore, useStore } from './hooks/store';
+import { initStore } from './services/store';
 import { buildTheme } from './theme';
+import { delay } from './utils/promise';
 import WebWorker from './worker';
 
 const useStyles = makeStyles(theme => ({
@@ -42,5 +45,16 @@ export const App = (props) => {
 
 export default App;
 
-const worker = new WebWorker();
-worker.runEntryCleanup();
+const idlePolyFill = (callback: () => void) => setTimeout(callback, 5000);
+initStore().then(async () => {
+  const onIdle = window.requestIdleCallback || idlePolyFill;
+
+  // Wait until we're idle before running cleanup.
+  onIdle(() => {
+    const worker = new WebWorker();
+    // Clone cleanup settings to pass to worker.
+    const cleanupSettings = JSON.parse(JSON.stringify(getStore().settings.cleanupSettings || defaultSettings.cleanupSettings));
+    worker.runEntryCleanup(cleanupSettings);
+  })
+})
+

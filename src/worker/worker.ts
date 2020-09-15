@@ -1,19 +1,28 @@
 import { Entry } from "../model/entry";
+import { CleanupSettings } from "../types/RecollectStore";
 import { round } from "../utils/math";
-import { week } from "../utils/time";
+import { day } from "../utils/time";
 
-const shouldDelete = (now: number, entry: Entry) => {
-    // Don't delete unread articles.
-    if (!entry.readTime || entry.unread)
-        return false;
-
+const shouldDelete = (now: number, settings: CleanupSettings, entry: Entry) => {
     const timeSinceRead = now - entry.readTime;
+    const timeSincePublished = now - entry.published;
 
-    // Entries older than one week should be deleted.
-    return timeSinceRead > week;
+    // Handle unread articles
+    if (!entry.readTime || entry.unread) {
+        const cleanAfter = settings.deleteUnreadEntries;
+        if (cleanAfter === "never") return false;
+
+        // if it's been more than cleanAfter days, delete the article.
+        return timeSincePublished > cleanAfter * day;
+    }
+
+    const cleanAfter = settings.deleteReadEntries;
+    if (cleanAfter === "never") return false;
+    // Entries older than cleanAfter days should be deleted.
+    return timeSinceRead > cleanAfter * day;
 }
- 
-export const runEntryCleanup = async () => {
+
+export const runEntryCleanup = async (cleanupSettings: CleanupSettings) => {
     const start = performance.now();
 
     console.log("Beginning cleanup...");
@@ -25,7 +34,7 @@ export const runEntryCleanup = async () => {
     console.log(`Have ${entries.length} entries!`);
 
     const now = Date.now();
-    const oldEntries = entries.filter(e => shouldDelete(now, e as any));
+    const oldEntries = entries.filter(e => shouldDelete(now, cleanupSettings, e as any));
     console.log(`Found ${oldEntries.length} entries to delete`);
 
     const deleteIds = oldEntries.map(e => e.id);
