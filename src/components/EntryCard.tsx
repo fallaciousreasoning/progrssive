@@ -63,8 +63,11 @@ const useStyles = makeStyles(theme => ({
     },
     image: {
         height: '200px',
-        maxWidth: theme.breakpoints.up('md').valueOf() ? '200px' : '100px',
-        flex: 0
+        maxWidth: '100px',
+        flex: 0,
+        [theme.breakpoints.up('sm')]: {
+            maxWidth: '200px'
+        }
     }
 }));
 
