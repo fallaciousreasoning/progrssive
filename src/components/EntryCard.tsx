@@ -6,8 +6,8 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import React, { useState, useCallback, useEffect } from 'react';
-import { Entry } from "./model/entry";
-import { getEntryByline, getEntrySummary, getEntryVisualUrl } from "./services/entry";
+import { Entry } from "../model/entry";
+import { getEntryByline, getEntrySummary, getEntryVisualUrl } from "../services/entry";
 
 const useStyles = makeStyles(theme => ({
     paper: {

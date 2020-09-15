@@ -4,7 +4,7 @@ import { useCallback, useRef, useState, useEffect } from 'react';
 import { useHistory, useLocation } from "react-router-dom";
 import { FixedSizeList } from 'react-window';
 import { setUnread } from './actions/marker';
-import EntryCard from './EntryCard';
+import EntryCard from './components/EntryCard';
 import { useStreamEntries, useStreamEntry } from './hooks/entry';
 import { useScreenSize } from './hooks/screenSize';
 import { getStore, useStore } from './hooks/store';
