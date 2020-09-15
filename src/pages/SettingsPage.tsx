@@ -78,7 +78,6 @@ const CleanupPicker = (props: {
     const value = cleanupSettings[props.name];
 
     const onChange = useCallback(e => {
-        console.log(e)
         updateSettings("cleanupSettings", {
             ...cleanupSettings,
             [props.name]: e.target.value
