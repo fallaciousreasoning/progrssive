@@ -23,7 +23,11 @@ const useStyles = makeStyles(theme => ({
     },
     cardHeader: {
         paddingBottom: 0,
-        maxLines: 4
+        maxLines: 4,
+        '& span': {
+            maxHeight: '3em',
+            overflow: 'hidden'
+        }
     },
     cardContent: {
         paddingTop: 0,
