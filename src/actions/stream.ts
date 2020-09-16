@@ -29,7 +29,7 @@ export const updateStreams = async (streamId?: string) => {
 
     try {
         const syncDate = Date.now();
-        const maxResults = affectedSubscriptions.length * 250;
+        const maxResults = affectedSubscriptions.length * 100;
         const entries = await getAllEntries(fetchId,
             lowestSync,
             maxResults,
