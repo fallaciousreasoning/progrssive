@@ -1,16 +1,15 @@
 import { makeStyles } from '@material-ui/core/styles';
 import * as React from 'react';
-import { useCallback, useRef, useState, useEffect } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { collect, Store } from 'react-recollect';
 import { useHistory, useLocation } from "react-router-dom";
 import { FixedSizeList } from 'react-window';
 import { setUnread } from './actions/marker';
 import EntryCard from './components/EntryCard';
-import { useStreamEntries, useStreamEntry } from './hooks/entry';
 import { useScreenSize } from './hooks/screenSize';
-import { getStore, useStore } from './hooks/store';
+import { getStore } from './hooks/store';
 import useWhenChanged from './hooks/useWhenChanged';
-import { getStreamEntry } from './selectors/entry';
+import { getStreamEntries, getStreamEntry } from './selectors/entry';
 import { getEntrySubscription, getEntryUrl, getProgrssiveUrl } from './services/entry';
 import { loadToEntry } from './services/store';
 
@@ -36,7 +35,7 @@ const StreamList = (props: Props) => {
     const history = useHistory();
     const location = useLocation();
 
-    const loadedEntries = useStreamEntries();
+    const loadedEntries = getStreamEntries();
     const markScrolledAsRead = props.store.settings.markScrolledAsRead && props.store.stream.unreadOnly;
 
     const [lastVisibleStartIndex, setLastVisibleStartIndex] = useState(0)
@@ -111,7 +110,7 @@ const StreamList = (props: Props) => {
         itemKey={(index) => index < loadedEntries.length ? loadedEntries[index].id : index}
         onItemsRendered={onItemsRendered}>
         {rowProps => {
-            const item = getStreamEntry(props.store, rowProps.index);
+            const item = getStreamEntry(rowProps.index);
 
             const newStyle = {
                 ...rowProps.style,

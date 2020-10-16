@@ -1,22 +1,8 @@
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { getEntry } from "../api/entry";
 import { Entry } from "../model/entry";
 import { addEntry, loadEntry } from "../services/db";
 import { getStore, useStore } from "./store";
-import { getStreamEntry } from '../selectors/entry';
-
-export const useStreamEntries = () => {
-    const store = useStore();
-    const loadedEntries = useMemo(() =>
-        store.stream.loadedEntries.map(id => store.entries[id]),
-        [store.stream, store.entries]);
-    return loadedEntries;
-}
-
-export const useStreamEntry = (index: number) => {
-    const store = useStore();
-    return getStreamEntry(store, index);
-}
 
 export const useEntry = (id: string) => {
     const store = useStore();
