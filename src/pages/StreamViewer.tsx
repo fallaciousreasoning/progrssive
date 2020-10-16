@@ -21,6 +21,7 @@ import MaybeUpdateStreamList from '../components/MaybeUpdateStreamList';
 import { toggleSubscription, findSubscription } from '../services/subscriptions';
 import { Add } from '@material-ui/icons';
 import { delay } from '../utils/promise';
+import { collect, Store } from 'react-recollect';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -49,8 +50,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default (props: { id: string }) => {
-  const store = useStore();
+const StreamViewer = (props: { id: string, store: Store }) => {
   const styles = useStyles();
   const location = useLocation();
   const isPhone = useIsPhone();
@@ -76,7 +76,7 @@ export default (props: { id: string }) => {
   }, [unreadOnly, history]);
 
 
-  const loading = !!getStreamUpdating(props.id) || store.stream.length === undefined;
+  const loading = !!getStreamUpdating(props.id) || props.store.stream.length === undefined;
   useWhenChanged(() =>
     setStreamList(unreadOnly, props.id),
     [unreadOnly, props.id]);
@@ -85,7 +85,7 @@ export default (props: { id: string }) => {
   useWhenChanged(scrollToTop,
     // When we get some entries in the stream, we should not be looking
     // at the footer.
-    [store.stream.length]);
+    [props.store.stream.length]);
 
   const onFooterScrolled = useCallback(e => {
     // Don't mark entries as read when we're also showing read
@@ -111,7 +111,7 @@ export default (props: { id: string }) => {
   }, [unreadOnly])
 
   const [progress, setProgress] = useState(0);
-  const remainingArticles = Math.round(store.stream.length - progress * store.stream.length);
+  const remainingArticles = Math.round(props.store.stream.length - progress * props.store.stream.length);
 
   return <div ref={rootRef} className={styles.root} onScroll={onFooterScrolled}>
     {loading && <Centre>
@@ -119,7 +119,7 @@ export default (props: { id: string }) => {
     </Centre>}
 
     <MaybeUpdateStreamList streamId={props.id} />
-    {store.stream.length !== 0 && <StreamList onProgressChanged={setProgress} />}
+    {props.store.stream.length !== 0 && <StreamList onProgressChanged={setProgress} />}
 
     {active && <>
       <AppBarButton>
@@ -156,3 +156,5 @@ export default (props: { id: string }) => {
     </div>
   </div >
 }
+
+export default collect(StreamViewer);
