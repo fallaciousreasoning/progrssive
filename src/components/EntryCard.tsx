@@ -5,7 +5,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { memo, useCallback, useEffect, useState } from 'react';
 import { Entry } from "../model/entry";
 import { getEntryByline, getEntryContent, getEntryVisualUrl } from "../services/entry";
 
@@ -71,7 +71,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export default (props: { entry: Entry, showingUnreadOnly?: boolean }) => {
+const EntryCard = (props: { entry: Entry, showingUnreadOnly?: boolean }) => {
     const styles = useStyles();
 
     const visualUrl = getEntryVisualUrl(props.entry);
@@ -117,3 +117,5 @@ export default (props: { entry: Entry, showingUnreadOnly?: boolean }) => {
         {tintGray && <div className={styles.tint}></div>}
     </Paper>;
 }
+
+export default memo(EntryCard);
