@@ -3,6 +3,7 @@ import { getEntry } from "../api/entry";
 import { Entry } from "../model/entry";
 import { addEntry, loadEntry } from "../services/db";
 import { getStore, useStore } from "./store";
+import { getStreamEntry } from '../selectors/entry';
 
 export const useStreamEntries = () => {
     const store = useStore();
@@ -14,11 +15,7 @@ export const useStreamEntries = () => {
 
 export const useStreamEntry = (index: number) => {
     const store = useStore();
-    if (store.stream.loadedEntries.length < index)
-        return undefined;
-
-    const id = store.stream.loadedEntries[index];
-    return store.entries[id];
+    return getStreamEntry(store, index);
 }
 
 export const useEntry = (id: string) => {
