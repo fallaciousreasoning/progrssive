@@ -2,6 +2,7 @@ import { Button, CardContent, CardHeader, CircularProgress, IconButton, makeStyl
 import { Share } from "@material-ui/icons";
 import * as React from 'react';
 import { useCallback, useRef, useState } from 'react';
+import { collect, Store } from "react-recollect";
 import { useHistory, useLocation } from "react-router";
 import { loadMobilizedContent } from "../actions/entry";
 import AppBarButton from "../components/AppBarButton";
@@ -48,8 +49,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export default (props: { id: string }) => {
-    const store = useStore();
+const EntryViewer = (props: { id: string, store: Store }) => {
     const history = useHistory();
     const styles = useStyles();
     const domElement = useRef<HTMLDivElement>(null);
@@ -120,7 +120,7 @@ export default (props: { id: string }) => {
     }, [subscription && subscription.preferredView]);
 
     const doubleTap = useDoubleTap((event) => {
-        if (!store.settings.doubleTapToCloseArticles)
+        if (!props.store.settings.doubleTapToCloseArticles)
             return;
 
         history.goBack();
@@ -237,3 +237,5 @@ export default (props: { id: string }) => {
         </>}
     </article>;
 };
+
+export default collect(EntryViewer);
