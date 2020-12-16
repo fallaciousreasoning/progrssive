@@ -12,7 +12,6 @@ import StackPanel from "../components/StackPanel";
 import { useDoubleTap } from "../hooks/callbacks";
 import { useEntry } from "../hooks/entry";
 import { useScreenSize } from "../hooks/screenSize";
-import { useStore } from "../hooks/store";
 import useWhenChanged from "../hooks/useWhenChanged";
 import { EntryReadButton } from "../MarkerButton";
 import { getEntryByline, getEntryContent, getEntryPreferredView, getEntrySubscription, getEntryUrl } from "../services/entry";

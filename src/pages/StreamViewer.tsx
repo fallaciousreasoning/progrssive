@@ -3,25 +3,25 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import Switch from '@material-ui/core/Switch';
+import { Add } from '@material-ui/icons';
 import Refresh from '@material-ui/icons/Refresh';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
+import { collect, Store } from 'react-recollect';
 import { useHistory, useLocation } from 'react-router-dom';
 import { updateStreams } from '../actions/stream';
 import AppBarButton from '../components/AppBarButton';
 import Centre from '../components/Centre';
 import MarkAsReadButton from '../components/MarkAsReadButton';
+import MaybeUpdateStreamList from '../components/MaybeUpdateStreamList';
 import StreamFooter from '../components/StreamFooter';
 import { useIsPhone } from '../hooks/responsive';
-import { getStore, getStreamUpdating, useStore } from '../hooks/store';
+import { getStore, getStreamUpdating } from '../hooks/store';
 import { useIsTransientSubscription } from '../hooks/subscription';
 import useWhenChanged from '../hooks/useWhenChanged';
 import { markStreamAs, setStreamList } from '../services/store';
+import { findSubscription, toggleSubscription } from '../services/subscriptions';
 import StreamList from '../StreamList';
-import MaybeUpdateStreamList from '../components/MaybeUpdateStreamList';
-import { toggleSubscription, findSubscription } from '../services/subscriptions';
-import { Add } from '@material-ui/icons';
 import { delay } from '../utils/promise';
-import { collect, Store } from 'react-recollect';
 
 const useStyles = makeStyles(theme => ({
   root: {
