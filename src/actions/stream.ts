@@ -1,6 +1,6 @@
 import { getAllEntries } from "../api/streams";
 import { getStore } from "../hooks/store";
-import { addEntry, getDb } from "../services/db";
+import { addEntry, bulkUpdateEntries, getDb } from "../services/db";
 import { copy } from "../utils/object";
 import { resolvable } from "../utils/promise";
 
@@ -40,11 +40,9 @@ export const updateStreams = async (streamId?: string) => {
             subscription.lastSync = syncDate;
         }
 
+        await bulkUpdateEntries(entries);
+        
         const db = await getDb();
-
-        const save = entries.map(e => addEntry(e, true));
-        await Promise.all(save);
-
         await db.subscriptions.bulkPut(copy(affectedSubscriptions.map(s => ({
             ...s,
             lastSync: syncDate

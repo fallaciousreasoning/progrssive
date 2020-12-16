@@ -12,10 +12,10 @@ export const getDb = async (): Promise<DB> => {
     return _db;
 }
 
-export const saveSubscription = async (subscription: Subscription, entries: Entry[]=[]) => {
+export const saveSubscription = async (subscription: Subscription, entries: Entry[] = []) => {
     // Get rid of all the store proxy stuff.
     subscription = JSON.parse(JSON.stringify(subscription));
-    
+
     const db = await getDb();
     return db.transaction('rw',
         db.entries,
@@ -73,4 +73,42 @@ export const addEntry = async (entry: Partial<Entry>, maintainUnread?: boolean) 
 
     // Return it, on the off chance anyone was interested.
     return dbEntry;
+}
+
+export const bulkUpdateEntries = async (entries: Entry[]) => {
+    // We shouldn't try and save transient entries.
+    entries = entries.filter(e => !e.transient);
+
+    const ids = entries.map(e => e.id);
+    const db = await getDb();
+
+    const dbEntries = (await db.entries.bulkGet(ids))
+        // Only insert entries that actually exist in to our map
+        .filter(e => !!e)
+        // Create a map from entry.id ==> entry
+        .reduce((prev, next) => {
+            prev[next.id] = next;
+            return prev;
+        }, {} as { [id: string]: DBEntry });
+
+    const toInsert: DBEntry[] = [];
+    for (const entry of entries) {
+        let dbEntry: DBEntry = {
+            ...entry,
+            unread: +entry.unread
+        }
+        const existing = dbEntries[entry.id];
+        if (existing) {
+            dbEntry = {
+                ...existing,
+                ...dbEntry,
+                unread: existing.unread,
+                readTime: existing.readTime
+            };
+        }
+
+        toInsert.push(dbEntry);
+    }
+
+    await db.entries.bulkPut(toInsert);
 }
