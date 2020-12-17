@@ -13,8 +13,8 @@ import { ExpirationPlugin } from 'workbox-expiration';
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
 import { StaleWhileRevalidate } from 'workbox-strategies';
-import { getDb } from './services/db';
-import { updateStreamsHeadless } from './actions/stream';
+// import { getDb } from './services/db';
+// import { updateStreamsHeadless } from './actions/stream';
 
 declare const self: ServiceWorkerGlobalScope;
 
@@ -82,15 +82,15 @@ self.addEventListener('message', (event) => {
 });
 
 // Any other custom service worker logic can go here.
-self.addEventListener('periodicsync', event => {
-    if (event.tag !== "content-sync") {
-        return;
-    }
+// self.addEventListener('periodicsync', event => {
+//     if (event.tag !== "content-sync") {
+//         return;
+//     }
 
-    event.waitUntil((async () => {
-        console.log("Updating streams!");
-        const db = await getDb();
-        const subscriptions = await db.subscriptions.toArray();
-        await updateStreamsHeadless(subscriptions);
-    })())
-});
+//     event.waitUntil((async () => {
+//         console.log("Updating streams!");
+//         const db = await getDb();
+//         const subscriptions = await db.subscriptions.toArray();
+//         await updateStreamsHeadless(subscriptions);
+//     })())
+// });
