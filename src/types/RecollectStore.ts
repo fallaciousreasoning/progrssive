@@ -1,7 +1,11 @@
+import { Store } from "react-recollect";
 import { Entry } from "../model/entry";
 import { Subscription } from "../model/subscription";
 import { AccentColor } from "../theme";
 
+export interface CollectProps {
+  store: Store;
+}
 export interface UpdatingInformation {
   categories: boolean;
   stream: {

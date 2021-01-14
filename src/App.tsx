@@ -1,6 +1,7 @@
 import { makeStyles, MuiThemeProvider } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import React, { useMemo } from 'react';
+import { collect } from 'react-recollect';
 import { BrowserRouter } from 'react-router-dom';
 import { defaultSettings } from './actions/settings';
 import AppBar from './components/AppBar';
@@ -9,6 +10,7 @@ import RouteSwitcher from './components/RouteSwitcher';
 import { getStore, useStore } from './hooks/store';
 import { initStore } from './services/store';
 import { buildTheme } from './theme';
+import { CollectProps } from './types/RecollectStore';
 import { delay } from './utils/promise';
 import WebWorker from './worker';
 
@@ -19,9 +21,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export const App = (props) => {
+export const App = collect(({ store }: CollectProps) => {
   const styles = useStyles({});
-  const store = useStore();
 
   // Rerender when the external theme changes.
   const prefersDark = useMediaQuery('(prefers-color-scheme: dark)');
@@ -41,7 +42,7 @@ export const App = (props) => {
       </LazySnackbarProvider>
     </MuiThemeProvider>
   </BrowserRouter>;
-};
+});
 
 export default App;
 

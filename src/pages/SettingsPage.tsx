@@ -8,13 +8,13 @@ import Slider from '@material-ui/core/Slider';
 import { makeStyles } from '@material-ui/core/styles';
 import * as React from 'react';
 import { useCallback } from 'react';
+import { collect } from 'react-recollect';
 import { defaultSettings, updateSettings } from '../actions/settings';
 import LinkButton from '../components/LinkButton';
 import ListOptionToggle from '../components/ListOptionToggle';
 import { useResult } from '../hooks/promise';
-import { useStore } from '../hooks/store';
 import { accentColors, fonts, getColor, supportedFonts } from '../theme';
-import { Settings } from '../types/RecollectStore';
+import { CollectProps, Settings } from '../types/RecollectStore';
 
 const useStyles = makeStyles(theme => ({
     slider: {
@@ -39,42 +39,36 @@ const useAccentColorPickerStyles = makeStyles(theme => ({
     }
 }));
 
-const AccentColorPicker = (props: {
-    name: keyof Settings,
-} & SelectProps) => {
-    const store = useStore();
+const AccentColorPicker = collect((props: {
+    name: keyof Settings
+} & SelectProps & CollectProps) => {
     const styles = useAccentColorPickerStyles();
 
     return <Select
         variant="outlined"
         {...props}
-        value={store.settings[props.name]}
+        value={props.store.settings[props.name]}
         renderValue={(value: string) => <div className={styles.colorPickerValue} style={{ background: getColor(value as any) }} />}>
         {accentColors.map(c => <MenuItem value={c} key={c}>
             <div style={{ background: getColor(c as any) }} className={`${styles.colorPickerItem} color`}></div>
         </MenuItem>)}
     </Select>
-}
+});
 
-const FontPicker = (props: SelectProps) => {
-    const store = useStore();
-
-    return <Select
+const FontPicker = collect((props: SelectProps & CollectProps) => <Select
         variant="outlined"
-        value={store.settings[props.name]}
+        value={props.store.settings[props.name]}
         {...props}
         renderValue={(value: string) => <div>{value}</div>}>
         {supportedFonts.map(f => <MenuItem key={f} value={f} style={{ fontFamily: fonts[f] }}>
             {f} | The quick brown fox jumps over the lazy dog.
         </MenuItem>)}
-    </Select>
-}
+    </Select>)
 
-const CleanupPicker = (props: {
+const CleanupPicker = collect((props: {
     name: keyof Settings['cleanupSettings'];
-} & SelectProps) => {
-    const store = useStore();
-    const cleanupSettings = store.settings.cleanupSettings || defaultSettings.cleanupSettings;
+} & SelectProps & CollectProps) => {
+    const cleanupSettings = props.store.settings.cleanupSettings || defaultSettings.cleanupSettings;
     const value = cleanupSettings[props.name];
 
     const onChange = useCallback(e => {
@@ -97,12 +91,10 @@ const CleanupPicker = (props: {
         <MenuItem value={21}>3 weeks</MenuItem>
         <MenuItem value={28}>4 weeks</MenuItem>
     </Select>
-}
+});
 
-export default (props) => {
+const SettingsPage = collect(({ store }: CollectProps) => {
     const styles = useStyles();
-    const store = useStore();
-
     const onSwitchChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>, value: boolean) => {
         const setting = e.target['name'];
         updateSettings(setting as any, value)
@@ -222,4 +214,6 @@ export default (props) => {
             </ListItem>
         </List>
     </div>;
-}
+})
+
+export default SettingsPage;
