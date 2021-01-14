@@ -70,7 +70,7 @@ const StreamList = (props: Props) => {
             // scroll position.
             if (wasUnreadOnly !== props.store.stream.unreadOnly)
                 return;
-            getStore().stream.lastScrollPos = list.scrollTop;
+            setTimeout(() => getStore().stream.lastScrollPos = list.scrollTop);
         }
     }, [])
 
