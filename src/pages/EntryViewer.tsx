@@ -52,7 +52,7 @@ const EntryViewer = (props: { id: string, store: Store }) => {
     const history = useHistory();
     const styles = useStyles();
     const domElement = useRef<HTMLDivElement>(null);
-    const entry = useEntry(props.id);
+    const entry = useEntry(props.id, props.store);
     const url = getEntryUrl(entry);
     const location = useLocation();
     const active = location.pathname.includes("/entries/");

@@ -26,19 +26,6 @@ afterChange(event => {
     updaters.forEach(u => u(event.store));
 });
 
-export const useStore = () => {
-    const [store, setStore] = useState(defaultStore);
-
-    useEffect(() => {
-        const updater = addUpdater(setStore);
-        return () => {
-            removeUpdater(updater);
-        };
-    }, []);
-
-    return store;
-}
-
 export const getStreamUpdating = (streamId: string) => {
     const updating = getStore().updating.stream;
     if (!streamId) {

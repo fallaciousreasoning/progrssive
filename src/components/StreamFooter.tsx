@@ -3,9 +3,11 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
+import { collect } from 'react-recollect';
 import { updateStreams } from '../actions/stream';
 import { useIsPhone } from '../hooks/responsive';
-import { getStreamUpdating, useStore } from '../hooks/store';
+import { getStreamUpdating } from '../hooks/store';
+import { CollectProps } from '../types/RecollectStore';
 import LinkButton from './LinkButton';
 import StackPanel from './StackPanel';
 
@@ -39,10 +41,10 @@ const transition = {
     delay: 0.2
 };
 
-export default (props: Props) => {
+export default collect((props: Props & CollectProps) => {
     const styles = useStyles();
     const isPhone = useIsPhone();
-    const store = useStore();
+    const {store} = props;
     const hasSubscriptions = !!store.subscriptions.length;
     const loading = !!getStreamUpdating(store.stream.id);
 
@@ -70,4 +72,4 @@ export default (props: Props) => {
                 </Button>}
         </StackPanel>
     </StackPanel>
-}
+});

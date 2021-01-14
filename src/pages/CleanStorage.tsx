@@ -1,10 +1,11 @@
 import { Button, makeStyles, Typography } from '@material-ui/core';
 import List from '@material-ui/core/List';
 import React, { useCallback, useState } from 'react';
+import { collect } from 'react-recollect';
 import ListOptionToggle from '../components/ListOptionToggle';
 import { useResult } from '../hooks/promise';
-import { useStore } from '../hooks/store';
 import { getDb } from '../services/db';
+import { CollectProps } from '../types/RecollectStore';
 
 interface CleanSettings {
     articles?: boolean;
@@ -16,8 +17,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export default (props) => {
-    const store = useStore();
+export default collect(({ store }: CollectProps) => {
     const styles = useStyles();
     const [clean, setClean] = useState<CleanSettings>({ articles: true });
     const onChange = useCallback((e, value) => {
@@ -91,4 +91,4 @@ export default (props) => {
             Clean
         </Button>
     </div>;
-}
+});

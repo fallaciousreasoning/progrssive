@@ -59,7 +59,7 @@ const StreamViewer = (props: { id: string, store: Store }) => {
   const history = useHistory();
   const rootRef = useRef<HTMLDivElement>();
   const footerRef = useRef<HTMLDivElement>();
-  const isTransient = useIsTransientSubscription(props.id);
+  const isTransient = useIsTransientSubscription(props.id, props.store);
   const [isAdding, setIsAdding] = useState(false);
 
   const scrollToTop = useCallback(() => {

@@ -7,7 +7,7 @@ import { defaultSettings } from './actions/settings';
 import AppBar from './components/AppBar';
 import LazySnackbarProvider from './components/LazySnackbarProvider';
 import RouteSwitcher from './components/RouteSwitcher';
-import { getStore, useStore } from './hooks/store';
+import { getStore } from './hooks/store';
 import { initStore } from './services/store';
 import { buildTheme } from './theme';
 import { CollectProps } from './types/RecollectStore';

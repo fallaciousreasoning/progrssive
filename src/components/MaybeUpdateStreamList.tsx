@@ -1,9 +1,11 @@
 import { Button } from '@material-ui/core';
 import React, { useCallback } from 'react';
-import { getStore, getStreamUpdating, useStore } from '../hooks/store';
+import { collect } from 'react-recollect';
+import { getStore, getStreamUpdating } from '../hooks/store';
 import useWhenChanged from '../hooks/useWhenChanged';
 import { entryCount } from '../services/entryIterator';
 import { setStreamList } from '../services/store';
+import { CollectProps } from '../types/RecollectStore';
 
 interface Props {
     streamId: string;
@@ -22,8 +24,7 @@ const UpdateButton = () => {
     </Button>
 }
 
-export default (props: Props) => {
-    useStore();
+export default collect((props: Props & CollectProps) => {
     const loading = !!getStreamUpdating(props.streamId);
 
     useWhenChanged(async () => {
@@ -32,9 +33,8 @@ export default (props: Props) => {
         if (loading)
             return;
 
-        const { unreadOnly } = getStore().stream;
-
-        const streamLength = getStore().stream.length;
+        const { unreadOnly } = props.store.stream;
+        const streamLength = props.store.stream.length;
 
         // We're still reading from disk.
         if (streamLength === undefined)
@@ -63,4 +63,4 @@ export default (props: Props) => {
         });
     }, [loading]);
     return null;
-}
+});

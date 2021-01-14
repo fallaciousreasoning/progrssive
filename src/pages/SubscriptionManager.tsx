@@ -8,10 +8,11 @@ import ExportOpml from '../components/ExportOpml';
 import ImportOpml from "../components/ImportOpml";
 import StackPanel from "../components/StackPanel";
 import SubscriptionEditor from "../components/SubscriptionEditor";
-import { useStore } from '../hooks/store';
 import { guessFeedUrl, Subscription } from '../model/subscription';
 import { toggleSubscription } from "../services/subscriptions";
 import Centre from "../components/Centre";
+import { collect } from "react-recollect";
+import { CollectProps } from "../types/RecollectStore";
 
 const useStyles = makeStyles(theme => ({
     opmlButton: {
@@ -46,9 +47,8 @@ const searchResultVariants = {
 const searchResultTransition = { duration: 0.3 };
 const queryCache: {[query: string]: Subscription[] } = {}
 
-export default (props) => {
+export default collect(({store}: CollectProps) => {
     const styles = useStyles();
-    const store = useStore();
     const history = useHistory();
 
     const getMatchingSubscription = useMemo(() => {
@@ -218,5 +218,5 @@ export default (props) => {
             </Typography>
         </StackPanel>}
     </div>
-}
+});
 

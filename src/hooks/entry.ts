@@ -1,12 +1,11 @@
 import { useEffect } from "react";
+import { Store } from "react-recollect";
 import { getEntry } from "../api/entry";
 import { Entry } from "../model/entry";
 import { addEntry, loadEntry } from "../services/db";
-import { getStore, useStore } from "./store";
+import { getStore } from "./store";
 
-export const useEntry = (id: string) => {
-    const store = useStore();
-
+export const useEntry = (id: string, store: Store) => {
     useEffect(() => {
         if (!id || store.entries[id])
             return;
