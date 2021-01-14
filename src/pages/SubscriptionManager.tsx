@@ -173,7 +173,8 @@ export default collect(({store}: CollectProps) => {
             setImportingSubscriptions([...toImport]);
         }
     }, [setImportingSubscriptions,
-        getMatchingSubscription]);
+        getMatchingSubscription,
+        isSubscribed]);
 
     // Where possible, use results from the store, so we can edit them.
     const storeOrSearchResults = searchResults.map(s => getMatchingSubscription(s) || s);

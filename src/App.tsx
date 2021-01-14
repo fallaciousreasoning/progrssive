@@ -11,7 +11,6 @@ import { getStore } from './hooks/store';
 import { initStore } from './services/store';
 import { buildTheme } from './theme';
 import { CollectProps } from './types/RecollectStore';
-import { delay } from './utils/promise';
 import WebWorker from './worker';
 
 const useStyles = makeStyles(theme => ({
