@@ -82,17 +82,21 @@ export default () => {
 
     const entryActive = !!entryId;
     const Container = isPhone ? SlidePage : 'div';
-    return <Container className={styles.root}>
-        {(!entryActive || !isPhone) && <div key="stream" className={styles.stream}>
-            <Layout key="stream">
-                <StreamViewer id={streamId} />
-            </Layout>
-        </div>}
+    return <div className={styles.root}>
+        <Container>
+            {(!entryActive || !isPhone) && <div key={"stream/" + streamId} className={styles.stream}>
+                <Layout key="stream">
+                    <StreamViewer id={streamId} />
+                </Layout>
+            </div>}
+        </Container>
 
-        {entryActive && <div key="entry" className={styles.entry}>
-            <Layout>
-                <EntryViewer id={entryId} />
-            </Layout>
-        </div>}
-    </Container>
+        <Container>
+            {entryActive && <div key={entryId} className={styles.entry}>
+                <Layout>
+                    <EntryViewer id={entryId} />
+                </Layout>
+            </div>}
+        </Container>
+    </div>
 }

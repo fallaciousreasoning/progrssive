@@ -8,7 +8,7 @@ window.snackHelper = {
 
 const SnackbarProvider = React.lazy(() => import('notistack').then(n => ({ default: n.SnackbarProvider }))) as any;
 const SnackHelper = (props: { useSnackbar: () => any }) => {
-    const snackbar = props.useSnackbar();
+    const snackbar = props.useSnackbar ? props.useSnackbar() : () => {};
     window.snackHelper = snackbar;
     return null;
 }

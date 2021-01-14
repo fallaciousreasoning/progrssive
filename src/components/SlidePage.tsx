@@ -20,7 +20,7 @@ const pageVariants = {
 const pageTransition = {
     type: "tween",
     ease: "anticipate",
-    duration: 0.5
+    duration: 2
 };
 
 const useStyles = makeStyles(theme => ({
