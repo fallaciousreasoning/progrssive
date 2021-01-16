@@ -24,6 +24,7 @@ export const initStore = () => {
     };
     store.subscriptions = [];
 
+    console.log(1)
     store.stream = {
         id: undefined,
         unreadOnly: true,
@@ -64,6 +65,7 @@ const setEntryList = async (unreadOnly: boolean, streamId: string, force = false
     streamIterator = entryIterator(unreadOnly, streamId);
     currentLoader = makeLoader();
 
+    console.log(2);
     getStore().stream = {
         id: streamId,
         unreadOnly,
@@ -90,6 +92,7 @@ const setTransientEntryList = async (streamId: string, force=false) => {
     streamIterator = undefined;
     currentLoader = undefined;
 
+    console.log(3)
     getStore().stream = {
         id: streamId,
         lastScrollPos: 0,
@@ -118,6 +121,7 @@ const setTransientEntryList = async (streamId: string, force=false) => {
         ...entries
     };
 
+    console.log(4)
     getStore().stream = {
         length: stream.items.length,
         id: streamId,

@@ -1,7 +1,8 @@
 import { makeStyles } from '@material-ui/core/styles';
+import { Console } from 'console';
 import * as React from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { collect, Store } from 'react-recollect';
+import { collect, store, Store } from 'react-recollect';
 import { useHistory, useLocation } from "react-router-dom";
 import { FixedSizeList } from 'react-window';
 import { setUnread } from './actions/marker';
@@ -70,17 +71,10 @@ const StreamList = (props: Props) => {
             // scroll position.
             if (wasUnreadOnly !== props.store.stream.unreadOnly)
                 return;
-            setTimeout(() => getStore().stream.lastScrollPos = list.scrollTop);
+
+            props.store.stream.lastScrollPos = list.scrollTop;
         }
     }, [])
-
-    // Scroll to the top when the stream changes.
-    useWhenChanged(() => {
-        if (listOuterRef.current.scrollTop > props.store.stream.lastScrollPos)
-            listRef.current && listRef.current.scrollTo(props.store.stream.lastScrollPos);
-    },
-        // Only scroll back to the top of the list when the stream we're viewing changes.
-        [props.store.stream.id, props.store.stream.unreadOnly]);
 
     const onProgressChanged = props.onProgressChanged;
     const onScrolled = useCallback(({ scrollOffset }) => {
