@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { Console } from 'console';
 import * as React from 'react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, useMemo } from 'react';
 import { collect, store, Store } from 'react-recollect';
 import { useHistory, useLocation } from "react-router-dom";
 import { FixedSizeList } from 'react-window';
@@ -9,7 +9,6 @@ import { setUnread } from './actions/marker';
 import EntryCard from './components/EntryCard';
 import { useScreenSize } from './hooks/screenSize';
 import { getStore } from './hooks/store';
-import useWhenChanged from './hooks/useWhenChanged';
 import { getStreamEntries, getStreamEntry } from './selectors/entry';
 import { getEntrySubscription, getEntryUrl, getProgrssiveUrl } from './services/entry';
 import { loadToEntry } from './services/store';
@@ -105,14 +104,13 @@ const StreamList = (props: Props) => {
         onItemsRendered={onItemsRendered}>
         {rowProps => {
             const item = getStreamEntry(rowProps.index);
-
-            const newStyle = {
+            const newStyle = useMemo(() => ({
                 ...rowProps.style,
                 top: rowProps.style.top + GUTTER_SIZE,
                 left: 1,
                 right: 1,
                 width: `100% - ${GUTTER_SIZE * 2}`
-            };
+            }), [rowProps.style, GUTTER_SIZE]);
             return item ? <div
                 style={newStyle}
                 onClick={() => {
