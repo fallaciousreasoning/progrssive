@@ -13,6 +13,8 @@ import { getStreamEntries, getStreamEntry } from './selectors/entry';
 import { getEntrySubscription, getEntryUrl, getProgrssiveUrl } from './services/entry';
 import { loadToEntry } from './services/store';
 
+const GUTTER_SIZE = 8;
+
 interface Props {
     onProgressChanged?: (progress: number) => void;
     store: Store;
@@ -25,15 +27,49 @@ const useStyles = makeStyles({
     }
 });
 
+const Row = collect((props: { index: number, style: any, store: Store }) => {
+    const history = useHistory();
+    const location = useLocation();
+    
+    const item = getStreamEntry(props.index);
+    const newStyle = useMemo(() => ({
+        ...props.style,
+        top: props.style.top + GUTTER_SIZE,
+        left: 1,
+        right: 1,
+        width: `100% - ${GUTTER_SIZE * 2}`
+    }), [props.style, GUTTER_SIZE]);
+    return item ? <div
+        style={newStyle}
+        onClick={() => {
+            const subscription = getEntrySubscription(item);
+            if (subscription && subscription.preferredView === "browser") {
+                window.open(getEntryUrl(item), "_blank");
+            } else {
+                const url = getProgrssiveUrl(item);
+                // If we're currently looking at an entry,
+                // replace it.
+                const action = location.pathname.includes('/entries/')
+                    ? history.replace
+                    : history.push;
+                action(url);
+            }
+
+            // If pages should be marked as read on open, do that.
+            if (props.store.settings.markOpenedAsRead) {
+                setUnread(item, false);
+            }
+        }}
+    >
+        <EntryCard entry={item} showingUnreadOnly={props.store.stream.unreadOnly} />
+    </div> : null;
+});
+
 const StreamList = (props: Props) => {
-    const GUTTER_SIZE = 8;
     const BUFFER_ENTRY_COUNT = 20;
 
     const styles = useStyles();
     const { width, height } = useScreenSize();
-
-    const history = useHistory();
-    const location = useLocation();
 
     const loadedEntries = getStreamEntries();
     const markScrolledAsRead = props.store.settings.markScrolledAsRead && props.store.stream.unreadOnly;
@@ -102,40 +138,7 @@ const StreamList = (props: Props) => {
         width={Math.min(800, parentWidth - GUTTER_SIZE * 2)}
         itemKey={(index) => index < loadedEntries.length ? loadedEntries[index].id : index}
         onItemsRendered={onItemsRendered}>
-        {rowProps => {
-            const item = getStreamEntry(rowProps.index);
-            const newStyle = useMemo(() => ({
-                ...rowProps.style,
-                top: rowProps.style.top + GUTTER_SIZE,
-                left: 1,
-                right: 1,
-                width: `100% - ${GUTTER_SIZE * 2}`
-            }), [rowProps.style, GUTTER_SIZE]);
-            return item ? <div
-                style={newStyle}
-                onClick={() => {
-                    const subscription = getEntrySubscription(item);
-                    if (subscription && subscription.preferredView === "browser") {
-                        window.open(getEntryUrl(item), "_blank");
-                    } else {
-                        const url = getProgrssiveUrl(item);
-                        // If we're currently looking at an entry,
-                        // replace it.
-                        const action = location.pathname.includes('/entries/')
-                            ? history.replace
-                            : history.push;
-                        action(url);
-                    }
-
-                    // If pages should be marked as read on open, do that.
-                    if (props.store.settings.markOpenedAsRead) {
-                        setUnread(item, false);
-                    }
-                }}
-            >
-                <EntryCard entry={item} showingUnreadOnly={props.store.stream.unreadOnly} />
-            </div> : null;
-        }}
+        {rowProps => <Row {...rowProps} />}
     </FixedSizeList>;
 }
 
