@@ -82,8 +82,10 @@ export default (props: Props & React.HTMLProps<HTMLDivElement>) => {
         ? props.children
         : [props.children];
 
+    const Container = animatePresence ? AnimatePresence : React.Fragment;
+
     return <div {...rest} className={`${styles.root} ${props.className}`}>
-        <AnimatePresence>
+        <Container>
             {/* Filter out null children, to make adding/removing more intuitive */}
             {children.filter(c => !!c).map((c, i) => <motion.div key={c['key'] || c['id'] || i}
                 initial="initial"
@@ -93,6 +95,6 @@ export default (props: Props & React.HTMLProps<HTMLDivElement>) => {
                 transition={transition || childTransition}>
                 {c}
             </motion.div>)}
-        </AnimatePresence>
+        </Container>
     </div>
 }
