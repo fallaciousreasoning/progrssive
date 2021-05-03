@@ -1,7 +1,7 @@
 import { getAllEntries } from "../api/streams";
 import { getStore } from "../hooks/store";
 import { Subscription } from "../model/subscription";
-import { addEntry, bulkUpdateEntries, getDb } from "../services/db";
+import { bulkUpdateEntries, getDb } from "../services/db";
 import { copy } from "../utils/object";
 import { resolvable } from "../utils/promise";
 
