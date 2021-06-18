@@ -5,7 +5,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import React, { memo, useCallback, useEffect, useState } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { Entry } from "../model/entry";
 import { getEntryByline, getEntryContent, getEntryVisualUrl } from "../services/entry";
 
@@ -71,12 +71,14 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
+const typography = { variant: "body1" } as const;
 const EntryCard = (props: { entry: Entry, showingUnreadOnly?: boolean }) => {
     const styles = useStyles();
 
     const visualUrl = getEntryVisualUrl(props.entry);
     const subheader = getEntryByline(props.entry);
     const summary = getEntryContent(props.entry);
+    const summaryHtmlContent = useMemo(() => ({ __html: summary }), [summary]);
 
     const [imageUrl, setImageUrl] = useState(visualUrl);
     useEffect(() => {
@@ -97,11 +99,11 @@ const EntryCard = (props: { entry: Entry, showingUnreadOnly?: boolean }) => {
                 <div className={styles.detail}>
                     <CardHeader
                         className={styles.cardHeader}
-                        titleTypographyProps={{ variant: "body1" }}
+                        titleTypographyProps={typography}
                         title={props.entry.title} subheader={subheader} />
                     {summary && <CardContent className={styles.cardContent}>
                         <Typography component="small" variant="body2">
-                            <div className={styles.summary} dangerouslySetInnerHTML={{ __html: summary }}></div>
+                            <div className={styles.summary} dangerouslySetInnerHTML={summaryHtmlContent}></div>
                         </Typography>
                     </CardContent>}
                 </div>
