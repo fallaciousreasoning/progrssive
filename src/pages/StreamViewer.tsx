@@ -18,10 +18,10 @@ import { useIsPhone } from '../../hooks/responsive';
 import { getStore, getStreamUpdating } from '../../hooks/store';
 import { useIsTransientSubscription } from '../../hooks/subscription';
 import useWhenChanged from '../../hooks/useWhenChanged';
-import { markStreamAs, setStreamList } from '../services/store';
-import { findSubscription, toggleSubscription } from '../services/subscriptions';
+import { markStreamAs, setStreamList } from '../../services/store';
+import { findSubscription, toggleSubscription } from '../../services/subscriptions';
 import StreamList from '../StreamList';
-import { delay } from '../utils/promise';
+import { delay } from '../../utils/promise';
 
 const useStyles = makeStyles(theme => ({
   root: {

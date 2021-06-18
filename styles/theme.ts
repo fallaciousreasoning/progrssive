@@ -1,6 +1,7 @@
 import { createMuiTheme } from "@material-ui/core";
 import * as colors from '@material-ui/core/colors';
 import { grey } from "@material-ui/core/colors";
+import { defaultSettings } from "../actions/settings";
 import { getStore } from "../hooks/store";
 import { Settings } from "../types/RecollectStore";
 
@@ -31,8 +32,8 @@ export const getColor = (colorName: AccentColor) => {
 }
 
 export const themeMode = () => {
-    const preferDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const setting = getStore().settings.theme;
+    const preferDark = typeof window !== "undefined" && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const setting = getStore().settings?.theme ?? 'device';
 
     return setting === "device"
         ? (preferDark ? 'dark' : 'light')
@@ -62,14 +63,18 @@ export const fonts = {
 
 export const supportedFonts = Object.keys(fonts);
 
-const themeMeta =  document.querySelector('meta[name="theme-color"]');
+const themeMeta = () =>
+    typeof document === "undefined"
+    ? null
+    : document.querySelector('meta[name="theme-color"]');
 export const buildTheme = (settings: Settings) => {
+    settings = settings ?? defaultSettings;
     const type = themeMode();
     const fontFamily = fonts[settings.fontFamily] || fonts.Roboto;
-    const accentColor = getColor(settings.accent || 'green');
+    const accentColor = getColor(settings?.accent || 'green');
     
     // Update the theme color used by the browser.
-    themeMeta.setAttribute('content', accentColor);
+    themeMeta()?.setAttribute('content', accentColor);
 
     const theme = createMuiTheme({
         palette: {

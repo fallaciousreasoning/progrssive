@@ -7,7 +7,7 @@ import Book from '@material-ui/icons/Book';
 import RssFeed from '@material-ui/icons/RssFeed';
 import SettingsIcon from '@material-ui/icons/Settings';
 import React, { useCallback, useMemo, useState } from 'react';
-import ListLinkButton from '../components/ListLinkButton';
+import ListLinkButton from './ListLinkButton';
 import useInstallPrompt from '../hooks/useInstallPrompt';
 
 export default (props: { trigger: JSX.Element }) => {

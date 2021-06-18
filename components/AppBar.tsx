@@ -5,7 +5,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Menu from '@material-ui/icons/Menu';
 import React, { useState } from 'react';
-import AppDrawer from '../AppDrawer';
+import AppDrawer from './AppDrawer';
 import StackPanel from './StackPanel';
 
 type BarChild = {
