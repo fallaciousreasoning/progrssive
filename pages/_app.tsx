@@ -5,7 +5,6 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import React, { useMemo } from 'react';
 import { collect } from 'react-recollect';
 import { BrowserRouter } from 'react-router-dom';
-import { defaultSettings } from '../actions/settings';
 import AppBar from '../components/AppBar';
 import LazySnackbarProvider from '../components/LazySnackbarProvider';
 import RouteSwitcher from '../components/RouteSwitcher';
