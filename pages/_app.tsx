@@ -16,6 +16,7 @@ import { CollectProps } from '../types/RecollectStore';
 import '../types/Window';
 import WebWorker from '../worker';
 import Head from 'next/head'
+import { useSettings } from '../services/settings';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -24,15 +25,16 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const ProgrssiveApp = collect(({ Component, pageProps, store }: AppProps & CollectProps) => {
+const ProgrssiveApp = ({ Component, pageProps }: AppProps) => {
   const styles = useStyles({});
+  const settings = useSettings();
 
   // Rerender when the external theme changes.
   const prefersDark = useMediaQuery('(prefers-color-scheme: dark)');
   const theme = useMemo(() => {
-    return buildTheme(store.settings);
+    return buildTheme(settings);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [store.settings, prefersDark]);
+  }, [settings, prefersDark]);
   return <MuiThemeProvider theme={theme}>
     <Head>
       <meta charSet="utf-8" />
@@ -52,6 +54,6 @@ const ProgrssiveApp = collect(({ Component, pageProps, store }: AppProps & Colle
       </div>
     </LazySnackbarProvider>
   </MuiThemeProvider>;
-});
+};
 
 export default ProgrssiveApp;
