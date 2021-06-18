@@ -8,13 +8,13 @@ import Slider from '@material-ui/core/Slider';
 import { makeStyles } from '@material-ui/core/styles';
 import * as React from 'react';
 import { useCallback } from 'react';
-import { collect } from 'react-recollect';
-import { defaultSettings, updateSettings } from '../actions/settings';
+import { Settings } from '../model/settings';
+import { updateSettings } from '../services/settings';
 import LinkButton from '../components/LinkButton';
 import ListOptionToggle from '../components/ListOptionToggle';
 import { useResult } from '../hooks/promise';
+import { useSettings } from '../services/settings';
 import { accentColors, fonts, getColor, supportedFonts } from '../styles/theme';
-import { CollectProps, Settings } from '../types/RecollectStore';
 
 const useStyles = makeStyles(theme => ({
     slider: {
@@ -39,46 +39,53 @@ const useAccentColorPickerStyles = makeStyles(theme => ({
     }
 }));
 
-const AccentColorPicker = collect((props: {
+const AccentColorPicker = (props: {
     name: keyof Settings
-} & SelectProps & CollectProps) => {
+} & SelectProps) => {
     const styles = useAccentColorPickerStyles();
-    const settings = props.store.settings ?? defaultSettings;
+    const settings = useSettings();
 
     return <Select
         native={false}
         variant="outlined"
         {...props}
         value={settings[props.name]}
-        renderValue={(value: unknown) => <div className={styles.colorPickerValue} style={{ background: getColor(value as any) }} />}>
+        renderValue={(value: unknown) => <div className={styles.colorPickerValue} style={{ background: getColor(value as any, settings) }} />}>
         {accentColors.map(c => <MenuItem value={c} key={c}>
-            <div style={{ background: getColor(c as any) }} className={`${styles.colorPickerItem} color`}></div>
+            <div style={{ background: getColor(c as any, settings) }} className={`${styles.colorPickerItem} color`}></div>
         </MenuItem>)}
     </Select>
-});
+};
 
-const FontPicker = collect((props: SelectProps & CollectProps) => <Select
+const FontPicker = (props: SelectProps) => {
+    const settings = useSettings();
+    return <Select
         variant="outlined"
-        value={(props.store.settings ?? defaultSettings)[props.name]}
+        value={settings[props.name]}
         {...props}
         renderValue={(value: unknown) => <div>{value}</div>}>
         {supportedFonts.map(f => <MenuItem key={f} value={f} style={{ fontFamily: fonts[f] }}>
             {f} | The quick brown fox jumps over the lazy dog.
         </MenuItem>)}
-    </Select>)
+    </Select>
+}
 
-const CleanupPicker = collect((props: {
+const CleanupPicker = (props: {
     name: keyof Settings['cleanupSettings'];
-} & SelectProps & CollectProps) => {
-    const cleanupSettings = props.store.settings?.cleanupSettings || defaultSettings.cleanupSettings;
+} & SelectProps) => {
+    const settings = useSettings();
+    const cleanupSettings = settings.cleanupSettings;
     const value = cleanupSettings[props.name];
 
     const onChange = useCallback(e => {
-        updateSettings("cleanupSettings", {
-            ...cleanupSettings,
-            [props.name]: e.target.value
+        updateSettings({
+            ...settings,
+            cleanupSettings: {
+                ...cleanupSettings,
+                [props.name]: e.target.value
+            }
         })
-    }, [props.name, cleanupSettings]);
+    }, [props.name, settings]);
 
     return <Select
         variant="outlined"
@@ -93,30 +100,39 @@ const CleanupPicker = collect((props: {
         <MenuItem value={21}>3 weeks</MenuItem>
         <MenuItem value={28}>4 weeks</MenuItem>
     </Select>
-});
+};
 
-const SettingsPage = collect(({ store }: CollectProps) => {
-    const settings = store.settings ?? defaultSettings;
+const SettingsPage = () => {
+    const settings = useSettings();
     const styles = useStyles();
     const onSwitchChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>, value: boolean) => {
         const setting = e.target['name'];
-        updateSettings(setting as any, value)
-    }, []);
+        updateSettings({
+            ...settings,
+            [setting]: value
+        })
+    }, [settings]);
 
     const onPickerChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const setting = e.target['name'];
-        updateSettings(setting as any, e.target.value);
-    }, []);
+        updateSettings({
+            ...settings,
+            [setting]: e.target.value
+        });
+    }, [settings]);
 
     const onFontSizeChange = useCallback((e: React.ChangeEvent<{}>, value: any) => {
-        updateSettings('fontSize', value);
-    }, []);
+        updateSettings({
+            ...settings,
+            'fontSize': value
+        });
+    }, [settings]);
 
     const storageUsage = useResult(async () => {
         const estimate = await navigator.storage.estimate();
         const { friendlyBytes } = await import('../utils/bytes');
         return `Currently using ${friendlyBytes(estimate.usage)} of storage.`;
-    }, [store.entries], "Calculating....")
+    }, [], "Calculating....")
 
     return <div>
         <List>
@@ -170,7 +186,7 @@ const SettingsPage = collect(({ store }: CollectProps) => {
                 <ListItemText
                     primary="Accent color"
                     secondary="The primary accent color of the app." />
-                <AccentColorPicker className={styles.picker} name="accent" onChange={onPickerChange} />
+                <AccentColorPicker className={styles.picker} name="accent" onChange={onPickerChange as any} />
             </ListItem>
             <ListItem>
                 <ListItemText
@@ -179,7 +195,7 @@ const SettingsPage = collect(({ store }: CollectProps) => {
                 <AccentColorPicker
                     className={styles.picker}
                     name="secondaryAccent"
-                    onChange={onPickerChange} />
+                    onChange={onPickerChange as any} />
             </ListItem>
             <ListItem>
                 <ListItemText
@@ -188,7 +204,7 @@ const SettingsPage = collect(({ store }: CollectProps) => {
                 <FontPicker
                     className={styles.picker}
                     name="fontFamily"
-                    onChange={onPickerChange} />
+                    onChange={onPickerChange as any} />
             </ListItem>
             <Divider />
             <ListItem>
@@ -217,6 +233,6 @@ const SettingsPage = collect(({ store }: CollectProps) => {
             </ListItem>
         </List>
     </div>;
-})
+};
 
 export default SettingsPage;

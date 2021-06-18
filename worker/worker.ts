@@ -1,7 +1,7 @@
 import { Entry } from "../model/entry";
-import { CleanupSettings } from "../types/RecollectStore";
 import { round } from "../utils/math";
 import { day } from "../utils/time";
+import { CleanupSettings } from "../model/settings";
 
 const shouldDelete = (now: number, settings: CleanupSettings, entry: Entry) => {
     const timeSinceRead = now - entry.readTime;

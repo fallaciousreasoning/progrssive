@@ -15,6 +15,7 @@ import { useScreenSize } from "../../hooks/screenSize";
 import useWhenChanged from "../../hooks/useWhenChanged";
 import { EntryReadButton } from "../../components/MarkerButton";
 import { getEntryByline, getEntryContent, getEntryPreferredView, getEntrySubscription, getEntryUrl } from "../../services/entry";
+import {useSettings} from '../../services/settings';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -59,6 +60,7 @@ const EntryViewer = (props: { id: string, store: Store }) => {
     const [currentView, setCurrentView] = useState(getEntryPreferredView(entry));
     const [failedToMobilize, setFailedToMobilize] = useState(false);
     const { width: screenWidth } = useScreenSize();
+    const settings = useSettings();
 
     useWhenChanged(() => {
         if (!domElement.current)
@@ -119,7 +121,7 @@ const EntryViewer = (props: { id: string, store: Store }) => {
     }, [subscription && subscription.preferredView]);
 
     const doubleTap = useDoubleTap((event) => {
-        if (!props.store.settings.doubleTapToCloseArticles)
+        if (!settings.doubleTapToCloseArticles)
             return;
 
         history.goBack();

@@ -1,6 +1,5 @@
 import { store as s } from 'react-recollect';
 import { bulkSetUnread } from '../actions/marker';
-import { loadSettings } from '../actions/settings';
 import { getStream } from '../api/streams';
 import { getStore } from '../hooks/store';
 import { Entry } from '../model/entry';
@@ -19,12 +18,10 @@ export const initStore = () => {
         categories: false,
         stream: {},
     };
-    store.settings = loadSettings();
     store.current = {
     };
     store.subscriptions = [];
 
-    console.log(1)
     store.stream = {
         id: undefined,
         unreadOnly: true,

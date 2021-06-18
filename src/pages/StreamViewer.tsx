@@ -22,6 +22,7 @@ import { markStreamAs, setStreamList } from '../../services/store';
 import { findSubscription, toggleSubscription } from '../../services/subscriptions';
 import StreamList from '../StreamList';
 import { delay } from '../../utils/promise';
+import { useSettings } from '../../services/settings';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -61,6 +62,7 @@ const StreamViewer = (props: { id: string, store: Store }) => {
   const footerRef = useRef<HTMLDivElement>();
   const isTransient = useIsTransientSubscription(props.id, props.store);
   const [isAdding, setIsAdding] = useState(false);
+  const settings = useSettings();
 
   const scrollToTop = useCallback(() => {
     rootRef.current && rootRef.current.scrollTo(0, 0);
@@ -95,7 +97,7 @@ const StreamViewer = (props: { id: string, store: Store }) => {
 
     // If we aren't meant to mark scrolled entries as read,
     // continue.
-    if (!getStore().settings.markScrolledAsRead)
+    if (settings.markScrolledAsRead)
       return;
 
     // Don't go any further if it wasn't the root that scrolled.

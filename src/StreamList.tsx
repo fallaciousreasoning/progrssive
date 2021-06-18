@@ -11,6 +11,7 @@ import { useScreenSize } from '../hooks/screenSize';
 import { getStore } from '../hooks/store';
 import { getStreamEntries, getStreamEntry } from '../selectors/entry';
 import { getEntrySubscription, getEntryUrl, getProgrssiveUrl } from '../services/entry';
+import { useSettings } from '../services/settings';
 import { loadToEntry } from '../services/store';
 
 const GUTTER_SIZE = 8;
@@ -39,6 +40,8 @@ const Row = collect((props: { index: number, style: any, store: Store }) => {
         right: 1,
         width: `100% - ${GUTTER_SIZE * 2}`
     }), [props.style, GUTTER_SIZE]);
+    const settings = useSettings();
+
     return item ? <div
         style={newStyle}
         onClick={() => {
@@ -56,7 +59,7 @@ const Row = collect((props: { index: number, style: any, store: Store }) => {
             }
 
             // If pages should be marked as read on open, do that.
-            if (props.store.settings.markOpenedAsRead) {
+            if (settings.markOpenedAsRead) {
                 setUnread(item, false);
             }
         }}
@@ -72,7 +75,8 @@ const StreamList = (props: Props) => {
     const { width, height } = useScreenSize();
 
     const loadedEntries = getStreamEntries();
-    const markScrolledAsRead = props.store.settings.markScrolledAsRead && props.store.stream.unreadOnly;
+    const settings = useSettings();
+    const markScrolledAsRead = settings.markScrolledAsRead && props.store.stream.unreadOnly;
 
     const [lastVisibleStartIndex, setLastVisibleStartIndex] = useState(0)
     const onItemsRendered = useCallback(async ({ visibleStartIndex, visibleStopIndex }) => {
