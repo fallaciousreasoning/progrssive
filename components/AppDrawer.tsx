@@ -30,7 +30,7 @@ export default (props: { trigger: JSX.Element }) => {
                     Progrssive Reader
                 </Typography>
                 <List>
-                    <ListLinkButton icon={<Book />} text="Articles" href="/stream" />
+                    <ListLinkButton icon={<Book />} text="Articles" href="/stream/all" />
                     <ListLinkButton icon={<RssFeed />} text="Subscriptions" href="/subscriptions" />
                     <ListLinkButton icon={<SettingsIcon />} text="Settings" href="/settings" />
                     <ListLinkButton icon={<Help />} text="About" href="/about" />
