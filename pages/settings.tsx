@@ -43,12 +43,13 @@ const AccentColorPicker = collect((props: {
     name: keyof Settings
 } & SelectProps & CollectProps) => {
     const styles = useAccentColorPickerStyles();
+    const settings = props.store.settings ?? defaultSettings;
 
     return <Select
         native={false}
         variant="outlined"
         {...props}
-        value={props.store.settings[props.name]}
+        value={settings[props.name]}
         renderValue={(value: unknown) => <div className={styles.colorPickerValue} style={{ background: getColor(value as any) }} />}>
         {accentColors.map(c => <MenuItem value={c} key={c}>
             <div style={{ background: getColor(c as any) }} className={`${styles.colorPickerItem} color`}></div>
@@ -58,7 +59,7 @@ const AccentColorPicker = collect((props: {
 
 const FontPicker = collect((props: SelectProps & CollectProps) => <Select
         variant="outlined"
-        value={props.store.settings[props.name]}
+        value={(props.store.settings ?? defaultSettings)[props.name]}
         {...props}
         renderValue={(value: unknown) => <div>{value}</div>}>
         {supportedFonts.map(f => <MenuItem key={f} value={f} style={{ fontFamily: fonts[f] }}>
@@ -69,7 +70,7 @@ const FontPicker = collect((props: SelectProps & CollectProps) => <Select
 const CleanupPicker = collect((props: {
     name: keyof Settings['cleanupSettings'];
 } & SelectProps & CollectProps) => {
-    const cleanupSettings = props.store.settings.cleanupSettings || defaultSettings.cleanupSettings;
+    const cleanupSettings = props.store.settings?.cleanupSettings || defaultSettings.cleanupSettings;
     const value = cleanupSettings[props.name];
 
     const onChange = useCallback(e => {
@@ -95,6 +96,7 @@ const CleanupPicker = collect((props: {
 });
 
 const SettingsPage = collect(({ store }: CollectProps) => {
+    const settings = store.settings ?? defaultSettings;
     const styles = useStyles();
     const onSwitchChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>, value: boolean) => {
         const setting = e.target['name'];
@@ -122,19 +124,19 @@ const SettingsPage = collect(({ store }: CollectProps) => {
                 primaryText='Read opened articles'
                 secondaryText='Mark articles as read when you open them.'
                 name='markOpenedAsRead'
-                value={store.settings.markOpenedAsRead}
+                value={settings.markOpenedAsRead}
                 onChange={onSwitchChange} />
             <ListOptionToggle
                 primaryText='Auto mark as read'
                 secondaryText='Mark articles as read when you scroll past them.'
                 name='markScrolledAsRead'
-                value={store.settings.markScrolledAsRead}
+                value={settings.markScrolledAsRead}
                 onChange={onSwitchChange} />
             <ListOptionToggle
                 primaryText='Double tap to close articles'
                 secondaryText='Whether articles can be closed by double tapping them.'
                 name='doubleTapToCloseArticles'
-                value={store.settings.doubleTapToCloseArticles}
+                value={settings.doubleTapToCloseArticles}
                 onChange={onSwitchChange} />
             <Divider />
             <ListItem>
@@ -147,7 +149,7 @@ const SettingsPage = collect(({ store }: CollectProps) => {
                     max={5}
                     step={1}
                     onChange={onFontSizeChange}
-                    value={store.settings.fontSize} />
+                    value={settings.fontSize} />
             </ListItem>
             <ListItem>
                 <ListItemText
@@ -158,7 +160,7 @@ const SettingsPage = collect(({ store }: CollectProps) => {
                     name="theme"
                     variant="outlined"
                     onChange={onPickerChange as any}
-                    value={store.settings.theme || "device"}>
+                    value={settings.theme || "device"}>
                     <MenuItem value="device">Device</MenuItem>
                     <MenuItem value="light">Light</MenuItem>
                     <MenuItem value="dark">Dark</MenuItem>
