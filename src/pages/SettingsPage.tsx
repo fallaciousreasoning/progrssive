@@ -9,12 +9,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import * as React from 'react';
 import { useCallback } from 'react';
 import { collect } from 'react-recollect';
-import { defaultSettings, updateSettings } from '../actions/settings';
-import LinkButton from '../components/LinkButton';
-import ListOptionToggle from '../components/ListOptionToggle';
-import { useResult } from '../hooks/promise';
-import { accentColors, fonts, getColor, supportedFonts } from '../theme';
-import { CollectProps, Settings } from '../types/RecollectStore';
+import { defaultSettings, updateSettings } from '../../actions/settings';
+import LinkButton from '../../components/LinkButton';
+import ListOptionToggle from '../../components/ListOptionToggle';
+import { useResult } from '../../hooks/promise';
+import { accentColors, fonts, getColor, supportedFonts } from '../../styles/theme';
+import { CollectProps, Settings } from '../../types/RecollectStore';
 
 const useStyles = makeStyles(theme => ({
     slider: {
@@ -111,7 +111,7 @@ const SettingsPage = collect(({ store }: CollectProps) => {
 
     const storageUsage = useResult(async () => {
         const estimate = await navigator.storage.estimate();
-        const { friendlyBytes } = await import('../utils/bytes');
+        const { friendlyBytes } = await import('../../utils/bytes');
         return `Currently using ${friendlyBytes(estimate.usage)} of storage.`;
     }, [store.entries], "Calculating....")
 

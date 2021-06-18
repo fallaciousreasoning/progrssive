@@ -4,8 +4,8 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import * as React from 'react';
 import { useCallback } from 'react';
 import { collect } from 'react-recollect';
-import { setUnread } from './actions/marker';
-import { useEntry } from './hooks/entry';
+import { setUnread } from '../actions/marker';
+import { useEntry } from '../hooks/entry';
 import { CollectProps } from './types/RecollectStore';
 
 interface MarkerButtonProps {

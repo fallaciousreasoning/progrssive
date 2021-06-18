@@ -23,7 +23,7 @@
   },
   "include": [
     "src"
-  ],
+, "actions", "api", "components", "hooks", "selectors", "styles/theme.ts"  ],
   "exclude": [
     "node_modules"
   ]

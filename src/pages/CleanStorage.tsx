@@ -2,10 +2,10 @@ import { Button, makeStyles, Typography } from '@material-ui/core';
 import List from '@material-ui/core/List';
 import React, { useCallback, useState } from 'react';
 import { collect } from 'react-recollect';
-import ListOptionToggle from '../components/ListOptionToggle';
-import { useResult } from '../hooks/promise';
-import { getDb } from '../services/db';
-import { CollectProps } from '../types/RecollectStore';
+import ListOptionToggle from '../../components/ListOptionToggle';
+import { useResult } from '../../hooks/promise';
+import { getDb } from '../../services/db';
+import { CollectProps } from '../../types/RecollectStore';
 
 interface CleanSettings {
     articles?: boolean;
@@ -29,7 +29,7 @@ export default collect(({ store }: CollectProps) => {
 
     const usage = useResult(async () => {
         const estimate = await navigator.storage.estimate();
-        const { friendlyBytes } = await import('../utils/bytes');
+        const { friendlyBytes } = await import('../../utils/bytes');
         return `Currently using ${friendlyBytes(estimate.usage)} of storage.`
     }, [store.entries], "Calculating storage usage...");
 

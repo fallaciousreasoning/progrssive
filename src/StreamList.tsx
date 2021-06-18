@@ -5,13 +5,13 @@ import { useCallback, useEffect, useRef, useState, useMemo } from 'react';
 import { collect, store, Store } from 'react-recollect';
 import { useHistory, useLocation } from "react-router-dom";
 import { FixedSizeList } from 'react-window';
-import { setUnread } from './actions/marker';
-import EntryCard from './components/EntryCard';
-import { useScreenSize } from './hooks/screenSize';
-import { getStore } from './hooks/store';
-import { getStreamEntries, getStreamEntry } from './selectors/entry';
-import { getEntrySubscription, getEntryUrl, getProgrssiveUrl } from './services/entry';
-import { loadToEntry } from './services/store';
+import { setUnread } from '../actions/marker';
+import EntryCard from '../components/EntryCard';
+import { useScreenSize } from '../hooks/screenSize';
+import { getStore } from '../hooks/store';
+import { getStreamEntries, getStreamEntry } from '../selectors/entry';
+import { getEntrySubscription, getEntryUrl, getProgrssiveUrl } from '../services/entry';
+import { loadToEntry } from '../services/store';
 
 const GUTTER_SIZE = 8;
 

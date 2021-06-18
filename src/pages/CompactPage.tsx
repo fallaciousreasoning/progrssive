@@ -1,8 +1,8 @@
 import { makeStyles } from '@material-ui/core';
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import SlidePage from '../components/SlidePage';
-import { useIsPhone } from '../hooks/responsive';
+import SlidePage from '../../components/SlidePage';
+import { useIsPhone } from '../../hooks/responsive';
 import StreamViewer from './StreamViewer';
 import Layout from './_Layout';
 

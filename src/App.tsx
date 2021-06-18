@@ -3,15 +3,16 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import React, { useMemo } from 'react';
 import { collect } from 'react-recollect';
 import { BrowserRouter } from 'react-router-dom';
-import { defaultSettings } from './actions/settings';
-import AppBar from './components/AppBar';
-import LazySnackbarProvider from './components/LazySnackbarProvider';
-import RouteSwitcher from './components/RouteSwitcher';
-import { getStore } from './hooks/store';
-import { initStore } from './services/store';
-import { buildTheme } from './theme';
-import { CollectProps } from './types/RecollectStore';
-import WebWorker from './worker';
+import { defaultSettings } from '../actions/settings';
+import AppBar from '../components/AppBar';
+import LazySnackbarProvider from '../components/LazySnackbarProvider';
+import RouteSwitcher from '../components/RouteSwitcher';
+import { getStore } from '../hooks/store';
+import { initStore } from '../services/store';
+import { buildTheme } from '../styles/theme';
+import { CollectProps } from '../types/RecollectStore';
+import '../types/Window';
+import WebWorker from '../worker';
 
 const useStyles = makeStyles(theme => ({
   root: {

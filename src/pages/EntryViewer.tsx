@@ -4,17 +4,17 @@ import * as React from 'react';
 import { useCallback, useRef, useState } from 'react';
 import { collect, Store } from "react-recollect";
 import { useHistory, useLocation } from "react-router";
-import { loadMobilizedContent } from "../actions/entry";
-import AppBarButton from "../components/AppBarButton";
-import Centre from "../components/Centre";
-import PreferredViewMenu from "../components/PreferredViewMenu";
-import StackPanel from "../components/StackPanel";
-import { useDoubleTap } from "../hooks/callbacks";
-import { useEntry } from "../hooks/entry";
-import { useScreenSize } from "../hooks/screenSize";
-import useWhenChanged from "../hooks/useWhenChanged";
-import { EntryReadButton } from "../MarkerButton";
-import { getEntryByline, getEntryContent, getEntryPreferredView, getEntrySubscription, getEntryUrl } from "../services/entry";
+import { loadMobilizedContent } from "../../actions/entry";
+import AppBarButton from "../../components/AppBarButton";
+import Centre from "../../components/Centre";
+import PreferredViewMenu from "../../components/PreferredViewMenu";
+import StackPanel from "../../components/StackPanel";
+import { useDoubleTap } from "../../hooks/callbacks";
+import { useEntry } from "../../hooks/entry";
+import { useScreenSize } from "../../hooks/screenSize";
+import useWhenChanged from "../../hooks/useWhenChanged";
+import { EntryReadButton } from "../../components/MarkerButton";
+import { getEntryByline, getEntryContent, getEntryPreferredView, getEntrySubscription, getEntryUrl } from "../../services/entry";
 
 const useStyles = makeStyles(theme => ({
     root: {

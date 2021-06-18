@@ -1,7 +1,7 @@
 import { Store } from "react-recollect";
 import { Entry } from "../model/entry";
 import { Subscription } from "../model/subscription";
-import { AccentColor } from "../theme";
+import { AccentColor } from "../styles/theme";
 
 export interface CollectProps {
   store: Store;

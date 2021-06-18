@@ -7,8 +7,8 @@ import Book from '@material-ui/icons/Book';
 import RssFeed from '@material-ui/icons/RssFeed';
 import SettingsIcon from '@material-ui/icons/Settings';
 import React, { useCallback, useMemo, useState } from 'react';
-import ListLinkButton from './components/ListLinkButton';
-import useInstallPrompt from './hooks/useInstallPrompt';
+import ListLinkButton from '../components/ListLinkButton';
+import useInstallPrompt from '../hooks/useInstallPrompt';
 
 export default (props: { trigger: JSX.Element }) => {
     const [open, setOpen] = useState(false);

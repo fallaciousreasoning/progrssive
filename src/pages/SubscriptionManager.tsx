@@ -3,16 +3,16 @@ import * as React from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useHistory } from "react-router-dom";
 import { useDebounce } from 'use-debounce';
-import { searchFeeds } from '../api/search';
-import ExportOpml from '../components/ExportOpml';
-import ImportOpml from "../components/ImportOpml";
-import StackPanel from "../components/StackPanel";
-import SubscriptionEditor from "../components/SubscriptionEditor";
-import { guessFeedUrl, Subscription } from '../model/subscription';
-import { toggleSubscription } from "../services/subscriptions";
-import Centre from "../components/Centre";
+import { searchFeeds } from '../../api/search';
+import ExportOpml from '../../components/ExportOpml';
+import ImportOpml from "../../components/ImportOpml";
+import StackPanel from "../../components/StackPanel";
+import SubscriptionEditor from "../../components/SubscriptionEditor";
+import { guessFeedUrl, Subscription } from '../../model/subscription';
+import { toggleSubscription } from "../../services/subscriptions";
+import Centre from "../../components/Centre";
 import { collect } from "react-recollect";
-import { CollectProps } from "../types/RecollectStore";
+import { CollectProps } from "../../types/RecollectStore";
 
 const useStyles = makeStyles(theme => ({
     opmlButton: {
