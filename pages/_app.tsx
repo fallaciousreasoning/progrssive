@@ -1,13 +1,13 @@
 import { makeStyles, MuiThemeProvider } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import AppBar from 'components/AppBar';
-import LazySnackbarProvider from 'components/LazySnackbarProvider';
+import AppBar from '../components/AppBar';
+import LazySnackbarProvider from '../components/LazySnackbarProvider';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import React, { useMemo } from 'react';
-import { useSettings, getSettings } from 'services/settings';
-import { initStore } from 'services/store';
-import { buildTheme } from 'styles/theme';
+import { useSettings, getSettings } from '../services/settings';
+import { initStore } from '../services/store';
+import { buildTheme } from '../styles/theme';
 import 'types/Window';
 import 'styles/globals.css';
 // import WebWorker from 'worker';
