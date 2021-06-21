@@ -14,6 +14,7 @@ export const findSubscription = async (id: string) => {
 }
 
 export const getSubscription = async (id: string) => {
+    if (!id) return;
     return subscriptionsQuery.then(s => s.where({ id }).first());
 }
 export const useSubscription = (id: string) => {

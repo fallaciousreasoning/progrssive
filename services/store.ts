@@ -48,7 +48,6 @@ const setEntryList = async (unreadOnly: boolean, streamId: string, force = false
     streamIterator = entryIterator(unreadOnly, streamId);
     currentLoader = makeLoader();
 
-    console.log(2);
     getStore().stream = {
         id: streamId,
         unreadOnly,
@@ -75,7 +74,6 @@ const setTransientEntryList = async (streamId: string, force=false) => {
     streamIterator = undefined;
     currentLoader = undefined;
 
-    console.log(3)
     getStore().stream = {
         id: streamId,
         lastScrollPos: 0,

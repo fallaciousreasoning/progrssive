@@ -41,6 +41,8 @@ const Row = collect((props: { index: number, style: any, store: Store }) => {
     const settings = useSettings();
 
     const onClick = useCallback(() => {
+        if (!item) return;
+
         if (viewMode === "browser") {
             window.open(getEntryUrl(item), "_blank");
         } else {
@@ -57,7 +59,7 @@ const Row = collect((props: { index: number, style: any, store: Store }) => {
         if (settings.markOpenedAsRead) {
             setUnread(item, false);
         }
-    }, [settings.markOpenedAsRead, viewMode, item.id]);
+    }, [settings.markOpenedAsRead, viewMode, item?.id]);
 
     return item ? <div
         style={newStyle}

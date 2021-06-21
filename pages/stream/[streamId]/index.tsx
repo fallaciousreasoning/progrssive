@@ -23,6 +23,7 @@ import StreamList from '../../../components/StreamList';
 import { delay } from '../../../utils/promise';
 import { useSettings } from '../../../services/settings';
 import { useRouter } from 'next/dist/client/router';
+import { useStreamId } from '../../../hooks/url';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -55,7 +56,7 @@ const StreamViewer = (props: { store: Store }) => {
   const styles = useStyles();
   const isPhone = useIsPhone();
   const router = useRouter();
-  const streamId = router.query.streamId?.[0] === "all" ? undefined : router.query.streamId?.[0];
+  const streamId = useStreamId();
   const active = router.pathname.includes('/stream')
     && (!isPhone || !router.pathname.includes('/entries/'));
   const rootRef = useRef<HTMLDivElement>();
