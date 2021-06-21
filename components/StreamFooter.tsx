@@ -48,7 +48,7 @@ export default function StreamFooter(props: Props) {
     const subscriptions = useLiveQuery(async () => {
         const db = await getDb();
         return db.subscriptions.toArray();
-    });
+    }) ?? [];
     const hasSubscriptions = !!subscriptions.length;
     const loading = !!getStreamUpdating(props.streamId);
 

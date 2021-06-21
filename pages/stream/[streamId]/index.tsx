@@ -14,7 +14,7 @@ import MarkAsReadButton from '../../../components/MarkAsReadButton';
 import MaybeUpdateStreamList from '../../../components/MaybeUpdateStreamList';
 import StreamFooter from '../../../components/StreamFooter';
 import { useIsPhone } from '../../../hooks/responsive';
-import { getStore, getStreamUpdating } from '../../../hooks/store';
+import { getStreamUpdating } from '../../../hooks/store';
 import { useIsTransientSubscription } from '../../../hooks/subscription';
 import useWhenChanged from '../../../hooks/useWhenChanged';
 import { markStreamAs, setStreamList } from '../../../services/store';
