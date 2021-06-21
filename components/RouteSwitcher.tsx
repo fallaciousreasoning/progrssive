@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import Layout from '../pages/_Layout';
-import Routes from '../Routes';
+import Layout from '../src/pages/_Layout';
+import Routes from '../src/Routes';
 import SlidePage from './SlidePage';
 
 export default () => {

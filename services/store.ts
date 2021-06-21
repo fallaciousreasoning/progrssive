@@ -5,22 +5,17 @@ import { getStore } from '../hooks/store';
 import { Entry } from '../model/entry';
 import { StoreDef } from '../types/RecollectStore';
 import { entryCount, entryIterator } from './entryIterator';
-import { getDb } from './db';
 import { resolvable } from '../utils/promise';
+import { getDb } from './db';
 const store = s as StoreDef;
 
-let initStorePromise: Promise<void>;
 export const initStore = () => {
-    if (initStorePromise)
-        return initStorePromise;
-
     store.updating = {
         categories: false,
         stream: {},
     };
     store.current = {
     };
-    store.subscriptions = [];
 
     store.stream = {
         id: undefined,
@@ -31,20 +26,11 @@ export const initStore = () => {
     };
 
     store.entries = {};
-
-    initStorePromise = getDb()
-        .then(db => db.subscriptions.toArray())
-        .then(subscriptions => {
-            store.subscriptions = subscriptions;
-        });
-    return initStorePromise;
 }
 
 export const setStreamList = async (unreadOnly: boolean, streamId: string, force=false) => {
-    await initStorePromise;
-
     const isTransient = streamId
-        && !getStore().subscriptions.find(s => s.id === streamId);
+        && !(await getDb()).subscriptions.get(streamId);
     if (isTransient)
         setTransientEntryList(streamId, force);
     else setEntryList(unreadOnly, streamId, force);

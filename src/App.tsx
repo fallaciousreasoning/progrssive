@@ -50,7 +50,7 @@ export const App = collect(({ store }: CollectProps) => {
 export default App;
 
 const idlePolyFill = (callback: () => void) => setTimeout(callback, 5000);
-initStore().then(async () => {
+(async () => {
   const onIdle = window.requestIdleCallback || idlePolyFill;
 
   // Wait until we're idle before running cleanup.
@@ -61,5 +61,5 @@ initStore().then(async () => {
     const cleanupSettings = JSON.parse(JSON.stringify(settings.cleanupSettings));
     worker.runEntryCleanup(cleanupSettings);
   })
-})
+})();
 

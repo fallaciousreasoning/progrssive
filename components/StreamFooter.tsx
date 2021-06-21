@@ -2,17 +2,18 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import { useLiveQuery } from 'dexie-react-hooks';
 import React from 'react';
-import { collect } from 'react-recollect';
 import { updateStreams } from '../actions/stream';
 import { useIsPhone } from '../hooks/responsive';
 import { getStreamUpdating } from '../hooks/store';
-import { CollectProps } from '../types/RecollectStore';
+import { getDb } from '../services/db';
 import LinkButton from './LinkButton';
 import StackPanel from './StackPanel';
 
 interface Props {
     unreadOnly: boolean;
+    streamId: string;
 }
 
 const useStyles = makeStyles(theme => ({
@@ -41,12 +42,15 @@ const transition = {
     delay: 0.2
 };
 
-export default collect((props: Props & CollectProps) => {
+export default function StreamFooter(props: Props) {
     const styles = useStyles();
     const isPhone = useIsPhone();
-    const {store} = props;
-    const hasSubscriptions = !!store.subscriptions.length;
-    const loading = !!getStreamUpdating(store.stream.id);
+    const subscriptions = useLiveQuery(async () => {
+        const db = await getDb();
+        return db.subscriptions.toArray();
+    });
+    const hasSubscriptions = !!subscriptions.length;
+    const loading = !!getStreamUpdating(props.streamId);
 
     return <StackPanel
         direction="column"
@@ -54,7 +58,7 @@ export default collect((props: Props & CollectProps) => {
         alignItems="center"
         variants={rootAnimation}
         transition={transition}
-        key={`${store.stream.id}?${store.stream.unreadOnly ? "showUnread" : ""}`}>
+        key={`${props.streamId}?${props.unreadOnly ? "showUnread" : ""}`}>
         <Typography className={styles.text} variant='h3' align='center' key="message">
             {hasSubscriptions
                 ? "That's everything!"
@@ -67,9 +71,9 @@ export default collect((props: Props & CollectProps) => {
             <LinkButton fullWidth href="/subscriptions?query=" variant="contained" color="secondary" key="addSubscriptions">
                 Add Subscriptions
                 </LinkButton>
-            {hasSubscriptions && <Button fullWidth disabled={loading} variant="contained" color="secondary" key="refresh" onClick={() => updateStreams(store.stream.id)}>
+            {hasSubscriptions && <Button fullWidth disabled={loading} variant="contained" color="secondary" key="refresh" onClick={() => updateStreams(props.streamId)}>
                 {loading && <CircularProgress size={16} className={styles.footerLoader} />} Refresh
                 </Button>}
         </StackPanel>
     </StackPanel>
-});
+};

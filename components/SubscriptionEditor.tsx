@@ -107,9 +107,10 @@ export default (props: Props) => {
     }, [props.subscription.id, history]);
 
     const preferredViewChanged = useCallback(async (e) => {
-        props.subscription.preferredView = e.target.value;
-        // Copy everything to a new object, to not deal with Proxy craziness.
-        await saveSubscription({ ...props.subscription, preferredView: props.subscription.preferredView })
+        await saveSubscription({ 
+            ...props.subscription,
+            preferredView: e.target.value
+        });
     }, [props.subscription]);
 
     const visualUrl = props.subscription.visualUrl || props.subscription.iconUrl;

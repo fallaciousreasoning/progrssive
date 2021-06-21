@@ -2,10 +2,13 @@ import Button, { ButtonProps } from '@material-ui/core/Button';
 import React, { useCallback } from 'react';
 import { getStore } from '../hooks/store';
 import { guessFeedUrl } from '../model/subscription';
+import { getDb } from '../services/db';
 import { downloadTextFile } from '../utils/files';
 
 export const getSubscriptionsOpml = async () => {
-    const outlines = getStore().subscriptions.map(s => ({
+    const db = await getDb();
+    const subscriptions = await db.subscriptions.toArray();
+    const outlines = subscriptions.map(s => ({
         title: s.title,
         type: 'rss',
         xmlUrl: guessFeedUrl(s),

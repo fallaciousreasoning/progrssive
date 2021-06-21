@@ -30,6 +30,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+// Make sure our store is initialized.
+initStore();
 
 const ProgrssiveApp = ({ Component, pageProps }: AppProps) => {
   const styles = useStyles({});

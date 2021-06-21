@@ -25,7 +25,6 @@ export interface StoreDef {
   current: {
     [path: string]: string;
   },
-  subscriptions: Subscription[];
 
   stream: StoreStream;
   entries: { [id: string]: Entry };
