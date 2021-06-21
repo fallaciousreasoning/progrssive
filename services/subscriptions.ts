@@ -4,18 +4,23 @@ import { Subscription } from "../model/subscription";
 import { getDb, saveSubscription } from "./db";
 import { entryIterator } from "./entryIterator";
 import { setStreamList } from "./store";
-import { maybePerist } from "../utils/persist";
 import { getFeed } from "../api/search";
-
+import { useLiveQuery } from "dexie-react-hooks";
+import { maybePersist } from '../utils/persist';
 // Get the subscription from our store or fetch it from Feedly, if we don't have
 // it.
 export const findSubscription = async (id: string) => {
     return await getSubscription(id) || await getFeed(id);
 }
-export const getSubscription = (id: string) => {
-    const subscriptions = getStore().subscriptions;
-    return subscriptions.find(s => s.id === id);
+
+export const getSubscription = async (id: string) => {
+    return subscriptionsQuery.then(s => s.where({ id }).first());
 }
+export const useSubscription = async (id: string) => {
+    return useLiveQuery(() => getSubscription(id), [id]);
+}
+
+export const subscriptionsQuery = getDb().then(db => db.subscriptions);
 
 const deleteSubscriptionData = async (id: string) => {
     const iterator = await entryIterator(false, id, 100);
@@ -32,32 +37,19 @@ export const toggleSubscription = async (subscriptionPromise: Subscription | Pro
     const subscription = await subscriptionPromise;
 
     const id = subscription.id;
-    const index = getStore().subscriptions.findIndex(s => s.id === subscription.id);
-    if (index !== -1) {
-        subscription.deleting = true;
-
-        const newSubs = [...getStore().subscriptions];
-        newSubs.splice(index, 1);
-
+    const existing = await getSubscription(id);
+    if (existing) {
         // Delete any entries associated with this subscription.
         await deleteSubscriptionData(id);
-
-        subscription.deleting = false;
-        getStore().subscriptions = newSubs;
 
         // Reset the StreamList, so we don't try and iterate over deleted entries.
         setStreamList(getStore().stream.unreadOnly, getStore().stream.id, true);
     } else {
         // If we're adding a subscription, prompt the user
         // to enable persistence.
-        maybePerist();
+        maybePersist();
 
-        getStore().subscriptions = [
-            ...getStore().subscriptions,
-            subscription
-        ];
-
-        await saveSubscription(getStore().subscriptions[getStore().subscriptions.length - 1]);
+        await saveSubscription(subscription);
 
         // Fetch articles for the subscription.
         await updateStreams(subscription.id);

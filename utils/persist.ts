@@ -1,6 +1,6 @@
 let requested = false;
 
-export const maybePerist = async () => {
+export const maybePersist = async () => {
     if (!('persist' in navigator.storage))
         return;
 
