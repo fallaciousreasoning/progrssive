@@ -60,7 +60,7 @@ const StreamViewer = (props: { id: string, store: Store }) => {
   const history = useHistory();
   const rootRef = useRef<HTMLDivElement>();
   const footerRef = useRef<HTMLDivElement>();
-  const isTransient = useIsTransientSubscription(props.id, props.store);
+  const isTransient = useIsTransientSubscription(props.id);
   const [isAdding, setIsAdding] = useState(false);
   const settings = useSettings();
 
@@ -154,7 +154,7 @@ const StreamViewer = (props: { id: string, store: Store }) => {
     </>}
 
     <div className={styles.footer} ref={footerRef}>
-      <StreamFooter unreadOnly={unreadOnly} />
+      <StreamFooter unreadOnly={unreadOnly} streamId={props.id} />
     </div>
   </div >
 }
