@@ -3,6 +3,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import SlidePage from '../../components/SlidePage';
 import { useIsPhone } from '../../hooks/responsive';
+import { useIsFrontend } from '../../hooks/useIsFrontend';
 import StreamViewer from './StreamViewer';
 import Layout from './_Layout';
 
@@ -82,6 +83,9 @@ export default () => {
 
     const entryActive = !!entryId;
     const Container = isPhone ? SlidePage : 'div';
+    const isFrontend = useIsFrontend();
+    if (!isFrontend) return null;
+
     return <Container className={styles.root}>
         {(!entryActive || !isPhone) && <div key="stream" className={styles.stream}>
             <Layout key="stream">

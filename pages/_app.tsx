@@ -21,8 +21,15 @@ const useStyles = makeStyles(theme => ({
   root: {
     width: '100vw',
     height: '100vw',
+  },
+  page: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    maxWidth: '800px',
+    padding: theme.spacing(1),
   }
 }));
+
 
 const ProgrssiveApp = ({ Component, pageProps }: AppProps) => {
   const styles = useStyles({});
@@ -48,7 +55,9 @@ const ProgrssiveApp = ({ Component, pageProps }: AppProps) => {
     <LazySnackbarProvider>
       <div className={styles.root}>
         <AppBar>
-          <Component {...pageProps} />
+          <div className={styles.page}>
+            <Component {...pageProps} />
+          </div>
         </AppBar>
       </div>
     </LazySnackbarProvider>
