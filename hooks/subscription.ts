@@ -1,9 +1,9 @@
-import { Store } from "react-recollect";
+import { getSubscription } from "../services/subscriptions";
 
-export const useIsTransientSubscription = (id: string, store: Store) => {
+export const useIsTransientSubscription = (id: string) => {
     // The all feed is never transient.
     if (id === undefined || id === "")
         return false;
 
-    return !store.subscriptions.find(s => s.id === id);
+    return !getSubscription(id);
 }

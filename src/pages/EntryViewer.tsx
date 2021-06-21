@@ -14,8 +14,9 @@ import { useEntry } from "../../hooks/entry";
 import { useScreenSize } from "../../hooks/screenSize";
 import useWhenChanged from "../../hooks/useWhenChanged";
 import { EntryReadButton } from "../../components/MarkerButton";
-import { getEntryByline, getEntryContent, getEntryPreferredView, getEntrySubscription, getEntryUrl } from "../../services/entry";
+import { getEntryByline, getEntryContent, getEntryUrl, useViewMode } from "../../services/entry";
 import {useSettings} from '../../services/settings';
+import { useSubscription } from "../../services/subscriptions";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -57,7 +58,8 @@ const EntryViewer = (props: { id: string, store: Store }) => {
     const url = getEntryUrl(entry);
     const location = useLocation();
     const active = location.pathname.includes("/entries/");
-    const [currentView, setCurrentView] = useState(getEntryPreferredView(entry));
+    const subscription = useSubscription(entry?.origin?.streamId ?? entry?.originId);
+    const [currentView, setCurrentView] = useViewMode(entry);
     const [failedToMobilize, setFailedToMobilize] = useState(false);
     const { width: screenWidth } = useScreenSize();
     const settings = useSettings();
@@ -87,7 +89,6 @@ const EntryViewer = (props: { id: string, store: Store }) => {
         setCurrentView(view);
     }, [url]);
 
-    const subscription = getEntrySubscription(entry);
     useWhenChanged(() => {
         // We haven't tried to mobilize yet.
         setFailedToMobilize(false);
@@ -101,24 +102,6 @@ const EntryViewer = (props: { id: string, store: Store }) => {
                 });
         }
     }, [currentView, props.id, !!entry]);
-
-    // When the preferred view for the subscription changes,
-    // reset the current view.
-    useWhenChanged(() => {
-        // Transient entries have no subscription.
-        if (!subscription) {
-            setCurrentView("feedly");
-            return;
-        }
-
-        // Can't show the browser view, so display feedly instead.
-        if (subscription.preferredView === "browser") {
-            setCurrentView("feedly");
-            return;
-        }
-
-        setCurrentView(subscription.preferredView);
-    }, [subscription && subscription.preferredView]);
 
     const doubleTap = useDoubleTap((event) => {
         if (!settings.doubleTapToCloseArticles)

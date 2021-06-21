@@ -1,6 +1,8 @@
+import { useEffect, useState } from 'react';
 import relativeDate from 'tiny-relative-date';
 import { getStore } from "../hooks/store";
 import { Entry } from "../model/entry";
+import { getSubscription, useSubscription } from './subscriptions';
 
 const sanitizeContent = (contentString: string) => {
     if (!contentString)
@@ -57,22 +59,13 @@ export const getEntryVisualUrl = (entry: Entry) => {
     return url;
 }
 
-export const getEntrySubscription = (entry: Entry) => {
-    if (!entry)
-        return;
-    const streamId = entry.origin && entry.origin.streamId;
-    const subscriptions = getStore().subscriptions;
-    return subscriptions.find(s => s.id === streamId);
-}
-
-export const getEntryPreferredView = (entry: Entry) => {
-    if (!entry)
-        return 'feedly';
-
-    const subscription = getEntrySubscription(entry);
-    return subscription
-        ? subscription.preferredView
-        : 'feedly';
+export const useViewMode = (entry: Entry) => {
+    const subscription = useSubscription(entry?.origin?.streamId ?? entry?.originId);
+    const [view, setView] = useState(subscription?.preferredView);
+    useEffect(() => {
+        setView(subscription?.preferredView);
+    },[subscription?.preferredView]);
+    return [view ?? 'feedly', setView] as const;
 }
 
 export const getProgrssiveUrl = (to: Entry) => {
