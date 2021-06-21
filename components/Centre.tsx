@@ -8,7 +8,7 @@ const useStyles = makeStyles({
     }
 });
 
-export default props => {
+export default function Centre(props: { children: React.ReactNode, className?: string }) {
     const styles = useStyles();
 
     return <div className={`${props.className} ${styles.root}`}>

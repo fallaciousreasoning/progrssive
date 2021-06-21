@@ -70,7 +70,7 @@ const appBarButtonVariants = {
         opacity: 0
     }
 }
-export default (props: { children: React.ReactNode }) => {
+export default function ProgrssiveAppBar(props: { children: React.ReactNode }) {
     const styles = useStyles();
     const [, setBarChildren] = useState<BarMap>({});
 

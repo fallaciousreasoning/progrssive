@@ -16,7 +16,7 @@ type Props = {
     text: string,
     href: string
 };
-export default (props: Props) => {
+export default function ListLinkButton(props: Props) {
     const styles=  useStyles();
     return <Link href={props.href}>
         <ListItem className={styles.clickable}>
