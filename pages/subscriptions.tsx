@@ -1,7 +1,6 @@
 import { Button, makeStyles, TextField, CircularProgress, Typography } from "@material-ui/core";
 import * as React from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useHistory } from "react-router-dom";
 import { useDebounce } from 'use-debounce';
 import { searchFeeds } from '../api/search';
 import ExportOpml from '../components/ExportOpml';
@@ -72,10 +71,8 @@ export default function SubscriptionPage() {
         return (s: Subscription) => subscribedTo.has(s.id);
     }, [importingSubscriptions]);
 
-    const queryParams = new URLSearchParams(globalThis?.window?.location.search);
-    const [query, setQuery] = useState(queryParams.has('query')
-        ? queryParams.get('query')
-        : "@subscribed");
+    const queryParams = router.query;
+    const [query, setQuery] = useState(queryParams['query']?.[0] ?? "@subscribed");
     const [debouncedQuery] = useDebounce(query, 200);
     const [searchResults, setSearchResults] = useState<Subscription[]>([]);
     const viewSubscriptions = useCallback(() => {
@@ -86,7 +83,7 @@ export default function SubscriptionPage() {
 
     // Update search results when typing.
     useEffect(() => {
-        if (query !== queryParams.get('query'))
+        if (query !== queryParams['query'])
             router.replace(`/subscriptions?query=${encodeURIComponent(query)}`);
         // This is a special query.
         if (query.startsWith("@")) {

@@ -3,7 +3,7 @@ import { makeStyles, CircularProgress } from "@material-ui/core";
 import { Suspense, useMemo } from "react";
 import Centre from "./Centre";
 import React from 'react'
-import { useHistory } from "react-router-dom";
+import { useRouter } from "next/router";
 
 const pageVariants = {
     initial: (direction: number) => ({
@@ -51,15 +51,11 @@ export default (props: {
     initial?: boolean
 }) => {
     const styles = useStyles();
-    const history = useHistory();
+    const router = useRouter();
 
-    const direction = useMemo(() =>
-        history.action === "POP"
-            ? -1
-            : 1,
-        // This should only update when the path changes.
-        // eslint-disable-next-line
-        [location.pathname]);
+    // TODO: Come back to this when stuff works again.
+    const direction = useMemo(() => 1,
+        [router.pathname]);
 
     const children = (Array.isArray(props.children)
         ? props.children

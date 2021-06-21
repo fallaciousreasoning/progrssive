@@ -2,7 +2,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import * as React from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { collect, Store } from 'react-recollect';
-import { useHistory, useLocation } from "react-router-dom";
 import { FixedSizeList } from 'react-window';
 import { setUnread } from 'actions/marker';
 import { useScreenSize } from 'hooks/screenSize';
@@ -12,6 +11,7 @@ import { getEntryUrl, getProgrssiveUrl, useViewMode } from 'services/entry';
 import { useSettings } from 'services/settings';
 import { loadToEntry } from 'services/store';
 import EntryCard from './EntryCard';
+import { useRouter } from 'next/router';
 
 const GUTTER_SIZE = 8;
 
@@ -28,9 +28,7 @@ const useStyles = makeStyles({
 });
 
 const Row = collect((props: { index: number, style: any, store: Store }) => {
-    const history = useHistory();
-    const location = useLocation();
-    
+    const router = useRouter();
     const item = getStreamEntry(props.index);
     const [viewMode] = useViewMode(item);
     const newStyle = useMemo(() => ({
@@ -49,9 +47,9 @@ const Row = collect((props: { index: number, style: any, store: Store }) => {
             const url = getProgrssiveUrl(item);
             // If we're currently looking at an entry,
             // replace it.
-            const action = location.pathname.includes('/entries/')
-                ? history.replace
-                : history.push;
+            const action = router.pathname.includes('/entries/')
+                ? router.replace
+                : router.push;
             action(url);
         }
 

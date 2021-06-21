@@ -7,7 +7,6 @@ import { Add } from '@material-ui/icons';
 import Refresh from '@material-ui/icons/Refresh';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { collect, Store } from 'react-recollect';
-import { useHistory, useLocation } from 'react-router-dom';
 import { updateStreams } from '../../../actions/stream';
 import AppBarButton from '../../../components/AppBarButton';
 import Centre from '../../../components/Centre';
@@ -23,6 +22,7 @@ import { findSubscription, toggleSubscription } from '../../../services/subscrip
 import StreamList from '../../../components/StreamList';
 import { delay } from '../../../utils/promise';
 import { useSettings } from '../../../services/settings';
+import { useRouter } from 'next/dist/client/router';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -53,11 +53,10 @@ const useStyles = makeStyles(theme => ({
 
 const StreamViewer = (props: { id: string, store: Store }) => {
   const styles = useStyles();
-  const location = useLocation();
   const isPhone = useIsPhone();
-  const active = location.pathname.includes('/stream')
-    && (!isPhone || !location.pathname.includes('/entries/'));
-  const history = useHistory();
+  const router = useRouter();
+  const active = router.pathname.includes('/stream')
+    && (!isPhone || !router.pathname.includes('/entries/'));
   const rootRef = useRef<HTMLDivElement>();
   const footerRef = useRef<HTMLDivElement>();
   const isTransient = useIsTransientSubscription(props.id);
@@ -69,12 +68,12 @@ const StreamViewer = (props: { id: string, store: Store }) => {
   }, [rootRef.current]);
 
   const unreadOnly = useMemo(() => {
-    const params = new URLSearchParams(location.search);
-    return !params.has('showUnread');
-  }, [location.search]);
+    const params = router.query;
+    return !params['showUnread'];
+  }, [router.query]);
 
   const toggleUnreadOnly = useCallback(() => {
-    history.replace(`?${unreadOnly ? "showUnread" : ""}`);
+    router.replace(`?${unreadOnly ? "showUnread" : ""}`);
   }, [unreadOnly, history]);
 
 

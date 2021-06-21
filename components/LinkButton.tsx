@@ -1,9 +1,9 @@
 import Button, { ButtonProps } from '@material-ui/core/Button';
 import React, { useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useRouter } from 'next/router';
 
 export default (props: ButtonProps & { href: string, replace?: boolean }) => {
-    const history = useHistory();
+    const router = useRouter();
     const { href, replace, onClick } = props;
     const onButtonClick = useCallback((e: React.MouseEvent) => {
         if (e.ctrlKey || e.metaKey || e.button === 3)
@@ -12,12 +12,12 @@ export default (props: ButtonProps & { href: string, replace?: boolean }) => {
         e.preventDefault();
 
         if (!replace)
-            history.push(href);
-        else history.replace(href);
+            router.push(href);
+        else router.replace(href);
 
         if (onClick)
             onClick(e as any);
-    }, [href, replace, history, onClick]);
-    
-    return <Button {...props} onClick={onButtonClick}/>
+    }, [href, replace, router, onClick]);
+
+    return <Button {...props} onClick={onButtonClick} />
 }

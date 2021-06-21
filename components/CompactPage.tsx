@@ -1,11 +1,8 @@
 import { makeStyles } from '@material-ui/core';
 import React from 'react';
-import { useLocation } from 'react-router-dom';
-import SlidePage from '../../components/SlidePage';
-import { useIsPhone } from '../../hooks/responsive';
-import { useIsFrontend } from '../../hooks/useIsFrontend';
-import StreamViewer from './StreamViewer';
-import Layout from './_Layout';
+import SlidePage from './SlidePage';
+import { useIsPhone } from '../hooks/responsive';
+import { useIsFrontend } from '../hooks/useIsFrontend';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -34,12 +31,11 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const entryViewerPromise = import('./EntryViewer');
+const entryViewerPromise = import('../src/pages/EntryViewer');
 const EntryViewer = React.lazy(() => entryViewerPromise);
 
 export default () => {
     const styles = useStyles();
-    const location = useLocation();
     const isPhone = useIsPhone();
 
     // Path should be something like this:
@@ -88,15 +84,15 @@ export default () => {
 
     return <Container className={styles.root}>
         {(!entryActive || !isPhone) && <div key="stream" className={styles.stream}>
-            <Layout key="stream">
-                <StreamViewer id={streamId} />
-            </Layout>
+            {/* <Layout key="stream"> */}
+                {/* <StreamViewer id={streamId} /> */}
+            {/* </Layout> */}
         </div>}
 
         {entryActive && <div key="entry" className={styles.entry}>
-            <Layout>
+            {/* <Layout> */}
                 <EntryViewer id={entryId} />
-            </Layout>
+            {/* </Layout> */}
         </div>}
     </Container>
 }
