@@ -11,8 +11,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Add from '@material-ui/icons/Add';
 import Delete from '@material-ui/icons/Delete';
 import ErrorIcon from '@material-ui/icons/Error';
+import { useRouter } from 'next/router';
 import React, { useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
 import { Subscription } from '../model/subscription';
 import { saveSubscription } from '../services/db';
 
@@ -101,10 +101,10 @@ const useEditorStyles = makeStyles(theme => ({
 export default (props: Props) => {
     const styles = useEditorStyles();
 
-    const history = useHistory();
+    const router = useRouter();
     const viewStream = useCallback(() => {
-        history.push(`/stream/${encodeURIComponent(props.subscription.id)}`);
-    }, [props.subscription.id, history]);
+        router.push(`/stream/${encodeURIComponent(props.subscription.id)}`);
+    }, [props.subscription.id, router]);
 
     const preferredViewChanged = useCallback(async (e) => {
         await saveSubscription({ 
