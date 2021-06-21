@@ -18,10 +18,6 @@ import Head from 'next/head'
 import { useSettings } from '../services/settings';
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    width: '100vw',
-    height: '100vw',
-  },
   page: {
     marginLeft: 'auto',
     marginRight: 'auto',
@@ -55,7 +51,7 @@ const ProgrssiveApp = ({ Component, pageProps }: AppProps) => {
       <title>Progrssive Reader</title>
     </Head>
     <LazySnackbarProvider>
-      <div className={styles.root}>
+      <div>
         <AppBar>
           <div className={styles.page}>
             <Component {...pageProps} />
