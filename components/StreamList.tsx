@@ -1,18 +1,17 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { Console } from 'console';
 import * as React from 'react';
-import { useCallback, useEffect, useRef, useState, useMemo } from 'react';
-import { collect, store, Store } from 'react-recollect';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { collect, Store } from 'react-recollect';
 import { useHistory, useLocation } from "react-router-dom";
 import { FixedSizeList } from 'react-window';
 import { setUnread } from '../actions/marker';
-import EntryCard from '../components/EntryCard';
 import { useScreenSize } from '../hooks/screenSize';
 import { getStore } from '../hooks/store';
 import { getStreamEntries, getStreamEntry } from '../selectors/entry';
-import { getEntrySubscription, getEntryUrl, getProgrssiveUrl } from '../services/entry';
+import { getEntryUrl, getProgrssiveUrl, useViewMode } from '../services/entry';
 import { useSettings } from '../services/settings';
 import { loadToEntry } from '../services/store';
+import EntryCard from './EntryCard';
 
 const GUTTER_SIZE = 8;
 
@@ -33,6 +32,7 @@ const Row = collect((props: { index: number, style: any, store: Store }) => {
     const location = useLocation();
     
     const item = getStreamEntry(props.index);
+    const [viewMode] = useViewMode(item);
     const newStyle = useMemo(() => ({
         ...props.style,
         top: props.style.top + GUTTER_SIZE,
@@ -42,27 +42,28 @@ const Row = collect((props: { index: number, style: any, store: Store }) => {
     }), [props.style, GUTTER_SIZE]);
     const settings = useSettings();
 
+    const onClick = useCallback(() => {
+        if (viewMode === "browser") {
+            window.open(getEntryUrl(item), "_blank");
+        } else {
+            const url = getProgrssiveUrl(item);
+            // If we're currently looking at an entry,
+            // replace it.
+            const action = location.pathname.includes('/entries/')
+                ? history.replace
+                : history.push;
+            action(url);
+        }
+
+        // If pages should be marked as read on open, do that.
+        if (settings.markOpenedAsRead) {
+            setUnread(item, false);
+        }
+    }, [settings.markOpenedAsRead, viewMode, item.id]);
+
     return item ? <div
         style={newStyle}
-        onClick={() => {
-            const subscription = getEntrySubscription(item);
-            if (subscription && subscription.preferredView === "browser") {
-                window.open(getEntryUrl(item), "_blank");
-            } else {
-                const url = getProgrssiveUrl(item);
-                // If we're currently looking at an entry,
-                // replace it.
-                const action = location.pathname.includes('/entries/')
-                    ? history.replace
-                    : history.push;
-                action(url);
-            }
-
-            // If pages should be marked as read on open, do that.
-            if (settings.markOpenedAsRead) {
-                setUnread(item, false);
-            }
-        }}
+        onClick={onClick}
     >
         <EntryCard entry={item} showingUnreadOnly={props.store.stream.unreadOnly} />
     </div> : null;

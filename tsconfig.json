@@ -19,7 +19,20 @@
     "jsx": "preserve",
     "noImplicitAny": false,
     "strict": false,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/components/*": ["components/*"],
+      "@/api/*": ["api/*"],
+      "@/actions/*": ["actions/*"],
+      "@/services/*": ["services/*"],
+      "@/model/*": ["model/*"],
+      "@/selectors/*": ["selectors/*"],
+      "@/hooks/*": ["hooks/*"],
+      "@/types/*": ["types/*"],
+      "@/styles/*": ["styles/*"],
+      "@/worker/*": ["worker/*"]
+    }
   },
   "include": [
     "src",

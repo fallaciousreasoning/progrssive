@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import relativeDate from 'tiny-relative-date';
 import { getStore } from "../hooks/store";
 import { Entry } from "../model/entry";
-import { getSubscription, useSubscription } from './subscriptions';
+import { useSubscription } from './subscriptions';
 
 const sanitizeContent = (contentString: string) => {
     if (!contentString)

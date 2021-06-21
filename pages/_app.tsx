@@ -1,21 +1,16 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
 import { makeStyles, MuiThemeProvider } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import AppBar from 'components/AppBar';
+import LazySnackbarProvider from 'components/LazySnackbarProvider';
+import type { AppProps } from 'next/app';
+import Head from 'next/head';
 import React, { useMemo } from 'react';
-import { collect } from 'react-recollect';
-import { BrowserRouter } from 'react-router-dom';
-import AppBar from '../components/AppBar';
-import LazySnackbarProvider from '../components/LazySnackbarProvider';
-import RouteSwitcher from '../components/RouteSwitcher';
-import { getStore } from '../hooks/store';
-import { initStore } from '../services/store';
-import { buildTheme } from '../styles/theme';
-import { CollectProps } from '../types/RecollectStore';
-import '../types/Window';
-import WebWorker from '../worker';
-import Head from 'next/head'
-import { useSettings } from '../services/settings';
+import { useSettings, getSettings } from 'services/settings';
+import { initStore } from 'services/store';
+import { buildTheme } from 'styles/theme';
+import 'types/Window';
+import 'styles/globals.css';
+// import WebWorker from 'worker';
 
 const useStyles = makeStyles(theme => ({
   page: {
@@ -63,3 +58,17 @@ const ProgrssiveApp = ({ Component, pageProps }: AppProps) => {
 };
 
 export default ProgrssiveApp;
+
+// const idlePolyFill = (callback: () => void) => setTimeout(callback, 5000);
+// (async () => {
+//   const onIdle = window.requestIdleCallback || idlePolyFill;
+
+//   // Wait until we're idle before running cleanup.
+//   onIdle(async () => {
+//     const worker = new WebWorker();
+//     const settings = await getSettings();
+//     // Clone cleanup settings to pass to worker.
+//     const cleanupSettings = JSON.parse(JSON.stringify(settings.cleanupSettings));
+//     worker.runEntryCleanup(cleanupSettings);
+//   })
+// })();
