@@ -51,15 +51,16 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const StreamViewer = (props: { id: string, store: Store }) => {
+const StreamViewer = (props: { store: Store }) => {
   const styles = useStyles();
   const isPhone = useIsPhone();
   const router = useRouter();
+  const streamId = router.query.streamId?.[0] === "all" ? undefined : router.query.streamId?.[0];
   const active = router.pathname.includes('/stream')
     && (!isPhone || !router.pathname.includes('/entries/'));
   const rootRef = useRef<HTMLDivElement>();
   const footerRef = useRef<HTMLDivElement>();
-  const isTransient = useIsTransientSubscription(props.id);
+  const isTransient = useIsTransientSubscription(streamId);
   const [isAdding, setIsAdding] = useState(false);
   const settings = useSettings();
 
@@ -77,10 +78,10 @@ const StreamViewer = (props: { id: string, store: Store }) => {
   }, [unreadOnly, history]);
 
 
-  const loading = !!getStreamUpdating(props.id) || props.store.stream.length === undefined;
+  const loading = !!getStreamUpdating(streamId) || props.store.stream.length === undefined;
   useWhenChanged(() =>
-    setStreamList(unreadOnly, props.id),
-    [unreadOnly, props.id]);
+    setStreamList(unreadOnly, streamId),
+    [unreadOnly, streamId]);
 
   // Show the stream list when it gets items.
   useWhenChanged(scrollToTop,
@@ -119,7 +120,7 @@ const StreamViewer = (props: { id: string, store: Store }) => {
       <CircularProgress className={styles.loader} />
     </Centre>}
 
-    <MaybeUpdateStreamList streamId={props.id} />
+    <MaybeUpdateStreamList streamId={streamId} />
     {props.store.stream.length !== 0 && <StreamList onProgressChanged={setProgress} />}
 
     {active && <>
@@ -132,7 +133,7 @@ const StreamViewer = (props: { id: string, store: Store }) => {
             ? <CircularProgress color="secondary" size={24} />
             : <IconButton onClick={async () => {
               setIsAdding(true);
-              await toggleSubscription(findSubscription(props.id));
+              await toggleSubscription(findSubscription(streamId));
               await delay(1000);
               setIsAdding(false);
             }}>
@@ -146,14 +147,14 @@ const StreamViewer = (props: { id: string, store: Store }) => {
             label="Unread" />
         </AppBarButton>}
       <AppBarButton>
-        <IconButton disabled={loading} onClick={() => updateStreams(props.id)}>
+        <IconButton disabled={loading} onClick={() => updateStreams(streamId)}>
           <Refresh />
         </IconButton>
       </AppBarButton>
     </>}
 
     <div className={styles.footer} ref={footerRef}>
-      <StreamFooter unreadOnly={unreadOnly} streamId={props.id} />
+      <StreamFooter unreadOnly={unreadOnly} streamId={streamId} />
     </div>
   </div >
 }
