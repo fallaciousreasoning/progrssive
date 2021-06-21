@@ -49,7 +49,7 @@ const Row = collect((props: { index: number, style: any, store: Store }) => {
             const url = getProgrssiveUrl(item);
             // If we're currently looking at an entry,
             // replace it.
-            const action = router.pathname.includes('/entries/')
+            const action = router.pathname.includes('/entry/')
                 ? router.replace
                 : router.push;
             action(url);

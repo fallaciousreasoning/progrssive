@@ -7,6 +7,8 @@ import { StoreDef } from '../types/RecollectStore';
 import { entryCount, entryIterator } from './entryIterator';
 import { resolvable } from '../utils/promise';
 import { getDb } from './db';
+import 'types/Window';
+
 const store = s as StoreDef;
 
 export const initStore = () => {

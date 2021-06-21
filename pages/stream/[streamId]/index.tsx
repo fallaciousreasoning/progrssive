@@ -58,7 +58,7 @@ const StreamViewer = (props: { store: Store }) => {
   const router = useRouter();
   const streamId = useStreamId();
   const active = router.pathname.includes('/stream')
-    && (!isPhone || !router.pathname.includes('/entries/'));
+    && (!isPhone || !router.pathname.includes('/entry/'));
   const rootRef = useRef<HTMLDivElement>();
   const footerRef = useRef<HTMLDivElement>();
   const isTransient = useIsTransientSubscription(streamId);

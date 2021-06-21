@@ -39,7 +39,7 @@ export default () => {
     const isPhone = useIsPhone();
 
     // Path should be something like this:
-    // /stream/:streamId?(/entries/entryId)?
+    // /stream/:streamId?(/entry/entryId)?
     const path = location.pathname
         // Trim leading and trailing slash
         .substring(1, location.pathname.endsWith('/')
@@ -53,18 +53,18 @@ export default () => {
     let streamId = '';
     let entryId = '';
 
-    // Case: /stream/:streamId/entries/:entryId
+    // Case: /stream/:streamId/entry/:entryId
     if (path.length === 4) {
         streamId = path[1];
-        if (path[2] !== 'entries')
+        if (path[2] !== 'entry')
             return null;
 
         entryId = path[3];
     }
 
-    // Case: /stream/entries/:entryId
+    // Case: /stream/entry/:entryId
     if (path.length === 3) {
-        if (path[1] !== 'entries')
+        if (path[1] !== 'entry')
             return null;
         entryId = path[2];
     }

@@ -72,8 +72,8 @@ export const getProgrssiveUrl = (to: Entry) => {
     const streamId = getStore().stream.id;
     let url = "/stream/";
     if (streamId)
-        url += encodeURIComponent(streamId) + '/'
-    url += `entries/${encodeURIComponent(to.id)}/`
+        url += encodeURIComponent(streamId || 'all') + '/'
+    url += `entry/${encodeURIComponent(to.id)}/`
     if (!getStore().stream.unreadOnly)
         url += "?showUnread";
     return url;
