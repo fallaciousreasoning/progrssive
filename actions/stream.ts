@@ -1,3 +1,4 @@
+import { subscriptionsQuery } from "@/services/subscriptions";
 import { getAllEntries } from "../api/streams";
 import { getStore } from "../hooks/store";
 import { Subscription } from "../model/subscription";
@@ -33,11 +34,12 @@ export const updateStreamsHeadless = async (subscriptions: Subscription[]) => {
 }
 
 export const updateStreams = async (streamId?: string) => {
+    const subscriptions = await subscriptionsQuery.then(s => s.toArray());
     const affectedSubscriptions = (!streamId
         // If there is no stream id, try and update everything.
-        ? getStore().subscriptions
+        ? subscriptions
         // Otherwise, only try and update the specific stream.
-        : getStore().subscriptions.filter(s => s.id === streamId))
+        : subscriptions.filter(s => s.id === streamId))
 
         // But only the ones that aren't already being updated.
         .filter(s => !getStore().updating.stream[s.id]);

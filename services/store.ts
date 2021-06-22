@@ -20,7 +20,7 @@ export const initStore = () => {
     };
 
     store.stream = {
-        id: undefined,
+        id: null,
         unreadOnly: true,
         length: undefined,
         lastScrollPos: 0,
