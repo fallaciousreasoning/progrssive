@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export default (props: Props) => {
+const ProgressRing = (props: Props) => {
     const stroke = props.stroke || 2;
     const radius = props.radius || 19;
     const padding = props.padding || 2;
@@ -95,4 +95,6 @@ export default (props: Props) => {
             </svg>
         </Typography>
     </div>
-}
+};
+
+export default ProgressRing;

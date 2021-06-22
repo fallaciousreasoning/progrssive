@@ -10,7 +10,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import ListLinkButton from './ListLinkButton';
 import useInstallPrompt from '../hooks/useInstallPrompt';
 
-export default (props: { trigger: JSX.Element }) => {
+const AppDrawer = (props: { trigger: JSX.Element }) => {
     const [open, setOpen] = useState(false);
     const close = useCallback(() => {
         setOpen(false)
@@ -44,4 +44,6 @@ export default (props: { trigger: JSX.Element }) => {
             </div>
         </Drawer>
     </div>;
-}
+};
+
+export default AppDrawer;

@@ -98,7 +98,7 @@ const useEditorStyles = makeStyles(theme => ({
     }
 }));
 
-export default (props: Props) => {
+const SubscriptionEditor = (props: Props) => {
     const styles = useEditorStyles();
 
     const router = useRouter();
@@ -141,4 +141,6 @@ export default (props: Props) => {
             <SubscriptionControls {...props} />
         </div>
     </Card>
-}
+};
+
+export default SubscriptionEditor;

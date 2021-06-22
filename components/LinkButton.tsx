@@ -2,7 +2,7 @@ import Button, { ButtonProps } from '@material-ui/core/Button';
 import React, { useCallback } from 'react';
 import { useRouter } from 'next/router';
 
-export default (props: ButtonProps & { href: string, replace?: boolean }) => {
+const LinkButton = (props: ButtonProps & { href: string, replace?: boolean }) => {
     const router = useRouter();
     const { href, replace, onClick } = props;
     const onButtonClick = useCallback((e: React.MouseEvent) => {
@@ -20,4 +20,6 @@ export default (props: ButtonProps & { href: string, replace?: boolean }) => {
     }, [href, replace, router, onClick]);
 
     return <Button {...props} onClick={onButtonClick} />
-}
+};
+
+export default LinkButton;

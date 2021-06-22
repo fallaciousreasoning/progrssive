@@ -60,7 +60,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export default (props: Props & React.HTMLProps<HTMLDivElement>) => {
+const StackPanel = (props: Props & React.HTMLProps<HTMLDivElement>) => {
     let {
         animatePresence,
         direction,
@@ -97,4 +97,6 @@ export default (props: Props & React.HTMLProps<HTMLDivElement>) => {
             </motion.div>)}
         </Container>
     </div>
-}
+};
+
+export default StackPanel;

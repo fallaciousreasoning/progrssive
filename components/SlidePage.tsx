@@ -45,11 +45,13 @@ const pageLoadingIndicator = <Centre className="page-loader">
     <CircularProgress />
 </Centre>
 
-export default (props: {
-    className?: string,
-    children: React.ReactNode | undefined,
-    initial?: boolean
-}) => {
+const SlidePage = (
+    props: {
+        className?: string,
+        children: React.ReactNode | undefined,
+        initial?: boolean
+    }
+) => {
     const styles = useStyles();
     const router = useRouter();
 
@@ -78,4 +80,6 @@ export default (props: {
         </motion.div>)}
 
     </AnimatePresence>
-}
+};
+
+export default SlidePage;

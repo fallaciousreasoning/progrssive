@@ -20,7 +20,7 @@ export const getSubscriptionsOpml = async () => {
     return opml;
 }
 
-export default (props: ButtonProps) => {
+const ExportOpml = (props: ButtonProps) => {
     const download = useCallback(async () => {
         const opml = getSubscriptionsOpml();
         downloadTextFile(await opml,
@@ -30,4 +30,6 @@ export default (props: ButtonProps) => {
     return <Button variant="outlined" color="primary" {...props} onClick={download}>
         Export Feeds
     </Button>
-}
+};
+
+export default ExportOpml;

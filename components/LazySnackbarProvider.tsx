@@ -19,7 +19,7 @@ const SnackHelper = (props: { useSnackbar: () => any }) => {
     return null;
 }
 
-export default (props) => {
+const LazySnackbarProvider = props => {
     const { useSnackbar } = useResult(() => import('notistack'), [], {} as any);
     const isFrontEnd = useIsFrontend();
     if (!isFrontEnd) return null;
@@ -29,4 +29,6 @@ export default (props) => {
             {props.children}
         </SnackbarProvider>
     </Suspense>
-}
+};
+
+export default LazySnackbarProvider;

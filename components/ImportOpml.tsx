@@ -43,7 +43,7 @@ export const parseOpml = (opml: string): Promise<OpmlNode[]> => {
     });
 }
 
-export default (props: Props & ButtonProps) => {
+const ImportOpml = (props: Props & ButtonProps) => {
     const { onOpmlLoaded, ...buttonProps } = props;
 
     const pick = useCallback(async () => {
@@ -72,4 +72,6 @@ export default (props: Props & ButtonProps) => {
         onClick={pick}>
         Import Opml
     </Button>
-}
+};
+
+export default ImportOpml;

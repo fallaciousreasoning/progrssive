@@ -8,7 +8,7 @@ interface Props {
     onChange: (value: 'feedly' | 'mozilla' | 'browser') => void;
 }
 
-export default (props: Props) => {
+const PreferredViewMenu = (props: Props) => {
     const onChange = props.onChange;
     const menuItemClicked = useCallback((e) => {
         const value = e.target.getAttribute('value');
@@ -34,4 +34,6 @@ export default (props: Props) => {
                 onClick={menuItemClicked}>Browser</MenuItem>
         </ToggleMenu>
     </div>
-}
+};
+
+export default PreferredViewMenu;
