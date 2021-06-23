@@ -23,7 +23,7 @@ import StreamList from '../../../components/StreamList';
 import { delay } from '../../../utils/promise';
 import { useSettings } from '../../../services/settings';
 import { useRouter } from 'next/dist/client/router';
-import { useStreamId } from '../../../hooks/url';
+import { useShowRead, useStreamId } from '../../../hooks/url';
 
 updateStreams();
 
@@ -71,20 +71,14 @@ const StreamViewer = (props: { store: Store }) => {
     rootRef.current && rootRef.current.scrollTo(0, 0);
   }, [rootRef.current]);
 
-  const unreadOnly = useMemo(() => {
-    const params = router.query;
-    return !params['showUnread'];
-  }, [router.query]);
-
-  const toggleUnreadOnly = useCallback(() => {
-    router.replace(`?${unreadOnly ? "showUnread" : ""}`);
-  }, [unreadOnly, history]);
+  const { showRead, setShowRead } = useShowRead();
+  const toggleShowRead = useCallback(() => setShowRead(!showRead), [showRead]);
 
 
   const loading = !!getStreamUpdating(streamId) || props.store.stream.length === undefined;
   useWhenChanged(() =>
-    setStreamList(unreadOnly, streamId),
-    [unreadOnly, streamId]);
+    setStreamList(!showRead, streamId),
+    [showRead, streamId]);
 
   // Show the stream list when it gets items.
   useWhenChanged(scrollToTop,
@@ -95,7 +89,7 @@ const StreamViewer = (props: { store: Store }) => {
   const onFooterScrolled = useCallback(e => {
     // Don't mark entries as read when we're also showing read
     // articles.
-    if (!unreadOnly)
+    if (showRead)
       return;
 
     // If we aren't meant to mark scrolled entries as read,
@@ -113,7 +107,7 @@ const StreamViewer = (props: { store: Store }) => {
       return;
 
     markStreamAs('read');
-  }, [unreadOnly])
+  }, [showRead])
 
   const [progress, setProgress] = useState(0);
   const remainingArticles = Math.round(props.store.stream.length - progress * props.store.stream.length);
@@ -146,7 +140,7 @@ const StreamViewer = (props: { store: Store }) => {
         : <AppBarButton>
           <FormControlLabel
             className={styles.unreadOnlySlider}
-            control={<Switch checked={unreadOnly} onClick={toggleUnreadOnly} />}
+            control={<Switch checked={!showRead} onClick={toggleShowRead} />}
             label="Unread" />
         </AppBarButton>}
       <AppBarButton>
@@ -157,7 +151,7 @@ const StreamViewer = (props: { store: Store }) => {
     </>}
 
     <div className={styles.footer} ref={footerRef}>
-      <StreamFooter unreadOnly={unreadOnly} streamId={streamId} />
+      <StreamFooter unreadOnly={!showRead} streamId={streamId} />
     </div>
   </div >
 }
