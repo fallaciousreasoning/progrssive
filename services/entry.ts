@@ -4,7 +4,14 @@ import { getStore } from "../hooks/store";
 import { Entry } from "../model/entry";
 import { useSubscription } from './subscriptions';
 
-const sanitizeContent = (contentString: string) => {
+const sanitizeContent = (contentString: string, additionallyBanned: string[]=[], innerText=false) => {
+    const bannedTags = [
+        'script',
+        'style',
+        'link',
+        'meta'
+    ].concat(additionallyBanned);
+
     if (!contentString)
         return contentString;
 
@@ -14,9 +21,16 @@ const sanitizeContent = (contentString: string) => {
     const doc = parser.parseFromString(`<div>${contentString}</div>`, "text/html");
     // Remove tracking pixels.
     doc.querySelectorAll("img[width='1']").forEach(i => i.remove());
-    contentString = doc.body.innerHTML;
-    return contentString;
+
+    // Remove banned tags.
+    for (const banned of bannedTags)
+        doc.querySelectorAll(banned).forEach(i => i.remove());
+
+    return innerText
+        ? doc.body.innerText
+        :  doc.body.innerHTML;
 }
+
 export const getEntryContent = (entry: Entry) => {
     if (!entry)
         return '';
@@ -40,7 +54,14 @@ export const getEntryUrl = (entry: Entry) => {
         return entry.originId;
 }
 
-export const getEntrySummary = (entry: Entry) => entry && sanitizeContent(entry.summary && entry.summary.content);
+export const getEntrySummary = (entry: Entry) => {
+    if (!entry) return;
+
+    const detail = entry.summary || entry.content;
+    const content = detail.content;
+
+    return sanitizeContent(content, ['iframe']);
+}
 
 export const getEntryByline = (entry: Entry) => entry && `${entry.engagement ? entry.engagement + ' ' : ''}${entry.origin && entry.origin.title} / ${relativeDate(new Date(entry.published))}`;
 
