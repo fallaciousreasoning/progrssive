@@ -25,6 +25,8 @@ import { useSettings } from '../../../services/settings';
 import { useRouter } from 'next/dist/client/router';
 import { useStreamId } from '../../../hooks/url';
 
+updateStreams();
+
 const useStyles = makeStyles(theme => ({
   root: {
     overflow: 'hidden auto',

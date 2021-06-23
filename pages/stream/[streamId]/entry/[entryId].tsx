@@ -5,6 +5,7 @@ import * as React from 'react';
 import { useCallback, useRef, useState } from 'react';
 import { collect, Store } from "react-recollect";
 import { loadMobilizedContent } from "../../../../actions/entry";
+import { updateStreams } from "../../../../actions/stream";
 import AppBarButton from "../../../../components/AppBarButton";
 import Centre from "../../../../components/Centre";
 import { EntryReadButton } from "../../../../components/MarkerButton";
@@ -17,7 +18,6 @@ import { useEntryId } from "../../../../hooks/url";
 import useWhenChanged from "../../../../hooks/useWhenChanged";
 import { getEntryByline, getEntryContent, getEntryUrl, useViewMode } from "../../../../services/entry";
 import { useSettings } from '../../../../services/settings';
-import { useSubscription } from "../../../../services/subscriptions";
 import '../../../../types/Window';
 
 const useStyles = makeStyles(theme => ({
