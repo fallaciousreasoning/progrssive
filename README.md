@@ -1,6 +1,6 @@
 Progrssive is a Progressive Web App for reading RSS feeds (hence the name: ProgRSSive). It's built in such a way that it works entirely offline.
 
-A live version is available at https://progrssive.now.sh/
+A live version is available at https://reader.nz
 
 ![Progrssive installed as a PWA on desktop](https://github.com/fallaciousreasoning/progrssive/raw/master/images/desktop-installed-stream.png)
 
