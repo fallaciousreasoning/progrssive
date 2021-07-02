@@ -24,6 +24,7 @@ import { delay } from '../../../utils/promise';
 import { useSettings } from '../../../services/settings';
 import { useRouter } from 'next/dist/client/router';
 import { useShowRead, useStreamId } from '../../../hooks/url';
+import { getScrollPos } from '../../../services/entryIterator';
 
 // updateStreams();
 

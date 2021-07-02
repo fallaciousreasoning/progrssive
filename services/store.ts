@@ -4,7 +4,7 @@ import { getStream } from '../api/streams';
 import { getStore } from '../hooks/store';
 import { Entry } from '../model/entry';
 import { StoreDef } from '../types/RecollectStore';
-import { entryCount, entryIterator } from './entryIterator';
+import { entryCount, entryIterator, setScrollPos } from './entryIterator';
 import { resolvable } from '../utils/promise';
 import { getDb } from './db';
 import 'types/Window';
@@ -19,11 +19,11 @@ export const initStore = () => {
     store.current = {
     };
 
+    setScrollPos(0);
     store.stream = {
         id: null,
         unreadOnly: true,
         length: undefined,
-        lastScrollPos: 0,
         loadedEntries: []
     };
 
@@ -49,11 +49,11 @@ const setEntryList = async (unreadOnly: boolean, streamId: string, force = false
 
     streamIterator = entryIterator(unreadOnly, streamId);
     currentLoader = makeLoader();
-
+    
+    setScrollPos(0);
     getStore().stream = {
         id: streamId,
         unreadOnly,
-        lastScrollPos: 0,
         length: undefined,
         loadedEntries: [],
     };
@@ -76,9 +76,9 @@ const setTransientEntryList = async (streamId: string, force=false) => {
     streamIterator = undefined;
     currentLoader = undefined;
 
+    setScrollPos(0);
     getStore().stream = {
         id: streamId,
-        lastScrollPos: 0,
         length: undefined,
         loadedEntries: [],
         unreadOnly: false
@@ -104,12 +104,11 @@ const setTransientEntryList = async (streamId: string, force=false) => {
         ...entries
     };
 
-    console.log(4)
+    setScrollPos(0);
     getStore().stream = {
         length: stream.items.length,
         id: streamId,
         unreadOnly: false,
-        lastScrollPos: 0,
         loadedEntries: stream.items.map(s => s.id)
     };
 

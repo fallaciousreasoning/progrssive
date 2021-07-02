@@ -1,6 +1,10 @@
 import { getDb } from "./db";
 import { Entry } from "../model/entry";
 
+let scrollPos = 0;
+export const getScrollPos = () => scrollPos;
+export const setScrollPos = (newScrollPos: number) => scrollPos = newScrollPos;
+
 export async function entryCount(unreadOnly: boolean, streamId: string) {
     const db = await getDb();
 

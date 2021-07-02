@@ -12,6 +12,7 @@ import { useSettings } from 'services/settings';
 import { loadToEntry } from 'services/store';
 import EntryCard from './EntryCard';
 import { useRouter } from 'next/router';
+import { getScrollPos, setScrollPos } from '@/services/entryIterator';
 
 const GUTTER_SIZE = 8;
 
@@ -102,20 +103,6 @@ const StreamList = (props: Props) => {
     const listRef = useRef<FixedSizeList>();
     const listOuterRef = useRef<HTMLDivElement>();
 
-    // Update the scroll pos on unmount.
-    useEffect(() => {
-        const list = listOuterRef.current;
-        const wasUnreadOnly = props.store.stream.unreadOnly;
-        return () => {
-            // If we were unmounted because the stream changed, don't store the
-            // scroll position.
-            if (wasUnreadOnly !== props.store.stream.unreadOnly)
-                return;
-
-            props.store.stream.lastScrollPos = list.scrollTop;
-        }
-    }, [])
-
     const onProgressChanged = props.onProgressChanged;
     const onScrolled = useCallback(({ scrollOffset }) => {
         const dps = 5;
@@ -126,6 +113,8 @@ const StreamList = (props: Props) => {
 
         if (onProgressChanged)
             onProgressChanged(percent);
+
+        setScrollPos(listOuterRef.current.scrollTop);
     }, [totalScrollHeight, listHeight, onProgressChanged]);
 
     const parentWidth = listOuterRef.current && listOuterRef.current.parentElement
@@ -138,7 +127,7 @@ const StreamList = (props: Props) => {
         className={styles.root}
         height={listHeight}
         itemSize={itemHeight}
-        initialScrollOffset={props.store.stream.lastScrollPos}
+        initialScrollOffset={getScrollPos()}
         itemCount={props.store.stream.length || 0}
         width={Math.min(800, parentWidth - GUTTER_SIZE * 2)}
         itemKey={(index) => index < loadedEntries.length ? loadedEntries[index].id : index}
