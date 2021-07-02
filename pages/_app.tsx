@@ -8,9 +8,13 @@ import React, { useMemo } from 'react';
 import { useSettings, getSettings } from '../services/settings';
 import { initStore } from '../services/store';
 import { buildTheme } from '../styles/theme';
-import 'types/Window';
+import '../types/Window';
 import 'styles/globals.css';
-// import WebWorker from 'worker';
+import { useOnIdle } from '../hooks/useIdle';
+import * as Comlink from 'comlink';
+import { HelloWorker } from '../worker/test.worker';
+import {sayHello } from '../worker/test.worker';
+import { cleanupWorker, testWorker } from '../worker';
 
 const useStyles = makeStyles(theme => ({
   page: {
@@ -34,6 +38,13 @@ const ProgrssiveApp = ({ Component, pageProps }: AppProps) => {
     return buildTheme(settings);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [settings, prefersDark]);
+
+  useOnIdle(async () => {
+    const { cleanupSettings } = await getSettings();
+    testWorker().sayHello();
+    cleanupWorker().runEntryCleanup(cleanupSettings);
+    // worker.runEntryCleanup(cleanupSettings);
+  });
   return <MuiThemeProvider theme={theme}>
     <Head>
       <meta charSet="utf-8" />
@@ -58,17 +69,3 @@ const ProgrssiveApp = ({ Component, pageProps }: AppProps) => {
 };
 
 export default ProgrssiveApp;
-
-// const idlePolyFill = (callback: () => void) => setTimeout(callback, 5000);
-// (async () => {
-//   const onIdle = window.requestIdleCallback || idlePolyFill;
-
-//   // Wait until we're idle before running cleanup.
-//   onIdle(async () => {
-//     const worker = new WebWorker();
-//     const settings = await getSettings();
-//     // Clone cleanup settings to pass to worker.
-//     const cleanupSettings = JSON.parse(JSON.stringify(settings.cleanupSettings));
-//     worker.runEntryCleanup(cleanupSettings);
-//   })
-// })();

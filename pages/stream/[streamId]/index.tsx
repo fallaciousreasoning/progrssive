@@ -25,7 +25,7 @@ import { useSettings } from '../../../services/settings';
 import { useRouter } from 'next/dist/client/router';
 import { useShowRead, useStreamId } from '../../../hooks/url';
 
-updateStreams();
+// updateStreams();
 
 const useStyles = makeStyles(theme => ({
   root: {

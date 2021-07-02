@@ -1,10 +1,11 @@
 {
   "compilerOptions": {
-    "target": "ES2019",
+    "target": "esnext",
     "lib": [
       "dom",
       "dom.iterable",
-      "esnext"
+      "esnext",
+      "WebWorker"
     ],
     "allowJs": true,
     "skipLibCheck": true,

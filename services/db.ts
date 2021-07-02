@@ -5,7 +5,6 @@ import { Subscription } from '../model/subscription';
 let _db;
 export const getDb = async (): Promise<DB> => {
     if (!_db) {
-        const { DB } = await import('./dbBuilder');
         _db = new DB();
         globalThis['db'] = _db;
     }
