@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Switch from '@material-ui/core/Switch';
 import { Add } from '@material-ui/icons';
 import Refresh from '@material-ui/icons/Refresh';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { collect, Store } from 'react-recollect';
 import { updateStreams } from '../../../actions/stream';
 import AppBarButton from '../../../components/AppBarButton';
@@ -54,6 +54,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+let loaded = false;
+
 const StreamViewer = (props: { store: Store }) => {
   const styles = useStyles();
   const isPhone = useIsPhone();
@@ -66,6 +68,13 @@ const StreamViewer = (props: { store: Store }) => {
   const isTransient = useIsTransientSubscription(streamId);
   const [isAdding, setIsAdding] = useState(false);
   const settings = useSettings();
+
+  // We need to do this here, so we don't try and do it on the server side.
+  useEffect(() => {
+    if (loaded) return;
+    updateStreams();
+    loaded = true;
+  }, []);
 
   const scrollToTop = useCallback(() => {
     rootRef.current && rootRef.current.scrollTo(0, 0);
@@ -134,7 +143,7 @@ const StreamViewer = (props: { store: Store }) => {
               await delay(1000);
               setIsAdding(false);
             }}>
-              <Add/>
+              <Add />
             </IconButton>}
         </AppBarButton>
         : <AppBarButton>
