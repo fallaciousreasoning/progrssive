@@ -1,4 +1,6 @@
-module.exports = {
+const withPWA = require('next-pwa');
+
+module.exports = withPWA({
     eslint: {
         ignoreDuringBuilds: true
     },
@@ -11,4 +13,4 @@ module.exports = {
             },
         ]
     },
-}
+});

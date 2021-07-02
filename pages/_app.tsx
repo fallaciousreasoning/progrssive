@@ -11,7 +11,7 @@ import { getSettings, useSettings } from '../services/settings';
 import { initStore } from '../services/store';
 import { buildTheme } from '../styles/theme';
 import '../types/Window';
-import { cleanupWorker } from '../worker';
+import { cleanupWorker } from '../worker/web';
 
 const useStyles = makeStyles(theme => ({
   page: {
