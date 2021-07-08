@@ -1,3 +1,4 @@
+import { CssBaseline } from '@material-ui/core';
 import { makeStyles, MuiThemeProvider } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import type { AppProps } from 'next/app';
@@ -40,7 +41,7 @@ const ProgrssiveApp = ({ Component, pageProps }: AppProps) => {
     const { cleanupSettings } = await getSettings();
     cleanupWorker().runEntryCleanup(cleanupSettings);
   });
-  return <MuiThemeProvider theme={theme}>
+  return <>
     <Head>
       <meta charSet="utf-8" />
       <meta
@@ -51,16 +52,19 @@ const ProgrssiveApp = ({ Component, pageProps }: AppProps) => {
       <link rel="manifest" href="/manifest.json" />
       <title>Progrssive Reader</title>
     </Head>
-    <LazySnackbarProvider>
+    <MuiThemeProvider theme={theme}>
+      <CssBaseline/>
       <div>
-        <AppBar>
-          <div className={styles.page}>
-            <Component {...pageProps} />
-          </div>
-        </AppBar>
+        <LazySnackbarProvider>
+          <AppBar>
+            <div className={styles.page}>
+              <Component {...pageProps} />
+            </div>
+          </AppBar>
+        </LazySnackbarProvider>
       </div>
-    </LazySnackbarProvider>
-  </MuiThemeProvider>;
+    </MuiThemeProvider>
+  </>;
 };
 
 export default ProgrssiveApp;
