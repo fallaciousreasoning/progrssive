@@ -24,11 +24,14 @@ export const getSettings = async () => {
 }
 
 export const useSettings = () => {
-    return useLiveQuery(getSettings) ?? defaultSettings;
+    return useLiveQuery(getSettings)
+        ?? JSON.parse(globalThis?.localStorage?.getItem('settings') ?? null)
+        ?? defaultSettings;
 }
 
 export const updateSettings = async (settings: Settings) => {
     const db = await getDb();
     if (!('id' in settings)) (settings as any).id = 'settings';
     db.settings.put(settings, 'settings');
+    localStorage.setItem('settings', JSON.stringify(settings));
 }
