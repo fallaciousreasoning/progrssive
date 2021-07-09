@@ -1,4 +1,4 @@
-import { Button, makeStyles, TextField, CircularProgress, Typography } from "@material-ui/core";
+import { Button, makeStyles, TextField, Typography } from "@material-ui/core";
 import * as React from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDebounce } from 'use-debounce';
@@ -13,6 +13,7 @@ import Centre from "../components/Centre";
 import { useLiveQuery } from "dexie-react-hooks";
 import { getDb } from "../services/db";
 import { useRouter } from 'next/router';
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const useStyles = makeStyles(theme => ({
     opmlButton: {
@@ -23,10 +24,6 @@ const useStyles = makeStyles(theme => ({
     },
 
     result: {
-        padding: '8px'
-    },
-
-    loadingIndicator: {
         padding: '8px'
     },
 
@@ -202,9 +199,7 @@ export default function SubscriptionPage() {
             className={styles.searchBox} />
 
         {isSearching && <Centre>
-            <CircularProgress
-                className={styles.loadingIndicator}
-                variant="indeterminate" />
+            <LoadingSpinner className="p-2" />
         </Centre>}
         <StackPanel variants={searchResultVariants}
             transition={searchResultTransition}

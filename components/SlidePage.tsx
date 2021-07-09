@@ -1,9 +1,10 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { makeStyles, CircularProgress } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import { Suspense, useMemo } from "react";
 import Centre from "./Centre";
 import React from 'react'
 import { useRouter } from "next/router";
+import LoadingSpinner from "./LoadingSpinner";
 
 const pageVariants = {
     initial: (direction: number) => ({
@@ -42,7 +43,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const pageLoadingIndicator = <Centre className="page-loader">
-    <CircularProgress />
+    <LoadingSpinner />
 </Centre>
 
 const SlidePage = (

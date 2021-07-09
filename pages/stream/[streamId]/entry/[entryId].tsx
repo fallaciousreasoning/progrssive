@@ -1,13 +1,13 @@
-import { Button, CardContent, CardHeader, CircularProgress, IconButton, makeStyles, Typography } from "@material-ui/core";
+import { Button, CardContent, CardHeader, IconButton, makeStyles, Typography } from "@material-ui/core";
 import { Share } from "@material-ui/icons";
 import { useRouter } from "next/router";
 import * as React from 'react';
 import { useCallback, useRef, useState } from 'react';
 import { collect, Store } from "react-recollect";
 import { loadMobilizedContent } from "../../../../actions/entry";
-import { updateStreams } from "../../../../actions/stream";
 import AppBarButton from "../../../../components/AppBarButton";
 import Centre from "../../../../components/Centre";
+import LoadingSpinner from "../../../../components/LoadingSpinner";
 import { EntryReadButton } from "../../../../components/MarkerButton";
 import PreferredViewMenu from "../../../../components/PreferredViewMenu";
 import StackPanel from "../../../../components/StackPanel";
@@ -153,7 +153,7 @@ const EntryViewer = (props: { store: Store }) => {
 
     if (!entry) {
         return <Centre>
-            <CircularProgress />
+            <LoadingSpinner />
         </Centre>;
     }
 
@@ -195,7 +195,7 @@ const EntryViewer = (props: { store: Store }) => {
                                 Open in Browser
                             </Button>
                         </StackPanel>
-                        : <CircularProgress />}
+                        : <LoadingSpinner />}
 
                 </StackPanel>}
         </CardContent>

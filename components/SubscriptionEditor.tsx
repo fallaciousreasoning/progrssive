@@ -1,6 +1,5 @@
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import FormControl from '@material-ui/core/FormControl';
 import IconButton from '@material-ui/core/IconButton';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -15,6 +14,7 @@ import { useRouter } from 'next/router';
 import React, { useCallback } from 'react';
 import { Subscription } from '../model/subscription';
 import { saveSubscription } from '../services/db';
+import LoadingSpinner from './LoadingSpinner';
 
 interface Props {
     subscription: Subscription,
@@ -27,9 +27,6 @@ const useControlStyles = makeStyles(theme => ({
     errorIcon: {
         color: theme.palette.error.main
     },
-    statusIndicator: {
-        marginRight: theme.spacing(1.5)
-    }
 }));
 
 const SubscriptionControls = (props: Props) => {
@@ -39,10 +36,9 @@ const SubscriptionControls = (props: Props) => {
         props.toggleSubscription(props.subscription);
     }, [props]);
 
-    const progress = <CircularProgress
-        size={24}
-        variant='indeterminate'
-        className={styles.statusIndicator} />;
+    const progress = <LoadingSpinner
+        size={6}
+        className="mr-1" />;
 
     if (props.subscription.deleting)
         return progress;
@@ -58,7 +54,7 @@ const SubscriptionControls = (props: Props) => {
 
     if (props.subscription.importStatus === 'failed') {
         return <Tooltip title={`Couldn't find a feed for ${props.subscription.feedUrl}`}>
-            <div className={`${styles.errorIcon} ${styles.statusIndicator}`}>
+            <div className={`${styles.errorIcon} mr-1`}>
                 <ErrorIcon />
             </div>
         </Tooltip>
