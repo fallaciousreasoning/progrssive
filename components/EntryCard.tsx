@@ -9,75 +9,14 @@ import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { Entry } from "../model/entry";
 import { getEntryByline, getEntryContent, getEntrySummary, getEntryVisualUrl } from "../services/entry";
 
-const useStyles = makeStyles(theme => ({
-    paper: {
-        cursor: 'pointer',
-        position: 'relative' as any
-    },
-    card: {
-        height: '200px',
-    },
-    content: {
-        display: 'flex',
-        flexBasis: 1
-    },
-    cardHeader: {
-        paddingBottom: 0,
-        maxLines: 4,
-        '& span': {
-            maxHeight: '3em',
-            overflow: 'hidden'
-        }
-    },
-    cardContent: {
-        paddingTop: 0,
-    },
-    summary: {
-        maxHeight: '10px',
-        overflow: 'none',
-        '& img': {
-            display: 'none'
-        },
-        '& small': {
-            display: 'none'
-        }
-    },
-    detail: {
-        flex: 1,
-        minWidth: 0
-    },
-    read: {
-        color: '#F0F0F0 !important'
-    },
-    unread: {
+const maxLines = {
+    maxLines: 4
+};
 
-    },
-    tint: {
-        background: theme.palette.background.paper,
-        opacity: 0.6,
-        top: '0',
-        left: '0',
-        bottom: '0',
-        right: '0',
-        position: 'absolute' as any
-    },
-    image: {
-        height: '200px',
-        maxWidth: '100px',
-        flex: 0,
-        [theme.breakpoints.up('sm')]: {
-            maxWidth: '200px'
-        }
-    }
-}));
-
-const typography = { variant: "body1" } as const;
 const EntryCard = (props: { entry: Entry, showingUnreadOnly?: boolean }) => {
-    const styles = useStyles();
-
     const visualUrl = getEntryVisualUrl(props.entry);
     const subheader = getEntryByline(props.entry);
-    const summaryHtmlContent = useMemo(() => ({ 
+    const summaryHtmlContent = useMemo(() => ({
         __html: getEntrySummary(props.entry)
     }), [props.entry?.summary, props.entry?.content]);
 
@@ -87,38 +26,32 @@ const EntryCard = (props: { entry: Entry, showingUnreadOnly?: boolean }) => {
     }, [visualUrl]);
 
     // Unset the image url when there's an error.
-    const onImageError = useCallback((e) => {
+    const onImageError = useCallback(() => {
         setImageUrl(null);
     }, []);
 
     // Tint unread articles if and only if they are read and only unread articles are meant to be displayed.
     const tintGray = !props.entry.unread && props.showingUnreadOnly;
 
-    return <Paper className={styles.paper}>
-        <Card className={styles.card}>
-            <div className={styles.content}>
-                <div className={styles.detail}>
-                    <CardHeader
-                        className={styles.cardHeader}
-                        titleTypographyProps={typography}
-                        title={props.entry.title} subheader={subheader} />
-                    {summaryHtmlContent.__html && <CardContent className={styles.cardContent}>
-                        <Typography component="small" variant="body2">
-                            <div className={styles.summary} dangerouslySetInnerHTML={summaryHtmlContent}></div>
-                        </Typography>
-                    </CardContent>}
+    return <div className="bg-background cursor-pointer relative shadow rounded-lg h-48 max-h-48 mx-2 overflow-hidden">
+            <div className="flex flex-row">
+                <div className="flex-1 min-w-0 p-4 pt-2">
+                    <div>
+                        <h2 className="text-lg max-h-12 overflow-hidden leading-tight" style={maxLines}>{props.entry.title}</h2>
+                        <h3 className="text-md text-gray-500 leading-tight">{subheader}</h3>
+                    </div>
+                    <div className="mt-2 mb-2 text-sm overflow-none">
+                        <div className="entry-summary" dangerouslySetInnerHTML={summaryHtmlContent}></div>
+                    </div>
                 </div>
-                {imageUrl && <CardMedia
+                {imageUrl && <img
                     onError={onImageError}
                     src={imageUrl}
-                    component='img'
-                    title="Visual"
-                    className={styles.image}
-                />}
-            </div>
-        </Card>
-        {tintGray && <div className={styles.tint}></div>}
-    </Paper>;
+                    alt="Article Visual"
+                    className="h-48 w-24 sm:w-48 flex-grow-0 flex-shrink-0"/>}
+        </div>
+        {tintGray && <div className="absolute top-0 left-0 bottom-0 right-0 opacity-60 bg-background"></div>}
+    </div>;
 }
 
 export default memo(EntryCard);
