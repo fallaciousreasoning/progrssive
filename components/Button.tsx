@@ -1,9 +1,9 @@
-interface Props extends React.HtmlHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends React.HtmlHTMLAttributes<HTMLButtonElement> {
     color?: 'primary' | 'secondary';
     variant?: 'solid' | 'outline';
 }
 
-export default function Button(props: Props) {
+export default function Button(props: ButtonProps) {
     const {className, color, ...rest} = props;
     const accent = color ?? 'primary';
     const fill = props.variant == 'outline' ? 'transparent' : accent;
