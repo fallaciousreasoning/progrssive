@@ -8,11 +8,11 @@ module.exports = {
       colors: {
         primary: {
           DEFAULT: colors.purple['700'],
-          hover: colors.purple['600']
+          hover: colors.purple['500']
         },
         secondary: {
           DEFAULT: colors.orange['700'],
-          hover: colors.orange['600']
+          hover: colors.orange['500']
         },
         background: {
           DEFAULT: colors.white,

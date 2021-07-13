@@ -1,4 +1,5 @@
 import { Button, makeStyles, TextField, Typography } from "@material-ui/core";
+import NewButton from '../components/Button';
 import * as React from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDebounce } from 'use-debounce';
@@ -179,7 +180,13 @@ export default function SubscriptionPage() {
     // Where possible, use results from the store, so we can edit them.
     const storeOrSearchResults = searchResults.map(s => getMatchingSubscription(s) || s);
     return <div>
+        
         <StackPanel direction='row' animatePresence>
+    <NewButton>Foo</NewButton>
+    <NewButton color="secondary">Foo</NewButton>
+    <NewButton color="secondary" variant="outline">Foo</NewButton>
+    <NewButton color="primary" variant="outline">Foo</NewButton>
+
             {!query.startsWith('@subscribed')
                 && <Button key="current" variant="outlined" color="primary" onClick={viewSubscriptions}>
                     Current Feeds
