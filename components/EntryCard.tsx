@@ -48,7 +48,7 @@ const EntryCard = (props: { entry: Entry, showingUnreadOnly?: boolean }) => {
                     onError={onImageError}
                     src={imageUrl}
                     alt="Article Visual"
-                    className="h-48 w-24 sm:w-48 flex-grow-0 flex-shrink-0"/>}
+                    className="h-48 w-24 sm:w-48 flex-grow-0 flex-shrink-0 object-cover"/>}
         </div>
         {tintGray && <div className="absolute top-0 left-0 bottom-0 right-0 opacity-60 bg-background"></div>}
     </div>;

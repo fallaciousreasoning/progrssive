@@ -124,7 +124,7 @@ const StreamList = (props: Props) => {
         ref={listRef}
         outerRef={listOuterRef}
         onScroll={onScrolled}
-        className={styles.root}
+        className="ml-auto mr-auto"
         height={listHeight}
         itemSize={itemHeight}
         initialScrollOffset={getScrollPos()}
