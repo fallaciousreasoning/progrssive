@@ -21,41 +21,20 @@ import { useSettings } from '../../../../services/settings';
 import '../../../../types/Window';
 
 const useStyles = makeStyles(theme => ({
-    root: {
-        maxWidth: '1000px',
-        marginLeft: 'auto',
-        marginRight: 'auto',
-    },
     '@global': {
         'article': {
             color: theme.palette.text.primary
         },
-        'article img': {
-            width: '100%',
-            height: 'auto'
-        },
-        'article figure': {
-            margin: 0
-        },
-        'article iframe': {
-            width: `calc(100% - ${theme.spacing(1)}px)`,
-            height: 'auto'
-        },
         'article a': {
             color: theme.palette.info.main
         }
-    },
-    titleLink: {
-        textDecoration: 'none'
-    },
-    shareButton: {
     }
 }));
 
 const EntryViewer = (props: { store: Store }) => {
     const router = useRouter();
     const entryId = useEntryId();
-    const styles = useStyles();
+    useStyles();
     const domElement = useRef<HTMLDivElement>(null);
     const entry = useEntry(entryId, props.store);
     const url = getEntryUrl(entry);
@@ -162,7 +141,7 @@ const EntryViewer = (props: { store: Store }) => {
             target="_blank"
             rel="noopener noreferrer"
             href={url}
-            className={styles.titleLink}>
+            className="no-underline">
             {entry.title}
         </a>
         : entry.title;
@@ -201,7 +180,7 @@ const EntryViewer = (props: { store: Store }) => {
         </CardContent>
     </>;
 
-    return <article className={styles.root} ref={domElement} onClick={doubleTap}>
+    return <article className="mx-auto max-w-3xl" ref={domElement} onClick={doubleTap}>
         {article}
         {active && <>
             {!entry.transient && <AppBarButton>
@@ -209,7 +188,6 @@ const EntryViewer = (props: { store: Store }) => {
             </AppBarButton>}
             {navigator.share && <AppBarButton>
                 <IconButton
-                    className={styles.shareButton}
                     onClick={shareArticle}>
                     <Share />
                 </IconButton>

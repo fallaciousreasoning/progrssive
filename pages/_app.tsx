@@ -1,12 +1,13 @@
 import { CssBaseline } from '@material-ui/core';
-import { makeStyles, MuiThemeProvider } from '@material-ui/core/styles';
-import { useMediaQuery } from '../hooks/responsive';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import React, { useMemo } from 'react';
 import 'styles/globals.css';
+import 'styles/article.css';
 import AppBar from '../components/AppBar';
 import LazySnackbarProvider from '../components/LazySnackbarProvider';
+import { useMediaQuery } from '../hooks/responsive';
 import { useOnIdle } from '../hooks/useIdle';
 import { getSettings, useSettings } from '../services/settings';
 import { initStore } from '../services/store';

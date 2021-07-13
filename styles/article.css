@@ -1,0 +1,13 @@
+article img {
+    width: 100%;
+    height: auto;
+}
+
+article figure {
+    margin: 0;
+}
+
+article iframe {
+    width: calc(100% - 0.5rem);
+    height: auto;
+}

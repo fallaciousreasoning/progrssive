@@ -15,13 +15,13 @@ export const aboveBreakpoint = (breakpoint: keyof typeof breakpoints) =>
     useMediaQuery(`(min-width: ${breakpoints[breakpoint]}px)`);
 
 export const useMediaQuery = (query: string) => {
-    const mq = useMemo(() => window.matchMedia(query), [query]);
-    const [value, setValue] = useState<boolean>(mq.matches);
+    const mq = useMemo(() => globalThis.matchMedia?.(query), [query]);
+    const [value, setValue] = useState<boolean>(mq?.matches);
 
     useEffect(() => {
         const updateValue = () => setValue(mq.matches);
         mq.addEventListener('change', updateValue);
-
+        updateValue();
         return () => mq.removeEventListener('change', updateValue);
     }, [mq]);
 
