@@ -17,6 +17,8 @@ export const defaultSettings: Settings = {
     }
 }
 
+const getLocalStorageSettings = () => JSON.parse(globalThis?.localStorage?.getItem('settings') ?? null) as Settings;
+
 export const getSettings = async () => {
     const db = await getDb();
     const settings = await db.settings.where({ id: 'settings' }).first();
@@ -25,7 +27,7 @@ export const getSettings = async () => {
 
 export const useSettings = () => {
     return useLiveQuery(getSettings)
-        ?? JSON.parse(globalThis?.localStorage?.getItem('settings') ?? null)
+        ?? getLocalStorageSettings()
         ?? defaultSettings;
 }
 
@@ -34,4 +36,14 @@ export const updateSettings = async (settings: Settings) => {
     if (!('id' in settings)) (settings as any).id = 'settings';
     db.settings.put(settings, 'settings');
     localStorage.setItem('settings', JSON.stringify(settings));
+}
+
+let inited = false;
+export const initCssVariables = () => {
+    if (inited) return;
+
+    const settings = getLocalStorageSettings();
+    document.body.style.setProperty('--primary-color', settings.accent);
+    document.body.style.setProperty('--secondary-color', settings.secondaryAccent);
+    inited = true;
 }
