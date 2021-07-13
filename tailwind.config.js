@@ -7,18 +7,18 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: colors.purple['700'],
-          hover: colors.purple['500']
+          DEFAULT: 'var(--primary-color)',
+          hover: 'var(--secondary-hover-color)' // TODO: Change opacity instead.
         },
         secondary: {
-          DEFAULT: colors.orange['700'],
-          hover: colors.orange['500']
+          DEFAULT: 'var(--secondary-color)',
+          hover: 'var(--secondary-hover-color)' // TODO: Change background opacity
         },
         background: {
-          DEFAULT: colors.white,
-          hover: colors.gray['200']
+          DEFAULT: 'var(--background-color)',
+          hover: colors.gray['300']
         },
-        foreground: colors.black
+        foreground: 'var(--foreground-color)'
       },
     },
   },

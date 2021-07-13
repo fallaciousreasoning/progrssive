@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    --primary-color: #7e22ce;
+    --primary-hover-color: #a855f7;
+    --secondary-color: #c2410c;
+    --secondary-hover-color: #f97316;
+    --background-color: white;
+    --foreground-color: black;
+}
+
 body {
     padding: 0;
     margin: 0;
