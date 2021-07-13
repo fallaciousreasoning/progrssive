@@ -12,7 +12,7 @@ const breakpoints = {
 export const useIsPhone = () => !aboveBreakpoint('md');
 
 export const aboveBreakpoint = (breakpoint: keyof typeof breakpoints) =>
-    useMediaQuery(`@media (min-width: ${breakpoints[breakpoint]}px)`);
+    useMediaQuery(`(min-width: ${breakpoints[breakpoint]}px)`);
 
 export const useMediaQuery = (query: string) => {
     const mq = useMemo(() => window.matchMedia(query), [query]);
