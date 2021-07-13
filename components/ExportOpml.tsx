@@ -1,6 +1,5 @@
 import Button, { ButtonProps } from '@material-ui/core/Button';
 import React, { useCallback } from 'react';
-import { getStore } from '../hooks/store';
 import { guessFeedUrl } from '../model/subscription';
 import { getDb } from '../services/db';
 import { downloadTextFile } from '../utils/files';
