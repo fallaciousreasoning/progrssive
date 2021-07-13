@@ -1,52 +1,31 @@
-import { makeStyles, TextField, Typography } from "@material-ui/core";
-import Button from '../components/Button';
+import { TextField, Typography } from "@material-ui/core";
+import { useLiveQuery } from "dexie-react-hooks";
+import { useRouter } from 'next/router';
 import * as React from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDebounce } from 'use-debounce';
 import { searchFeeds } from '../api/search';
+import Button from '../components/Button';
+import Centre from "../components/Centre";
 import ExportOpml from '../components/ExportOpml';
 import ImportOpml from "../components/ImportOpml";
+import LoadingSpinner from "../components/LoadingSpinner";
 import StackPanel from "../components/StackPanel";
 import SubscriptionEditor from "../components/SubscriptionEditor";
 import { guessFeedUrl, Subscription } from '../model/subscription';
-import { toggleSubscription } from "../services/subscriptions";
-import Centre from "../components/Centre";
-import { useLiveQuery } from "dexie-react-hooks";
 import { getDb } from "../services/db";
-import { useRouter } from 'next/router';
-import LoadingSpinner from "../components/LoadingSpinner";
-
-const useStyles = makeStyles(theme => ({
-    opmlButton: {
-        marginBottom: theme.spacing(1),
-    },
-    results: {
-        paddingTop: '8px'
-    },
-
-    result: {
-        padding: '8px'
-    },
-
-    searchBox: {
-        position: 'sticky',
-        top: theme.spacing(1),
-        background: theme.palette.background.paper,
-        zIndex: 1
-    }
-}));
+import { toggleSubscription } from "../services/subscriptions";
 
 const searchResultVariants = {
-    initial: { opacity: 0, height: 0},
+    initial: { opacity: 0, height: 0 },
     in: { opacity: 1, height: 'auto' },
     out: { opacity: 0, height: 0 }
 };
 
 const searchResultTransition = { duration: 0.3 };
-const queryCache: {[query: string]: Subscription[] } = {}
+const queryCache: { [query: string]: Subscription[] } = {}
 
 export default function SubscriptionPage() {
-    const styles = useStyles();
     const router = useRouter();
 
     const subscriptions = useLiveQuery(async () => {
@@ -180,32 +159,33 @@ export default function SubscriptionPage() {
     // Where possible, use results from the store, so we can edit them.
     const storeOrSearchResults = searchResults.map(s => getMatchingSubscription(s) || s);
     return <div>
-        
+
         <StackPanel direction='row' animatePresence>
             {!query.startsWith('@subscribed')
                 && <Button key="current" variant="outline" color="primary" onClick={viewSubscriptions}>
                     Current Feeds
-            </Button>}
+                </Button>}
             {!!subscriptions.length
-                && <ExportOpml key="export" className={styles.opmlButton} />}
-            {!query.startsWith("@import") && <ImportOpml key="import" className={styles.opmlButton}
+                && <ExportOpml key="export" className="mb-2" />}
+            {!query.startsWith("@import") && <ImportOpml key="import" className="mb-2"
                 onOpmlLoaded={onLoadedOpml} />}
         </StackPanel>
 
-        <TextField
-            label="Search term or feed url"
-            variant="filled"
-            fullWidth
-            value={query}
-            onChange={e => setQuery(e.target.value)}
-            className={styles.searchBox} />
+        <div className="sticky top-2 bg-background z-10" >
+            <TextField
+                label="Search term or feed url"
+                variant="filled"
+                fullWidth
+                value={query}
+                onChange={e => setQuery(e.target.value)}/>
+        </div>
 
         {isSearching && <Centre>
             <LoadingSpinner className="p-2" />
         </Centre>}
         <StackPanel variants={searchResultVariants}
             transition={searchResultTransition}
-            className={styles.results}>
+            className="pt-2">
             {storeOrSearchResults.map(s => <SubscriptionEditor
                 key={s.id}
                 subscription={s}

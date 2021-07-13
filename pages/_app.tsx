@@ -1,6 +1,6 @@
 import { CssBaseline } from '@material-ui/core';
 import { makeStyles, MuiThemeProvider } from '@material-ui/core/styles';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useMediaQuery } from '../hooks/responsive';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import React, { useMemo } from 'react';
@@ -14,20 +14,10 @@ import { buildTheme } from '../styles/theme';
 import '../types/Window';
 import { cleanupWorker } from '../worker';
 
-const useStyles = makeStyles(theme => ({
-  page: {
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    maxWidth: '800px',
-    padding: theme.spacing(1),
-  }
-}));
-
 // Make sure our store is initialized.
 initStore();
 
 const ProgrssiveApp = ({ Component, pageProps }: AppProps) => {
-  const styles = useStyles({});
   const settings = useSettings();
 
   // Rerender when the external theme changes.
@@ -53,11 +43,11 @@ const ProgrssiveApp = ({ Component, pageProps }: AppProps) => {
       <title>Progrssive Reader</title>
     </Head>
     <MuiThemeProvider theme={theme}>
-      <CssBaseline/>
+      <CssBaseline />
       <div>
         <LazySnackbarProvider>
           <AppBar>
-            <div className={styles.page}>
+            <div className="mx-auto p-2 max-w-3xl">
               <Component {...pageProps} />
             </div>
           </AppBar>

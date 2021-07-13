@@ -17,32 +17,16 @@ import { useSettings } from '../services/settings';
 import { accentColors, fonts, getColor, supportedFonts } from '../styles/theme';
 
 const useStyles = makeStyles(theme => ({
-    slider: {
-        width: '48px !important'
-    },
     picker: {
-        width: theme.spacing(20),
         "&>div>*": {
             overflow: 'hidden'
         }
     }
 }));
 
-const useAccentColorPickerStyles = makeStyles(theme => ({
-    colorPickerItem: {
-        width: '48px',
-        height: '48px'
-    },
-    colorPickerValue: {
-        width: '100%',
-        height: '1em'
-    }
-}));
-
 const AccentColorPicker = (props: {
     name: keyof Settings
 } & SelectProps) => {
-    const styles = useAccentColorPickerStyles();
     const settings = useSettings();
 
     return <Select
@@ -50,9 +34,9 @@ const AccentColorPicker = (props: {
         variant="outlined"
         {...props}
         value={settings[props.name]}
-        renderValue={(value: unknown) => <div className={styles.colorPickerValue} style={{ background: getColor(value as any, settings) }} />}>
+        renderValue={(value: unknown) => <div className="w-full h-4" style={{ background: getColor(value as any, settings) }} />}>
         {accentColors.map(c => <MenuItem value={c} key={c}>
-            <div style={{ background: getColor(c as any, settings) }} className={`${styles.colorPickerItem} color`}></div>
+            <div style={{ background: getColor(c as any, settings) }} className={`w-12 h-12 color`}></div>
         </MenuItem>)}
     </Select>
 };
@@ -160,7 +144,7 @@ const SettingsPage = () => {
                     primary="Article Text Size"
                     secondary="Controls the size of the article text" />
                 <Slider
-                    className={styles.slider}
+                    className="w-12"
                     min={1}
                     max={5}
                     step={1}
@@ -172,7 +156,7 @@ const SettingsPage = () => {
                     primary="Theme"
                     secondary="Toggle between light and dark mode." />
                 <Select
-                    className={styles.picker}
+                    className={`${styles.picker} w-40`}
                     name="theme"
                     variant="outlined"
                     onChange={onPickerChange as any}
