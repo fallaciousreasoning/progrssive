@@ -33,9 +33,9 @@ const EntryCard = (props: { entry: Entry, showingUnreadOnly?: boolean }) => {
     // Tint unread articles if and only if they are read and only unread articles are meant to be displayed.
     const tintGray = !props.entry.unread && props.showingUnreadOnly;
 
-    return <div className="bg-background cursor-pointer relative shadow rounded-lg h-48 max-h-48 mx-2 overflow-hidden">
+    return <div className="bg-background cursor-pointer relative shadow rounded-lg h-48 max-h-48 overflow-hidden">
             <div className="flex flex-row">
-                <div className="flex-1 min-w-0 p-4 pt-2">
+                <div className="flex-1 min-w-0 px-4 pt-2">
                     <div>
                         <h2 className="text-lg max-h-12 overflow-hidden leading-tight" style={maxLines}>{props.entry.title}</h2>
                         <h3 className="text-md text-gray-500 leading-tight">{subheader}</h3>
