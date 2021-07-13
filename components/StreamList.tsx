@@ -1,18 +1,18 @@
-import { makeStyles } from '@material-ui/core/styles';
-import * as React from 'react';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { collect, Store } from 'react-recollect';
-import { FixedSizeList } from 'react-window';
+import { useIsPhone } from '@/hooks/responsive';
+import { getScrollPos, setScrollPos } from '@/services/entryIterator';
 import { setUnread } from 'actions/marker';
 import { useScreenSize } from 'hooks/screenSize';
 import { getStore } from 'hooks/store';
+import { useRouter } from 'next/router';
+import * as React from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
+import { collect, Store } from 'react-recollect';
+import { FixedSizeList } from 'react-window';
 import { getStreamEntries, getStreamEntry } from 'selectors/entry';
 import { getEntryUrl, getProgrssiveUrl, useViewMode } from 'services/entry';
 import { useSettings } from 'services/settings';
 import { loadToEntry } from 'services/store';
 import EntryCard from './EntryCard';
-import { useRouter } from 'next/router';
-import { getScrollPos, setScrollPos } from '@/services/entryIterator';
 
 const GUTTER_SIZE = 8;
 
@@ -21,24 +21,18 @@ interface Props {
     store: Store;
 }
 
-const useStyles = makeStyles({
-    root: {
-        marginLeft: 'auto',
-        marginRight: 'auto',
-    }
-});
-
 const Row = collect((props: { index: number, style: any, store: Store }) => {
     const router = useRouter();
     const item = getStreamEntry(props.index);
     const [viewMode] = useViewMode(item);
+
     const newStyle = useMemo(() => ({
         ...props.style,
         top: props.style.top + GUTTER_SIZE,
         left: 1,
         right: 1,
-        width: `100% - ${GUTTER_SIZE * 2}`
-    }), [props.style, GUTTER_SIZE]);
+        width: `100%`
+    }), [props.style]);
     const settings = useSettings();
 
     const onClick = useCallback(() => {
@@ -73,9 +67,7 @@ const Row = collect((props: { index: number, style: any, store: Store }) => {
 const StreamList = (props: Props) => {
     const BUFFER_ENTRY_COUNT = 20;
 
-    const styles = useStyles();
     const { width, height } = useScreenSize();
-
     const loadedEntries = getStreamEntries();
     const settings = useSettings();
     const markScrolledAsRead = settings.markScrolledAsRead && props.store.stream.unreadOnly;
@@ -98,7 +90,7 @@ const StreamList = (props: Props) => {
     }, [lastVisibleStartIndex, loadedEntries, markScrolledAsRead]);
 
     const listHeight = height - 48 - GUTTER_SIZE * 2;
-    const itemHeight = 208;
+    const itemHeight = 200;
     const totalScrollHeight = props.store.stream.length * itemHeight;
     const listRef = useRef<FixedSizeList>();
     const listOuterRef = useRef<HTMLDivElement>();
@@ -129,7 +121,7 @@ const StreamList = (props: Props) => {
         itemSize={itemHeight}
         initialScrollOffset={getScrollPos()}
         itemCount={props.store.stream.length || 0}
-        width={Math.min(800, parentWidth - GUTTER_SIZE * 2)}
+        width={Math.min(800, parentWidth)}
         itemKey={(index) => index < loadedEntries.length ? loadedEntries[index].id : index}
         onItemsRendered={onItemsRendered}>
         {rowProps => <Row {...rowProps} />}
