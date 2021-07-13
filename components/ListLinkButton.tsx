@@ -3,13 +3,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import * as React from 'react';
 import Link from 'next/link';
-import { makeStyles } from '@material-ui/core';
-
-const useStyles = makeStyles({
-    clickable: {
-        cursor: 'pointer'
-    }
-});
 
 type Props = {
     icon?: any,
@@ -17,9 +10,8 @@ type Props = {
     href: string
 };
 export default function ListLinkButton(props: Props) {
-    const styles=  useStyles();
     return <Link href={props.href}>
-        <ListItem className={styles.clickable}>
+        <ListItem className="cursor-pointer">
             {props.icon && <ListItemIcon>
                 {props.icon}
             </ListItemIcon>}

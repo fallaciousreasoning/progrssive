@@ -1,21 +1,12 @@
-import { makeStyles } from "@material-ui/core";
 import * as React from 'react';
-
-const useStyles = makeStyles({
-    stickyHeader: {
-        position: 'sticky',
-        top: 0
-    }
-});
 
 interface Props extends React.HTMLProps<HTMLDivElement> {
 }
 
 const StickyHeader = (props: Props) => {
-    const styles = useStyles();
     const { children, className, ...rest } = props;
 
-    return <div className={`${className} ${styles.stickyHeader}`} {...rest}>
+    return <div className={`${className} sticky top-0`} {...rest}>
         {children}
     </div>;
 };

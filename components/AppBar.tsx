@@ -1,6 +1,5 @@
 import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
-import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Menu from '@material-ui/icons/Menu';
@@ -22,15 +21,6 @@ export const AppBarContext = React.createContext({
     add: (node: BarChild) => { },
     remove: (id: string) => { }
 });
-
-const useStyles = makeStyles(theme => ({
-    pageActions: {
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'row-reverse' as any,
-        width: '100%'
-    }
-}))
 
 class ContextHelper {
     children: BarMap = {};
@@ -71,7 +61,6 @@ const appBarButtonVariants = {
     }
 }
 export default function ProgrssiveAppBar(props: { children: React.ReactNode }) {
-    const styles = useStyles();
     const [, setBarChildren] = useState<BarMap>({});
 
     const [context] = useState(new ContextHelper(setBarChildren));
@@ -85,7 +74,6 @@ export default function ProgrssiveAppBar(props: { children: React.ReactNode }) {
                     </IconButton>} />
                 <Typography color="textPrimary">Progrssive</Typography>
                 <StackPanel direction="row-reverse"
-                    className={styles.pageActions}
                     alignItems='center'
                     variants={appBarButtonVariants}>
                     {Object.values(context.children).sort((a, b) => b.sort - a.sort).map(child => <React.Fragment key={child.id}>

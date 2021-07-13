@@ -63,40 +63,7 @@ const SubscriptionControls = (props: Props) => {
     return progress;
 }
 
-const useEditorStyles = makeStyles(theme => ({
-    root: {
-        display: 'flex',
-        alignItems: 'center',
-        marginBottom: theme.spacing(1),
-        minHeight: '48px'
-    },
-    title: {
-        cursor: 'pointer'
-    },
-    icon: {
-        width: 150,
-        alignSelf: 'stretch',
-        '&> *': {
-            width: '100%',
-            height: '100%'
-        }
-    },
-    content: {
-        marginLeft: theme.spacing(1),
-        flexGrow: 1,
-        padding: theme.spacing(1)
-    },
-    viewPicker: {
-        marginTop: theme.spacing(1)
-    },
-    controls: {
-        marginLeft: theme.spacing(1),
-    }
-}));
-
 const SubscriptionEditor = (props: Props) => {
-    const styles = useEditorStyles();
-
     const router = useRouter();
     const viewStream = useCallback(() => {
         router.push(`/stream/${encodeURIComponent(props.subscription.id)}`);
@@ -111,17 +78,16 @@ const SubscriptionEditor = (props: Props) => {
 
     const visualUrl = props.subscription.visualUrl || props.subscription.iconUrl;
 
-    return <Card className={styles.root}>
-        <div className={styles.icon}>
-            {visualUrl && <CardMedia
-                image={visualUrl} />}
+    return <div className="flex items-center mb-2 rounded-md overflow-hidden shadow">
+        <div className="w-24 h-24 self-stretch">
+            {visualUrl && <img src={visualUrl} alt="Source logo"/>}
         </div>
-        <div className={styles.content}>
-            <div onClick={viewStream} className={styles.title}>
+        <div className="mx-2 flex-grow p-2">
+            <div onClick={viewStream} className="cursor-pointer">
                 <b>{props.subscription.title}</b>
             </div>
             {props.isSubscribed && !props.subscription.deleting && <div>
-                <FormControl fullWidth className={styles.viewPicker}>
+                <FormControl className="w-full mt-2">
                     <InputLabel>Preferred View</InputLabel>
                     <Select
                         onChange={preferredViewChanged}
@@ -133,10 +99,10 @@ const SubscriptionEditor = (props: Props) => {
                 </FormControl>
             </div>}
         </div>
-        <div className={styles.controls}>
+        <div className="ml-2">
             <SubscriptionControls {...props} />
         </div>
-    </Card>
+    </div>
 };
 
 export default SubscriptionEditor;
