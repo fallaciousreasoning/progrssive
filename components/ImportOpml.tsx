@@ -1,8 +1,7 @@
-import Button, { ButtonProps } from '@material-ui/core/Button';
 import React, { useCallback } from 'react';
 import { getFileText, pickFile } from '../utils/files';
 import { Subscription, feedUrlPrefix } from '../model/subscription';
-
+import Button, { ButtonProps } from 'components/Button'
 interface OpmlNode {
     text: string;
     title: string;
@@ -13,12 +12,12 @@ interface OpmlNode {
     children?: OpmlNode[];
 }
 interface Props {
-     onOpmlLoaded: (feeds: Subscription[]) => void;
+    onOpmlLoaded: (feeds: Subscription[]) => void;
 }
 
 export const parseOpml = (opml: string): Promise<OpmlNode[]> => {
     const onlyFeeds = (root: OpmlNode, nodes: OpmlNode[] = []): OpmlNode[] => {
-        if (root.xmlurl){
+        if (root.xmlurl) {
             nodes.push(root);
         }
 
@@ -50,7 +49,7 @@ const ImportOpml = (props: Props & ButtonProps) => {
         const file = await pickFile();
         const text = await getFileText(file);
         const opml = await parseOpml(text);
-        
+
         // Map the opml nodes to subscriptions.
         const subscriptions: Subscription[] = opml.map(o => ({
             id: `${feedUrlPrefix}${o.xmlurl}`,
@@ -66,7 +65,7 @@ const ImportOpml = (props: Props & ButtonProps) => {
     }, [onOpmlLoaded]);
 
     return <Button
-        variant="outlined"
+        variant="outline"
         color="primary"
         {...buttonProps}
         onClick={pick}>

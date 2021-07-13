@@ -1,4 +1,4 @@
-import Button, { ButtonProps } from '@material-ui/core/Button';
+import Button, { ButtonProps } from 'components/Button';
 import React, { useCallback } from 'react';
 import { guessFeedUrl } from '../model/subscription';
 import { getDb } from '../services/db';
@@ -26,7 +26,7 @@ const ExportOpml = (props: ButtonProps) => {
             `progrssive-feeds-${new Date().toISOString()}.opml`,
             'text/xml');
     }, []);
-    return <Button variant="outlined" color="primary" {...props} onClick={download}>
+    return <Button variant="outline" color="primary" {...props} onClick={download}>
         Export Feeds
     </Button>
 };

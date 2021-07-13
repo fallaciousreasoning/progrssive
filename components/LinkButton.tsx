@@ -1,4 +1,4 @@
-import Button, { ButtonProps } from '@material-ui/core/Button';
+import Button, { ButtonProps } from 'components/Button';
 import React, { useCallback } from 'react';
 import { useRouter } from 'next/router';
 
