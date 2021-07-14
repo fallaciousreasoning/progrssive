@@ -66,7 +66,7 @@ export default function ProgrssiveAppBar(props: { children: React.ReactNode }) {
         <div className="flex flex-row items-center bg-primary text-foreground w-full h-12 shadow-sm lg:px-6">
             <AppDrawer trigger={<IconButton><Menu /></IconButton>} />
             <div className="text-lg font-normal">Progrssive</div>
-            <StackPanel className="flex-1" alignItems='center' direction="row-reverse" variants={appBarButtonVariants}>
+            <StackPanel className="flex-1" direction="row-reverse" variants={appBarButtonVariants}>
                     {Object.values(context.children).sort((a, b) => b.sort - a.sort).map(child => <React.Fragment key={child.id}>
                         {child.child}
                     </React.Fragment>)}
