@@ -2,14 +2,14 @@ import { CssBaseline } from '@material-ui/core';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import 'styles/globals.css';
 import 'styles/article.css';
 import AppBar from '../components/AppBar';
 import LazySnackbarProvider from '../components/LazySnackbarProvider';
 import { useMediaQuery } from '../hooks/responsive';
 import { useOnIdle } from '../hooks/useIdle';
-import { getSettings, useSettings } from '../services/settings';
+import { getSettings, updateCssVariables, useSettings } from '../services/settings';
 import { initStore } from '../services/store';
 import { buildTheme } from '../styles/theme';
 import '../types/Window';
@@ -20,6 +20,10 @@ initStore();
 
 const ProgrssiveApp = ({ Component, pageProps }: AppProps) => {
   const settings = useSettings();
+
+  useEffect(() => {
+    updateCssVariables(settings);
+  }, [settings])
 
   // Rerender when the external theme changes.
   const prefersDark = useMediaQuery('(prefers-color-scheme: dark)');

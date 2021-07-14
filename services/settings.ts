@@ -38,12 +38,8 @@ export const updateSettings = async (settings: Settings) => {
     localStorage.setItem('settings', JSON.stringify(settings));
 }
 
-let inited = false;
-export const initCssVariables = () => {
-    if (inited) return;
-
-    const settings = getLocalStorageSettings();
+export const updateCssVariables = (settings?: Settings) => {
+    settings = settings ?? getLocalStorageSettings();
     document.body.style.setProperty('--primary-color', settings.accent);
     document.body.style.setProperty('--secondary-color', settings.secondaryAccent);
-    inited = true;
 }
