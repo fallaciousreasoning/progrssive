@@ -7,9 +7,16 @@ export default function Button(props: ButtonProps) {
     const {className, color, ...rest} = props;
     const accent = color ?? 'primary';
     const fill = props.variant == 'outline' ? 'transparent' : accent;
-    const hover = props.variant == 'outline' ? 'transparent' : `${accent}-hover`;
     const text = props.variant == 'outline' ? accent : 'foreground';
-    const border = props.variant == 'outline' ? `${accent}-hover` : 'transparent';
-    const borderHover = props.variant == 'outline' ? accent : 'transparent';
-    return <button className={`${className} rounded bg-${fill} hover:bg-${hover} ripple-bg-gray-300 text-${text} border border-${border} hover:border-${borderHover} p-2`} {...rest}/>
+    const border = props.variant == 'outline' ? `${accent}` : 'transparent';
+    const borderOpacity = props.variant == 'outline' ? 80 : 0;
+    const borderHoverOpacity = props.variant == 'outline' ? 100 : 0;
+    return <button className={`${className}
+        rounded
+        bg-${fill}
+        hover:opacity-80
+        ripple-bg-gray-300
+        text-${text}
+        border border-${border} border-opacity-${borderOpacity} hover:border-opacity-${borderHoverOpacity}
+        p-2`} {...rest}/>
 }
