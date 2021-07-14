@@ -1,3 +1,7 @@
+import { useTheme } from "@/hooks/responsive";
+import { useSettings } from "@/services/settings";
+import { getColorForTheme, getContrastingColor, isDark } from "@/styles/colors";
+
 export interface ButtonProps extends React.HtmlHTMLAttributes<HTMLButtonElement> {
     color?: 'primary' | 'secondary';
     variant?: 'solid' | 'outline';
@@ -5,9 +9,14 @@ export interface ButtonProps extends React.HtmlHTMLAttributes<HTMLButtonElement>
 
 export default function Button(props: ButtonProps) {
     const {className, color, ...rest} = props;
+    const theme = useTheme();
+    const settings = useSettings();
     const accent = color ?? 'primary';
     const fill = props.variant == 'outline' ? 'transparent' : accent;
-    const text = props.variant == 'outline' ? accent : 'foreground';
+    const text = props.variant == 'outline' ? accent : getContrastingColor(getColorForTheme(color == 'primary'
+        ? settings.accent
+        : settings.secondaryAccent,
+    theme));
     const border = props.variant == 'outline' ? `${accent}` : 'transparent';
     const borderOpacity = props.variant == 'outline' ? 80 : 0;
     const borderHoverOpacity = props.variant == 'outline' ? 100 : 0;

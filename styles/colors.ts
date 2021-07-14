@@ -77,3 +77,19 @@ export const accentColors = Object.keys(colors) as AccentColor[];
 export const getColorForTheme = (color: AccentColor, theme: 'light' | 'dark') => {
     return colors[color]?.[theme] ?? colors.green.light;
 }
+
+export const parseHexColor = (hex: string) => {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    } : null;
+}
+
+export const isDark = (hex: string) => {
+    const { r, g, b} = parseHexColor(hex);
+    return (r * .299 + g * .587 + b * .114) < 128;
+}
+
+export const getContrastingColor = (hex: string) => isDark(hex) ? 'white' : 'black';
