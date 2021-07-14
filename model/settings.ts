@@ -1,4 +1,4 @@
-import { AccentColor } from "../styles/theme";
+import { AccentColor } from "styles/colors";
 
 export interface CleanupSettings {
     deleteReadEntries: 'never' | 1 | 3 | 7 | 14 | 21 | 28;

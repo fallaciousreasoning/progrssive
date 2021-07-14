@@ -15,7 +15,7 @@ import ListOptionToggle from '../components/ListOptionToggle';
 import { useResult } from '../hooks/promise';
 import { useSettings } from '../services/settings';
 import { fonts, supportedFonts } from '../styles/theme';
-import { accentColors, colors, getColorForTheme } from '../styles/colors';
+import { accentColors, getColorForTheme } from '../styles/colors';
 import { useTheme } from '../hooks/responsive';
 
 const useStyles = makeStyles(theme => ({
