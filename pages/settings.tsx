@@ -14,7 +14,9 @@ import LinkButton from '../components/LinkButton';
 import ListOptionToggle from '../components/ListOptionToggle';
 import { useResult } from '../hooks/promise';
 import { useSettings } from '../services/settings';
-import { accentColors, fonts, getColor, supportedFonts } from '../styles/theme';
+import { fonts, supportedFonts } from '../styles/theme';
+import { accentColors, colors, getColorForTheme } from '../styles/colors';
+import { useTheme } from '../hooks/responsive';
 
 const useStyles = makeStyles(theme => ({
     picker: {
@@ -28,15 +30,16 @@ const AccentColorPicker = (props: {
     name: keyof Settings
 } & SelectProps) => {
     const settings = useSettings();
+    const theme = useTheme();
 
     return <Select
         native={false}
         variant="outlined"
         {...props}
         value={settings[props.name]}
-        renderValue={(value: unknown) => <div className="w-full h-4" style={{ background: getColor(value as any, settings) }} />}>
+        renderValue={(value: unknown) => <div className="w-full h-4" style={{ background: getColorForTheme(value as any, theme) }} />}>
         {accentColors.map(c => <MenuItem value={c} key={c}>
-            <div style={{ background: getColor(c as any, settings) }} className={`w-12 h-12 color`}></div>
+            <div style={{ background: getColorForTheme(c as any, theme) }} className={`w-12 h-12 color`}></div>
         </MenuItem>)}
     </Select>
 };

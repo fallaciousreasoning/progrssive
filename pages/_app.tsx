@@ -7,7 +7,7 @@ import 'styles/globals.css';
 import 'styles/article.css';
 import AppBar from '../components/AppBar';
 import LazySnackbarProvider from '../components/LazySnackbarProvider';
-import { useMediaQuery } from '../hooks/responsive';
+import { useMediaQuery, usePrefersDark } from '../hooks/responsive';
 import { useOnIdle } from '../hooks/useIdle';
 import { getSettings, updateCssVariables, useSettings } from '../services/settings';
 import { initStore } from '../services/store';
@@ -26,7 +26,7 @@ const ProgrssiveApp = ({ Component, pageProps }: AppProps) => {
   }, [settings])
 
   // Rerender when the external theme changes.
-  const prefersDark = useMediaQuery('(prefers-color-scheme: dark)');
+  const prefersDark = usePrefersDark();
   const theme = useMemo(() => {
     return buildTheme(settings);
     // eslint-disable-next-line react-hooks/exhaustive-deps

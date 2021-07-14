@@ -1,3 +1,6 @@
+import { useSettings } from "@/services/settings";
+import { getColorForTheme } from "@/styles/colors";
+import { themeMode } from "@/styles/theme";
 import { useEffect, useMemo, useState } from "react";
 
 // Matching the default tailwind breakpoints.
@@ -26,4 +29,13 @@ export const useMediaQuery = (query: string) => {
     }, [mq]);
 
     return value;
+}
+
+export const usePrefersDark = () => useMediaQuery('(prefers-color-scheme: dark)');
+
+export const useTheme = () => {
+    const settings = useSettings();
+    usePrefersDark();
+
+    return themeMode(settings);
 }

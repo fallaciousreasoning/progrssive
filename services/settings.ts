@@ -1,6 +1,8 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { getDb } from "./db";
 import { Settings } from '../model/settings';
+import { colors, getColorForTheme } from '@/styles/colors';
+import { themeMode } from '@/styles/theme';
 
 export const defaultSettings: Settings = {
     markOpenedAsRead: true,
@@ -38,8 +40,16 @@ export const updateSettings = async (settings: Settings) => {
     localStorage.setItem('settings', JSON.stringify(settings));
 }
 
+const themeMediaQuery = globalThis.matchMedia?.('(prefers-color-scheme: dark)');
 export const updateCssVariables = (settings?: Settings) => {
     settings = settings ?? getLocalStorageSettings();
-    document.body.style.setProperty('--primary-color', settings.accent);
-    document.body.style.setProperty('--secondary-color', settings.secondaryAccent);
+
+    let theme = settings.theme;
+    if (theme == 'device') theme = themeMediaQuery.matches ? 'dark' : 'light'
+
+    const primaryColor = getColorForTheme(settings.accent, theme);
+    const secondaryColor = getColorForTheme(settings.accent, theme);
+
+    document.body.style.setProperty('--primary-color', primaryColor);
+    document.body.style.setProperty('--secondary-color', secondaryColor);
 }
