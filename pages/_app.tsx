@@ -11,7 +11,7 @@ import { useMediaQuery } from '../hooks/responsive';
 import { useOnIdle } from '../hooks/useIdle';
 import { getSettings, updateCssVariables, useSettings } from '../services/settings';
 import { initStore } from '../services/store';
-import { buildTheme } from '../styles/theme';
+import { buildTheme, themeMode } from '../styles/theme';
 import '../types/Window';
 import { cleanupWorker } from '../worker';
 
@@ -49,7 +49,7 @@ const ProgrssiveApp = ({ Component, pageProps }: AppProps) => {
     </Head>
     <MuiThemeProvider theme={theme}>
       <CssBaseline />
-      <div>
+      <div className={themeMode(settings)}>
         <LazySnackbarProvider>
           <AppBar>
             <div className="mx-auto p-2 max-w-3xl">

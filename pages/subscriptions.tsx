@@ -171,7 +171,7 @@ export default function SubscriptionPage() {
                 onOpmlLoaded={onLoadedOpml} />}
         </StackPanel>
 
-        <div className="sticky top-2 bg-background z-10" >
+        <div className="sticky top-2 z-10" >
             <TextField
                 label="Search term or feed url"
                 variant="filled"

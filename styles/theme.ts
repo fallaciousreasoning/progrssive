@@ -2,7 +2,6 @@ import { createMuiTheme } from "@material-ui/core";
 import * as colors from '@material-ui/core/colors';
 import { grey } from "@material-ui/core/colors";
 import { defaultSettings } from "../services/settings";
-import { getStore } from "../hooks/store";
 import { Settings} from '../model/settings';
 
 export const accentColors = [

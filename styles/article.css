@@ -11,3 +11,7 @@ article iframe {
     width: calc(100% - 0.5rem);
     height: auto;
 }
+
+.entry-summary img {
+    display: none;
+}
