@@ -41,7 +41,7 @@ export default function StreamFooter(props: Props) {
     const loading = !!getStreamUpdating(props.streamId);
 
     return <StackPanel
-        direction="column"
+        direction="col"
         justifyContent="start"
         alignItems="center"
         variants={rootAnimation}
@@ -52,7 +52,7 @@ export default function StreamFooter(props: Props) {
                 ? "That's everything!"
                 : "You don't have any subscriptions"}
         </Typography>
-        <StackPanel direction={isPhone ? 'column' : 'row'} key="buttons">
+        <StackPanel direction={isPhone ? 'col' : 'row'} key="buttons">
             {props.unreadOnly && hasSubscriptions && <LinkButton className="w-full" href="?showUnread" color="secondary" key="showUnread">
                 Show Read
                 </LinkButton>}
