@@ -1,7 +1,4 @@
-import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import Menu from '@material-ui/icons/Menu';
 import React, { useState } from 'react';
 import AppDrawer from './AppDrawer';
@@ -51,7 +48,7 @@ const appBarButtonVariants = {
         width: 0,
         opacity: 0
     },
-    in: { 
+    in: {
         width: 'auto',
         opacity: 1
     },
@@ -66,22 +63,15 @@ export default function ProgrssiveAppBar(props: { children: React.ReactNode }) {
     const [context] = useState(new ContextHelper(setBarChildren));
 
     return <AppBarContext.Provider value={context}>
-        <AppBar position="static" color="primary">
-            <Toolbar variant="dense">
-                <AppDrawer trigger={
-                    <IconButton>
-                        <Menu />
-                    </IconButton>} />
-                <Typography color="textPrimary">Progrssive</Typography>
-                <StackPanel direction="row-reverse"
-                    alignItems='center'
-                    variants={appBarButtonVariants}>
+        <div className="flex flex-row items-center bg-primary text-foreground w-full h-12 shadow-sm lg:px-6">
+            <AppDrawer trigger={<IconButton><Menu /></IconButton>} />
+            <div className="text-lg font-normal">Progrssive</div>
+            <StackPanel className="flex-1" alignItems='center' direction="row-reverse" variants={appBarButtonVariants}>
                     {Object.values(context.children).sort((a, b) => b.sort - a.sort).map(child => <React.Fragment key={child.id}>
                         {child.child}
                     </React.Fragment>)}
-                </StackPanel>
-            </Toolbar>
-        </AppBar>
+            </StackPanel>
+        </div>
         {props.children}
     </AppBarContext.Provider>;
 }
