@@ -22,6 +22,7 @@ export default function Button(props: ButtonProps) {
     const borderOpacity = props.variant == 'outline' ? 80 : 0;
     const borderHoverOpacity = props.variant == 'outline' ? 100 : 0;
     return <button className={`${className}
+        flex justify-center text-center
         rounded
         bg-${fill}
         hover:opacity-80
@@ -29,6 +30,6 @@ export default function Button(props: ButtonProps) {
         text-${text}
         border border-${border} border-opacity-${borderOpacity} hover:border-opacity-${borderHoverOpacity}
         p-2`}
-        onClick={!props.disabled && onClick}
+        onClick={!props.disabled ? onClick : undefined}
         {...rest}/>
 }
