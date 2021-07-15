@@ -1,5 +1,4 @@
 import Button from 'components/Button';
-import Typography from '@material-ui/core/Typography';
 import { useLiveQuery } from 'dexie-react-hooks';
 import React from 'react';
 import { updateStreams } from '../actions/stream';
@@ -48,11 +47,11 @@ export default function StreamFooter(props: Props) {
         variants={rootAnimation}
         transition={transition}
         key={`${props.streamId}?${props.unreadOnly ? "showUnread" : ""}`}>
-        <Typography className="text-foreground mb-2" variant='h3' align='center' key="message">
+        <h3 className="text-foreground text-5xl mb-2 text-center" key="message">
             {hasSubscriptions
                 ? "That's everything!"
                 : "You don't have any subscriptions"}
-        </Typography>
+        </h3>
         <StackPanel direction={isPhone ? 'col' : 'row'} key="buttons">
             {props.unreadOnly && hasSubscriptions && <Button className="w-full" color="secondary" key="showUnread" onClick={() => setShowRead(true)}>
                 Show Read
