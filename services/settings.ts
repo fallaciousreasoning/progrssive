@@ -48,7 +48,7 @@ export const updateCssVariables = (settings?: Settings) => {
     if (theme == 'device') theme = themeMediaQuery.matches ? 'dark' : 'light'
 
     const primaryColor = getColorForTheme(settings.accent, theme);
-    const secondaryColor = getColorForTheme(settings.accent, theme);
+    const secondaryColor = getColorForTheme(settings.secondaryAccent, theme);
 
     document.body.style.setProperty('--primary-color', primaryColor);
     document.body.style.setProperty('--secondary-color', secondaryColor);

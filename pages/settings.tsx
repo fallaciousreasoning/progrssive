@@ -12,6 +12,7 @@ import { Settings } from '../model/settings';
 import { updateSettings } from '../services/settings';
 import LinkButton from '../components/LinkButton';
 import ListOptionToggle from '../components/ListOptionToggle';
+import Toggle from '../components/Toggle';
 import { useResult } from '../hooks/promise';
 import { useSettings } from '../services/settings';
 import { fonts, supportedFonts } from '../styles/theme';
@@ -123,6 +124,7 @@ const SettingsPage = () => {
 
     return <div>
         <List>
+            <Toggle name='markOpenedAsRead' value={settings.markOpenedAsRead} onChange={onSwitchChange}/>
             <ListOptionToggle
                 primaryText='Read opened articles'
                 secondaryText='Mark articles as read when you open them.'
