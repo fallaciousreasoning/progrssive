@@ -5,10 +5,11 @@ import { getColorForTheme, getContrastingColor, isDark } from "@/styles/colors";
 export interface ButtonProps extends React.HtmlHTMLAttributes<HTMLButtonElement> {
     color?: 'primary' | 'secondary';
     variant?: 'solid' | 'outline';
+    disabled?: boolean;
 }
 
 export default function Button(props: ButtonProps) {
-    const {className, color, ...rest} = props;
+    const {className, color, onClick, ...rest} = props;
     const theme = useTheme();
     const settings = useSettings();
     const accent = color ?? 'primary';
@@ -27,5 +28,7 @@ export default function Button(props: ButtonProps) {
         ripple-bg-gray-300
         text-${text}
         border border-${border} border-opacity-${borderOpacity} hover:border-opacity-${borderHoverOpacity}
-        p-2`} {...rest}/>
+        p-2`}
+        onClick={!props.disabled && onClick}
+        {...rest}/>
 }

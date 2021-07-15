@@ -1,4 +1,4 @@
-import Button from '@material-ui/core/Button';
+import Button from 'components/Button';
 import Typography from '@material-ui/core/Typography';
 import { useLiveQuery } from 'dexie-react-hooks';
 import React from 'react';
@@ -9,6 +9,7 @@ import { getDb } from '../services/db';
 import LinkButton from './LinkButton';
 import LoadingSpinner from './LoadingSpinner';
 import StackPanel from './StackPanel';
+import { useShowRead } from '@/hooks/url';
 
 interface Props {
     unreadOnly: boolean;
@@ -39,7 +40,7 @@ export default function StreamFooter(props: Props) {
     }) ?? [];
     const hasSubscriptions = !!subscriptions.length;
     const loading = !!getStreamUpdating(props.streamId);
-
+    const { setShowRead } = useShowRead();
     return <StackPanel
         direction="col"
         justifyContent="start"
@@ -53,14 +54,14 @@ export default function StreamFooter(props: Props) {
                 : "You don't have any subscriptions"}
         </Typography>
         <StackPanel direction={isPhone ? 'col' : 'row'} key="buttons">
-            {props.unreadOnly && hasSubscriptions && <LinkButton className="w-full" href="?showUnread" color="secondary" key="showUnread">
+            {props.unreadOnly && hasSubscriptions && <Button className="w-full" color="secondary" key="showUnread" onClick={() => setShowRead(true)}>
                 Show Read
-                </LinkButton>}
+                </Button>}
             <LinkButton className="w-full" href="/subscriptions?query=" color="secondary" key="addSubscriptions">
                 Add Subscriptions
                 </LinkButton>
-            {hasSubscriptions && <Button className="w-full" disabled={loading} variant="contained" color="secondary" key="refresh" onClick={() => updateStreams(props.streamId)}>
-                {loading && <LoadingSpinner size={4} className="mr-1" />} Refresh
+            {hasSubscriptions && <Button className="w-full flex flex-row" disabled={loading} color="secondary" key="refresh" onClick={() => updateStreams(props.streamId)}>
+                {loading && <LoadingSpinner size={4} className="-mr-1" />} Refresh
             </Button>}
         </StackPanel>
     </StackPanel>
