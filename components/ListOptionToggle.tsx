@@ -1,7 +1,8 @@
-import { ListItem, ListItemText, Switch } from "@material-ui/core";
-import React from 'react';
+import { ListItem, ListItemText } from "@material-ui/core";
+import React, { useCallback } from 'react';
+import Toggle from 'components/Toggle';
 
-const ListOptionToggle = (
+export default function ListOptionToggle(
     props: {
         name?: string;
         primaryText: string;
@@ -9,9 +10,13 @@ const ListOptionToggle = (
         value: boolean;
         onChange: (e: React.ChangeEvent<HTMLInputElement>, value: boolean) => void;
     }
-) => <ListItem>
-        <ListItemText primary={props.primaryText} secondary={props.secondaryText} />
-        <Switch checked={props.value} onChange={props.onChange} name={props.name} />
+) {
+    const toggleManual = useCallback((e: React.MouseEvent) => {
+        e.target['name'] = props.name;
+        props.onChange(e as any, !props.value)
+    }, [props.name, props.onChange, props.value]);
+    return <ListItem>
+        <ListItemText onClick={toggleManual} primary={props.primaryText} secondary={props.secondaryText} />
+        <Toggle checked={props.value} onChange={props.onChange} name={props.name} /> 
     </ListItem>;
-
-export default ListOptionToggle;
+}
