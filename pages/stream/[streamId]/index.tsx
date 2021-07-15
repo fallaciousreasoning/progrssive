@@ -1,7 +1,6 @@
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
-import Switch from '@material-ui/core/Switch';
 import { Add } from '@material-ui/icons';
 import Refresh from '@material-ui/icons/Refresh';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -24,6 +23,7 @@ import { useSettings } from '../../../services/settings';
 import { useRouter } from 'next/dist/client/router';
 import { useShowRead, useStreamId } from '../../../hooks/url';
 import LoadingSpinner from '../../../components/LoadingSpinner';
+import Toggle from '../../../components/Toggle';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -78,7 +78,6 @@ const StreamViewer = (props: { store: Store }) => {
   const { showRead, setShowRead } = useShowRead();
   const toggleShowRead = useCallback(() => setShowRead(!showRead), [showRead]);
 
-
   const loading = !!getStreamUpdating(streamId) || props.store.stream.length === undefined;
   useWhenChanged(() =>
     setStreamList(!showRead, streamId),
@@ -125,9 +124,6 @@ const StreamViewer = (props: { store: Store }) => {
     {props.store.stream.length !== 0 && <StreamList onProgressChanged={setProgress} />}
 
     {active && <>
-      <AppBarButton>
-        <MarkAsReadButton progress={progress} text={isNaN(remainingArticles) ? "" : remainingArticles.toString()} />
-      </AppBarButton>
       {isTransient
         ? <AppBarButton>
           {isAdding
@@ -142,15 +138,15 @@ const StreamViewer = (props: { store: Store }) => {
             </IconButton>}
         </AppBarButton>
         : <AppBarButton>
-          <FormControlLabel
-            className={styles.unreadOnlySlider}
-            control={<Switch checked={!showRead} onClick={toggleShowRead} />}
-            label="Unread" />
+            <Toggle checked={!showRead} onChange={toggleShowRead} label="Unread" />
         </AppBarButton>}
       <AppBarButton>
         <IconButton disabled={loading} onClick={() => updateStreams(streamId)}>
           <Refresh />
         </IconButton>
+      </AppBarButton>
+      <AppBarButton>
+        <MarkAsReadButton progress={progress} text={isNaN(remainingArticles) ? "" : remainingArticles.toString()} />
       </AppBarButton>
     </>}
 

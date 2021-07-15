@@ -60,7 +60,7 @@ const StackPanel = (props: Props & React.HTMLProps<HTMLDivElement>) => {
         ? 1
         : props.spacing;
     alignItems = alignItems || 'stretch';
-    justifyContent = alignItems || 'center';
+    justifyContent = justifyContent || 'start';
 
     const children = Array.isArray(props.children)
         ? props.children
