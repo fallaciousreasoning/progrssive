@@ -6,7 +6,8 @@ const LinkButton = (props: ButtonProps & { href: string, replace?: boolean }) =>
     const router = useRouter();
     const { href, replace, onClick } = props;
     const onButtonClick = useCallback((e: React.MouseEvent) => {
-        if (e.ctrlKey || e.metaKey || e.button === 3 || !props.href.startsWith(window.origin)) {
+        const isExternal = !props.href.startsWith(window.origin) && props.href.startsWith("http");
+        if (e.ctrlKey || e.metaKey || e.button === 3 || isExternal) {
             window.open(props.href, props['target'] ?? '_blank', 'noopener noreferrer')
             return;
         }
