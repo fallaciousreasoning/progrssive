@@ -21,7 +21,7 @@ export default (props: {
     }, []);
 
     return isLoading
-        ? <LoadingSpinner size={6} color="secondary"/>
+        ? <LoadingSpinner size={6} color="text-secondary"/>
         : <ToggleMenu trigger={<IconButton size="small">
             <ProgressRing key="progress"
                 percent={props.progress}

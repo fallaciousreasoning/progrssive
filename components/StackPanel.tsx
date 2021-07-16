@@ -1,3 +1,4 @@
+import { Size } from '@/styles/sizes';
 import { AnimatePresence, motion, Transition, Variant } from 'framer-motion';
 import React from 'react';
 
@@ -9,7 +10,7 @@ interface Props {
     alignItems?: 'start' | 'end' | 'center' | 'stretch';
     justifyContent?: 'start' | 'end' | 'center' | 'stretch';
 
-    spacing?: number;
+    spacing: `spacing-${number}` | `spacing-x-${number}` | `spacing-y-${number}`;
     animatePresence?: boolean;
     center?: boolean;
 
@@ -56,9 +57,7 @@ const StackPanel = (props: Props & React.HTMLProps<HTMLDivElement>) => {
         ...rest
     } = props;
     direction = direction || 'col';
-    spacing = props.spacing === undefined
-        ? 1
-        : props.spacing;
+    spacing = props.spacing ?? 'spacing-1';
     alignItems = alignItems || 'stretch';
     justifyContent = justifyContent || 'start';
 
@@ -72,7 +71,7 @@ const StackPanel = (props: Props & React.HTMLProps<HTMLDivElement>) => {
         flex flex-${direction} items-${alignItems} justify-${justifyContent}
         w-full h-full
         ${props.className}
-        ${direction.startsWith('row') ? `space-x-${spacing}` : `space-y-${spacing}`}`}>
+        ${spacing}`}>
         <Container>
             {/* Filter out null children, to make adding/removing more intuitive */}
             {children.filter(c => !!c).map((c, i) => <motion.div key={c['key'] || c['id'] || i}
