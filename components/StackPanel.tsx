@@ -2,6 +2,8 @@ import { Size } from '@/styles/sizes';
 import { AnimatePresence, motion, Transition, Variant } from 'framer-motion';
 import React from 'react';
 
+// Configures Tailwind flex. Note: They're listed here so tailwind includes them.
+// flex-row flex-row-reverse flex-col flex-col-reverse items-end items-start items-center items-stretch justify-start justify-end justify-stretch
 interface Props {
     direction?: 'row'
     | 'row-reverse'
@@ -10,7 +12,7 @@ interface Props {
     alignItems?: 'start' | 'end' | 'center' | 'stretch';
     justifyContent?: 'start' | 'end' | 'center' | 'stretch';
 
-    spacing: `spacing-${number}` | `spacing-x-${number}` | `spacing-y-${number}`;
+    spacing?: `spacing-${number}` | `spacing-x-${number}` | `spacing-y-${number}`;
     animatePresence?: boolean;
     center?: boolean;
 
