@@ -8,28 +8,24 @@ export interface ButtonProps extends React.HtmlHTMLAttributes<HTMLButtonElement>
     disabled?: boolean;
 }
 
+const variants = {
+    'primary-solid': 'bg-primary text-foreground',
+    'primary-outline': 'bg-transparent border-primary text-primary hover:border-opacity-80',
+    'secondary-solid': 'bg-secondary text-foreground',
+    'secondary-outline': 'bg-transparent border-secondary text-secondary hover:border-opacity-80',
+}
+
 export default function Button(props: ButtonProps) {
     const {className, color, onClick, ...rest} = props;
-    const theme = useTheme();
-    const settings = useSettings();
-    const accent = color ?? 'primary';
-    const fill = props.variant == 'outline' ? 'transparent' : accent;
-    const text = props.variant == 'outline' ? accent : getContrastingColor(getColorForTheme(color == 'primary'
-        ? settings.accent
-        : settings.secondaryAccent,
-    theme));
-    const border = props.variant == 'outline' ? `${accent}` : 'transparent';
-    const borderOpacity = props.variant == 'outline' ? 80 : 0;
-    const borderHoverOpacity = props.variant == 'outline' ? 100 : 0;
+    const variant = variants[`${props.color ?? 'primary'}-${props.variant ?? 'outline'}`];
     return <button className={`${className}
         flex justify-center text-center
         rounded
-        bg-${fill}
         hover:opacity-80
         ripple-bg-gray-300
-        text-${text}
-        border border-${border} border-opacity-${borderOpacity} hover:border-opacity-${borderHoverOpacity}
-        p-2`}
+        border
+        p-2
+        ${variant}`}
         onClick={!props.disabled ? onClick : undefined}
         {...rest}/>
 }

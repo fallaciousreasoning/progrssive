@@ -6,8 +6,10 @@ const LinkButton = (props: ButtonProps & { href: string, replace?: boolean }) =>
     const router = useRouter();
     const { href, replace, onClick } = props;
     const onButtonClick = useCallback((e: React.MouseEvent) => {
-        if (e.ctrlKey || e.metaKey || e.button === 3)
+        if (e.ctrlKey || e.metaKey || e.button === 3 || !props.href.startsWith(window.origin)) {
+            window.open(props.href, props['target'] ?? '_blank', 'noopener noreferrer')
             return;
+        }
 
         e.preventDefault();
 

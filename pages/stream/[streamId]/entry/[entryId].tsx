@@ -1,4 +1,5 @@
-import { Button, CardContent, CardHeader, IconButton, makeStyles, Typography } from "@material-ui/core";
+import { CardContent, CardHeader, IconButton, makeStyles, Typography } from "@material-ui/core";
+import Button from '../../../../components/Button'
 import { Share } from "@material-ui/icons";
 import { useRouter } from "next/router";
 import * as React from 'react';
@@ -19,6 +20,7 @@ import useWhenChanged from "../../../../hooks/useWhenChanged";
 import { getEntryByline, getEntryContent, getEntryUrl, useViewMode } from "../../../../services/entry";
 import { useSettings } from '../../../../services/settings';
 import '../../../../types/Window';
+import LinkButton from "../../../../components/LinkButton";
 
 const useStyles = makeStyles(theme => ({
     '@global': {
@@ -164,15 +166,15 @@ const EntryViewer = (props: { store: Store }) => {
                     {failedToMobilize
                         ? <StackPanel direction="row">
                             <Button
-                                variant="outlined"
+                                variant="outline"
                                 onClick={() => setCurrentView("feedly")}>View Feedly</Button>
-                            <Button
-                                variant="outlined"
+                            <LinkButton
+                                variant="outline"
                                 href={url}
                                 target="_blank"
                                 rel="noopener noreferrer">
                                 Open in Browser
-                            </Button>
+                            </LinkButton>
                         </StackPanel>
                         : <LoadingSpinner />}
 
