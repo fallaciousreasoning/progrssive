@@ -117,7 +117,7 @@ const StreamViewer = (props: { store: Store }) => {
 
   return <div ref={rootRef} className={styles.root} onScroll={onFooterScrolled}>
     {loading && <Centre>
-      <LoadingSpinner color='primary'/>
+      <LoadingSpinner />
     </Centre>}
 
     <MaybeUpdateStreamList streamId={streamId} />
@@ -127,7 +127,7 @@ const StreamViewer = (props: { store: Store }) => {
       {isTransient
         ? <AppBarButton>
           {isAdding
-            ? <LoadingSpinner color="secondary" size={6} />
+            ? <LoadingSpinner color="text-secondary" size={6} />
             : <IconButton onClick={async () => {
               setIsAdding(true);
               await toggleSubscription(findSubscription(streamId));

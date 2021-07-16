@@ -12,7 +12,7 @@ interface Props {
     alignItems?: 'start' | 'end' | 'center' | 'stretch';
     justifyContent?: 'start' | 'end' | 'center' | 'stretch';
 
-    spacing?: `spacing-${number}` | `spacing-x-${number}` | `spacing-y-${number}`;
+    spacing?: `space-x-${number}` | `space-y-${number}`;
     animatePresence?: boolean;
     center?: boolean;
 
@@ -59,7 +59,7 @@ const StackPanel = (props: Props & React.HTMLProps<HTMLDivElement>) => {
         ...rest
     } = props;
     direction = direction || 'col';
-    spacing = props.spacing ?? 'spacing-1';
+    spacing = props.spacing ?? (direction.includes('col') ? 'space-y-1' : 'space-x-1');
     alignItems = alignItems || 'stretch';
     justifyContent = justifyContent || 'start';
 
