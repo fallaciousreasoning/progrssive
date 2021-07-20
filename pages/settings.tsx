@@ -92,7 +92,7 @@ const CleanupPicker = (props: {
 const SettingsPage = () => {
     const settings = useSettings();
     const styles = useStyles();
-    const onSwitchChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>, value: boolean) => {
+    const onToggleChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>, value: boolean) => {
         const setting = e.target['name'];
         updateSettings({
             ...settings,
@@ -128,19 +128,19 @@ const SettingsPage = () => {
                 secondaryText='Mark articles as read when you open them.'
                 name='markOpenedAsRead'
                 value={settings.markOpenedAsRead}
-                onChange={onSwitchChange} />
+                onChange={onToggleChange} />
             <ListOptionToggle
                 primaryText='Auto mark as read'
                 secondaryText='Mark articles as read when you scroll past them.'
                 name='markScrolledAsRead'
                 value={settings.markScrolledAsRead}
-                onChange={onSwitchChange} />
+                onChange={onToggleChange} />
             <ListOptionToggle
                 primaryText='Double tap to close articles'
                 secondaryText='Whether articles can be closed by double tapping them.'
                 name='doubleTapToCloseArticles'
                 value={settings.doubleTapToCloseArticles}
-                onChange={onSwitchChange} />
+                onChange={onToggleChange} />
             <Divider />
             <ListItem>
                 <ListItemText
