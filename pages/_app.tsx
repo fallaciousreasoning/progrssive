@@ -6,6 +6,7 @@ import React, { useEffect, useMemo } from 'react';
 import 'styles/globals.css';
 import 'styles/article.css';
 import 'styles/toggle.css';
+import Select from '../components/Select';
 import AppBar from '../components/AppBar';
 import LazySnackbarProvider from '../components/LazySnackbarProvider';
 import { usePrefersDark } from '../hooks/responsive';
