@@ -4,6 +4,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select, { SelectProps } from '@material-ui/core/Select';
+import NewSelect from '../components/Select';
 import Slider from '@material-ui/core/Slider';
 import { makeStyles } from '@material-ui/core/styles';
 import * as React from 'react';
@@ -15,7 +16,7 @@ import ListOptionToggle from '../components/ListOptionToggle';
 import { useResult } from '../hooks/promise';
 import { useSettings } from '../services/settings';
 import { fonts, supportedFonts } from '../styles/theme';
-import { accentColors, getColorForTheme } from '../styles/colors';
+import { AccentColor, accentColors, getColorForTheme } from '../styles/colors';
 import { useTheme } from '../hooks/responsive';
 
 const useStyles = makeStyles(theme => ({
@@ -31,6 +32,14 @@ const AccentColorPicker = (props: {
 } & SelectProps) => {
     const settings = useSettings();
     const theme = useTheme();
+
+    return <NewSelect
+        className="w-14 h-14"
+        items={accentColors}
+        onChange={value => updateSettings({ ...settings, [props.name]: value})}
+        renderItem={value => <div className="w-10 h-10" style={{ background: getColorForTheme(value, theme)}}></div>}
+        renderValue={value => <div className="w-full h-full" style={{ background: getColorForTheme(value, theme)}}></div>}
+        value={settings[props.name] as AccentColor}/>
 
     return <Select
         native={false}

@@ -15,7 +15,7 @@ body {
 }
 
 .dark {
-    --background-color: black;
+    --background-color: #212121;
     --foreground-color: white;
 }
 
