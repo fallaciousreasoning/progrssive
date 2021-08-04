@@ -43,9 +43,9 @@ const AccentColorPicker = (props: {
         className="w-14 h-14"
         items={accentColors}
         onChange={updater}
-        renderItem={value => <div className="w-10 h-10" style={{ background: getColorForTheme(value, theme)}}></div>}
-        renderValue={value => <div className="w-full h-full" style={{ background: getColorForTheme(value, theme)}}></div>}
-        value={settings[props.name] as AccentColor}/>;
+        renderItem={value => <div className="w-10 h-10" style={{ background: getColorForTheme(value, theme) }}></div>}
+        renderValue={value => <div className="w-full h-full" style={{ background: getColorForTheme(value, theme) }}></div>}
+        value={settings[props.name] as AccentColor} />;
 };
 
 const FontPicker = (props: { name: keyof Settings } & Omit<SelectProps, 'name'>) => {
@@ -58,17 +58,17 @@ const FontPicker = (props: { name: keyof Settings } & Omit<SelectProps, 'name'>)
         onChange={updater}
         renderValue={value => <div>{value}</div>}
         renderItem={item => <div className="overflow-none" style={{ fontFamily: fonts[item] }}>{item}</div>}
-        />;
+    />;
 }
 
 const cleanupSchedules = [
     { days: "never", text: "Never" },
-    { days: 1, text: "1 day"},
-    { days: 3, text: "3 days"},
-    { days: 7, text: "1 week"},
-    { days: 14, text: "2 weeks"},
-    { days: 21, text: "3 weeks"},
-    { days: 28, text: "4 weeks"},
+    { days: 1, text: "1 day" },
+    { days: 3, text: "3 days" },
+    { days: 7, text: "1 week" },
+    { days: 14, text: "2 weeks" },
+    { days: 21, text: "3 weeks" },
+    { days: 28, text: "4 weeks" },
 ] as const;
 
 const CleanupPicker = (props: {
@@ -78,7 +78,7 @@ const CleanupPicker = (props: {
     const cleanupSettings = settings.cleanupSettings;
 
     const settingsValue = cleanupSettings[props.name];
-    const value = useMemo(() => cleanupSchedules.find(s => s.days === settingsValue) ?? { days: settingsValue, text: `${settingsValue} days`}, [settingsValue]);
+    const value = useMemo(() => cleanupSchedules.find(s => s.days === settingsValue) ?? { days: settingsValue, text: `${settingsValue} days` }, [settingsValue]);
 
     const onChange = useCallback((newValue: { days: "never" | number, text: string }) => {
         updateSettings({
@@ -96,9 +96,10 @@ const CleanupPicker = (props: {
         onChange={onChange}
         items={cleanupSchedules as any}
         renderItem={i => <span>{i.text}</span>}
-        renderValue={v => <span>{v.text}</span>}/>
+        renderValue={v => <span>{v.text}</span>} />
 };
 
+const themeValues = ['device', 'light', 'dark'] as Settings['theme'][];
 const SettingsPage = () => {
     const settings = useSettings();
     const styles = useStyles();
@@ -130,6 +131,8 @@ const SettingsPage = () => {
         const { friendlyBytes } = await import('../utils/bytes');
         return `Currently using ${friendlyBytes(estimate.usage)} of storage.`;
     }, [], "Calculating....")
+
+    const onThemeChanged = useSettingsUpdater('theme');
 
     return <div>
         <List>
@@ -168,16 +171,14 @@ const SettingsPage = () => {
                 <ListItemText
                     primary="Theme"
                     secondary="Toggle between light and dark mode." />
-                <Select
-                    className={`${styles.picker} w-40`}
-                    name="theme"
-                    variant="outlined"
-                    onChange={onPickerChange as any}
-                    value={settings.theme || "device"}>
-                    <MenuItem value="device">Device</MenuItem>
-                    <MenuItem value="light">Light</MenuItem>
-                    <MenuItem value="dark">Dark</MenuItem>
-                </Select>
+                <NewSelect
+                    className="w-52 capitalize text-lg"
+                    value={settings.theme}
+                    items={themeValues}
+                    renderItem={i => i}
+                    renderValue={i => i}
+                    onChange={onThemeChanged}
+                />
             </ListItem>
             <ListItem>
                 <ListItemText
