@@ -2,8 +2,6 @@ import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select, { SelectProps } from '@material-ui/core/Select';
 import NewSelect from '../components/Select';
 import Slider from '@material-ui/core/Slider';
 import { makeStyles } from '@material-ui/core/styles';
@@ -34,13 +32,13 @@ const useSettingsUpdater = <T extends keyof Settings>(key: T) => {
 
 const AccentColorPicker = (props: {
     name: keyof Settings
-} & SelectProps) => {
+}) => {
     const settings = useSettings();
     const theme = useTheme();
     const updater = useSettingsUpdater(props.name);
 
     return <NewSelect
-        className="w-14 h-14"
+        className="w-52 h-14"
         items={accentColors}
         onChange={updater}
         renderItem={value => <div className="w-10 h-10" style={{ background: getColorForTheme(value, theme) }}></div>}
@@ -48,7 +46,7 @@ const AccentColorPicker = (props: {
         value={settings[props.name] as AccentColor} />;
 };
 
-const FontPicker = (props: { name: keyof Settings } & Omit<SelectProps, 'name'>) => {
+const FontPicker = (props: { name: keyof Settings }) => {
     const settings = useSettings();
     const updater = useSettingsUpdater(props.name);
     return <NewSelect
@@ -73,7 +71,7 @@ const cleanupSchedules = [
 
 const CleanupPicker = (props: {
     name: keyof Settings['cleanupSettings'];
-} & SelectProps) => {
+}) => {
     const settings = useSettings();
     const cleanupSettings = settings.cleanupSettings;
 
@@ -184,41 +182,32 @@ const SettingsPage = () => {
                 <ListItemText
                     primary="Accent color"
                     secondary="The primary accent color of the app." />
-                <AccentColorPicker className={styles.picker} name="accent" onChange={onPickerChange as any} />
+                <AccentColorPicker name="accent" />
             </ListItem>
             <ListItem>
                 <ListItemText
                     primary="Secondary color"
                     secondary="The secondary accent color of the app." />
-                <AccentColorPicker
-                    className={styles.picker}
-                    name="secondaryAccent"
-                    onChange={onPickerChange as any} />
+                <AccentColorPicker name="secondaryAccent" />
             </ListItem>
             <ListItem>
                 <ListItemText
                     primary="Font"
                     secondary="The font used throughout the application." />
-                <FontPicker
-                    className={styles.picker}
-                    name="fontFamily" />
+                <FontPicker name="fontFamily" />
             </ListItem>
             <Divider />
             <ListItem>
                 <ListItemText
                     primary="Delete Unread Articles"
                     secondary="When unread articles should be deleted" />
-                <CleanupPicker
-                    className={styles.picker}
-                    name="deleteUnreadEntries" />
+                <CleanupPicker name="deleteUnreadEntries" />
             </ListItem>
             <ListItem>
                 <ListItemText
                     primary="Delete Read Articles"
                     secondary="When read articles should be deleted" />
-                <CleanupPicker
-                    className={styles.picker}
-                    name="deleteReadEntries" />
+                <CleanupPicker name="deleteReadEntries" />
             </ListItem>
             <ListItem>
                 <ListItemText
