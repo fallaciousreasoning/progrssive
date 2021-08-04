@@ -224,7 +224,7 @@ const SettingsPage = () => {
                     primary="Storage"
                     secondary={storageUsage} />
                 <LinkButton variant="outlined" color="primary" href="/clean">
-                    Clean
+                    <span className="text-lg">Clean</span>
                 </LinkButton>
             </ListItem>
         </List>
