@@ -39,18 +39,7 @@ const AccentColorPicker = (props: {
         onChange={value => updateSettings({ ...settings, [props.name]: value})}
         renderItem={value => <div className="w-10 h-10" style={{ background: getColorForTheme(value, theme)}}></div>}
         renderValue={value => <div className="w-full h-full" style={{ background: getColorForTheme(value, theme)}}></div>}
-        value={settings[props.name] as AccentColor}/>
-
-    return <Select
-        native={false}
-        variant="outlined"
-        {...props}
-        value={settings[props.name]}
-        renderValue={(value: unknown) => <div className="w-full h-4" style={{ background: getColorForTheme(value as any, theme) }} />}>
-        {accentColors.map(c => <MenuItem value={c} key={c}>
-            <div style={{ background: getColorForTheme(c as any, theme) }} className={`w-12 h-12 color`}></div>
-        </MenuItem>)}
-    </Select>
+        value={settings[props.name] as AccentColor}/>;
 };
 
 const FontPicker = (props: SelectProps) => {
