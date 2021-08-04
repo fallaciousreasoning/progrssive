@@ -16,14 +16,6 @@ import { fonts, supportedFonts } from '../styles/theme';
 import { AccentColor, accentColors, getColorForTheme } from '../styles/colors';
 import { useTheme } from '../hooks/responsive';
 
-const useStyles = makeStyles(theme => ({
-    picker: {
-        "&>div>*": {
-            overflow: 'hidden'
-        }
-    }
-}));
-
 const useSettingsUpdater = <T extends keyof Settings>(key: T) => {
     const settings = useSettings();
     return useCallback((newValue: Settings[T]) => updateSettings({ ...settings, [key]: newValue }), [settings, key]);
@@ -99,7 +91,6 @@ const CleanupPicker = (props: {
 const themeValues = ['device', 'light', 'dark'] as Settings['theme'][];
 const SettingsPage = () => {
     const settings = useSettings();
-    const styles = useStyles();
     const onToggleChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>, value: boolean) => {
         const setting = e.target['name'];
         updateSettings({
@@ -145,13 +136,15 @@ const SettingsPage = () => {
                 onChange={onToggleChange} />
             <Divider />
             <ListItem primary="Article Text Size" secondary="Controls the size of the article text">
-                <Slider
-                    className="w-12"
-                    min={1}
-                    max={5}
-                    step={1}
-                    onChange={onFontSizeChange}
-                    value={settings.fontSize} />
+                <div className="w-52">
+                    <Slider
+                        className="w-12"
+                        min={1}
+                        max={5}
+                        step={1}
+                        onChange={onFontSizeChange}
+                        value={settings.fontSize} />
+                </div>
             </ListItem>
             <ListItem primary="Theme" secondary="Toggle between light and dark mode.">
                 <NewSelect
