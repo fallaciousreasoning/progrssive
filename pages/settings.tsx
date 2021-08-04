@@ -27,32 +27,38 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
+const useSettingsUpdater = <T extends keyof Settings>(key: T) => {
+    const settings = useSettings();
+    return useCallback((newValue: Settings[T]) => updateSettings({ ...settings, [key]: newValue }), [settings, key]);
+}
+
 const AccentColorPicker = (props: {
     name: keyof Settings
 } & SelectProps) => {
     const settings = useSettings();
     const theme = useTheme();
+    const updater = useSettingsUpdater(props.name);
 
     return <NewSelect
         className="w-14 h-14"
         items={accentColors}
-        onChange={value => updateSettings({ ...settings, [props.name]: value})}
+        onChange={updater}
         renderItem={value => <div className="w-10 h-10" style={{ background: getColorForTheme(value, theme)}}></div>}
         renderValue={value => <div className="w-full h-full" style={{ background: getColorForTheme(value, theme)}}></div>}
         value={settings[props.name] as AccentColor}/>;
 };
 
-const FontPicker = (props: SelectProps) => {
+const FontPicker = (props: { name: keyof Settings } & Omit<SelectProps, 'name'>) => {
     const settings = useSettings();
-    return <Select
-        variant="outlined"
+    const updater = useSettingsUpdater(props.name);
+    return <NewSelect
+        className="w-52 text-lg"
         value={settings[props.name]}
-        {...props}
-        renderValue={(value: unknown) => <div>{value}</div>}>
-        {supportedFonts.map(f => <MenuItem key={f} value={f} style={{ fontFamily: fonts[f] }}>
-            {f} | The quick brown fox jumps over the lazy dog.
-        </MenuItem>)}
-    </Select>
+        items={supportedFonts}
+        onChange={updater}
+        renderValue={value => <div>{value}</div>}
+        renderItem={item => <div className="overflow-none" style={{ fontFamily: fonts[item] }}>{item}</div>}
+        />;
 }
 
 const CleanupPicker = (props: {
@@ -188,8 +194,7 @@ const SettingsPage = () => {
                     secondary="The font used throughout the application." />
                 <FontPicker
                     className={styles.picker}
-                    name="fontFamily"
-                    onChange={onPickerChange as any} />
+                    name="fontFamily" />
             </ListItem>
             <Divider />
             <ListItem>
