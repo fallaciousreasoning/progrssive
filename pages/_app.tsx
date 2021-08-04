@@ -3,17 +3,16 @@ import { MuiThemeProvider } from '@material-ui/core/styles';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import React, { useEffect, useMemo } from 'react';
-import 'styles/globals.css';
 import 'styles/article.css';
+import 'styles/globals.css';
 import 'styles/toggle.css';
-import Select from '../components/Select';
 import AppBar from '../components/AppBar';
 import LazySnackbarProvider from '../components/LazySnackbarProvider';
-import { usePrefersDark } from '../hooks/responsive';
+import { usePrefersDark, useTheme } from '../hooks/responsive';
 import { useOnIdle } from '../hooks/useIdle';
 import { getSettings, updateCssVariables, useSettings } from '../services/settings';
 import { initStore } from '../services/store';
-import { buildTheme, themeMode } from '../styles/theme';
+import { buildTheme } from '../styles/theme';
 import '../types/Window';
 import { cleanupWorker } from '../worker';
 
@@ -22,6 +21,7 @@ initStore();
 
 const ProgrssiveApp = ({ Component, pageProps }: AppProps) => {
   const settings = useSettings();
+  const themeMode = useTheme();
 
   useEffect(() => {
     updateCssVariables(settings);
@@ -51,7 +51,7 @@ const ProgrssiveApp = ({ Component, pageProps }: AppProps) => {
     </Head>
     <MuiThemeProvider theme={theme}>
       <CssBaseline />
-      <div className={themeMode(settings)}>
+      <div className={themeMode}>
         <LazySnackbarProvider>
           <AppBar>
             <div className="mx-auto p-2 max-w-3xl">
