@@ -1,10 +1,6 @@
-import Card from '@material-ui/core/Card';
-import CardMedia from '@material-ui/core/CardMedia';
 import FormControl from '@material-ui/core/FormControl';
 import IconButton from '@material-ui/core/IconButton';
 import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
 import { makeStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import Add from '@material-ui/icons/Add';
@@ -15,6 +11,7 @@ import React, { useCallback } from 'react';
 import { Subscription } from '../model/subscription';
 import { saveSubscription } from '../services/db';
 import LoadingSpinner from './LoadingSpinner';
+import Select from './Select';
 
 interface Props {
     subscription: Subscription,
@@ -63,40 +60,38 @@ const SubscriptionControls = (props: Props) => {
     return progress;
 }
 
+const mobilizers: Subscription["preferredView"][] = ["feedly", "mozilla", "browser"];
 const SubscriptionEditor = (props: Props) => {
     const router = useRouter();
     const viewStream = useCallback(() => {
         router.push(`/stream/${encodeURIComponent(props.subscription.id)}`);
     }, [props.subscription.id, router]);
 
-    const preferredViewChanged = useCallback(async (e) => {
+    const preferredViewChanged = useCallback(async (newValue: Subscription['preferredView']) => {
         await saveSubscription({ 
             ...props.subscription,
-            preferredView: e.target.value
+            preferredView: newValue
         });
     }, [props.subscription]);
 
     const visualUrl = props.subscription.visualUrl || props.subscription.iconUrl;
 
-    return <div className="flex items-center mb-2 rounded-md overflow-hidden shadow">
+    return <div className="flex h-24 items-center mb-2 rounded-md shadow">
         <div className="w-24 h-24 self-stretch">
-            {visualUrl && <img src={visualUrl} alt="Source logo"/>}
+            {visualUrl && <img src={visualUrl} alt="Source logo" className="rounded-l-md"/>}
         </div>
         <div className="mx-2 flex-grow p-2">
             <div onClick={viewStream} className="cursor-pointer">
                 <b>{props.subscription.title}</b>
             </div>
-            {props.isSubscribed && !props.subscription.deleting && <div>
-                <FormControl className="w-full mt-2">
-                    <InputLabel>Preferred View</InputLabel>
+            {props.isSubscribed && !props.subscription.deleting && <div className="mt-2">
+                    <label>Preferred View</label>
                     <Select
+                        className="w-full capitalize border-none focus:border bg-input"
                         onChange={preferredViewChanged}
-                        value={props.subscription.preferredView || "feedly"}>
-                        <MenuItem value="feedly">Feedly Mobilizer</MenuItem>
-                        <MenuItem value="browser">Browser</MenuItem>
-                        <MenuItem value="mozilla">Mozilla Readability</MenuItem>
-                    </Select>
-                </FormControl>
+                        items={mobilizers}
+                        value={props.subscription.preferredView || 'feedly'}
+                        renderValue={i => i} renderItem={i => i}/>
             </div>}
         </div>
         <div className="ml-2">

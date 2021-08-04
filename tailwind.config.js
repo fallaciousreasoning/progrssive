@@ -15,7 +15,12 @@ module.exports = {
         background: {
           DEFAULT: 'var(--background-color)',
         },
-        foreground: 'var(--foreground-color)'
+        foreground: {
+          DEFAULT: 'var(--foreground-color)'
+        },
+        input: {
+          DEFAULT: 'var(--input-color)'
+        }
       },
     },
   },
