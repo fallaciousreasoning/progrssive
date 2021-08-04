@@ -1,20 +1,17 @@
 import Divider from '@material-ui/core/Divider';
-import List from '@material-ui/core/List';
-import ListItem from '../components/ListItem';
-import NewSelect from '../components/Select';
 import Slider from '@material-ui/core/Slider';
-import { makeStyles } from '@material-ui/core/styles';
 import * as React from 'react';
 import { useCallback, useMemo } from 'react';
-import { Settings } from '../model/settings';
-import { updateSettings } from '../services/settings';
 import LinkButton from '../components/LinkButton';
+import ListItem from '../components/ListItem';
 import ListOptionToggle from '../components/ListOptionToggle';
+import NewSelect from '../components/Select';
 import { useResult } from '../hooks/promise';
-import { useSettings } from '../services/settings';
-import { fonts, supportedFonts } from '../styles/theme';
-import { AccentColor, accentColors, getColorForTheme } from '../styles/colors';
 import { useTheme } from '../hooks/responsive';
+import { Settings } from '../model/settings';
+import { updateSettings, useSettings } from '../services/settings';
+import { AccentColor, accentColors, getColorForTheme } from '../styles/colors';
+import { fonts, supportedFonts } from '../styles/theme';
 
 const useSettingsUpdater = <T extends keyof Settings>(key: T) => {
     const settings = useSettings();
@@ -115,7 +112,7 @@ const SettingsPage = () => {
     const onThemeChanged = useSettingsUpdater('theme');
 
     return <div>
-        <List>
+        <ul className="">
             <ListOptionToggle
                 primaryText='Read opened articles'
                 secondaryText='Mark articles as read when you open them.'
@@ -177,7 +174,7 @@ const SettingsPage = () => {
                     <span className="text-lg">Clean</span>
                 </LinkButton>
             </ListItem>
-        </List>
+        </ul>
     </div>;
 };
 
