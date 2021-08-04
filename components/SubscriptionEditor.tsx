@@ -1,6 +1,4 @@
-import FormControl from '@material-ui/core/FormControl';
 import IconButton from '@material-ui/core/IconButton';
-import InputLabel from '@material-ui/core/InputLabel';
 import { makeStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import Add from '@material-ui/icons/Add';
