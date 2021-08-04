@@ -1,7 +1,6 @@
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+import ListItem from '../components/ListItem';
 import NewSelect from '../components/Select';
 import Slider from '@material-ui/core/Slider';
 import { makeStyles } from '@material-ui/core/styles';
@@ -109,14 +108,6 @@ const SettingsPage = () => {
         })
     }, [settings]);
 
-    const onPickerChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-        const setting = e.target['name'];
-        updateSettings({
-            ...settings,
-            [setting]: e.target.value
-        });
-    }, [settings]);
-
     const onFontSizeChange = useCallback((e: React.ChangeEvent<{}>, value: any) => {
         updateSettings({
             ...settings,
@@ -153,10 +144,7 @@ const SettingsPage = () => {
                 value={settings.doubleTapToCloseArticles}
                 onChange={onToggleChange} />
             <Divider />
-            <ListItem>
-                <ListItemText
-                    primary="Article Text Size"
-                    secondary="Controls the size of the article text" />
+            <ListItem primary="Article Text Size" secondary="Controls the size of the article text">
                 <Slider
                     className="w-12"
                     min={1}
@@ -165,10 +153,7 @@ const SettingsPage = () => {
                     onChange={onFontSizeChange}
                     value={settings.fontSize} />
             </ListItem>
-            <ListItem>
-                <ListItemText
-                    primary="Theme"
-                    secondary="Toggle between light and dark mode." />
+            <ListItem primary="Theme" secondary="Toggle between light and dark mode.">
                 <NewSelect
                     className="w-52 capitalize text-lg"
                     value={settings.theme}
@@ -178,41 +163,23 @@ const SettingsPage = () => {
                     onChange={onThemeChanged}
                 />
             </ListItem>
-            <ListItem>
-                <ListItemText
-                    primary="Accent color"
-                    secondary="The primary accent color of the app." />
+            <ListItem primary="Accent Color" secondary="The primary accent color of the app.">
                 <AccentColorPicker name="accent" />
             </ListItem>
-            <ListItem>
-                <ListItemText
-                    primary="Secondary color"
-                    secondary="The secondary accent color of the app." />
+            <ListItem primary="Secondary color" secondary="The secondary accent color of the app.">
                 <AccentColorPicker name="secondaryAccent" />
             </ListItem>
-            <ListItem>
-                <ListItemText
-                    primary="Font"
-                    secondary="The font used throughout the application." />
+            <ListItem primary="Font" secondary="The font used throughout the application.">
                 <FontPicker name="fontFamily" />
             </ListItem>
             <Divider />
-            <ListItem>
-                <ListItemText
-                    primary="Delete Unread Articles"
-                    secondary="When unread articles should be deleted" />
+            <ListItem primary="Delete Unread Articles" secondary="When unread articles should be deleted">
                 <CleanupPicker name="deleteUnreadEntries" />
             </ListItem>
-            <ListItem>
-                <ListItemText
-                    primary="Delete Read Articles"
-                    secondary="When read articles should be deleted" />
+            <ListItem primary="Delete Read Articles" secondary="When read articles should be deleted">
                 <CleanupPicker name="deleteReadEntries" />
             </ListItem>
-            <ListItem>
-                <ListItemText
-                    primary="Storage"
-                    secondary={storageUsage} />
+            <ListItem primary="Storage" secondary={storageUsage}>
                 <LinkButton variant="outlined" color="primary" href="/clean">
                     <span className="text-lg">Clean</span>
                 </LinkButton>
