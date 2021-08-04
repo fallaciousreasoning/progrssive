@@ -8,7 +8,7 @@ import NewSelect from '../components/Select';
 import Slider from '@material-ui/core/Slider';
 import { makeStyles } from '@material-ui/core/styles';
 import * as React from 'react';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { Settings } from '../model/settings';
 import { updateSettings } from '../services/settings';
 import LinkButton from '../components/LinkButton';
@@ -61,36 +61,42 @@ const FontPicker = (props: { name: keyof Settings } & Omit<SelectProps, 'name'>)
         />;
 }
 
+const cleanupSchedules = [
+    { days: "never", text: "Never" },
+    { days: 1, text: "1 day"},
+    { days: 3, text: "3 days"},
+    { days: 7, text: "1 week"},
+    { days: 14, text: "2 weeks"},
+    { days: 21, text: "3 weeks"},
+    { days: 28, text: "4 weeks"},
+] as const;
+
 const CleanupPicker = (props: {
     name: keyof Settings['cleanupSettings'];
 } & SelectProps) => {
     const settings = useSettings();
     const cleanupSettings = settings.cleanupSettings;
-    const value = cleanupSettings[props.name];
 
-    const onChange = useCallback(e => {
+    const settingsValue = cleanupSettings[props.name];
+    const value = useMemo(() => cleanupSchedules.find(s => s.days === settingsValue) ?? { days: settingsValue, text: `${settingsValue} days`}, [settingsValue]);
+
+    const onChange = useCallback((newValue: { days: "never" | number, text: string }) => {
         updateSettings({
             ...settings,
             cleanupSettings: {
                 ...cleanupSettings,
-                [props.name]: e.target.value
+                [props.name]: newValue.days
             }
         })
     }, [props.name, settings]);
 
-    return <Select
-        variant="outlined"
-        {...props}
+    return <NewSelect
+        className="text-lg w-52"
+        value={value}
         onChange={onChange}
-        value={value}>
-        <MenuItem value="never">Never</MenuItem>
-        <MenuItem value={1}>1 day</MenuItem>
-        <MenuItem value={3}>3 days</MenuItem>
-        <MenuItem value={7}>1 week</MenuItem>
-        <MenuItem value={14}>2 weeks</MenuItem>
-        <MenuItem value={21}>3 weeks</MenuItem>
-        <MenuItem value={28}>4 weeks</MenuItem>
-    </Select>
+        items={cleanupSchedules as any}
+        renderItem={i => <span>{i.text}</span>}
+        renderValue={v => <span>{v.text}</span>}/>
 };
 
 const SettingsPage = () => {

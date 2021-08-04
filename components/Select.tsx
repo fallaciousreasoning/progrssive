@@ -14,7 +14,7 @@ export interface SelectProps<T> extends DivProps {
 const defaultClassName = "p-2 border border-gray-500 hover:border-foreground focus:border-primary border-solid rounded shadow";
 export default function Select<T>(props: SelectProps<T>) {
     const theme = useTheme();
-    const hoverColor = theme == 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-300';
+    const offGray = theme == 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-300';
 
     const [isOpen, setOpen] = useState(false);
     const { className: propsClass, items, renderItem, renderValue, value, onChange, ...rest } = props;
@@ -25,13 +25,13 @@ export default function Select<T>(props: SelectProps<T>) {
         if (value !== item) onChange(item);
 
         setOpen(false);
-    }, [value]);
+    }, [value, onChange]);
 
     return <div tabIndex={0} className={className} {...rest} onClick={() => setOpen(true)} onBlur={() => setOpen(false)}>
         {value && renderValue(value)}
         {isOpen && <div className="relative z-10">
             <div className="absolute -top-2 -left-6 -right-6 bg-background shadow max-h-60 overflow-y-auto rounded">
-                {items.map((item, i) => <div key={i} onClick={(e) => onItemClicked(e, item)} className={`p-2 ${hoverColor} ${item === value && 'bg-gray-300'}`}>
+                {items.map((item, i) => <div key={i} onClick={(e) => onItemClicked(e, item)} className={`p-2 ${offGray} ${item === value && 'bg-gray-300'}`}>
                     {renderItem(item, item === value)}
                 </div>)}
             </div>
