@@ -7,15 +7,15 @@ import 'styles/article.css';
 import 'styles/globals.css';
 import 'styles/toggle.css';
 import 'styles/slider.css';
-import AppBar from '../components/AppBar';
-import LazySnackbarProvider from '../components/LazySnackbarProvider';
-import { usePrefersDark, useTheme } from '../hooks/responsive';
-import { useOnIdle } from '../hooks/useIdle';
-import { getSettings, updateCssVariables, useSettings } from '../services/settings';
-import { initStore } from '../services/store';
-import { buildTheme } from '../styles/theme';
-import '../types/Window';
-import { cleanupWorker } from '../worker';
+import AppBar from 'components/AppBar';
+import LazySnackbarProvider from 'components/LazySnackbarProvider';
+import { usePrefersDark, useTheme } from 'hooks/responsive';
+import { useOnIdle } from 'hooks/useIdle';
+import { getSettings, updateCssVariables, useSettings } from 'services/settings';
+import { initStore } from 'services/store';
+import { buildTheme } from 'styles/theme';
+import 'types/Window';
+import { cleanupWorker } from 'worker';
 
 // Make sure our store is initialized.
 initStore();
