@@ -4,7 +4,7 @@ import { useCallback, useMemo } from 'react';
 import LinkButton from '../components/LinkButton';
 import ListItem from '../components/ListItem';
 import ListOptionToggle from '../components/ListOptionToggle';
-import NewSelect from '../components/Select';
+import Select from '../components/Select';
 import { useResult } from '../hooks/promise';
 import { useTheme } from '../hooks/responsive';
 import { Settings } from '../model/settings';
@@ -24,7 +24,7 @@ const AccentColorPicker = (props: {
     const theme = useTheme();
     const updater = useSettingsUpdater(props.name);
 
-    return <NewSelect
+    return <Select
         className="w-52 h-14"
         items={accentColors}
         onChange={updater}
@@ -36,7 +36,7 @@ const AccentColorPicker = (props: {
 const FontPicker = (props: { name: keyof Settings }) => {
     const settings = useSettings();
     const updater = useSettingsUpdater(props.name);
-    return <NewSelect
+    return <Select
         className="w-52 text-lg"
         value={settings[props.name]}
         items={supportedFonts}
@@ -75,7 +75,7 @@ const CleanupPicker = (props: {
         })
     }, [props.name, settings]);
 
-    return <NewSelect
+    return <Select
         className="text-lg w-52"
         value={value}
         onChange={onChange}
@@ -137,7 +137,7 @@ const SettingsPage = () => {
                 </div>
             </ListItem>
             <ListItem primary="Theme" secondary="Toggle between light and dark mode.">
-                <NewSelect
+                <Select
                     className="w-52 capitalize text-lg"
                     value={settings.theme}
                     items={themeValues}
