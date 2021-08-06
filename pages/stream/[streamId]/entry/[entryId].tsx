@@ -1,26 +1,26 @@
 import { CardContent, CardHeader, IconButton, makeStyles, Typography } from "@material-ui/core";
-import Button from '../../../../components/Button'
+import Button from 'components/Button'
 import { Share } from "@material-ui/icons";
 import { useRouter } from "next/router";
 import * as React from 'react';
 import { useCallback, useRef, useState } from 'react';
 import { collect, Store } from "react-recollect";
-import { loadMobilizedContent } from "../../../../actions/entry";
-import AppBarButton from "../../../../components/AppBarButton";
-import Centre from "../../../../components/Centre";
-import LoadingSpinner from "../../../../components/LoadingSpinner";
-import { EntryReadButton } from "../../../../components/MarkerButton";
-import PreferredViewMenu from "../../../../components/PreferredViewMenu";
-import StackPanel from "../../../../components/StackPanel";
-import { useDoubleTap } from "../../../../hooks/callbacks";
-import { useEntry } from "../../../../hooks/entry";
-import { useScreenSize } from "../../../../hooks/screenSize";
-import { useEntryId } from "../../../../hooks/url";
-import useWhenChanged from "../../../../hooks/useWhenChanged";
-import { getEntryByline, getEntryContent, getEntryUrl, useViewMode } from "../../../../services/entry";
-import { useSettings } from '../../../../services/settings';
-import '../../../../types/Window';
-import LinkButton from "../../../../components/LinkButton";
+import { loadMobilizedContent } from "actions/entry";
+import AppBarButton from "components/AppBarButton";
+import Centre from "components/Centre";
+import LoadingSpinner from "components/LoadingSpinner";
+import { EntryReadButton } from "components/MarkerButton";
+import PreferredViewMenu from "components/PreferredViewMenu";
+import StackPanel from "components/StackPanel";
+import { useDoubleTap } from "hooks/callbacks";
+import { useEntry } from "hooks/entry";
+import { useScreenSize } from "hooks/screenSize";
+import { useEntryId } from "hooks/url";
+import useWhenChanged from "hooks/useWhenChanged";
+import { getEntryByline, getEntryContent, getEntryUrl, useViewMode } from "services/entry";
+import { useSettings } from 'services/settings';
+import 'types/Window';
+import LinkButton from "components/LinkButton";
 
 const useStyles = makeStyles(theme => ({
     '@global': {
@@ -169,10 +169,7 @@ const EntryViewer = (props: { store: Store }) => {
                                 variant="outline"
                                 onClick={() => setCurrentView("feedly")}>View Feedly</Button>
                             <LinkButton
-                                variant="outline"
-                                href={url}
-                                target="_blank"
-                                rel="noopener noreferrer">
+                                href={url}>
                                 Open in Browser
                             </LinkButton>
                         </StackPanel>
