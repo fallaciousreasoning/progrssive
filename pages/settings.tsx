@@ -1,4 +1,4 @@
-import Divider from '@material-ui/core/Divider';
+import Divider from '../components/Divider';
 import * as React from 'react';
 import { useCallback, useMemo } from 'react';
 import LinkButton from '../components/LinkButton';
