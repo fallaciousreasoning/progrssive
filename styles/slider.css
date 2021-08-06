@@ -16,7 +16,7 @@ input[type='range']::-webkit-slider-thumb {
     height: 24px;
     width: 24px;
     margin-top: -10px;
-    background: var(--primary-color);
+    background: var(--secondary-color);
     border-radius: 50%;
 }
 
@@ -41,7 +41,7 @@ input[type=range]::-moz-range-thumb {
     height: 24px;
     width: 24px;
     border-radius: 24px;
-    background: var(--primary-color);
+    background: var(--secondary-color);
     cursor: pointer;
 }
 
@@ -54,7 +54,7 @@ input[type=range]::-moz-range-thumb:active {
 }
 
 input[type=range]::-moz-range-progress {
-    background-color: var(--primary-color);
+    background-color: var(--secondary-color);
     height: 4px;
     border-radius: 4px;
 }
