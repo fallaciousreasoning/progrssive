@@ -33,7 +33,7 @@ export const fonts = {
     "Lucida Console": `"Lucida Console", Monaco, monospace`
 };
 
-export const supportedFonts = Object.keys(fonts);
+export const supportedFonts: (keyof typeof fonts)[] = Object.keys(fonts) as any;
 
 const themeMeta = () =>
     typeof document === "undefined"

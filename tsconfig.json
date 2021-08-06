@@ -41,6 +41,7 @@
     "actions",
     "api",
     "components",
+    "pages",
     "hooks",
     "selectors",
     "styles/theme.ts"

@@ -23,22 +23,21 @@ const AccentColorPicker = (props: {
     const settings = useSettings();
     const theme = useTheme();
     const updater = useSettingsUpdater(props.name);
-
     return <Select
         className="w-52 h-14"
         items={accentColors}
         onChange={updater}
-        renderItem={value => <div className="w-10 h-10" style={{ background: getColorForTheme(value, theme) }}></div>}
-        renderValue={value => <div className="w-full h-full" style={{ background: getColorForTheme(value, theme) }}></div>}
+        renderItem={value => <div className="w-10 h-10" style={{ background: getColorForTheme(value as AccentColor, theme) }}></div>}
+        renderValue={value => <div className="w-full h-full" style={{ background: getColorForTheme(value as AccentColor, theme) }}></div>}
         value={settings[props.name] as AccentColor} />;
 };
 
-const FontPicker = (props: { name: keyof Settings }) => {
+const FontPicker = () => {
     const settings = useSettings();
-    const updater = useSettingsUpdater(props.name);
+    const updater = useSettingsUpdater('fontFamily');
     return <Select
         className="w-52 text-lg"
-        value={settings[props.name]}
+        value={settings.fontFamily}
         items={supportedFonts}
         onChange={updater}
         renderValue={value => <div>{value}</div>}
@@ -153,7 +152,7 @@ const SettingsPage = () => {
                 <AccentColorPicker name="secondaryAccent" />
             </ListItem>
             <ListItem primary="Font" secondary="The font used throughout the application.">
-                <FontPicker name="fontFamily" />
+                <FontPicker />
             </ListItem>
             <Divider />
             <ListItem primary="Delete Unread Articles" secondary="When unread articles should be deleted">
@@ -163,7 +162,7 @@ const SettingsPage = () => {
                 <CleanupPicker name="deleteReadEntries" />
             </ListItem>
             <ListItem primary="Storage" secondary={storageUsage}>
-                <LinkButton variant="outlined" color="primary" href="/clean">
+                <LinkButton color="primary" href="/clean">
                     <span className="text-lg">Clean</span>
                 </LinkButton>
             </ListItem>
