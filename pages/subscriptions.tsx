@@ -4,17 +4,17 @@ import { useRouter } from 'next/router';
 import * as React from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDebounce } from 'use-debounce';
-import { searchFeeds } from '../api/search';
-import Button from '../components/Button';
-import Centre from "../components/Centre";
-import ExportOpml from '../components/ExportOpml';
-import ImportOpml from "../components/ImportOpml";
-import LoadingSpinner from "../components/LoadingSpinner";
-import StackPanel from "../components/StackPanel";
-import SubscriptionEditor from "../components/SubscriptionEditor";
-import { guessFeedUrl, Subscription } from '../model/subscription';
-import { getDb } from "../services/db";
-import { toggleSubscription } from "../services/subscriptions";
+import { searchFeeds } from 'api/search';
+import Button from 'components/Button';
+import Centre from "components/Centre";
+import ExportOpml from 'components/ExportOpml';
+import ImportOpml from "components/ImportOpml";
+import LoadingSpinner from "components/LoadingSpinner";
+import StackPanel from "components/StackPanel";
+import SubscriptionEditor from "components/SubscriptionEditor";
+import { guessFeedUrl, Subscription } from 'model/subscription';
+import { getDb } from "services/db";
+import { toggleSubscription } from "services/subscriptions";
 
 const searchResultVariants = {
     initial: { opacity: 0, height: 0 },
