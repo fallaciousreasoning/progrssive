@@ -96,10 +96,10 @@ const SettingsPage = () => {
         })
     }, [settings]);
 
-    const onFontSizeChange = useCallback((e: React.ChangeEvent<{}>, value: any) => {
+    const onFontSizeChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         updateSettings({
             ...settings,
-            'fontSize': value
+            'fontSize': e.target.value as any
         });
     }, [settings]);
 
@@ -133,14 +133,8 @@ const SettingsPage = () => {
                 onChange={onToggleChange} />
             <Divider />
             <ListItem primary="Article Text Size" secondary="Controls the size of the article text">
-                <div className="w-52">
-                    <Slider
-                        className="w-12"
-                        min={1}
-                        max={5}
-                        step={1}
-                        onChange={onFontSizeChange}
-                        value={settings.fontSize} />
+                <div className="w-52 self-stretch flex flex-row items-center">
+                    <input className="w-full bg-input text-primary" type="range" min={1} max={5} step={1} onChange={onFontSizeChange} value={settings.fontSize}/>
                 </div>
             </ListItem>
             <ListItem primary="Theme" secondary="Toggle between light and dark mode.">
