@@ -1,16 +1,16 @@
-import Divider from '../components/Divider';
+import Divider from 'components/Divider';
 import * as React from 'react';
 import { useCallback, useMemo } from 'react';
-import LinkButton from '../components/LinkButton';
-import ListItem from '../components/ListItem';
-import ListOptionToggle from '../components/ListOptionToggle';
-import Select from '../components/Select';
-import { useResult } from '../hooks/promise';
-import { useTheme } from '../hooks/responsive';
-import { Settings } from '../model/settings';
-import { updateSettings, useSettings } from '../services/settings';
-import { AccentColor, accentColors, getColorForTheme } from '../styles/colors';
-import { fonts, supportedFonts } from '../styles/theme';
+import LinkButton from 'components/LinkButton';
+import ListItem from 'components/ListItem';
+import ListOptionToggle from 'components/ListOptionToggle';
+import Select from 'components/Select';
+import { useResult } from 'hooks/promise';
+import { useTheme } from 'hooks/responsive';
+import { Settings } from 'model/settings';
+import { updateSettings, useSettings } from 'services/settings';
+import { AccentColor, accentColors, getColorForTheme } from 'styles/colors';
+import { fonts, supportedFonts } from 'styles/theme';
 
 const useSettingsUpdater = <T extends keyof Settings>(key: T) => {
     const settings = useSettings();
