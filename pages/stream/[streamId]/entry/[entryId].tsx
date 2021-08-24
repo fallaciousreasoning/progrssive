@@ -157,7 +157,7 @@ const EntryViewer = (props: { store: Store }) => {
                 ? <Typography component='small'>
                     <div dangerouslySetInnerHTML={{ __html: content }}></div>
                 </Typography>
-                : <StackPanel center>
+                : <StackPanel alignItems='center'>
                     <Typography component="small">
                         {failedToMobilize
                             ? "Failed to mobilize article."

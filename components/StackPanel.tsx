@@ -14,7 +14,6 @@ interface Props {
 
     spacing?: `space-x-${number}` | `space-y-${number}`;
     animatePresence?: boolean;
-    center?: boolean;
 
     variants?: {
         initial?: Variant;
@@ -51,7 +50,6 @@ const StackPanel = (props: Props & React.HTMLProps<HTMLDivElement>) => {
         animatePresence,
         direction,
         spacing,
-        center,
         alignItems,
         justifyContent,
         variants,
