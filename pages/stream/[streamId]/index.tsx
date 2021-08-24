@@ -1,29 +1,28 @@
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import { Add } from '@material-ui/icons';
 import Refresh from '@material-ui/icons/Refresh';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { collect, Store } from 'react-recollect';
 import { updateStreams } from 'actions/stream';
 import AppBarButton from 'components/AppBarButton';
 import Centre from 'components/Centre';
+import IconButton from 'components/IconButton';
+import LoadingSpinner from 'components/LoadingSpinner';
 import MarkAsReadButton from 'components/MarkAsReadButton';
 import MaybeUpdateStreamList from 'components/MaybeUpdateStreamList';
 import StreamFooter from 'components/StreamFooter';
+import StreamList from 'components/StreamList';
+import Toggle from 'components/Toggle';
 import { useIsPhone } from 'hooks/responsive';
 import { getStreamUpdating } from 'hooks/store';
 import { useIsTransientSubscription } from 'hooks/subscription';
+import { useShowRead, useStreamId } from 'hooks/url';
 import useWhenChanged from 'hooks/useWhenChanged';
+import { useRouter } from 'next/dist/client/router';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { collect, Store } from 'react-recollect';
+import { useSettings } from 'services/settings';
 import { markStreamAs, setStreamList } from 'services/store';
 import { findSubscription, toggleSubscription } from 'services/subscriptions';
-import StreamList from 'components/StreamList';
 import { delay } from 'utils/promise';
-import { useSettings } from 'services/settings';
-import { useRouter } from 'next/dist/client/router';
-import { useShowRead, useStreamId } from 'hooks/url';
-import LoadingSpinner from 'components/LoadingSpinner';
-import Toggle from 'components/Toggle';
 
 const useStyles = makeStyles(theme => ({
   root: {
