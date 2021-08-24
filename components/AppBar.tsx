@@ -2,7 +2,7 @@ import IconButton from './IconButton';
 import React, { useState } from 'react';
 import AppDrawer from './AppDrawer';
 import StackPanel from './StackPanel';
-import Menu from '../icons/Menu.svg';
+import Menu from '../icons/menu.svg';
 
 type BarChild = {
     id: string;
