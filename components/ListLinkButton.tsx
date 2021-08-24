@@ -11,7 +11,7 @@ type Props = {
 };
 export default function ListLinkButton(props: Props) {
     return <Link href={props.href}>
-        <ListItem className="cursor-pointer">
+        <ListItem className="cursor-pointer hover:bg-gray-300">
             {props.icon && <ListItemIcon>
                 {props.icon}
             </ListItemIcon>}
