@@ -1,6 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@layer utilities {
+    .scroll-snap-none {
+        scroll-snap-type: none;
+    }
+    .scroll-snap-x {
+        scroll-snap-type: x mandatory;
+    }
+    .scroll-snap-y {
+        scroll-snap-type: y mandatory;
+    }
+    .snap-start {
+        scroll-snap-align: start;
+    }
+}
 
 :root {
     --primary-color: #7e22ce;

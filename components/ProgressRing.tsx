@@ -13,7 +13,7 @@ interface Props {
     upSize?: boolean;
 }
 
-const ProgressRing = (props: Props) => {
+export default function ProgressRing(props: Props) {
     const stroke = props.stroke || 2;
     const radius = props.radius || 19;
     const padding = props.padding || 2;
@@ -72,5 +72,3 @@ const ProgressRing = (props: Props) => {
         </svg>
     </div>
 };
-
-export default ProgressRing;

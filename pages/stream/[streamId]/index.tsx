@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { Add } from '@material-ui/icons';
+import Add from '../../../icons/add.svg';
 import Refresh from '@material-ui/icons/Refresh';
 import { updateStreams } from 'actions/stream';
 import AppBarButton from 'components/AppBarButton';
@@ -37,15 +37,10 @@ const useStyles = makeStyles(theme => ({
       display: 'none'
     }
   },
-  loadingButton: {
-  },
   footer: {
     scrollSnapAlign: 'start',
     height: `calc(100vh - 48px - ${theme.spacing(2)}px)`
   },
-  unreadOnlySlider: {
-    color: theme.palette.text.primary
-  }
 }));
 
 let loaded = false;

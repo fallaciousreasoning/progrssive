@@ -25,7 +25,7 @@ export default function AppDrawer(props: { trigger: JSX.Element }) {
         {React.cloneElement(props.trigger, triggerProps)}
         <Drawer open={open} onClose={close}>
             <div className="m-2 w-64">
-                <h5 className="text-xl ml-4">
+                <h5 className="text-xl ml-2">
                     Progrssive Reader
                 </h5>
                 <ul className="py-2">
