@@ -1,4 +1,3 @@
-import { CardContent, CardHeader, makeStyles, Typography } from "@material-ui/core";
 import IconButton from 'components/IconButton'
 import Button from 'components/Button'
 import Share from "../../../../icons/share.svg";
@@ -23,21 +22,9 @@ import { useSettings } from 'services/settings';
 import 'types/Window';
 import LinkButton from "components/LinkButton";
 
-const useStyles = makeStyles(theme => ({
-    '@global': {
-        'article': {
-            color: theme.palette.text.primary
-        },
-        'article a': {
-            color: theme.palette.info.main
-        }
-    }
-}));
-
 const EntryViewer = (props: { store: Store }) => {
     const router = useRouter();
     const entryId = useEntryId();
-    useStyles();
     const domElement = useRef<HTMLDivElement>(null);
     const entry = useEntry(entryId, props.store);
     const url = getEntryUrl(entry);
@@ -177,7 +164,7 @@ const EntryViewer = (props: { store: Store }) => {
             </StackPanel>}
     </div>;
 
-    return <article className="mx-auto max-w-3xl" ref={domElement} onClick={doubleTap}>
+    return <article className="mx-auto max-w-3xl text-foreground" ref={domElement} onClick={doubleTap}>
         {article}
         {active && <>
             {!entry.transient && <AppBarButton>

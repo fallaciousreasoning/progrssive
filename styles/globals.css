@@ -30,3 +30,7 @@ body {
 .capitalize {
     text-transform: capitalize;
 }
+
+a {
+    color: #2196f3
+}
