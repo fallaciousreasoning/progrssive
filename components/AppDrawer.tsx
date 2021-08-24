@@ -1,14 +1,12 @@
 import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
 import Install from '../icons/install.svg'
 import About from '../icons/about.svg';
 import Articles from '../icons/articles.svg';
 import Subscriptions from '../icons/subscriptions.svg';
 import Settings from '../icons/settings.svg';
 import React, { useCallback, useMemo, useState } from 'react';
-import ListLinkButton from './ListLinkButton';
+import ListItemButton from './ListItemButton';
 import useInstallPrompt from '../hooks/useInstallPrompt';
 
 const iconProps = { className: "opacity-50", width: 24, height: 24 };
@@ -28,21 +26,16 @@ export default function AppDrawer(props: { trigger: JSX.Element }) {
         {React.cloneElement(props.trigger, triggerProps)}
         <Drawer open={open} onClose={close}>
             <div className="m-2 w-64">
-                <Typography variant='h5'>
+                <h5 className="text-xl ml-4">
                     Progrssive Reader
-                </Typography>
-                <List>
-                    <ListLinkButton icon={<Articles {...iconProps} />} text="Articles" href="/stream/all" />
-                    <ListLinkButton icon={<Subscriptions {...iconProps} />} text="Subscriptions" href="/subscriptions" />
-                    <ListLinkButton icon={<Settings {...iconProps} />} text="Settings" href="/settings" />
-                    <ListLinkButton icon={<About {...iconProps} />} text="About" href="/about" />
-                    {installPrompt && <ListItem button onClick={installPrompt}>
-                        <ListItemIcon>
-                            <Install {...iconProps} />
-                        </ListItemIcon>
-                        <ListItemText primary="Install" />
-                    </ListItem>}
-                </List>
+                </h5>
+                <ul className="py-2">
+                    <ListItemButton icon={<Articles {...iconProps} />} text="Articles" href="/stream/all" />
+                    <ListItemButton icon={<Subscriptions {...iconProps} />} text="Subscriptions" href="/subscriptions" />
+                    <ListItemButton icon={<Settings {...iconProps} />} text="Settings" href="/settings" />
+                    <ListItemButton icon={<About {...iconProps} />} text="About" href="/about" />
+                    {installPrompt && <ListItemButton onClick={installPrompt} icon={Install} text="Install"/>}
+                </ul>
             </div>
         </Drawer>
     </div>;
