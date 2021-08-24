@@ -1,6 +1,7 @@
-import { CardContent, CardHeader, IconButton, makeStyles, Typography } from "@material-ui/core";
+import { CardContent, CardHeader, makeStyles, Typography } from "@material-ui/core";
+import IconButton from 'components/IconButton'
 import Button from 'components/Button'
-import { Share } from "@material-ui/icons";
+import Share from "../../../../icons/share.svg";
 import { useRouter } from "next/router";
 import * as React from 'react';
 import { useCallback, useRef, useState } from 'react';
