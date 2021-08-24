@@ -1,8 +1,8 @@
 import IconButton from '@material-ui/core/IconButton';
-import Menu from '@material-ui/icons/Menu';
 import React, { useState } from 'react';
 import AppDrawer from './AppDrawer';
 import StackPanel from './StackPanel';
+import Menu from '../icons/Menu.svg';
 
 type BarChild = {
     id: string;
@@ -64,12 +64,12 @@ export default function ProgrssiveAppBar(props: { children: React.ReactNode }) {
 
     return <AppBarContext.Provider value={context}>
         <div className="flex flex-row items-center bg-primary text-foreground w-full h-12 shadow-sm lg:px-6">
-            <AppDrawer trigger={<IconButton><Menu /></IconButton>} />
+            <AppDrawer trigger={<IconButton><Menu width={24} height={24} /></IconButton>} />
             <div className="text-lg font-normal">Progrssive</div>
             <StackPanel className="flex-1" direction="row" alignItems="center" justifyContent="end" spacing="space-x-2" variants={appBarButtonVariants}>
-                    {Object.values(context.children).sort((a, b) => b.sort - a.sort).map(child => <React.Fragment key={child.id}>
-                        {child.child}
-                    </React.Fragment>)}
+                {Object.values(context.children).sort((a, b) => b.sort - a.sort).map(child => <React.Fragment key={child.id}>
+                    {child.child}
+                </React.Fragment>)}
             </StackPanel>
         </div>
         {props.children}

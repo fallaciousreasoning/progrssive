@@ -23,6 +23,7 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {
+      "*.svg":["types/svg.d.ts"],
       "@/components/*": ["components/*"],
       "@/api/*": ["api/*"],
       "@/actions/*": ["actions/*"],
@@ -43,8 +44,10 @@
     "components",
     "pages",
     "hooks",
+    "types",
     "selectors",
-    "styles/theme.ts"
+    "styles/theme.ts",
+    "types/svg.d.ts"
   ],
   "exclude": [
     "node_modules"

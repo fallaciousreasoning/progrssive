@@ -14,6 +14,13 @@ module.exports = {
                 })
             )
         }
+
+        // Add support for importing SVGs.
+        config.module.rules.push({
+            test: /\.svg$/,
+            use: ["@svgr/webpack"]
+        });
+
         return config
     },
     async redirects() {
