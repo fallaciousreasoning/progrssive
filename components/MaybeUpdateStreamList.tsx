@@ -1,4 +1,4 @@
-import { Button } from '@material-ui/core';
+import Button from 'components/Button';
 import React, { useCallback } from 'react';
 import { collect } from 'react-recollect';
 import { getStore, getStreamUpdating } from '../hooks/store';
