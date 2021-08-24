@@ -1,4 +1,4 @@
-import IconButton from '@material-ui/core/IconButton';
+import IconButton from './IconButton';
 import React, { useState } from 'react';
 import AppDrawer from './AppDrawer';
 import StackPanel from './StackPanel';
