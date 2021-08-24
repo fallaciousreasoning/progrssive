@@ -1,13 +1,12 @@
-import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import Drawer from '@material-ui/core/Drawer';
-import Install from '../icons/install.svg'
+import React, { useCallback, useMemo, useState } from 'react';
+import useInstallPrompt from '../hooks/useInstallPrompt';
 import About from '../icons/about.svg';
 import Articles from '../icons/articles.svg';
-import Subscriptions from '../icons/subscriptions.svg';
+import Install from '../icons/install.svg';
 import Settings from '../icons/settings.svg';
-import React, { useCallback, useMemo, useState } from 'react';
+import Subscriptions from '../icons/subscriptions.svg';
 import ListItemButton from './ListItemButton';
-import useInstallPrompt from '../hooks/useInstallPrompt';
 
 const iconProps = { className: "opacity-50", width: 24, height: 24 };
 export default function AppDrawer(props: { trigger: JSX.Element }) {

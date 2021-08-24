@@ -1,5 +1,4 @@
 import IconButton from './IconButton';
-import { makeStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import Add from '../icons/add.svg';
 import Delete from '../icons/delete.svg';
@@ -18,14 +17,7 @@ interface Props {
     toggleSubscription: (s: Subscription) => void
 }
 
-const useControlStyles = makeStyles(theme => ({
-    errorIcon: {
-        color: theme.palette.error.main
-    },
-}));
-
 const SubscriptionControls = (props: Props) => {
-    const styles = useControlStyles();
     const toggleSubscription = useCallback((e) => {
         e.stopPropagation();
         props.toggleSubscription(props.subscription);
@@ -49,7 +41,7 @@ const SubscriptionControls = (props: Props) => {
 
     if (props.subscription.importStatus === 'failed') {
         return <Tooltip title={`Couldn't find a feed for ${props.subscription.feedUrl}`}>
-            <div className={`${styles.errorIcon} mr-1`}>
+            <div className="fill-current text-red-400 mr-1">
                 <ErrorIcon />
             </div>
         </Tooltip>
