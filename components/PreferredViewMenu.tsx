@@ -1,5 +1,5 @@
 import { IconButton, MenuItem } from "@material-ui/core";
-import { ViewArray } from "@material-ui/icons";
+import ViewMode from "../icons/viewmode.svg";
 import React, { useCallback } from "react";
 import ToggleMenu from "./ToggleMenu";
 
@@ -18,7 +18,7 @@ const PreferredViewMenu = (props: Props) => {
     return <div>
         <ToggleMenu trigger={
         <IconButton>
-            <ViewArray />
+            <ViewMode />
         </IconButton>}>
             <MenuItem
                 selected={props.value === "feedly"}

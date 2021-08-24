@@ -7,6 +7,7 @@ import 'styles/article.css';
 import 'styles/globals.css';
 import 'styles/toggle.css';
 import 'styles/slider.css';
+import 'styles/progress.css';
 import AppBar from 'components/AppBar';
 import LazySnackbarProvider from 'components/LazySnackbarProvider';
 import { usePrefersDark, useTheme } from 'hooks/responsive';

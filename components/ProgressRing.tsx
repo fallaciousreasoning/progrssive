@@ -1,5 +1,4 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { makeStyles, Typography } from '@material-ui/core';
 import { round } from '../utils/math';
 
 interface Props {
@@ -14,26 +13,6 @@ interface Props {
     upSize?: boolean;
 }
 
-const useStyles = makeStyles(theme => ({
-    root: {
-        height: theme.spacing(5),
-        width: theme.spacing(5)
-    },
-    svg: {
-        width: '100%',
-        height: '100%',
-        fill: theme.palette.text.primary
-    },
-    circle: {
-        transform: 'rotate(0.75turn)',
-        transformOrigin: '50% 50%',
-        stroke: theme.palette.secondary.main
-    },
-    backgroundCircle: {
-        stroke: theme.palette.secondary.dark
-    }
-}));
-
 const ProgressRing = (props: Props) => {
     const stroke = props.stroke || 2;
     const radius = props.radius || 19;
@@ -45,7 +24,6 @@ const ProgressRing = (props: Props) => {
 
     const strokeDashoffset = circumference - props.percent * circumference;
 
-    const styles = useStyles();
     const textRef = useRef<SVGTextElement>();
     const [textScale, setTextScale] = useState(1);
     useEffect(() => {
@@ -61,39 +39,37 @@ const ProgressRing = (props: Props) => {
         setTextScale(scale);
     }, [props.text]);
 
-    return <div className={styles.root}>
-        <Typography gutterBottom={false}>
-            <svg
-                viewBox={`0 0 ${radius * 2} ${radius * 2}`}
-                className={styles.svg}>
-                <circle
-                    className={styles.backgroundCircle}
-                    stroke="white"
-                    fill="transparent"
-                    strokeWidth={stroke}
-                    r={normalizedRadius}
-                    cx={radius}
-                    cy={radius} />
-                <circle
-                    className={styles.circle}
-                    stroke="white"
-                    fill="transparent"
-                    strokeWidth={stroke}
-                    strokeDasharray={`${circumference} ${circumference}`}
-                    style={{ strokeDashoffset }}
-                    r={normalizedRadius}
-                    cx={radius}
-                    cy={radius} />
-                <text ref={textRef}
-                    x="50%"
-                    y="50%"
-                    dominantBaseline="middle"
-                    textAnchor="middle"
-                    fontSize={`${textScale}em`}>
-                    {props.text}
-                </text>
-            </svg>
-        </Typography>
+    return <div className="w-10 h-10 text-base">
+        <svg
+            viewBox={`0 0 ${radius * 2} ${radius * 2}`}
+            className="w-full h-full text-foreground fill-current">
+            <circle
+                className="text-secondary opacity-50 stroke-current"
+                stroke="white"
+                fill="transparent"
+                strokeWidth={stroke}
+                r={normalizedRadius}
+                cx={radius}
+                cy={radius} />
+            <circle
+                className="stroke-current text-secondary origin-center"
+                stroke="white"
+                fill="transparent"
+                strokeWidth={stroke}
+                strokeDasharray={`${circumference} ${circumference}`}
+                style={{ strokeDashoffset, transform: "rotate(0.75turn)" }}
+                r={normalizedRadius}
+                cx={radius}
+                cy={radius} />
+            <text ref={textRef}
+                x="50%"
+                y="50%"
+                dominantBaseline="middle"
+                textAnchor="middle"
+                fontSize={`${textScale}em`}>
+                {props.text}
+            </text>
+        </svg>
     </div>
 };
 
