@@ -149,36 +149,33 @@ const EntryViewer = (props: { store: Store }) => {
         </a>
         : entry.title;
 
-    const article = <>
-        <CardHeader
-            title={title}
-            subheader={getEntryByline(entry)} />
-        <CardContent>
-            {content !== undefined
-                ? <Typography component='small'>
-                    <div dangerouslySetInnerHTML={{ __html: content }}></div>
-                </Typography>
-                : <StackPanel alignItems='center'>
-                    <Typography component="small">
-                        {failedToMobilize
-                            ? "Failed to mobilize article."
-                            : "Mobilizing..."}
-                    </Typography>
+    const article = <div>
+        <div className="flex flex-col mb-3">
+            <h2 className="text-xl">{title}</h2>
+            <span className="text-base text-gray-500">{getEntryByline(entry)}</span>
+        </div>
+        {content !== undefined
+            ? <div className="text-sm" dangerouslySetInnerHTML={{ __html: content }}></div>
+            : <StackPanel alignItems='center'>
+                <div className="text-sm">
                     {failedToMobilize
-                        ? <StackPanel direction="row">
-                            <Button
-                                variant="outline"
-                                onClick={() => setCurrentView("feedly")}>View Feedly</Button>
-                            <LinkButton
-                                href={url}>
-                                Open in Browser
-                            </LinkButton>
-                        </StackPanel>
-                        : <LoadingSpinner />}
+                        ? "Failed to mobilize article."
+                        : "Mobilizing..."}
+                </div>
+                {failedToMobilize
+                    ? <StackPanel direction="row">
+                        <Button
+                            variant="outline"
+                            onClick={() => setCurrentView("feedly")}>View Feedly</Button>
+                        <LinkButton
+                            href={url}>
+                            Open in Browser
+                        </LinkButton>
+                    </StackPanel>
+                    : <LoadingSpinner />}
 
-                </StackPanel>}
-        </CardContent>
-    </>;
+            </StackPanel>}
+    </div>;
 
     return <article className="mx-auto max-w-3xl" ref={domElement} onClick={doubleTap}>
         {article}
