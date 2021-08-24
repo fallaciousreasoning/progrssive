@@ -21,7 +21,7 @@ export default (props: {
     }, []);
 
     return isLoading
-        ? <LoadingSpinner size={6} color="text-secondary"/>
+        ? <LoadingSpinner size={6} color="text-secondary" />
         : <ToggleMenu trigger={<IconButton size="small">
             <ProgressRing key="progress"
                 percent={props.progress}
@@ -29,9 +29,9 @@ export default (props: {
         </IconButton>}>
             <MenuItem value='read' onClick={markStream}>
                 Mark Stream as Read
-        </MenuItem>
+            </MenuItem>
             <MenuItem value="unread" onClick={markStream}>
                 Mark Stream as Unread
-        </MenuItem>
+            </MenuItem>
         </ToggleMenu>;
 }

@@ -1,9 +1,9 @@
-import IconButton from '@material-ui/core/IconButton';
+import IconButton from './IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
-import Add from '@material-ui/icons/Add';
-import Delete from '@material-ui/icons/Delete';
-import ErrorIcon from '@material-ui/icons/Error';
+import Add from '../icons/add.svg';
+import Delete from '../icons/delete.svg';
+import ErrorIcon from '../icons/error.svg';
 import { useRouter } from 'next/router';
 import React, { useCallback } from 'react';
 import { Subscription } from '../model/subscription';
