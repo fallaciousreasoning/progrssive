@@ -15,7 +15,7 @@ const transformOrigin = {
     vertical: 'top'
 } as const;
 
-export default (props: Props) => {
+export default function ToggleMenu(props: Props) {
     const [anchorEl, setAnchorEl] = useState(null);
     const triggerRef = useRef();
 
