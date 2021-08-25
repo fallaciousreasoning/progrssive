@@ -1,12 +1,10 @@
-import { Typography } from '@material-ui/core';
-import List from '@material-ui/core/List';
 import React, { useCallback, useState } from 'react';
 import { collect } from 'react-recollect';
+import Button from '../components/Button';
 import ListOptionToggle from '../components/ListOptionToggle';
 import { useResult } from '../hooks/promise';
 import { getDb } from '../services/db';
 import { CollectProps } from '../types/RecollectStore';
-import Button from '../components/Button';
 
 interface CleanSettings {
     articles?: boolean;
@@ -53,13 +51,9 @@ export default collect(({ store }: CollectProps) => {
     }, [clean]);
 
     return <div>
-        <Typography variant="h4">
-            Clean up storage space.
-        </Typography>
-        <Typography variant="subtitle2">
-            {usage}
-        </Typography>
-        <List>
+        <h4 className="text-3xl">Clean up storage space.</h4>
+        <span>{usage}</span>
+        <ul className="-ml-4 py-1">
             <ListOptionToggle
                 value={clean.articles}
                 onChange={onChange}
@@ -72,7 +66,7 @@ export default collect(({ store }: CollectProps) => {
                 name="subscriptions"
                 primaryText="Delete Subscriptions"
                 secondaryText="Warning! This will delete all your subscriptions. It is not recommended." />
-        </List>
+        </ul>
         <Button variant="outline" onClick={deleteStorage}>
             Clean
         </Button>

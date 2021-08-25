@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 import Add from '../../../icons/add.svg';
-import Refresh from '@material-ui/icons/Refresh';
+import Refresh from '../../../icons/refresh.svg';
 import { updateStreams } from 'actions/stream';
 import AppBarButton from 'components/AppBarButton';
 import Centre from 'components/Centre';
