@@ -45,6 +45,14 @@ body {
     text-transform: capitalize;
 }
 
+.max-height-page {
+    max-height: calc(100vh - 48px - 16px);
+}
+
+.height-page {
+    height: calc(100vh - 48px - 16px);
+}
+
 a {
     color: #2196f3
 }

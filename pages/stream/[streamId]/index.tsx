@@ -1,4 +1,3 @@
-import { makeStyles } from '@material-ui/core/styles';
 import Add from '../../../icons/add.svg';
 import Refresh from '../../../icons/refresh.svg';
 import { updateStreams } from 'actions/stream';
@@ -24,29 +23,9 @@ import { markStreamAs, setStreamList } from 'services/store';
 import { findSubscription, toggleSubscription } from 'services/subscriptions';
 import { delay } from 'utils/promise';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    overflow: 'hidden auto',
-    scrollSnapType: 'y mandatory',
-    maxHeight: `calc(100vh - 48px - ${theme.spacing(2)}px)`,
-    '&> *': {
-      scrollSnapAlign: 'start'
-    },
-    scrollbarWidth: 'none',
-    '&::-webkit-scrollbar': {
-      display: 'none'
-    }
-  },
-  footer: {
-    scrollSnapAlign: 'start',
-    height: `calc(100vh - 48px - ${theme.spacing(2)}px)`
-  },
-}));
-
 let loaded = false;
 
 const StreamViewer = (props: { store: Store }) => {
-  const styles = useStyles();
   const isPhone = useIsPhone();
   const router = useRouter();
   const streamId = useStreamId();
@@ -109,7 +88,7 @@ const StreamViewer = (props: { store: Store }) => {
   const [progress, setProgress] = useState(0);
   const remainingArticles = Math.round(props.store.stream.length - progress * props.store.stream.length);
 
-  return <div ref={rootRef} className={styles.root} onScroll={onFooterScrolled}>
+  return <div ref={rootRef} className="stream-viewer max-height-page" onScroll={onFooterScrolled}>
     {loading && <Centre>
       <LoadingSpinner />
     </Centre>}
@@ -144,7 +123,7 @@ const StreamViewer = (props: { store: Store }) => {
       </AppBarButton>
     </>}
 
-    <div className={styles.footer} ref={footerRef}>
+    <div className="height-page" ref={footerRef}>
       <StreamFooter unreadOnly={!showRead} streamId={streamId} />
     </div>
   </div >
