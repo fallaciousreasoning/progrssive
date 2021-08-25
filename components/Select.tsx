@@ -1,4 +1,4 @@
-import { useTheme } from "@/hooks/responsive";
+import Menu, { MenuItem } from 'components/Menu';
 import React, { useCallback, useMemo, useState } from "react"
 
 type DivProps = Omit<React.HTMLProps<HTMLDivElement>, 'value' | 'onChange'>;
@@ -18,20 +18,13 @@ export default function Select<T>(props: SelectProps<T>) {
     const className = useMemo(() => `${defaultClassName} ${propsClass}`, [propsClass]);
 
     const onItemClicked = useCallback((e: React.MouseEvent, item: T) => {
-        e.stopPropagation();
         if (value !== item) onChange(item);
-
-        setOpen(false);
     }, [value, onChange]);
 
-    return <div tabIndex={0} className={className} {...rest} onClick={() => setOpen(true)} onBlur={() => setOpen(false)}>
+    return <div tabIndex={0} className={className} {...rest} onFocus={() => setOpen(true)}>
         {value && renderValue(value)}
-        {isOpen && <div className="relative z-10">
-            <div className="absolute -top-2 -left-6 -right-6 bg-background shadow max-h-60 overflow-y-auto rounded">
-                {items.map((item, i) => <div key={i} onClick={(e) => onItemClicked(e, item)} className={`p-2 hover:bg-input ${item === value && 'bg-input'}`}>
-                    {renderItem(item, item === value)}
-                </div>)}
-            </div>
-        </div>}
+        <Menu isOpen={isOpen} setOpen={setOpen}>
+            {items.map(i => <MenuItem onClick={e => onItemClicked(e, i)} selected={i === value}>{renderItem(i, i === value)}</MenuItem>)}
+        </Menu>
     </div>;
 }
