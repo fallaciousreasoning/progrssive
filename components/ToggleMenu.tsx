@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback } from 'react'
-import { Menu, makeStyles } from '@material-ui/core'
+import { Menu } from '@material-ui/core'
 
 interface Props {
     trigger: React.ReactElement;
@@ -15,19 +15,9 @@ const transformOrigin = {
     vertical: 'top'
 } as const;
 
-const useStyles = makeStyles(theme => ({
-    triggerSelected: {
-        background: theme.palette.background.default,
-    },
-    trigger: {
-        transitionDuration: '0.5s'
-    }
-}));
-
 export default (props: Props) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const triggerRef = useRef();
-    const styles = useStyles();
 
     const toggleMenu = useCallback(() =>
         setAnchorEl(anchorEl ? null : triggerRef.current),
@@ -38,7 +28,7 @@ export default (props: Props) => {
         ...props.trigger.props,
         onClick: toggleMenu,
         ref: triggerRef,
-        className: `${props.trigger.props.className} ${styles.trigger} ${!!anchorEl && styles.triggerSelected}`
+        className: `${props.trigger.props.className} duration-500 ${!!anchorEl && 'bg-background'}`
     });
 
     const children = (Array.isArray(props.children)
