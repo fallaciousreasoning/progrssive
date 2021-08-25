@@ -1,4 +1,4 @@
-import { TextField, Typography } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useRouter } from 'next/router';
 import * as React from 'react';
@@ -194,9 +194,9 @@ export default function SubscriptionPage() {
                 toggleSubscription={toggleSubscription} />)}
         </StackPanel>
         {!isSearching && storeOrSearchResults.length === 0 && <StackPanel>
-            <Typography>
+            <span>
                 There's nothing here.
-            </Typography>
+            </span>
         </StackPanel>}
     </div>
 };
