@@ -27,15 +27,15 @@
 }
 
 html {
-    font-size: calc(8px + 2px * var(--font-size));
+    font-size: calc(8px + 3px * var(--font-size));
+    font-family: var(--font-family);
+    background-color: var(--background-color);
+    color: var(--foreground-color);
 }
 
 body {
     padding: 0;
     margin: 0;
-    font-family: var(--font-family);
-    background-color: var(--background-color);
-    color: var(--foreground-color);
 }
 
 .dark {
