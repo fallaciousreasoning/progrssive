@@ -30,7 +30,7 @@ export default function Menu(props: Props) {
 
     return props.isOpen && <div ref={ref} tabIndex={0} onBlur={() => props.setOpen(false)} >
         <div className="relative z-10">
-            <div className="absolute -top-2 -left-6 -right-6 bg-background shadow max-h-60 overflow-y-auto rounded">
+            <div className="absolute -top-2 -left-6 -right-6 bg-background max-h-60 overflow-y-auto rounded shadow-md">
                 {React.Children.map(props.children, (child) => <MenuItem {...child.props} onClick={e => onItemClicked(e, child)} />)}
             </div>
         </div>
