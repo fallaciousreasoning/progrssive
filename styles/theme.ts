@@ -1,4 +1,3 @@
-import { createMuiTheme } from "@material-ui/core";
 import { defaultSettings } from "services/settings";
 import { Settings } from 'model/settings';
 import { getColorForTheme, grey } from 'styles/colors';
@@ -39,44 +38,3 @@ const themeMeta = () =>
     typeof document === "undefined"
         ? null
         : document.querySelector('meta[name="theme-color"]');
-export const buildTheme = (settings: Settings) => {
-    settings = settings ?? defaultSettings;
-    const type = themeMode(settings);
-    const fontFamily = fonts[settings.fontFamily] || fonts.Roboto;
-    const accentColor = getColorForTheme(settings?.accent, type);
-
-    // Update the theme color used by the browser.
-    themeMeta()?.setAttribute('content', accentColor);
-
-    const theme = createMuiTheme({
-        palette: {
-            type: type,
-            primary: {
-                main: accentColor
-            },
-            secondary: {
-                main: getColorForTheme(settings.secondaryAccent, type)
-            },
-            background: {
-                default: type === "dark"
-                    ? grey[900]
-                    : grey[50],
-            },
-            text: {
-                primary: type === "dark"
-                    ? grey[200]
-                    : grey[900]
-            }
-        },
-        typography: {
-            fontSize: 8 + (settings.fontSize * 2),
-            fontFamily: fontFamily,
-            allVariants: {
-                color: type === "dark"
-                    ? grey[200]
-                    : grey[900]
-            }
-        }
-    });
-    return theme;
-}

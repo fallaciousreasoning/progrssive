@@ -1,24 +1,20 @@
-import { CssBaseline } from '@material-ui/core';
-import { MuiThemeProvider } from '@material-ui/core/styles';
-import type { AppProps } from 'next/app';
-import Head from 'next/head';
-import React, { useEffect, useMemo } from 'react';
-import 'styles/article.css';
-import 'styles/globals.css';
-import 'styles/toggle.css';
-import 'styles/slider.css';
-import 'styles/slider.css';
-import 'styles/streamviewer.css';
+import { useIsFrontend } from '@/hooks/useIsFrontend';
 import AppBar from 'components/AppBar';
 import LazySnackbarProvider from 'components/LazySnackbarProvider';
-import { usePrefersDark, useTheme } from 'hooks/responsive';
+import { useTheme } from 'hooks/responsive';
 import { useOnIdle } from 'hooks/useIdle';
+import type { AppProps } from 'next/app';
+import Head from 'next/head';
+import React, { useEffect } from 'react';
 import { getSettings, updateCssVariables, useSettings } from 'services/settings';
 import { initStore } from 'services/store';
-import { buildTheme } from 'styles/theme';
+import 'styles/article.css';
+import 'styles/globals.css';
+import 'styles/slider.css';
+import 'styles/streamviewer.css';
+import 'styles/toggle.css';
 import 'types/Window';
 import { cleanupWorker } from 'worker';
-import { useIsFrontend } from '@/hooks/useIsFrontend';
 
 // Make sure our store is initialized.
 initStore();
@@ -30,13 +26,6 @@ const ProgrssiveApp = ({ Component, pageProps }: AppProps) => {
   useEffect(() => {
     updateCssVariables(settings);
   }, [settings])
-
-  // Rerender when the external theme changes.
-  const prefersDark = usePrefersDark();
-  const theme = useMemo(() => {
-    return buildTheme(settings);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [settings, prefersDark]);
 
   // Note: We don't know the theme class to apply until we're on the client, so
   // we do this to not break SSR.
@@ -58,7 +47,6 @@ const ProgrssiveApp = ({ Component, pageProps }: AppProps) => {
       <link rel="manifest" href="/manifest.json" />
       <title>Progrssive Reader</title>
     </Head>
-    <MuiThemeProvider theme={theme}>
       <div className={themeClassName}>
         <LazySnackbarProvider>
           <AppBar>
@@ -68,7 +56,6 @@ const ProgrssiveApp = ({ Component, pageProps }: AppProps) => {
           </AppBar>
         </LazySnackbarProvider>
       </div>
-    </MuiThemeProvider>
   </>;
 };
 
