@@ -59,7 +59,6 @@ const ProgrssiveApp = ({ Component, pageProps }: AppProps) => {
       <title>Progrssive Reader</title>
     </Head>
     <MuiThemeProvider theme={theme}>
-      <CssBaseline />
       <div className={themeClassName}>
         <LazySnackbarProvider>
           <AppBar>

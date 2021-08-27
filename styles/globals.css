@@ -22,11 +22,13 @@
     --background-color: white;
     --foreground-color: black;
     --input-color: #e4e4e4;
+    --font-family: "Roboto", "Helvetica", "Arial", sans-serif;
 }
 
 body {
     padding: 0;
     margin: 0;
+    font-family: var(--font-family);
 }
 
 .dark {
