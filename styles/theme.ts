@@ -1,6 +1,4 @@
-import { defaultSettings } from "services/settings";
 import { Settings } from 'model/settings';
-import { getColorForTheme, grey } from 'styles/colors';
 
 export const themeMode = (settings: Settings) => {
     const preferDark = typeof window !== "undefined" && window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -34,7 +32,7 @@ export const fonts = {
 
 export const supportedFonts: (keyof typeof fonts)[] = Object.keys(fonts) as any;
 
-const themeMeta = () =>
+export const themeMeta = () =>
     typeof document === "undefined"
         ? null
         : document.querySelector('meta[name="theme-color"]');

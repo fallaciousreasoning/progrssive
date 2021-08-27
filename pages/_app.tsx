@@ -1,4 +1,6 @@
 import { useIsFrontend } from '@/hooks/useIsFrontend';
+import { getColorForTheme } from '@/styles/colors';
+import { themeMeta } from '@/styles/theme';
 import AppBar from 'components/AppBar';
 import LazySnackbarProvider from 'components/LazySnackbarProvider';
 import { useTheme } from 'hooks/responsive';
@@ -42,7 +44,7 @@ const ProgrssiveApp = ({ Component, pageProps }: AppProps) => {
       <meta
         name="viewport"
         content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-      <meta name="theme-color" content="#4caf50" />
+      <meta name="theme-color" content={getColorForTheme(settings.accent, themeMode)} />
       <link rel="shortcut icon" href="/icon-green.png" />
       <link rel="manifest" href="/manifest.json" />
       <title>Progrssive Reader</title>

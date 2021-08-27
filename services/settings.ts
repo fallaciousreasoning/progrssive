@@ -1,5 +1,5 @@
 import { getColorForTheme } from '@/styles/colors';
-import { fonts } from '@/styles/theme';
+import { fonts, themeMeta } from '@/styles/theme';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { Settings } from '../model/settings';
 import { getDb } from "./db";
