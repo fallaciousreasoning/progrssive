@@ -110,7 +110,6 @@ export default function SubscriptionPage() {
         }
     }, [debouncedQuery,
         query,
-        history,
         importingSubscriptions,
         subscriptions,
         getMatchingSubscription]);
