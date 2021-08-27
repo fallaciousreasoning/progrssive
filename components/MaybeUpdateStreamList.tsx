@@ -6,20 +6,21 @@ import useWhenChanged from '../hooks/useWhenChanged';
 import { entryCount } from '../services/entryIterator';
 import { setStreamList } from '../services/store';
 import { CollectProps } from '../types/RecollectStore';
+import { ToastProps } from './Toasts';
 
 interface Props {
     streamId: string;
 }
 
 const SNACK_KEY = 'articles-available';
-const UpdateButton = () => {
+const UpdateButton = (props: ToastProps) => {
     const callback = useCallback(() => {
         const stream = getStore().stream;
         setStreamList(stream.unreadOnly, stream.id, /*force=*/true);
-        window.snackHelper.closeSnackbar(SNACK_KEY);
+        props.dismiss();
     }, []);
 
-    return <Button color="secondary" onClick={callback}>
+    return <Button compact color="secondary" onClick={callback}>
         Show
     </Button>
 }
@@ -55,11 +56,11 @@ export default collect((props: Props & CollectProps) => {
 
         // Updates are available, ask the user if they
         // want to see them.
-        window.snackHelper.enqueueSnackbar("New articles available!", {
-            action: <UpdateButton />,
-            autoHideDuration: 15000,
-            key: SNACK_KEY,
-            preventDuplicate: true,
+        window.showToast({
+            message: "New articles available!",
+            action: props => <UpdateButton {...props} />,
+            duration: 15000,
+            id: SNACK_KEY,
         });
     }, [loading]);
     return null;

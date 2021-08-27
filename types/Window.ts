@@ -1,5 +1,5 @@
 import { WithSnackbarProps } from "notistack";
-
+import {ToastMessage} from 'components/Toasts';
 declare global {
     type RequestIdleCallbackHandle = any;
     type RequestIdleCallbackOptions = {
@@ -11,12 +11,11 @@ declare global {
     };
 
     interface Window {
-        snackHelper: WithSnackbarProps;
         requestIdleCallback: ((
             callback: ((deadline: RequestIdleCallbackDeadline) => void),
             opts?: RequestIdleCallbackOptions,
         ) => RequestIdleCallbackHandle);
         cancelIdleCallback: ((handle: RequestIdleCallbackHandle) => void);
-
+        showToast: (props: ToastMessage | string) => void;
     }
 }

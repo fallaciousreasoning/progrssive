@@ -31,7 +31,7 @@ export const useEntry = (id: string, store: Store) => {
                         entry = await getEntry(id);
                         addEntry(entry);
                     } catch {
-                        window.snackHelper.enqueueSnackbar('Unabled to load entry. Are you offline?')
+                        window.showToast('Unabled to load entry. Are you offline?')
                     }
                     getStore().updating[id] = false;
                 }

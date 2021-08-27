@@ -5,6 +5,7 @@ import { getColorForTheme, getContrastingColor, isDark } from "@/styles/colors";
 export interface ButtonProps extends React.HtmlHTMLAttributes<HTMLButtonElement> {
     color?: 'primary' | 'secondary';
     variant?: 'solid' | 'outline';
+    compact?: boolean;
     disabled?: boolean;
 }
 
@@ -16,15 +17,14 @@ const variants = {
 }
 
 export default function Button(props: ButtonProps) {
-    const {className, color, onClick, ...rest} = props;
+    const {className, color, compact, onClick, ...rest} = props;
     const variant = variants[`${props.color ?? 'primary'}-${props.variant ?? 'outline'}`];
     return <button className={`${className}
         flex justify-center text-center
         rounded
         hover:opacity-80
         ripple-bg-gray-300
-        border
-        p-2
+        ${compact ? 'p-1' : 'p-2 border'}
         ${variant}`}
         onClick={!props.disabled ? onClick : undefined}
         {...rest}/>
