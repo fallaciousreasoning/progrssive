@@ -8,6 +8,7 @@ import { useOnIdle } from 'hooks/useIdle';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import React, { useEffect } from 'react';
+import Toasts from 'components/Toasts';
 import { getSettings, updateCssVariables, useSettings } from 'services/settings';
 import { initStore } from 'services/store';
 import 'styles/article.css';
@@ -31,7 +32,7 @@ const ProgrssiveApp = ({ Component, pageProps }: AppProps) => {
   useEffect(() => {
     updateCssVariables(settings);
 
-    if (isFrontEnd) document.body.classList.toggle('dark', themeMode === 'dark');
+    if (isFrontEnd) document.documentElement.classList.toggle('dark', themeMode === 'dark');
   }, [settings, themeMode, isFrontEnd])
 
   useOnIdle(async () => {
@@ -49,6 +50,7 @@ const ProgrssiveApp = ({ Component, pageProps }: AppProps) => {
       <link rel="manifest" href="/manifest.json" />
       <title>Progrssive Reader</title>
     </Head>
+    <Toasts/>
     <LazySnackbarProvider>
       <AppBar>
         <div className="mx-auto p-2 max-w-3xl">
