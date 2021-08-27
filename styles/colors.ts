@@ -1,63 +1,63 @@
 export const colors = {
     amber: {
-        light: '#ffa000',
-        dark: '#ffc107',
+        light: '#ffc107',
+        dark: '#ffa000',
     },
     blue: {
-        light: '#1976d2',
-        dark: '#2196f3',
+        light: '#2196f3',
+        dark: '#1976d2',
     },
     blueGrey: {
-        light: '#455a64',
-        dark: '#607d8b'
+        light: '#607d8b',
+        dark: '#455a64',
     },
     cyan: {
-        light: '#0097a7',
-        dark: '#00bcd4',
+        light: '#00bcd4',
+        dark: '#0097a7',
     },
     green: {
-        light: '#388e3c',
-        dark: '#4caf50',
+        light: '#4caf50',
+        dark: '#388e3c',
     },
     orange: {
-        light: '#f57c00',
-        dark: '#ff9800',
+        light: '#ff9800',
+        dark: '#f57c00',
     },
     purple: {
-        light: '#7b1fa2',
-        dark: '#9c27b0',
+        light: '#9c27b0',
+        dark: '#7b1fa2',
     },
     red: {
-        light: '#d32f2f',
-        dark: '#f44336',
+        light: '#f44336',
+        dark: '#d32f2f',
     },
     deepPurple: {
-        light: '#512da8',
-        dark: '#673ab7',
+        light: '#673ab7',
+        dark: '#512da8',
     },
     pink: {
-        light: '#c2185b',
-        dark: '#e91e63',
+        light: '#e91e63',
+        dark: '#c2185b',
     },
     teal: {
-        light: '#00796b',
-        dark: '#009688',
+        light: '#009688',
+        dark: '#00796b',
     },
     yellow: {
-        light: '#fbc02d',
-        dark: '#ffeb3b',
+        light: '#ffeb3b',
+        dark: '#fbc02d',
     },
     lightGreen: {
-        light: '#689f38',
-        dark: '#8bc34a',
+        light: '#8bc34a',
+        dark: '#689f38',
     },
     lightBlue: {
-        light: '#0288d1',
-        dark: '#03a9f4',
+        light: '#03a9f4',
+        dark: '#0288d1',
     },
     lime: {
-        light: '#afb42b',
-        dark: '#cddc39',
+        light: '#cddc39',
+        dark: '#afb42b',
     }
 } as const;
 
