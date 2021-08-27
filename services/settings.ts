@@ -50,7 +50,9 @@ export const updateCssVariables = (settings?: Settings) => {
     const primaryColor = getColorForTheme(settings.accent, theme);
     const secondaryColor = getColorForTheme(settings.secondaryAccent, theme);
 
-    document.body.style.setProperty('--primary-color', primaryColor);
-    document.body.style.setProperty('--secondary-color', secondaryColor);
-    document.body.style.setProperty('--font-family', fonts[settings.fontFamily]);
+    const rootStyle = document.documentElement.style;
+    rootStyle.setProperty('--primary-color', primaryColor);
+    rootStyle.setProperty('--secondary-color', secondaryColor);
+    rootStyle.setProperty('--font-family', fonts[settings.fontFamily]);
+    rootStyle.setProperty('--font-size', settings.fontSize as any);
 }
