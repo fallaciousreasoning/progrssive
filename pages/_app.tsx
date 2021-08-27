@@ -18,6 +18,7 @@ import { initStore } from 'services/store';
 import { buildTheme } from 'styles/theme';
 import 'types/Window';
 import { cleanupWorker } from 'worker';
+import { useIsFrontend } from '@/hooks/useIsFrontend';
 
 // Make sure our store is initialized.
 initStore();
@@ -37,6 +38,11 @@ const ProgrssiveApp = ({ Component, pageProps }: AppProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [settings, prefersDark]);
 
+  // Note: We don't know the theme class to apply until we're on the client, so
+  // we do this to not break SSR.
+  const isFrontEnd = useIsFrontend();
+  const themeClassName = isFrontEnd ? themeMode : undefined;
+
   useOnIdle(async () => {
     const { cleanupSettings } = await getSettings();
     cleanupWorker().runEntryCleanup(cleanupSettings);
@@ -54,7 +60,7 @@ const ProgrssiveApp = ({ Component, pageProps }: AppProps) => {
     </Head>
     <MuiThemeProvider theme={theme}>
       <CssBaseline />
-      <div className={themeMode}>
+      <div className={themeClassName}>
         <LazySnackbarProvider>
           <AppBar>
             <div className="mx-auto p-2 max-w-3xl">
