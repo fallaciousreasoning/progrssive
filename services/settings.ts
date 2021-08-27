@@ -1,8 +1,7 @@
+import { getColorForTheme } from '@/styles/colors';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { getDb } from "./db";
 import { Settings } from '../model/settings';
-import { colors, getColorForTheme } from '@/styles/colors';
-import { themeMode } from '@/styles/theme';
+import { getDb } from "./db";
 
 export const defaultSettings: Settings = {
     markOpenedAsRead: true,
