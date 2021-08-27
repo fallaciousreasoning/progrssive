@@ -1,4 +1,5 @@
-import { IconButton, MenuItem } from '@material-ui/core';
+import IconButton from './IconButton';
+import { MenuItem } from './Menu';
 import React, { useState, useCallback } from 'react';
 import { markStreamAs } from '../services/store';
 import ProgressRing from './ProgressRing';
@@ -22,7 +23,7 @@ export default (props: {
 
     return isLoading
         ? <LoadingSpinner size={6} color="text-secondary" />
-        : <ToggleMenu trigger={<IconButton size="small">
+        : <ToggleMenu trigger={<IconButton className="p-1">
             <ProgressRing key="progress"
                 percent={props.progress}
                 text={props.text} />

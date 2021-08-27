@@ -14,7 +14,7 @@ export default function ToggleMenu(props: Props) {
         ...props.trigger.props,
         onClick: () => setOpen(true),
         ref: triggerRef,
-        className: `${props.trigger.props.className} duration-500 ${isOpen && 'bg-background'}`
+        className: `${props.trigger.props.className ?? 'p-3'} duration-300 transition-colors ${isOpen && 'bg-input'}`
     });
 
     const children = (Array.isArray(props.children)
