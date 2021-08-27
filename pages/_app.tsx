@@ -2,7 +2,6 @@ import { useIsFrontend } from '@/hooks/useIsFrontend';
 import { getColorForTheme } from '@/styles/colors';
 import { themeMeta } from '@/styles/theme';
 import AppBar from 'components/AppBar';
-import LazySnackbarProvider from 'components/LazySnackbarProvider';
 import { useTheme } from 'hooks/responsive';
 import { useOnIdle } from 'hooks/useIdle';
 import type { AppProps } from 'next/app';
@@ -50,14 +49,12 @@ const ProgrssiveApp = ({ Component, pageProps }: AppProps) => {
       <link rel="manifest" href="/manifest.json" />
       <title>Progrssive Reader</title>
     </Head>
-    <Toasts/>
-    <LazySnackbarProvider>
-      <AppBar>
-        <div className="mx-auto p-2 max-w-3xl">
-          <Component {...pageProps} />
-        </div>
-      </AppBar>
-    </LazySnackbarProvider>
+    <Toasts />
+    <AppBar>
+      <div className="mx-auto p-2 max-w-3xl">
+        <Component {...pageProps} />
+      </div>
+    </AppBar>
   </>;
 };
 

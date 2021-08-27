@@ -5,6 +5,7 @@ import { useCallback } from "react";
 import ReactDOM from "react-dom";
 import StackPanel from "./StackPanel";
 import Button from './Button';
+import { useIsFrontend } from "@/hooks/useIsFrontend";
 
 export interface ToastMessage {
     id?: string | number;
@@ -42,12 +43,9 @@ export default function Toasts() {
         setTimeout(dismiss, toDisplay.duration);
     }, []);
 
-    if (!('document' in globalThis)) return null;
-    window.showToast = toastCreator
-
-    useEffect(() => {
-        toastCreator({ message: "Hello Toasts!", action: <Button onClick={console.log}>Click Me</Button> })
-    }, [])
+    const isFrontEnd = useIsFrontend();
+    if (!isFrontEnd) return null;
+    window.showToast = toastCreator;
 
     return ReactDOM.createPortal(<>
         <div className="fixed bottom-2 left-2">

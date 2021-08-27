@@ -68,7 +68,7 @@ const EntryViewer = (props: { store: Store }) => {
             loadMobilizedContent(entryId)
                 .catch(() => {
                     setFailedToMobilize(true);
-                    window.snackHelper.enqueueSnackbar("Failed to mobilize article! Are you offline?");
+                    window.showToast("Failed to mobilize article! Are you offline?");
                 });
         }
     }, [currentView, entryId, !!entry]);

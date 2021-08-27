@@ -1,3 +1,4 @@
+import { useIsFrontend } from '@/hooks/useIsFrontend';
 import React, { useCallback, useMemo, useState } from 'react';
 import ReactDOM from 'react-dom';
 import useInstallPrompt from '../hooks/useInstallPrompt';
@@ -9,6 +10,9 @@ import Subscriptions from '../icons/subscriptions.svg';
 import ListItemButton from './ListItemButton';
 
 function Drawer(props: { isOpen: boolean, onClose: () => void, children: React.ReactNode }) {
+    const isFrontEnd = useIsFrontend();
+    if (!isFrontEnd) return null;
+
     return ReactDOM.createPortal(<>
         {props.isOpen && <div className="fixed top-0 bottom-0 left-0 right-0 opacity-30 bg-foreground z-10" onClick={props.onClose} />}
         <div className={`fixed z-20 top-0 bottom-0 left-0 bg-background transform transition-transform ${props.isOpen ? 'translate-x-0' : '-translate-x-full'}`}>

@@ -1,5 +1,4 @@
-import { WithSnackbarProps } from "notistack";
-import {ToastMessage} from 'components/Toasts';
+import { ToastMessage } from 'components/Toasts';
 declare global {
     type RequestIdleCallbackHandle = any;
     type RequestIdleCallbackOptions = {

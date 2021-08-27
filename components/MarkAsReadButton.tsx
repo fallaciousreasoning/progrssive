@@ -18,7 +18,7 @@ export default (props: {
         await markStreamAs(as);
 
         setIsLoading(false);
-        window.snackHelper.enqueueSnackbar(`Marked stream as ${as}`);
+        window.showToast(`Marked stream as ${as}`);
     }, []);
 
     return isLoading

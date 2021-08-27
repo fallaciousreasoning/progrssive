@@ -56,9 +56,9 @@ export const updateStreams = async (streamId?: string) => {
 
     try {
         await updateStreamsHeadless(affectedSubscriptions);
-        window.snackHelper.enqueueSnackbar(`Fetched articles${streamId ? " for " + (affectedSubscriptions[0].title || "").trim() : ""}.`)
+        window.showToast(`Fetched articles${streamId ? " for " + (affectedSubscriptions[0].title || "").trim() : ""}.`)
     } catch {
-        window.snackHelper.enqueueSnackbar(`Failed to update ${streamId ? affectedSubscriptions[0].title : "Stream"}`);
+        window.showToast(`Failed to update ${streamId ? affectedSubscriptions[0].title : "Stream"}`);
     }
 
     // Let the store know we're done with our update.

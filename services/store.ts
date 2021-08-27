@@ -87,7 +87,7 @@ const setTransientEntryList = async (streamId: string, force=false) => {
     const stream = await getStream(streamId).catch(() => null);
     if (!stream) {
         getStore().stream.length = 0;
-        window.snackHelper.enqueueSnackbar(`Failed to load stream. Are you offline?`);
+        window.showToast(`Failed to load stream. Are you offline?`);
         resolve();
         delete getStore().updating.stream[streamId];
         return;

@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useState, useMemo } from 'react';
 import { AppBarContext } from "./AppBar";
 
 const now = () => {
-    if ('performance' in window)
-        window.performance.now();
+    if ('performance' in globalThis)
+        globalThis.performance.now();
     return Date.now();
 }
 
