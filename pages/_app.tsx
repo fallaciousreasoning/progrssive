@@ -23,14 +23,14 @@ const ProgrssiveApp = ({ Component, pageProps }: AppProps) => {
   const settings = useSettings();
   const themeMode = useTheme();
 
-  useEffect(() => {
-    updateCssVariables(settings);
-  }, [settings])
-
   // Note: We don't know the theme class to apply until we're on the client, so
   // we do this to not break SSR.
   const isFrontEnd = useIsFrontend();
-  const themeClassName = isFrontEnd ? themeMode : undefined;
+  useEffect(() => {
+    updateCssVariables(settings);
+
+    if (isFrontEnd) document.body.classList.toggle('dark', themeMode === 'dark');
+  }, [settings, themeMode])
 
   useOnIdle(async () => {
     const { cleanupSettings } = await getSettings();
@@ -47,15 +47,13 @@ const ProgrssiveApp = ({ Component, pageProps }: AppProps) => {
       <link rel="manifest" href="/manifest.json" />
       <title>Progrssive Reader</title>
     </Head>
-      <div className={themeClassName}>
-        <LazySnackbarProvider>
-          <AppBar>
-            <div className="mx-auto p-2 max-w-3xl">
-              <Component {...pageProps} />
-            </div>
-          </AppBar>
-        </LazySnackbarProvider>
-      </div>
+    <LazySnackbarProvider>
+      <AppBar>
+        <div className="mx-auto p-2 max-w-3xl">
+          <Component {...pageProps} />
+        </div>
+      </AppBar>
+    </LazySnackbarProvider>
   </>;
 };
 
