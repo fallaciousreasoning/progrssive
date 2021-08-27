@@ -1,4 +1,5 @@
 import { TextField } from "@material-ui/core";
+import  NewTextField from "components/TextField";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useRouter } from 'next/router';
 import * as React from 'react';
@@ -172,6 +173,8 @@ export default function SubscriptionPage() {
         </StackPanel>
 
         <div className="sticky top-2 z-10" >
+            <NewTextField label="Search term or feed url" type="text" value={query} onChange={e => setQuery(e.target.value)}/>
+            <div className="h-2"/>
             <TextField
                 label="Search term or feed url"
                 variant="filled"

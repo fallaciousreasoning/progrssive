@@ -24,7 +24,7 @@ export default function Select<T>(props: SelectProps<T>) {
     return <div tabIndex={0} className={className} {...rest} onFocus={() => setOpen(true)}>
         {value && renderValue(value)}
         <Menu isOpen={isOpen} setOpen={setOpen}>
-            {items.map(i => <MenuItem onClick={e => onItemClicked(e, i)} selected={i === value}>{renderItem(i, i === value)}</MenuItem>)}
+            {items.map((item, index) => <MenuItem key={index} onClick={e => onItemClicked(e, item)} selected={item === value}>{renderItem(item, item === value)}</MenuItem>)}
         </Menu>
     </div>;
 }
