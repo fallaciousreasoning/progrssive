@@ -30,7 +30,7 @@ const ProgrssiveApp = ({ Component, pageProps }: AppProps) => {
     updateCssVariables(settings);
 
     if (isFrontEnd) document.body.classList.toggle('dark', themeMode === 'dark');
-  }, [settings, themeMode])
+  }, [settings, themeMode, isFrontEnd])
 
   useOnIdle(async () => {
     const { cleanupSettings } = await getSettings();
