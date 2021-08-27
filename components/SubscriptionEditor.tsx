@@ -1,5 +1,4 @@
 import IconButton from './IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
 import Add from '../icons/add.svg';
 import Delete from '../icons/delete.svg';
 import ErrorIcon from '../icons/error.svg';
@@ -40,11 +39,9 @@ const SubscriptionControls = (props: Props) => {
     }
 
     if (props.subscription.importStatus === 'failed') {
-        return <Tooltip title={`Couldn't find a feed for ${props.subscription.feedUrl}`}>
-            <div className="fill-current text-red-400 mr-1">
-                <ErrorIcon />
-            </div>
-        </Tooltip>
+        return <div className="fill-current text-red-400 mr-1">
+            <ErrorIcon />
+        </div>;
     }
 
     return progress;
@@ -58,7 +55,7 @@ const SubscriptionEditor = (props: Props) => {
     }, [props.subscription.id, router]);
 
     const preferredViewChanged = useCallback(async (newValue: Subscription['preferredView']) => {
-        await saveSubscription({ 
+        await saveSubscription({
             ...props.subscription,
             preferredView: newValue
         });
@@ -68,20 +65,20 @@ const SubscriptionEditor = (props: Props) => {
 
     return <div className="flex h-24 items-center mb-2 rounded-md shadow">
         <div className="w-24 h-24 self-stretch">
-            {visualUrl && <img src={visualUrl} alt="Source logo" className="rounded-l-md"/>}
+            {visualUrl && <img src={visualUrl} alt="Source logo" className="rounded-l-md" />}
         </div>
         <div className="mx-2 flex-grow p-2">
             <div onClick={viewStream} className="cursor-pointer">
                 <b>{props.subscription.title}</b>
             </div>
             {props.isSubscribed && !props.subscription.deleting && <div className="mt-2">
-                    <label>Preferred View</label>
-                    <Select
-                        className="w-full capitalize border-none focus:border bg-input"
-                        onChange={preferredViewChanged}
-                        items={mobilizers}
-                        value={props.subscription.preferredView || 'feedly'}
-                        renderValue={i => i} renderItem={i => i}/>
+                <label>Preferred View</label>
+                <Select
+                    className="w-full capitalize border-none focus:border bg-input"
+                    onChange={preferredViewChanged}
+                    items={mobilizers}
+                    value={props.subscription.preferredView || 'feedly'}
+                    renderValue={i => i} renderItem={i => i} />
             </div>}
         </div>
         <div className="ml-2">
