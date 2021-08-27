@@ -38,10 +38,10 @@ export default function AppDrawer(props: { trigger: JSX.Element }) {
                     Progrssive Reader
                 </h5>
                 <ul className="py-2">
-                    <ListItemButton icon={<Articles {...iconProps} />} text="Articles" href="/stream/all" />
-                    <ListItemButton icon={<Subscriptions {...iconProps} />} text="Subscriptions" href="/subscriptions" />
-                    <ListItemButton icon={<Settings {...iconProps} />} text="Settings" href="/settings" />
-                    <ListItemButton icon={<About {...iconProps} />} text="About" href="/about" />
+                    <ListItemButton icon={<Articles {...iconProps} />} text="Articles" href="/stream/all" onClick={close} />
+                    <ListItemButton icon={<Subscriptions {...iconProps} />} text="Subscriptions" href="/subscriptions" onClick={close} />
+                    <ListItemButton icon={<Settings {...iconProps} />} text="Settings" href="/settings" onClick={close} />
+                    <ListItemButton icon={<About {...iconProps} />} text="About" href="/about" onClick={close} />
                     {installPrompt && <ListItemButton onClick={installPrompt} icon={Install} text="Install" />}
                 </ul>
             </div>
