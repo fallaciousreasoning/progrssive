@@ -1,4 +1,5 @@
-import { IconButton, MenuItem } from "@material-ui/core";
+import IconButton from "./IconButton";
+import { MenuItem } from "./Menu";
 import ViewMode from "../icons/viewmode.svg";
 import React, { useCallback } from "react";
 import ToggleMenu from "./ToggleMenu";

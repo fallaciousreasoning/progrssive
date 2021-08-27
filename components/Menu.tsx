@@ -3,6 +3,7 @@ import { useEffect } from "react";
 
 interface MenuItemProps extends React.HtmlHTMLAttributes<HTMLDivElement> {
     selected?: boolean;
+    value?: string;
 }
 
 export function MenuItem(props: MenuItemProps) {

@@ -1,34 +1,20 @@
 import React, { useState, useRef, useCallback } from 'react'
-import { Menu } from '@material-ui/core'
+import Menu from 'components/Menu';
 
 interface Props {
     trigger: React.ReactElement;
     children: React.ReactElement | React.ReactElement[];
 }
 
-const anchorOrigin = {
-    horizontal: 'center',
-    vertical: 'bottom'
-} as const;
-const transformOrigin = {
-    horizontal: 'center',
-    vertical: 'top'
-} as const;
-
 export default function ToggleMenu(props: Props) {
-    const [anchorEl, setAnchorEl] = useState(null);
     const triggerRef = useRef();
 
-    const toggleMenu = useCallback(() =>
-        setAnchorEl(anchorEl ? null : triggerRef.current),
-        [anchorEl]);
-    const closeMenu = useCallback(() => setAnchorEl(null), []);
-
+    const [isOpen, setOpen] = useState(false);
     const trigger = React.cloneElement(props.trigger, {
         ...props.trigger.props,
-        onClick: toggleMenu,
+        onClick: () => setOpen(true),
         ref: triggerRef,
-        className: `${props.trigger.props.className} duration-500 ${!!anchorEl && 'bg-background'}`
+        className: `${props.trigger.props.className} duration-500 ${isOpen && 'bg-background'}`
     });
 
     const children = (Array.isArray(props.children)
@@ -37,25 +23,8 @@ export default function ToggleMenu(props: Props) {
 
     return <>
         {trigger}
-        <Menu
-            open={!!anchorEl}
-            anchorEl={anchorEl}
-            getContentAnchorEl={null}
-            anchorReference="anchorEl"
-            anchorOrigin={anchorOrigin}
-            transformOrigin={transformOrigin}
-            onClose={closeMenu}
-            keepMounted
-        >
-            {children.map((c, i) => React.cloneElement(c, {
-                ...c.props,
-                key: i,
-                onClick: (...args) => {
-                    closeMenu();
-                    if (c.props.onClick)
-                        c.props.onClick(...args)
-                }
-            }))}
+        <Menu isOpen={isOpen} setOpen={setOpen}>
+            {children}
         </Menu>
     </>
 }
