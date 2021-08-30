@@ -37,11 +37,14 @@
 body {
     padding: 0;
     margin: 0;
+    overflow-x: hidden;
+}
+
+html {
     background-color: var(--background-color);
     font-size: calc(8px + 3px * var(--font-size));
     font-family: var(--font-family);
     color: var(--foreground-color);
-    overflow-x: hidden;
 }
 
 .select-caret {
