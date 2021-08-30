@@ -7,13 +7,10 @@ interface Props {
 }
 
 export default function ToggleMenu(props: Props) {
-    const triggerRef = useRef();
-
     const [isOpen, setOpen] = useState(false);
     const trigger = React.cloneElement(props.trigger, {
         ...props.trigger.props,
         onClick: () => setOpen(true),
-        ref: triggerRef,
         className: `${props.trigger.props.className ?? 'p-3'} duration-300 transition-colors ${isOpen && 'bg-input'}`
     });
 

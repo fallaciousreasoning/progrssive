@@ -41,6 +41,7 @@ export default function StreamFooter(props: Props) {
     const loading = !!getStreamUpdating(props.streamId);
     const { setShowRead } = useShowRead();
     return <StackPanel
+        animatePresence={false}
         direction="col"
         justifyContent="start"
         alignItems="center"
