@@ -30,8 +30,6 @@ const Row = collect((props: { index: number, style: any, store: Store }) => {
     const newStyle = useMemo(() => ({
         ...props.style,
         top: props.style.top + GUTTER_SIZE,
-        left: 1,
-        right: 1,
         width: `100%`
     }), [props.style]);
     const settings = useSettings();
