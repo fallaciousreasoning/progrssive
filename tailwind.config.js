@@ -9,6 +9,9 @@ module.exports = {
         primary: {
           DEFAULT: 'var(--primary-color)',
         },
+        paper: {
+          DEFAULT: 'var(--paper-color)'
+        },
         secondary: {
           DEFAULT: 'var(--secondary-color)',
         },

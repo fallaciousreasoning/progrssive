@@ -19,29 +19,28 @@
 :root {
     --primary-color: #7e22ce;
     --secondary-color: #c2410c;
-    --background-color: white;
-    --foreground-color: black;
+    --background-color: '#fafafa';
+    --foreground-color: '#212121';
+    --paper-color: '#ffffff';
     --input-color: #e4e4e4;
     --font-family: "Roboto", "Helvetica", "Arial", sans-serif;
     --font-size: 3;
 }
 
-html {
-    font-size: calc(8px + 3px * var(--font-size));
-    font-family: var(--font-family);
-    background-color: var(--background-color);
-    color: var(--foreground-color);
+.dark {
+    --background-color: #202020;
+    --paper-color: #424242;
+    --foreground-color: #eeeeee;
+    --input-color: #353535;
 }
 
 body {
     padding: 0;
     margin: 0;
-}
-
-.dark {
-    --background-color: #212121;
-    --foreground-color: white;
-    --input-color: #353535;
+    background-color: var(--background-color);
+    font-size: calc(8px + 3px * var(--font-size));
+    font-family: var(--font-family);
+    color: var(--foreground-color);
 }
 
 .select-caret {
