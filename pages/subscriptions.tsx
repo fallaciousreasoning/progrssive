@@ -1,9 +1,3 @@
-import  TextField from "components/TextField";
-import { useLiveQuery } from "dexie-react-hooks";
-import { useRouter } from 'next/router';
-import * as React from 'react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useDebounce } from 'use-debounce';
 import { searchFeeds } from 'api/search';
 import Button from 'components/Button';
 import Centre from "components/Centre";
@@ -12,9 +6,15 @@ import ImportOpml from "components/ImportOpml";
 import LoadingSpinner from "components/LoadingSpinner";
 import StackPanel from "components/StackPanel";
 import SubscriptionEditor from "components/SubscriptionEditor";
+import TextField from "components/TextField";
+import { useLiveQuery } from "dexie-react-hooks";
+import { useQueryParam } from "hooks/url";
 import { guessFeedUrl, Subscription } from 'model/subscription';
+import * as React from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getDb } from "services/db";
 import { toggleSubscription } from "services/subscriptions";
+import { useDebounce } from 'use-debounce';
 
 const searchResultVariants = {
     initial: { opacity: 0, height: 0 },
@@ -26,8 +26,6 @@ const searchResultTransition = { duration: 0.3 };
 const queryCache: { [query: string]: Subscription[] } = {}
 
 export default function SubscriptionPage() {
-    const router = useRouter();
-
     const subscriptions = useLiveQuery(async () => {
         const db = await getDb();
         return db.subscriptions.toArray();
@@ -48,44 +46,45 @@ export default function SubscriptionPage() {
         return (s: Subscription) => subscribedTo.has(s.id);
     }, [importingSubscriptions]);
 
-    const queryParams = router.query;
-    const [query, setQuery] = useState(queryParams['query']?.[0] ?? "@subscribed");
-    const [debouncedQuery] = useDebounce(query, 200);
+    const { search: rawQueryString, setSearch: updateQueryString } = useQueryParam("search");
+    const [search, setSearch] = useState(rawQueryString ?? '@subscribed');
+
+    const [debouncedSearchTerm] = useDebounce(search, 200);
     const [searchResults, setSearchResults] = useState<Subscription[]>([]);
     const viewSubscriptions = useCallback(() => {
-        setQuery("@subscribed");
-    }, [setQuery]);
+        setSearch('@subscribed');
+    }, [setSearch]);
 
     const [isSearching, setIsSearching] = useState(false);
 
     // Update search results when typing.
     useEffect(() => {
-        if (query !== queryParams['query'])
-            router.replace(`/subscriptions?query=${encodeURIComponent(query)}`);
+        if (search !== rawQueryString) updateQueryString(search);
+
         // This is a special query.
-        if (query.startsWith("@")) {
-            if (query === "@subscribed")
+        if (search.startsWith("@")) {
+            if (search === "@subscribed")
                 setSearchResults(subscriptions);
 
-            if (query === "@import")
+            if (search === "@import")
                 setSearchResults(importingSubscriptions);
             setIsSearching(false);
             return;
         }
 
-        if (!debouncedQuery) {
+        if (!debouncedSearchTerm) {
             setIsSearching(false);
             setSearchResults([]);
             return;
         }
 
-        if (queryCache[debouncedQuery]) {
+        if (queryCache[debouncedSearchTerm]) {
             setIsSearching(false);
-            setSearchResults(queryCache[debouncedQuery]);
+            setSearchResults(queryCache[debouncedSearchTerm]);
             return;
         }
 
-        if (debouncedQuery !== query)
+        if (debouncedSearchTerm !== search)
             return;
 
         let cancelled = false;
@@ -93,23 +92,23 @@ export default function SubscriptionPage() {
 
         // Only set results if this search hasn't been cancelled.
         const finish = (results?: Subscription[]) => {
-            // Cache for faster retreival next time.
+            // Cache for faster retrieval next time.
             if (results)
-                queryCache[debouncedQuery] = results;
+                queryCache[debouncedSearchTerm] = results;
 
             if (cancelled)
                 return;
             setIsSearching(false);
             setSearchResults(results || []);
         }
-        searchFeeds(debouncedQuery).then(finish)
+        searchFeeds(debouncedSearchTerm).then(finish)
             .catch(() => finish());
 
         return () => {
             cancelled = true;
         }
-    }, [debouncedQuery,
-        query,
+    }, [debouncedSearchTerm,
+        search,
         importingSubscriptions,
         subscriptions,
         getMatchingSubscription]);
@@ -125,7 +124,7 @@ export default function SubscriptionPage() {
                     importStatus: 'pending'
                 });
         setImportingSubscriptions(toImport);
-        setQuery("@import");
+        setSearch("@import");
 
         // Find a matching subscription, one by one.
         for (let i = 0; i < toImport.length; ++i) {
@@ -160,18 +159,18 @@ export default function SubscriptionPage() {
     return <div>
 
         <StackPanel direction='row' animatePresence>
-            {!query.startsWith('@subscribed')
+            {!search.startsWith('@subscribed')
                 && <Button key="current" variant="outline" color="primary" onClick={viewSubscriptions}>
                     Current Feeds
                 </Button>}
             {!!subscriptions.length
                 && <ExportOpml key="export" className="mb-2" />}
-            {!query.startsWith("@import") && <ImportOpml key="import" className="mb-2"
+            {!search.startsWith("@import") && <ImportOpml key="import" className="mb-2"
                 onOpmlLoaded={onLoadedOpml} />}
         </StackPanel>
 
         <div className="sticky top-2 z-10" >
-            <TextField label="Search term or feed url" className="w-full" value={query} onChange={e => setQuery(e.target.value)}/>
+            <TextField label="Search term or feed url" className="w-full" value={search} onChange={e => setSearch(e.target.value)}/>
         </div>
 
         {isSearching && <Centre>

@@ -1,5 +1,6 @@
 import { useRouter } from "next/router"
 import { useCallback } from "react";
+import { capitalize } from 'utils/string';
 
 export const useStreamId = () => {
     const router = useRouter();
@@ -21,6 +22,24 @@ export const useQuery = () => {
         query,
         setQuery
     }
+}
+
+export const useQueryParam = <T extends string>(param: T) => {
+    const { query, setQuery } = useQuery();
+    const setter = useCallback((value: string | null) => {
+        const copy = new URLSearchParams(query);
+        if (value === undefined || value === null) copy.delete(param);
+        else copy.set(param, value);
+
+        setQuery(copy.toString());
+    }, [query]);
+
+    return {
+        [param]: query.get(param),
+        [`set${capitalize(param)}`]: setter
+    } as {
+        [P in `set${Capitalize<T>}`]: (value?: string | null) => void;
+    } & { [P in T]?: string | null };
 }
 
 export const useShowRead = () => {
