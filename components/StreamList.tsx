@@ -1,4 +1,5 @@
 import { useIsPhone } from '@/hooks/responsive';
+import { useIsFrontend } from '@/hooks/useIsFrontend';
 import { getScrollPos, setScrollPos } from '@/services/entryIterator';
 import { setUnread } from 'actions/marker';
 import { useScreenSize } from 'hooks/screenSize';
@@ -112,6 +113,9 @@ const StreamList = (props: Props) => {
     const parentWidth = listOuterRef.current && listOuterRef.current.parentElement
         ? listOuterRef.current.parentElement.getBoundingClientRect().width
         : width;
+    
+    if (!useIsFrontend()) return null;
+
     return <FixedSizeList
         ref={listRef}
         outerRef={listOuterRef}

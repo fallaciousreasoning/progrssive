@@ -41,7 +41,7 @@ body {
     font-size: calc(8px + 3px * var(--font-size));
     font-family: var(--font-family);
     color: var(--foreground-color);
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 .select-caret {
