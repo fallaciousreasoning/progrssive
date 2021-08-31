@@ -1,4 +1,4 @@
-import { fetchSansCors } from "../api/common";
+import { fetchSansCors } from "../feedly/common";
 
 export const getPageText = async (url: string) => {
     let response: Response;
