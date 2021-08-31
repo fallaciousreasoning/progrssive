@@ -25,7 +25,7 @@
     "paths": {
       "*.svg":["types/svg.d.ts"],
       "@/components/*": ["components/*"],
-      "@/api/*": ["api/*"],
+      "@/feedly/*": ["feedly/*"],
       "@/actions/*": ["actions/*"],
       "@/services/*": ["services/*"],
       "@/model/*": ["model/*"],
@@ -40,7 +40,7 @@
   "include": [
     "src",
     "actions",
-    "api",
+    "feedly",
     "components",
     "pages",
     "hooks",
