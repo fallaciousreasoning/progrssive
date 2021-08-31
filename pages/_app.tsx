@@ -1,6 +1,5 @@
-import { useIsFrontend } from '@/hooks/useIsFrontend';
-import { getColorForTheme } from '@/styles/colors';
-import { themeMeta } from '@/styles/theme';
+import { useIsFrontend } from 'hooks/useIsFrontend';
+import { getColorForTheme } from 'styles/colors';
 import AppBar from 'components/AppBar';
 import { useTheme } from 'hooks/responsive';
 import { useOnIdle } from 'hooks/useIdle';
@@ -16,7 +15,7 @@ import 'styles/slider.css';
 import 'styles/streamviewer.css';
 import 'styles/toggle.css';
 import 'types/Window';
-import { cleanupWorker } from 'worker';
+import { cleanupWorker } from 'background';
 
 // Make sure our store is initialized.
 initStore();

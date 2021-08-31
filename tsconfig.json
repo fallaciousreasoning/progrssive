@@ -34,7 +34,7 @@
       "@/types/*": ["types/*"],
       "@/styles/*": ["styles/*"],
       "@/pages/*": ["pages/*"],
-      "@/worker/*": ["worker/*"]
+      "@/background/*": ["background/*"]
     }
   },
   "include": [

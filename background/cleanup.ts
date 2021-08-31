@@ -1,9 +1,9 @@
-import { Entry } from "../model/entry";
-import { round } from "../utils/math";
-import { day } from "../utils/time";
-import { CleanupSettings } from "../model/settings";
+import { Entry } from "model/entry";
+import { round } from "utils/math";
+import { day } from "utils/time";
+import { CleanupSettings } from "model/settings";
 import { expose } from "comlink";
-import { getDb } from "../services/db";
+import { getDb } from "services/db";
 
 const worker = {
     shouldDelete: (now: number, settings: CleanupSettings, entry: Entry) => {
