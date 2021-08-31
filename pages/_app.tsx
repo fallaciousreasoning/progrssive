@@ -9,6 +9,7 @@ import React, { useEffect } from 'react';
 import Toasts from 'components/Toasts';
 import { getSettings, updateCssVariables, useSettings } from 'services/settings';
 import { initStore } from 'services/store';
+import Animator from 'components/Animator';
 import 'styles/article.css';
 import 'styles/globals.css';
 import 'styles/slider.css';
@@ -50,9 +51,11 @@ const ProgrssiveApp = ({ Component, pageProps }: AppProps) => {
     </Head>
     <Toasts />
     <AppBar>
-        <div className="mx-auto p-2 max-w-3xl">
+      <Animator duration={200}>
+        <div className="mx-auto p-2 max-w-3xl" key={globalThis.location?.pathname}>
           <Component {...pageProps} />
         </div>
+      </Animator>
     </AppBar>
   </>;
 };
