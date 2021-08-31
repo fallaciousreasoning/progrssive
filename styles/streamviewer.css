@@ -11,3 +11,8 @@
 .stream-viewer > * {
     scroll-snap-align: start;
 }
+
+.entry-card {
+    height: 196px;
+    max-height: 196px;
+}

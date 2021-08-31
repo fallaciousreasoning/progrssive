@@ -56,6 +56,7 @@ const Row = collect((props: { index: number, style: any, store: Store }) => {
     }, [settings.markOpenedAsRead, viewMode, item?.id]);
 
     return item ? <div
+        className="p-1"
         style={newStyle}
         onClick={onClick}
     >
