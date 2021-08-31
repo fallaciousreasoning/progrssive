@@ -65,7 +65,7 @@ const SubscriptionEditor = (props: Props) => {
 
     return <div className="flex h-32 items-center mb-2 rounded-md shadow bg-paper">
         <div className="w-24 h-full self-stretch">
-            {visualUrl && <img src={visualUrl} alt="Source logo" className="rounded-l-md h-full w-full" />}
+            {visualUrl && <img src={visualUrl} alt="Source logo" className="rounded-l-md h-full w-full object-cover" />}
         </div>
         <div className="mx-2 flex-grow p-2">
             <div onClick={viewStream} className="cursor-pointer">
