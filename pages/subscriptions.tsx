@@ -1,4 +1,4 @@
-import { searchFeeds } from 'api/search';
+import { searchFeeds } from 'feedly/search';
 import Button from 'components/Button';
 import Centre from "components/Centre";
 import ExportOpml from 'components/ExportOpml';
