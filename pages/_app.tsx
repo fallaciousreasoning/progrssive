@@ -50,9 +50,9 @@ const ProgrssiveApp = ({ Component, pageProps }: AppProps) => {
     </Head>
     <Toasts />
     <AppBar>
-      <div className="mx-auto p-2 max-w-3xl">
-        <Component {...pageProps} />
-      </div>
+        <div className="mx-auto p-2 max-w-3xl">
+          <Component {...pageProps} />
+        </div>
     </AppBar>
   </>;
 };

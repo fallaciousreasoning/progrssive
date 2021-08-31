@@ -1,6 +1,6 @@
 import { store as s } from 'react-recollect';
 import { bulkSetUnread } from '../actions/marker';
-import { getStream } from '../api/streams';
+import { getStream } from '../feedly/streams';
 import { getStore } from '../hooks/store';
 import { Entry } from '../model/entry';
 import { StoreDef } from '../types/RecollectStore';

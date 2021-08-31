@@ -1,5 +1,5 @@
 import { subscriptionsQuery } from "@/services/subscriptions";
-import { getAllEntries } from "../api/streams";
+import { getAllEntries } from "../feedly/streams";
 import { getStore } from "../hooks/store";
 import { Subscription } from "../model/subscription";
 import { bulkUpdateEntries, getDb } from "../services/db";

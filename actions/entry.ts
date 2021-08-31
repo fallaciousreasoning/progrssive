@@ -1,4 +1,4 @@
-import { getEntry } from "../api/entry";
+import { getEntry } from "../feedly/entry";
 import { getStore } from "../hooks/store";
 import { addEntry, loadEntry } from "../services/db";
 import { getEntryUrl } from "../services/entry";

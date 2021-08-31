@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Store } from "react-recollect";
-import { getEntry } from "../api/entry";
+import { getEntry } from "../feedly/entry";
 import { Entry } from "../model/entry";
 import { addEntry, loadEntry } from "../services/db";
 import { getStore } from "./store";

@@ -4,7 +4,7 @@ import { Subscription } from "../model/subscription";
 import { getDb, saveSubscription } from "./db";
 import { entryIterator } from "./entryIterator";
 import { setStreamList } from "./store";
-import { getFeed } from "../api/search";
+import { getFeed } from "../feedly/search";
 import { useLiveQuery } from "dexie-react-hooks";
 import { maybePersist } from '../utils/persist';
 // Get the subscription from our store or fetch it from Feedly, if we don't have
