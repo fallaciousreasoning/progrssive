@@ -46,7 +46,7 @@ export default function AppDrawer(props: { trigger: JSX.Element }) {
                     <ListItemButton icon={<Subscriptions {...iconProps} />} text="Subscriptions" href="/subscriptions" onClick={close} />
                     <ListItemButton icon={<Settings {...iconProps} />} text="Settings" href="/settings" onClick={close} />
                     <ListItemButton icon={<About {...iconProps} />} text="About" href="/about" onClick={close} />
-                    {installPrompt && <ListItemButton onClick={installPrompt} icon={Install} text="Install" />}
+                    {installPrompt && <ListItemButton onClick={installPrompt} icon={<Install {...iconProps}/>} text="Install" />}
                 </ul>
             </div>
         </Drawer>
