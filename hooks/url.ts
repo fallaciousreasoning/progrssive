@@ -84,7 +84,6 @@ export const useNavigationType = () => {
     useEffect(() => router.beforePopState(() => goingBack.current = true), []);
     useEffect(() => {
         const completeListener = () => {
-            setType(undefined);
             goingBack.current = false;
         }
         router.events.on('routeChangeComplete', completeListener);

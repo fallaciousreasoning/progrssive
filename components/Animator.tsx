@@ -1,11 +1,12 @@
-import { useNavigationType } from "@/hooks/url";
-import { useRouter } from "next/router";
-import React, { useEffect, useMemo, useRef, useState } from "react"
+import { useNavigationType } from "hooks/url";
+import useValueRef from 'hooks/useValueRef';
+import React, { useEffect, useState } from "react";
 
 type Child = React.ReactElement<{ className?: string, key: string }>;
 interface ChildStates {
     [key: string]: {
         state: 'intial' | 'entering' | 'exiting';
+        className: string;
         timeout?: NodeJS.Timeout;
         element: Child;
     }
@@ -20,11 +21,18 @@ interface AnimatorProps {
     duration: 75 | 100 | 200 | 300 | 500 | 700 | 1000
 }
 
-const states = {
-    initial: 'translate-x-full',
-    entering: 'translate-x-0',
-    exiting: '-translate-x-full'
+const positions = {
+    right: 'translate-x-full',
+    middle: 'translate-x-0',
+    left: '-translate-x-full'
 };
+
+const getPosition = (mode: 'entering' | 'exiting', navigation: 'forward' | 'back') => {
+    if (mode == 'entering')
+        return navigation == 'forward' ? positions.right : positions.left;
+    if (mode == 'exiting')
+        return navigation === 'forward' ? positions.left : positions.right;
+}
 
 const durations = {
     75: 'duration-75',
@@ -40,8 +48,8 @@ export default function Animator(props: AnimatorProps) {
     const duration = props.duration;
     const children = Array.isArray(props.children) ? props.children : [props.children];
     const [previous, setPrevious] = useState<ChildStates>({});
-    const direction = useNavigationType();
-
+    const directionRef = useValueRef(useNavigationType());
+    
     useEffect(() => {
         const newChildren = children.filter(c => !(c.key in previous) || previous[c.key].state === "exiting");
         const removedChildren = Object.keys(previous).filter(c => !previous[c].timeout && !children.some(cur => cur.key === c));
@@ -65,9 +73,9 @@ export default function Animator(props: AnimatorProps) {
             setTimeout(() => {
                 setPrevious(current => ({
                     ...current,
-                    ...newChildren.reduce((prev, next) => ({ 
+                    ...newChildren.reduce((prev, next) => ({
                         ...prev,
-                        [next.key]: { ...current[next.key], state: 'entering' }
+                        [next.key]: { ...current[next.key], className: positions.middle, state: 'entering' }
                     }), {})
                 }));
             }, 10);
@@ -79,12 +87,12 @@ export default function Animator(props: AnimatorProps) {
                 // Set removed children to exiting, with their timeout value.
                 ...removedChildren.reduce((prev, next) => ({
                     ...prev,
-                    [next]: { ...current[next], state: 'exiting', timeout }
+                    [next]: { ...current[next], className: getPosition('exiting', directionRef.current), state: 'exiting', timeout }
                 }), {}),
                 // Add new children.
                 ...newChildren.reduce((prev, next) => ({
                     ...prev,
-                    [next.key]: { state: 'initial', element: next }
+                    [next.key]: { state: 'initial', className: getPosition('entering', directionRef.current), element: next }
                 }), {})
             }));
         }
@@ -93,7 +101,7 @@ export default function Animator(props: AnimatorProps) {
     return <div className="relative">
         {Object.values(previous).map(child => <div
             key={child.element.key}
-            className={`absolute top-0 bottom-0 left-0 right-0 transform ease-in transition-transform ${durations[props.duration]} ${states[child.state]}`}>
+            className={`absolute top-0 bottom-0 left-0 right-0 transform ease-in transition-transform ${durations[props.duration]} ${child.className}`}>
             {child.element}
         </div>)}
     </div>
