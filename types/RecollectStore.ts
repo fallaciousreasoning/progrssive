@@ -21,10 +21,6 @@ export interface StoreStream {
 
 export interface StoreDef {
   updating: UpdatingInformation;
-  current: {
-    [path: string]: string;
-  },
-
   stream: StoreStream;
   entries: { [id: string]: Entry };
 }

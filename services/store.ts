@@ -16,8 +16,6 @@ export const initStore = () => {
         categories: false,
         stream: {},
     };
-    store.current = {
-    };
 
     setScrollPos(0);
     store.stream = {
