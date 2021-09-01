@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react"
+import React, { useEffect, useMemo, useRef, useState } from "react"
 
 type Child = React.ReactElement<{ className?: string, key: string }>;
 interface ChildStates {
@@ -35,6 +35,7 @@ const durations = {
 }
 
 export default function Animator(props: AnimatorProps) {
+    const duration = props.duration;
     const children = Array.isArray(props.children) ? props.children : [props.children];
     const [previous, setPrevious] = useState<ChildStates>({});
     useEffect(() => {
@@ -53,7 +54,7 @@ export default function Animator(props: AnimatorProps) {
                     }
                     return result;
                 });
-            }, props.duration);
+            }, duration);
         }
 
         if (newChildren.length) {
@@ -85,8 +86,10 @@ export default function Animator(props: AnimatorProps) {
         }
     }, [children])
 
-    return <div>
-        {Object.values(previous).map(child => <div key={child.element.key} className={`transform transition-transform ${durations[props.duration]} ${states[child.state]}`}>
+    return <div className="relative">
+        {Object.values(previous).map(child => <div
+            key={child.element.key}
+            className={`absolute top-0 bottom-0 left-0 right-0 transform transition-transform ${durations[props.duration]} ${states[child.state]}`}>
             {child.element}
         </div>)}
     </div>

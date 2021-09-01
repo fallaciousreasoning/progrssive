@@ -5,7 +5,7 @@ import { useTheme } from 'hooks/responsive';
 import { useOnIdle } from 'hooks/useIdle';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Toasts from 'components/Toasts';
 import { getSettings, updateCssVariables, useSettings } from 'services/settings';
 import { initStore } from 'services/store';
@@ -51,7 +51,7 @@ const ProgrssiveApp = ({ Component, pageProps }: AppProps) => {
     </Head>
     <Toasts />
     <AppBar>
-      <div className="mx-auto p-2 max-w-3xl" key={globalThis.location?.pathname}>
+      <div className="mx-auto p-2 max-w-3xl">
         <Animator duration={200}>
           <Component key={globalThis.location?.pathname} {...pageProps} />
         </Animator>
