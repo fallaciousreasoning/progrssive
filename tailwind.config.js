@@ -5,6 +5,9 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+      fill: {
+        background: 'var(--background-color)'
+      },
       colors: {
         primary: {
           DEFAULT: 'var(--primary-color)',
