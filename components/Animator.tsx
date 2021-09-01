@@ -1,3 +1,5 @@
+import { useNavigationType } from "@/hooks/url";
+import { useRouter } from "next/router";
 import React, { useEffect, useMemo, useRef, useState } from "react"
 
 type Child = React.ReactElement<{ className?: string, key: string }>;
@@ -38,6 +40,8 @@ export default function Animator(props: AnimatorProps) {
     const duration = props.duration;
     const children = Array.isArray(props.children) ? props.children : [props.children];
     const [previous, setPrevious] = useState<ChildStates>({});
+    const direction = useNavigationType();
+
     useEffect(() => {
         const newChildren = children.filter(c => !(c.key in previous) || previous[c.key].state === "exiting");
         const removedChildren = Object.keys(previous).filter(c => !previous[c].timeout && !children.some(cur => cur.key === c));

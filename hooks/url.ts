@@ -1,6 +1,7 @@
 import { useRouter } from "next/router"
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { capitalize } from 'utils/string';
+import { compileFunction } from "vm";
 
 export const useStreamId = () => {
     const router = useRouter();
@@ -73,4 +74,29 @@ export const useEntryId = () => {
     }, [cachedId]);
 
     return cachedId;
+}
+
+export const useNavigationType = () => {
+    const goingBack = useRef(false);
+    const [type, setType] = useState<'forward' | 'back'>();
+    const router = useRouter();
+
+    useEffect(() => router.beforePopState(() => goingBack.current = true), []);
+    useEffect(() => {
+        const completeListener = () => {
+            setType(undefined);
+            goingBack.current = false;
+        }
+        router.events.on('routeChangeComplete', completeListener);
+
+        const startListener = () => setType(goingBack.current ? 'back' : 'forward');
+        router.events.on('routeChangeStart', startListener);
+
+        return () => {
+            router.events.off('routeChangeStart', startListener);
+            router.events.off('routeChangeComplete', completeListener);
+        };
+    }, [router]);
+
+    return type;
 }
