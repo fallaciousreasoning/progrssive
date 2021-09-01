@@ -68,3 +68,7 @@ html {
 a {
     color: #2196f3
 }
+
+svg {
+    fill: var(--foreground-color);
+}

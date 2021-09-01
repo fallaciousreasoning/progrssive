@@ -21,7 +21,7 @@ function Drawer(props: { isOpen: boolean, onClose: () => void, children: React.R
     </>, document.body);
 }
 
-const iconProps = { className: "opacity-50", width: 24, height: 24 };
+const iconProps = { className: "opacity-80", width: 24, height: 24 };
 export default function AppDrawer(props: { trigger: JSX.Element }) {
     const [open, setOpen] = useState(false);
     const close = useCallback(() => {
