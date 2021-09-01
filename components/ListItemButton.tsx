@@ -9,7 +9,7 @@ type ListItemProps = {
     | {});
 
 export default function ListButton(props: ListItemProps) {
-    const content = <li className="cursor-pointer hover:bg-gray-300 flex flex-row p-2 space-x-3" onClick={props['onClick']}>
+    const content = <li className="cursor-pointer hover:bg-input flex flex-row p-2 space-x-3" onClick={props['onClick']}>
         {props.icon}
         <span className="text-base">{props.text}</span>
     </li>;
