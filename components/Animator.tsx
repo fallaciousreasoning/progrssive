@@ -89,7 +89,7 @@ export default function Animator(props: AnimatorProps) {
     return <div className="relative">
         {Object.values(previous).map(child => <div
             key={child.element.key}
-            className={`absolute top-0 bottom-0 left-0 right-0 transform transition-transform ${durations[props.duration]} ${states[child.state]}`}>
+            className={`absolute top-0 bottom-0 left-0 right-0 transform ease-in transition-transform ${durations[props.duration]} ${states[child.state]}`}>
             {child.element}
         </div>)}
     </div>

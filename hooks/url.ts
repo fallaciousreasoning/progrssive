@@ -1,5 +1,5 @@
 import { useRouter } from "next/router"
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { capitalize } from 'utils/string';
 
 export const useStreamId = () => {
@@ -66,5 +66,11 @@ export const useEntryId = () => {
     const router = useRouter();
     const query = router.query;
 
-    return Array.isArray(query.entryId) ? query.entryId[0] : query.entryId;
+    const inQuery = Array.isArray(query.entryId) ? query.entryId[0] : query.entryId;
+    const [cachedId, setCachedId] = useState(inQuery);
+    useEffect(() => {
+        if (cachedId !== inQuery && inQuery) setCachedId(inQuery);
+    }, [cachedId]);
+
+    return cachedId;
 }
