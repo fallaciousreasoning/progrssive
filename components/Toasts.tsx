@@ -1,11 +1,7 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
-import { useRef } from "react";
-import { useCallback } from "react";
+import { useIsFrontend } from "@/hooks/useIsFrontend";
+import React, { useCallback, useState } from "react";
 import ReactDOM from "react-dom";
 import StackPanel from "./StackPanel";
-import Button from './Button';
-import { useIsFrontend } from "@/hooks/useIsFrontend";
 
 export interface ToastMessage {
     id?: string | number;

@@ -18,7 +18,7 @@ const UpdateButton = (props: ToastProps) => {
         const stream = getStore().stream;
         setStreamList(stream.unreadOnly, stream.id, /*force=*/true);
         props.dismiss();
-    }, []);
+    }, [props.dismiss]);
 
     return <Button compact color="secondary" onClick={callback}>
         Show
