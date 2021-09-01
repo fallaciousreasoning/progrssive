@@ -29,3 +29,4 @@ yarn-error.log*
 
 public/sw.js*
 public/workbox-*
+public/worker-*
