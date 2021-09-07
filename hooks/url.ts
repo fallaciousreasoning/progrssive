@@ -71,7 +71,7 @@ export const useEntryId = () => {
     const [cachedId, setCachedId] = useState(inQuery);
     useEffect(() => {
         if (cachedId !== inQuery && inQuery) setCachedId(inQuery);
-    }, [cachedId]);
+    }, [inQuery]);
 
     return cachedId;
 }
