@@ -45,6 +45,7 @@ const setEntryList = async (unreadOnly: boolean, streamId: string, force = false
         return;
     }
 
+    console.log("Made new entry iterator", streamId, unreadOnly, force)
     streamIterator = entryIterator(unreadOnly, streamId);
     currentLoader = makeLoader();
     

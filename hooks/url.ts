@@ -47,12 +47,12 @@ export const useShowRead = () => {
     const router = useRouter();
     const { query, setQuery } = useQuery();
 
-    const showRead = query.has('showRead')
-        && query.get('showRead') !== "false";
+    const showRead = query.has('showRead') && query.get('showRead') !== 'false';
+    console.log("Show read", showRead);
 
     const setShowRead = useCallback((show: boolean) => {
-        if (show) query.set('showRead', '');
-        else query.delete('showRead');
+        if (show) query.set('showRead', 'true');
+        else query.set('showRead', 'false');
 
         setQuery(query.toString());
     }, [query]);
