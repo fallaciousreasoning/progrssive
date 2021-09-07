@@ -95,6 +95,7 @@ export const getProgrssiveUrl = (to: Entry) => {
     if (streamId)
         url += encodeURIComponent(streamId) + '/'
     url += `entry/${encodeURIComponent(to.id)}/`
-    url += `?showRead=${!getStore().stream.unreadOnly}`;
+    if (!getStore().stream.unreadOnly)
+        url += `?showRead`;
     return url;
 }
