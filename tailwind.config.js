@@ -28,6 +28,9 @@ module.exports = {
           DEFAULT: 'var(--input-color)'
         }
       },
+      minHeight: {
+        '1': '1px'
+      },
     },
   },
   variants: {

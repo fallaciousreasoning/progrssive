@@ -94,7 +94,9 @@ const StreamViewer = (props: { store: Store }) => {
     </Centre>}
 
     <MaybeUpdateStreamList streamId={streamId} />
-    {props.store.stream.length !== 0 && <StreamList onProgressChanged={setProgress} />}
+    {props.store.stream.length !== 0 && <div className="min-h-1">
+      <StreamList onProgressChanged={setProgress} />
+    </div>}
 
     {active && <>
       {isTransient
@@ -102,16 +104,16 @@ const StreamViewer = (props: { store: Store }) => {
           {isAdding
             ? <LoadingSpinner color="text-secondary" size={6} />
             : <IconButton onClick={async () => {
-                setIsAdding(true);
-                await toggleSubscription(findSubscription(streamId));
-                await delay(1000);
-                setIsAdding(false);
-              }}>
+              setIsAdding(true);
+              await toggleSubscription(findSubscription(streamId));
+              await delay(1000);
+              setIsAdding(false);
+            }}>
               <Add />
             </IconButton>}
         </AppBarButton>
         : <AppBarButton>
-            <Toggle checked={!showRead} onChange={toggleShowRead} label="Unread" />
+          <Toggle checked={!showRead} onChange={toggleShowRead} label="Unread" />
         </AppBarButton>}
       <AppBarButton>
         <IconButton disabled={loading} onClick={() => updateStreams(streamId)}>

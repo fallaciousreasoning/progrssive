@@ -1,13 +1,9 @@
-import IconButton from 'components/IconButton'
-import Button from 'components/Button'
-import Share from "../../../../icons/share.svg";
-import { useRouter } from "next/router";
-import * as React from 'react';
-import { useCallback, useRef, useState } from 'react';
-import { collect, Store } from "react-recollect";
 import { loadMobilizedContent } from "actions/entry";
 import AppBarButton from "components/AppBarButton";
+import Button from 'components/Button';
 import Centre from "components/Centre";
+import IconButton from 'components/IconButton';
+import LinkButton from "components/LinkButton";
 import LoadingSpinner from "components/LoadingSpinner";
 import { EntryReadButton } from "components/MarkerButton";
 import PreferredViewMenu from "components/PreferredViewMenu";
@@ -17,10 +13,14 @@ import { useEntry } from "hooks/entry";
 import { useScreenSize } from "hooks/screenSize";
 import { useEntryId } from "hooks/url";
 import useWhenChanged from "hooks/useWhenChanged";
+import { useRouter } from "next/router";
+import * as React from 'react';
+import { useCallback, useRef, useState } from 'react';
+import { collect, Store } from "react-recollect";
 import { getEntryByline, getEntryContent, getEntryUrl, useViewMode } from "services/entry";
 import { useSettings } from 'services/settings';
 import 'types/Window';
-import LinkButton from "components/LinkButton";
+import Share from "../../../../icons/share.svg";
 
 const EntryViewer = (props: { store: Store }) => {
     const router = useRouter();
