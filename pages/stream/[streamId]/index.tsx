@@ -102,11 +102,11 @@ const StreamViewer = (props: { store: Store }) => {
           {isAdding
             ? <LoadingSpinner color="text-secondary" size={6} />
             : <IconButton onClick={async () => {
-              setIsAdding(true);
-              await toggleSubscription(findSubscription(streamId));
-              await delay(1000);
-              setIsAdding(false);
-            }}>
+                setIsAdding(true);
+                await toggleSubscription(findSubscription(streamId));
+                await delay(1000);
+                setIsAdding(false);
+              }}>
               <Add />
             </IconButton>}
         </AppBarButton>
