@@ -1,5 +1,5 @@
 import { Stream } from '../model/stream';
-import { makeRequest } from './common';
+import { makeFeedlyRequest } from './common';
 import { Entry } from '../model/entry';
 const endpoint = 'streams'
 
@@ -14,7 +14,7 @@ const defaultOptions = {
 }
 
 export const getStream = async (streamId: string, type: 'contents' | 'id' = 'contents', options?: StreamRequestOptions): Promise<Stream> => {
-    return makeRequest<Stream>(`${endpoint}/${type}?streamId=${encodeURIComponent(streamId)}`, { ...defaultOptions, ...options });
+    return makeFeedlyRequest<Stream>(`${endpoint}/${type}?streamId=${encodeURIComponent(streamId)}`, { ...defaultOptions, ...options });
 }
 
 export const getAllEntries = async (streamId: string, since: number, batchSize=100, limit=100) => {

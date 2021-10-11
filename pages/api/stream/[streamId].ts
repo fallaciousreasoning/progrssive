@@ -1,5 +1,8 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import { getStream } from '@/feedly/streams';
+import { NextApiResponse } from 'next';
+import { ApiRequest } from 'types/ApiRequest';
 
-export default function(request: NextApiRequest, response: NextApiResponse) {
-    response.send({ streamId: request.query.streamId });
+export default async function(request: ApiRequest<{ streamId: string }>, response: NextApiResponse) {
+    const stream = await getStream(request.query.streamId)
+    response.send(stream);
 }

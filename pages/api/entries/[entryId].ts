@@ -1,5 +1,8 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import { getEntry } from '@/feedly/entry';
+import { ApiRequest } from '@/types/ApiRequest';
+import { NextApiResponse } from 'next';
 
-export default function(request: NextApiRequest, response: NextApiResponse) {
-    response.send({ entryId: request.query.entryId });
+export default async function(request: ApiRequest<{ entryId }>, response: NextApiResponse) {
+    const entry = await getEntry(request.query.entryId);
+    response.send(entry);
 }

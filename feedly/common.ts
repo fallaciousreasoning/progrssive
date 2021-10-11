@@ -12,7 +12,7 @@ export const feedlyQueryString = (params: Object): string => {
     return queryString.stringify(fixedCase);
 }
 
-export const makeRequest = async <T>(url: string, params?: Object): Promise<T> => {
+export const makeFeedlyRequest = async <T>(url: string, params?: Object): Promise<T> => {
     const queryString = feedlyQueryString(params);
     const joiner = queryString.length === 0
         ? ''

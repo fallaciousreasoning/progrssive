@@ -1,5 +1,5 @@
 import { Subscription } from '../model/subscription';
-import { makeRequest } from './common';
+import { makeFeedlyRequest } from './common';
 const endpoint = '/search/feeds'
 
 export interface SearchRequestOptions {
@@ -8,11 +8,11 @@ export interface SearchRequestOptions {
 }
 
 export const searchFeeds = async (query: string, options?: SearchRequestOptions): Promise<Subscription[]> => {
-    const result = await makeRequest<{ results: Subscription[] }>(`${endpoint}?query=${encodeURIComponent(query)}`, options);
+    const result = await makeFeedlyRequest<{ results: Subscription[] }>(`${endpoint}?query=${encodeURIComponent(query)}`, options);
     return result.results;
 }
 
 export const getFeed = async (id: string): Promise<Subscription> => {
-    const result = await makeRequest<Subscription>(`/feeds/${encodeURIComponent(id)}`);
+    const result = await makeFeedlyRequest<Subscription>(`/feeds/${encodeURIComponent(id)}`);
     return result;
 }
