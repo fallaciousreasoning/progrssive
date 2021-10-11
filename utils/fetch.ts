@@ -1,5 +1,3 @@
-import { fetchSansCors } from "../feedly/common";
-
 export const getPageText = async (url: string) => {
     let response: Response;
     try {
@@ -13,4 +11,11 @@ export const getPageText = async (url: string) => {
     }
 
     return response.text();
+}
+
+export const bypassCorsUrl = 'https://progrssive-cors.herokuapp.com/';
+
+export const fetchSansCors = (url: string, init?: RequestInit) => {
+    url = `${bypassCorsUrl}${url}`
+    return fetch(url, init);
 }
