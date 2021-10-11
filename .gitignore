@@ -23,3 +23,10 @@ yarn-debug.log*
 yarn-error.log*
 
 .eslintcache
+
+.next/
+.vscode/
+
+public/sw.js*
+public/workbox-*
+public/worker-*

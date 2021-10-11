@@ -1,0 +1,18 @@
+.stream-viewer {
+    overflow: hidden auto;
+    scrollbar-width: none;
+    scroll-snap-type: y mandatory;
+}
+
+.stream-viewer::-webkit-scrollbar {
+    display: none;
+}
+
+.stream-viewer > * {
+    scroll-snap-align: start;
+}
+
+.entry-card {
+    height: 196px;
+    max-height: 196px;
+}

@@ -1,6 +1,6 @@
 Progrssive is a Progressive Web App for reading RSS feeds (hence the name: ProgRSSive). It's built in such a way that it works entirely offline.
 
-A live version is available at https://readr.nz
+A live version is available at https://readr.nz/
 
 ![Progrssive installed as a PWA on desktop](https://github.com/fallaciousreasoning/progrssive/raw/master/images/desktop-installed-stream.png)
 
@@ -27,7 +27,7 @@ Currently not all browsers support installing PWAs. I've collected some of the o
         npm run start
     by default, Progrssive will be available on http://localhost:8080
 
-### `npm start`
+### `npm run dev`
 
 Runs the app in the development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.

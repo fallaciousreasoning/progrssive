@@ -1,0 +1,66 @@
+input[type=range] {
+    appearance: none;
+    background-color: transparent;
+}
+
+input[type=range]:focus {
+    border: none;
+}
+
+
+/* Special styling for WebKit/Blink */
+
+input[type='range']::-webkit-slider-thumb {
+    appearance: none;
+    position: relative;
+    height: 24px;
+    width: 24px;
+    margin-top: -10px;
+    background: var(--secondary-color);
+    border-radius: 50%;
+}
+
+input[type=range]::-webkit-slider-thumb:hover {
+    filter: brightness(0.9);
+}
+
+input[type=range]::-webkit-slider-thumb:active {
+    filter: brightness(0.8);
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    background-color: var(--input-color);
+    height: 4px;
+    border-radius: 4px;
+}
+
+/* All the same stuff for Firefox */
+
+input[type=range]::-moz-range-thumb {
+    border: none;
+    height: 24px;
+    width: 24px;
+    border-radius: 24px;
+    background: var(--secondary-color);
+    cursor: pointer;
+}
+
+input[type=range]::-moz-range-thumb:hover {
+    filter: brightness(0.9);
+}
+
+input[type=range]::-moz-range-thumb:active {
+    filter: brightness(0.8);
+}
+
+input[type=range]::-moz-range-progress {
+    background-color: var(--secondary-color);
+    height: 4px;
+    border-radius: 4px;
+}
+
+input[type=range]::-moz-range-track {
+    background-color: var(--input-color);
+    height: 4px;
+    border-radius: 4px;
+}
