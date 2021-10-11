@@ -29,8 +29,7 @@ export const initStore = () => {
 }
 
 export const setStreamList = async (unreadOnly: boolean, streamId: string, force=false) => {
-    const isTransient = streamId
-        && !(await getDb()).subscriptions.get(streamId);
+    const isTransient = streamId && !(await getDb().then(db => db.subscriptions.get(streamId)));
     if (isTransient)
         setTransientEntryList(streamId, force);
     else setEntryList(unreadOnly, streamId, force);
