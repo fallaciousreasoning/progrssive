@@ -31,11 +31,12 @@ export const bulkSetUnread = async (entries: string[], unread: boolean) => {
 
     const db = await getDb();
     const onDisk = await db.entries.bulkGet(entries);
-    const update = onDisk.map(e => ({
+    const update = onDisk.filter(e => !!e).map(e => ({
         ...e,
         unread: +unread,
         readTime
     }));
+
     await db.entries.bulkPut(update);
 }
 
