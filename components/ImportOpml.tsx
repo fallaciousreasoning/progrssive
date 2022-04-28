@@ -50,7 +50,9 @@ const ImportOpml = (props: Props & ButtonProps) => {
     const { onOpmlLoaded, ...buttonProps } = props;
 
     const pick = useCallback(async () => {
-        const file = await pickFile();
+        const file = await pickFile({
+            accept: ['text/xml', 'application/xml', 'text/plain', 'text/x-opml']
+        });
         const text = await getFileText(file);
         try {
             const opml = await parseOpml(text);
