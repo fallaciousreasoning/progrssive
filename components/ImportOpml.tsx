@@ -30,15 +30,19 @@ export const parseOpml = (opml: string): Promise<OpmlNode[]> => {
     }
     return new Promise(async (accept, reject) => {
         const opmlToJson = (await import("opml-to-json")).default;
-        opmlToJson(opml, (error, json) => {
-            if (error) {
-                reject(error);
-            } else {
-                // Flatten the structure.
-                const feeds = onlyFeeds(json);
-                accept(feeds);
-            }
-        })
+        try {
+            opmlToJson(opml, (error, json) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    // Flatten the structure.
+                    const feeds = onlyFeeds(json);
+                    accept(feeds);
+                }
+            })
+        } catch (err) {
+            reject(err);
+        }
     });
 }
 
@@ -48,20 +52,25 @@ const ImportOpml = (props: Props & ButtonProps) => {
     const pick = useCallback(async () => {
         const file = await pickFile();
         const text = await getFileText(file);
-        const opml = await parseOpml(text);
+        try {
+            const opml = await parseOpml(text);
 
-        // Map the opml nodes to subscriptions.
-        const subscriptions: Subscription[] = opml.map(o => ({
-            id: `${feedUrlPrefix}${o.xmlurl}`,
-            feedUrl: o.xmlurl,
-            title: o.title,
-            categories: [{
-                id: o.folder,
-                label: o.folder
-            }].filter(c => !!c.id),
-            website: o.htmlurl
-        }));
-        onOpmlLoaded(subscriptions);
+            // Map the opml nodes to subscriptions.
+            const subscriptions: Subscription[] = opml.map(o => ({
+                id: `${feedUrlPrefix}${o.xmlurl}`,
+                feedUrl: o.xmlurl,
+                title: o.title,
+                categories: [{
+                    id: o.folder,
+                    label: o.folder
+                }].filter(c => !!c.id),
+                website: o.htmlurl
+            }));
+            onOpmlLoaded(subscriptions);
+        } catch (err) {
+            console.error(err);
+            window.showToast('Failed to import OPML file');
+        }
     }, [onOpmlLoaded]);
 
     return <Button
