@@ -1,0 +1,4 @@
+This is a Brave Rewards publisher verification file.
+
+Domain: readr.nz
+Token: 0ae10f174d773c1368e70d7f5dcd5d72f29df51dbc6675a28104c695029aa021
