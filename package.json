@@ -9,7 +9,7 @@
     "@types/react": "16.9.35",
     "@types/react-dom": "16.9.8",
     "comlink": "^4.3.1",
-    "dexie": "^3.1.0-beta.13",
+    "dexie": "^3.2.2",
     "dexie-react-hooks": "^1.0.6",
     "framer-motion": "^4.1.17",
     "next": "^11.1.2",
