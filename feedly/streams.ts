@@ -1,7 +1,7 @@
 import { Stream } from '../model/stream';
-import { makeFeedlyRequest } from './common';
 import { Entry } from '../model/entry';
-const endpoint = 'streams'
+import { fetchJson } from 'utils/fetch';
+import querystring from 'querystring'
 
 export interface StreamRequestOptions {
     count?: number;
@@ -10,11 +10,8 @@ export interface StreamRequestOptions {
     continuation?: string;
 }
 
-const defaultOptions = {
-}
-
-export const getStream = async (streamId: string, type: 'contents' | 'id' = 'contents', options?: StreamRequestOptions): Promise<Stream> => {
-    return makeFeedlyRequest<Stream>(`${endpoint}/${type}?streamId=${encodeURIComponent(streamId)}`, { ...defaultOptions, ...options });
+export const getStream = async (streamId: string, options?: StreamRequestOptions): Promise<Stream> => {
+    return await fetchJson(`/api/streams/${encodeURIComponent(streamId)}?${querystring.stringify(options ?? {})}`)
 }
 
 export const getAllEntries = async (streamId: string, since: number, batchSize=100, limit=100) => {
@@ -34,7 +31,7 @@ export const getAllEntries = async (streamId: string, since: number, batchSize=1
         if (continuation)
             options.continuation = continuation;
 
-        const stream = await getStream(streamId, 'contents', options);
+        const stream = await getStream(streamId, options);
         for (const entry of stream.items) {
             result.push(entry);
             if (result.length >= limit)
