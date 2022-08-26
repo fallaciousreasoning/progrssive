@@ -13,6 +13,5 @@ export const searchFeeds = async (query: string, options?: SearchRequestOptions)
 }
 
 export const getFeed = async (id: string): Promise<Subscription> => {
-    const result = await makeFeedlyRequest<Subscription>(`/feeds/${encodeURIComponent(id)}`);
-    return result;
+    return await fetchJson(`/api/feed/${encodeURIComponent(id)}`);
 }
