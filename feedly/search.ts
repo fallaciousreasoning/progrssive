@@ -1,6 +1,7 @@
+import { fetchJson } from 'utils/fetch';
 import { Subscription } from '../model/subscription';
 import { makeFeedlyRequest } from './common';
-const endpoint = '/search/feeds'
+import querystring from 'querystring'
 
 export interface SearchRequestOptions {
     count?: number;
@@ -8,8 +9,7 @@ export interface SearchRequestOptions {
 }
 
 export const searchFeeds = async (query: string, options?: SearchRequestOptions): Promise<Subscription[]> => {
-    const result = await makeFeedlyRequest<{ results: Subscription[] }>(`${endpoint}?query=${encodeURIComponent(query)}`, options);
-    return result.results;
+    return await fetchJson(`/api/search/${encodeURIComponent(query)}?${querystring.stringify(options)}`)
 }
 
 export const getFeed = async (id: string): Promise<Subscription> => {
