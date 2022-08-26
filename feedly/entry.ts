@@ -1,7 +1,3 @@
-import { makeFeedlyRequest } from "./common";
-import { Entry } from "../model/entry";
+import { fetchJson } from "utils/fetch";
 
-export const getEntry = async (entryId: string) => {
-    const entries = await makeFeedlyRequest<Entry[]>(`entries/${encodeURIComponent(entryId)}`);
-    return entries[0];
-}
+export const getEntry = async (entryId: string) => fetchJson(`/api/entries/${entryId}`)

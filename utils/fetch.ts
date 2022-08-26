@@ -19,3 +19,5 @@ export const fetchSansCors = (url: string, init?: RequestInit) => {
     url = `${bypassCorsUrl}${url}`
     return fetch(url, init);
 }
+
+export const fetchJson = <T>(request: RequestInfo, init?: RequestInit) => fetch(request, init).then(r => r.json()) as Promise<T>;
