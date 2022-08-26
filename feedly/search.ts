@@ -1,6 +1,5 @@
 import { fetchJson } from 'utils/fetch';
 import { Subscription } from '../model/subscription';
-import { makeFeedlyRequest } from './common';
 import querystring from 'querystring'
 
 export interface SearchRequestOptions {
