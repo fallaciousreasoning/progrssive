@@ -5,7 +5,7 @@
       "dom",
       "dom.iterable",
       "esnext",
-      "WebWorker",
+      "WebWorker"
     ],
     "allowJs": true,
     "skipLibCheck": true,
@@ -23,19 +23,44 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {
-      "*.svg":["types/svg.d.ts"],
-      "@/components/*": ["components/*"],
-      "@/feedly/*": ["feedly/*"],
-      "@/actions/*": ["actions/*"],
-      "@/services/*": ["services/*"],
-      "@/model/*": ["model/*"],
-      "@/selectors/*": ["selectors/*"],
-      "@/hooks/*": ["hooks/*"],
-      "@/types/*": ["types/*"],
-      "@/styles/*": ["styles/*"],
-      "@/pages/*": ["pages/*"],
-      "@/background/*": ["background/*"]
-    }
+      "*.svg": [
+        "types/svg.d.ts"
+      ],
+      "@/components/*": [
+        "components/*"
+      ],
+      "@/feedly/*": [
+        "feedly/*"
+      ],
+      "@/actions/*": [
+        "actions/*"
+      ],
+      "@/services/*": [
+        "services/*"
+      ],
+      "@/model/*": [
+        "model/*"
+      ],
+      "@/selectors/*": [
+        "selectors/*"
+      ],
+      "@/hooks/*": [
+        "hooks/*"
+      ],
+      "@/types/*": [
+        "types/*"
+      ],
+      "@/styles/*": [
+        "styles/*"
+      ],
+      "@/pages/*": [
+        "pages/*"
+      ],
+      "@/background/*": [
+        "background/*"
+      ]
+    },
+    "incremental": true
   },
   "include": [
     "src",
