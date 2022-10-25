@@ -10,11 +10,6 @@ declare global {
     };
 
     interface Window {
-        requestIdleCallback: ((
-            callback: ((deadline: RequestIdleCallbackDeadline) => void),
-            opts?: RequestIdleCallbackOptions,
-        ) => RequestIdleCallbackHandle);
-        cancelIdleCallback: ((handle: RequestIdleCallbackHandle) => void);
         showToast: (props: ToastMessage | string) => void;
     }
 }

@@ -15,7 +15,9 @@ export const useResult = <T>(promise: (Promise<T> | (() => Promise<T>)), depende
             setResult(result);
         });
 
-        return () => unmounted = true;
+        return () => {
+            unmounted = true;
+        }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [...dependencies]);
