@@ -11,7 +11,6 @@
     "comlink": "^4.3.1",
     "dexie": "^3.2.2",
     "dexie-react-hooks": "^1.1.1",
-    "framer-motion": "^7.6.1",
     "next": "^12.3.1",
     "next-pwa": "^5.6.0",
     "opml-generator": "^1.1.1",

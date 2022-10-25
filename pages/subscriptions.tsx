@@ -158,7 +158,7 @@ export default function SubscriptionPage() {
     const storeOrSearchResults = searchResults.map(s => getMatchingSubscription(s) || s);
     return <div>
 
-        <StackPanel direction='row' animatePresence>
+        <StackPanel direction='row'>
             {!search.startsWith('@subscribed')
                 && <Button key="current" variant="outline" color="primary" onClick={viewSubscriptions}>
                     Current Feeds
@@ -176,9 +176,7 @@ export default function SubscriptionPage() {
         {isSearching && <Centre>
             <LoadingSpinner className="p-2" />
         </Centre>}
-        <StackPanel variants={searchResultVariants}
-            transition={searchResultTransition}
-            className="pt-2">
+        <StackPanel className="pt-2">
             {storeOrSearchResults.map(s => <SubscriptionEditor
                 key={s.id}
                 subscription={s}
