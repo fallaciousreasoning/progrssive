@@ -14,7 +14,7 @@ import * as React from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getDb } from "services/db";
 import { toggleSubscription } from "services/subscriptions";
-import { useDebounce } from 'use-debounce';
+import { useDebounced } from '@/hooks/useDebounced';
 
 const searchResultVariants = {
     initial: { opacity: 0, height: 0 },
@@ -49,7 +49,7 @@ export default function SubscriptionPage() {
     const { search: rawQueryString, setSearch: updateQueryString } = useQueryParam("search");
     const [search, setSearch] = useState(rawQueryString ?? '@subscribed');
 
-    const [debouncedSearchTerm] = useDebounce(search, 200);
+    const debouncedSearchTerm = useDebounced(search, 200);
     const [searchResults, setSearchResults] = useState<Subscription[]>([]);
     const viewSubscriptions = useCallback(() => {
         setSearch('@subscribed');

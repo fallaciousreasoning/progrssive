@@ -23,8 +23,6 @@ import { markStreamAs, setStreamList } from 'services/store';
 import { findSubscription, toggleSubscription } from 'services/subscriptions';
 import { delay } from 'utils/promise';
 
-let loaded = false;
-
 const StreamViewer = (props: { store: Store }) => {
   const isPhone = useIsPhone();
   const router = useRouter();
@@ -39,9 +37,7 @@ const StreamViewer = (props: { store: Store }) => {
 
   // We need to do this here, so we don't try and do it on the server side.
   useEffect(() => {
-    if (loaded) return;
     updateStreams();
-    loaded = true;
   }, []);
 
   const scrollToTop = useCallback(() => {
