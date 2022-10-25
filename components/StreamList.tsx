@@ -1,4 +1,3 @@
-import { useIsPhone } from '@/hooks/responsive';
 import { useIsFrontend } from '@/hooks/useIsFrontend';
 import { getScrollPos, setScrollPos } from '@/services/entryIterator';
 import { setUnread } from 'actions/marker';

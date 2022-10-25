@@ -45,7 +45,7 @@ export default function Toasts() {
 
     return ReactDOM.createPortal(<>
         <div className="fixed bottom-2 left-2">
-            <StackPanel animatePresence>
+            <StackPanel>
                 {toasts.map(t => <Toast key={t.id} {...t} />)}
             </StackPanel>
         </div>

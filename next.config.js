@@ -1,10 +1,9 @@
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-const withPWA = require('next-pwa');
+const withPWA = require('next-pwa')({
+    dest: 'public'
+});
 
 module.exports = withPWA({
-    pwa: {
-        dest: 'public',
-    },
     eslint: {
         ignoreDuringBuilds: true
     },

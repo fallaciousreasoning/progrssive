@@ -14,7 +14,7 @@ import * as React from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getDb } from "services/db";
 import { toggleSubscription } from "services/subscriptions";
-import { useDebounce } from 'use-debounce';
+import { useDebounced } from '@/hooks/useDebounced';
 
 const searchResultVariants = {
     initial: { opacity: 0, height: 0 },
@@ -49,7 +49,7 @@ export default function SubscriptionPage() {
     const { search: rawQueryString, setSearch: updateQueryString } = useQueryParam("search");
     const [search, setSearch] = useState(rawQueryString ?? '@subscribed');
 
-    const [debouncedSearchTerm] = useDebounce(search, 200);
+    const debouncedSearchTerm = useDebounced(search, 200);
     const [searchResults, setSearchResults] = useState<Subscription[]>([]);
     const viewSubscriptions = useCallback(() => {
         setSearch('@subscribed');
@@ -158,7 +158,7 @@ export default function SubscriptionPage() {
     const storeOrSearchResults = searchResults.map(s => getMatchingSubscription(s) || s);
     return <div>
 
-        <StackPanel direction='row' animatePresence>
+        <StackPanel direction='row'>
             {!search.startsWith('@subscribed')
                 && <Button key="current" variant="outline" color="primary" onClick={viewSubscriptions}>
                     Current Feeds
@@ -176,9 +176,7 @@ export default function SubscriptionPage() {
         {isSearching && <Centre>
             <LoadingSpinner className="p-2" />
         </Centre>}
-        <StackPanel variants={searchResultVariants}
-            transition={searchResultTransition}
-            className="pt-2">
+        <StackPanel className="pt-2">
             {storeOrSearchResults.map(s => <SubscriptionEditor
                 key={s.id}
                 subscription={s}
