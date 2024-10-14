@@ -3,8 +3,7 @@ import { getScrollPos, setScrollPos } from '@/services/entryIterator';
 import { setUnread } from 'actions/marker';
 import { useScreenSize } from 'hooks/screenSize';
 import { getStore } from 'hooks/store';
-import { useRouter } from 'next/router';
-import * as React from 'react';
+import { useRouter } from 'next/router'
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { collect, Store } from 'react-recollect';
 import { FixedSizeList } from 'react-window';
@@ -13,6 +12,7 @@ import { getEntryUrl, getProgrssiveUrl, useViewMode } from 'services/entry';
 import { useSettings } from 'services/settings';
 import { loadToEntry } from 'services/store';
 import EntryCard from './EntryCard';
+import { delay } from 'utils/promise';
 
 const GUTTER_SIZE = 8;
 
@@ -111,7 +111,7 @@ const StreamList = (props: Props) => {
     const parentWidth = listOuterRef.current && listOuterRef.current.parentElement
         ? listOuterRef.current.parentElement.getBoundingClientRect().width
         : width;
-    
+
     if (!useIsFrontend()) return null;
 
     return <FixedSizeList

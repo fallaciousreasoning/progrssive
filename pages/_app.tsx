@@ -5,17 +5,17 @@ import { useTheme } from 'hooks/responsive';
 import { useOnIdle } from 'hooks/useIdle';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import Toasts from 'components/Toasts';
 import { getSettings, updateCssVariables, useSettings } from 'services/settings';
 import { initStore } from 'services/store';
-import Animator from 'components/Animator';
 import 'styles/article.css';
 import 'styles/globals.css';
 import 'styles/slider.css';
 import 'styles/streamviewer.css';
 import 'styles/toggle.css';
 import 'types/Window';
+import 'utils/transitions'
 import { cleanupWorker } from 'background';
 
 // Make sure our store is initialized.
@@ -51,10 +51,8 @@ const ProgrssiveApp = ({ Component, pageProps }: AppProps) => {
     </Head>
     <Toasts />
     <AppBar>
-      <div className="mx-auto p-2 max-w-3xl">
-        <Animator duration={100}>
-          <Component key={globalThis.location?.pathname} {...pageProps} />
-        </Animator>
+      <div className="mx-auto p-2 max-w-3xl" key={globalThis.location?.pathname} style={{ ['viewTransitionName' as any]: 'page' }}>
+        <Component key={globalThis.location?.pathname} {...pageProps} />
       </div>
     </AppBar>
   </>;
